@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME BLOOM - Kitchen & Dining</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- SAME CSS AS YOUR FURNITURE PAGE -->
+    <!-- DO NOT TOUCH – reuse exactly -->
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        :root {
+            --primary-color:#8B6F47;
+            --secondary-color: #8b7355;
+            --accent-color: #3f3007ff;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #dbc7adff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color:  #e4d1bbff;
+        }
+        
+        /* ===== HERO HEADER SECTION ===== */
+        .hero-header {
+            background: linear-gradient(135deg,#8B6F47 100%);
+            padding: 10px 0;
+            text-align: left;
+        }
+        
+        .brand-name {
+            font-size: 33px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #ffffffff;
+             text-decoration: none;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .brand-name {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+            
+            .hero-header {
+                padding: 40px 0;
+            }
+        }
+        
+        /* ===== COMBINED NAVIGATION BAR ===== */
+        .combined-navbar {
+            background-color: var(--primary-color);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+    top: 0;
+    z-index: 999;
+
+    transition: all 0.3s ease;
+        }
+        
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* Category Links */
+        .category-nav-items {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        
+        .category-nav-items a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        
+        .category-nav-items a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        /* Icon Links */
+        .icon-nav-items {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .icon-nav-items a {
+            color: #fff;
+            font-size: 1.4rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .icon-nav-items a:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+        
+        /* ===== DROPDOWN MEGA MENU ===== */
+        .category-nav-items li {
+            position: relative;
+        }
+        
+        .dropdown-mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            padding: 20px 30px;
+            margin-top: 1px;
+            border-radius: 8px;
+            min-width: 280px;
+            display: none;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        
+        .category-nav-items li:hover .dropdown-mega-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .mega-menu-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .mega-menu-column h4 {
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .mega-menu-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mega-menu-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .mega-menu-column ul li a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+            display: block;
+            text-transform: capitalize;
+        }
+        
+        .mega-menu-column ul li a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+        
+        /* ===== PAGE TITLE SECTION ===== */
+        .page-title-section {
+            background-color: white ;
+            padding: 5px 0;
+            text-align: center;
+            margin-bottom:80px;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6e501aff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+     
+        .filter-button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        
+        #filterToggle:checked ~ .filter-dropdown-content {
+            max-height: 2000px;
+            opacity: 1;
+        }
+        
+        #filterToggle:checked ~ .filter-button .filter-icon-open {
+            display: none;
+        }
+        
+        #filterToggle:checked ~ .filter-button .filter-icon-close {
+            display: inline;
+        }
+        
+        .filter-icon-close {
+            display: none;
+        }
+        
+        
+        
+        .filter-group-header:hover {
+            background-color: #e9ecef;
+        }
+        
+        .filter-group-header h4 {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .filter-group-header i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Accordion functionality */
+        
+        
+        .filter-accordion:checked ~ .filter-group-content {
+            max-height: 800px;
+        }
+        
+        .filter-accordion:checked ~ .filter-group-header i {
+            transform: rotate(180deg);
+        }
+        .filter-option label {
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+        
+        /* Color Swatches */
+        
+        .color-swatch input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .color-swatch input[type="checkbox"]:checked ~ .color-circle {
+            box-shadow: 0 0 0 3px var(--accent-color);
+            transform: scale(1.1);
+        }
+        
+        
+        .color-swatch:hover .color-circle {
+            transform: scale(1.05);
+        }
+        
+        /* Price Slider */
+        
+        .price-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+        }
+        
+        .price-values {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        /* ===== PRODUCTS SECTION ===== */
+        .products-section {
+            padding: 40px 0 80px;
+        }
+        
+        .category-group {
+            margin-bottom: 60px;
+        }
+        
+        .category-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+       .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) !important;  /* Force 4 columns */
+    gap: 30px;
+}
+        
+       .product-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        /* ===== FOOTER SECTION ===== */
+        .footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 50px 0 20px;
+            margin-top:160px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .category-nav-items {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .icon-nav-items {
+                justify-content: center;
+            }
+            
+            .dropdown-mega-menu {
+                min-width: 90vw;
+                left: 5vw;
+                transform: none;
+            }
+            
+            .mega-menu-content {
+                gap: 20px;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .category-nav-items {
+                gap: 15px;
+            }
+            
+            .category-nav-items a {
+                font-size: 0.85rem;
+            }
+            
+            .dropdown-mega-menu {
+                padding: 20px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .product-grid {
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .logo {
+            background-color: var(--bg-light);
+            padding: 20px 0;
+            text-align: center;
+        }
+        .logo-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        /* ===== SHOP LAYOUT ===== */
+.shop-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* ===== FILTER SIDEBAR ===== */
+.filter-sidebar {
+    background: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    position: sticky;
+    top: 120px;
+    height: fit-content;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.close-filter {
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* FILTER BLOCK */
+.filter-block {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 15px 0;
+}
+
+.filter-block input[type="checkbox"] {
+    display: none;
+}
+
+.filter-title {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* ACCORDION */
+.filter-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.filter-block input:checked ~ .filter-content {
+    max-height: 300px;
+}
+
+/* CHECKBOX STYLE */
+.filter-content label {
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* COLORS */
+.filter-content.colors {
+    flex-direction: row;
+    gap: 10px;
+}
+
+.filter-content.colors span {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* PRICE */
+.price-range {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+/* ===== PRODUCT AREA ===== */
+.product-area .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .shop-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-sidebar {
+        position: static;
+    }
+}
+/* Force 4 columns */
+.product-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+
+@media (max-width: 1400px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+/* CATEGORY BANNER */
+.category-banner {
+    margin-bottom: 40px;
+}
+
+.banner-image {
+    height: 280px;
+    border-radius: 12px;
+    background-image: url("images/wall-decor-banner.jpg"); /* CHANGE THIS */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dark overlay for text readability */
+.banner-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.banner-image h2 {
+    position: relative;
+    color: #fff;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    z-index: 1;
+}
+.account-dropdown{
+position:relative;
+list-style:none;
+}
+
+/* menu */
+.account-menu{
+position:absolute;
+top:120%;
+right:0;
+background:#8B6F47;
+min-width:180px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+border-radius:13px;
+padding:5px 0;
+opacity:0;
+visibility:hidden;
+transform:translateY(10px);
+transition:all 0.3s ease;
+z-index:9999;
+}
+
+/* show on hover */
+.account-dropdown:hover .account-menu{
+opacity:1;
+visibility:visible;
+transform:translateY(0);
+}
+
+.account-menu li{
+list-style:none;
+}
+
+.account-menu a{
+display:block;
+padding:5px 10px;
+color:whtie;
+text-decoration:none;
+font-size:14px;
+}
+
+.account-menu a:hover{
+background:#f5f5f5;
+}
+
+.account-menu .divider{
+height:1px;
+background:#e5e5e5;
+margin:8px 0;
+}
+    </style>
+</head>
+
+<body>
+
+<!-- ===== LOGO ===== -->
+<section class="logo">
+    <div class="container">
+        <a href="/" class="logo-title">HOME BLOOM</a>
+    </div>
+</section>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="combined-navbar">
+    <div class="container">
+        <div class="navbar-content">
+
+            <ul class="category-nav-items">
+
+                <li>
+                    <a href="{% url 'furniture'%}">Furniture</a>
+                    <div class="dropdown-mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4>Seating</h4>
+                                    <ul>
+                                        <li><a href="#chairs">Chairs</a></li>
+                                        <li><a href="#sofa">Sofa</a></li>
+                                        <li><a href="#stools">Stools</a></li>
+                                        <li><a href="#all-seating">All Seating</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h4>Tables</h4>
+                                    <ul>
+                                        <li><a href="#coffee-table">Coffee Table</a></li>
+                                        <li><a href="#side-table">Side & Nesting Table</a></li>
+                                        <li><a href="#console-table">Console Table</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h4>Shelves</h4>
+                                    <ul>
+                                        <li><a href="#wall-mounted">Wall Mounted</a></li>
+                                        <li><a href="#floating-shelves">Floating Shelves</a></li>
+                                        <li><a href="#corner-shelves">Corner Shelves</a></li>
+                                        <li><a href="#ladder-shelves">Ladder Shelves</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                </li>
+
+                <li>
+                    <a href="{%url 'walldecor'%}">Wall Decor</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Wall Decor</h4>
+                                <ul>
+                                    <li><a href="#">Wall Vase</a></li>
+                                    <li><a href="#">Mirrors</a></li>
+                                    <li><a href="#">Paintings</a></li>
+                                    <li><a href="#">Wall Plates&Accents</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li><a href="{%url 'kitchen'%}">Kitchen & Dining</a><div class="dropdown-mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4>Dinnerware</h4>
+                                    <ul>
+                                        <li><a href="#tableware">Tableware</a></li>
+                                        <li><a href="#tea-coffee">Tea & Coffee</a></li>
+                                        <li><a href="#table-accessories">Table Accessories</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h4>Serveware</h4>
+                                    <ul>
+                                        <li><a href="#serving-bowls">Serving Bowls</a></li>
+                                        <li><a href="#serving-trays">Serving Trays</a></li>
+                                        <li><a href="#platters-stands">Platters & Stands</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <li><a href="{%url 'lighting'%}">Lighting</a>
+                <div class="dropdown-mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4>Lighting</h4>
+                                    <ul>
+                                        <li><a href="#table-lamps">Table Lamps</a></li>
+                                        <li><a href="#floor-lamps">Floor Lamps</a></li>
+                                        <li><a href="#chandelier-pendants">Chandelier & Pendants</a></li>
+                                        <li><a href="#lamps">Lamps</a></li>
+                                        <li><a href="#wall-lamps">Wall Lamps</a></li>
+                                        <li><a href="#all-lamps">All Lamps</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <li><a href="{%url 'bath'%}">Bath Decor</a>
+                 <div class="dropdown-mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4>Bath Decor</h4>
+                                    <ul>
+                                        <li><a href="#bath-sets">Bath Sets</a></li>
+                                        <li><a href="#towel-holder">Towels Holder</a></li>
+                                        <li><a href="#toothbrush-holder">Tooth Brush Holder</a></li>
+                                        <li><a href="#organizers">Organizers</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+            </ul>
+
+            <ul class="icon-nav-items">
+                 <li class="account-dropdown">
+    <a href="#" title="Account">
+        <i class="bi bi-person"></i>
+    </a>
+
+    <ul class="account-menu">
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{%url 'profile'%}">Profile</a></li>
+        <li><a href="{%url 'order'%}">My Orders</a></li>
+        <li><a href="#">Wishlist</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Logout</a></li>
+    </ul>
+</li>
+                <li><a href="#"><i class="bi bi-search"></i></a></li>
+                <li><a href="#"><i class="bi bi-cart3"></i></a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<!-- ===== PAGE TITLE ===== -->
+<section class="page-title-section">
+    <div class="container">
+        <h1 class="page-title">Kitchen & Dining</h1>
+    </div>
+</section>
+<!-- WALL DECOR BANNER -->
+<section class="category-banner">
+    <div class="container">
+        <div class="banner-image">
+            <h2>Style Your Table</h2>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FILTER BAR SECTION ===== -->
+<section class="shop-section">
+    <div class="container shop-layout">
+
+        <!-- FILTER SIDEBAR -->
+        <aside class="filter-sidebar">
+            <div class="filter-header">
+                <span>Filter</span>
+            </div>
+
+            <!-- CATEGORY -->
+            <div class="filter-block">
+                <input type="checkbox" id="cat-toggle">
+                <label for="cat-toggle" class="filter-title">
+                    CATEGORY <i class="bi bi-chevron-down"></i>
+                </label>
+                <div class="filter-content">
+                    <label><input type="checkbox"> Tableware</label>
+                    <label><input type="checkbox"> Tea & Coffee</label>
+                    <label><input type="checkbox"> Table Accessories</label>
+                    <label><input type="checkbox"> Serving Bowls</label>
+                    <label><input type="checkbox"> Serving Trays</label>
+                    <label><input type="checkbox"> Platters & Stands</label>
+                </div>
+            </div>
+
+            <!-- COLOR -->
+            <div class="filter-block">
+                <input type="checkbox" id="color-toggle">
+                <label for="color-toggle" class="filter-title">
+                    COLOR <i class="bi bi-chevron-down"></i>
+                </label>
+                <div class="filter-content colors">
+                    <span style="background:#000"></span>
+                    <span style="background:#fff;border:1px solid #aaa"></span>
+                    <span style="background:#c2a46d"></span>
+                    <span style="background:#8b5cf6"></span>
+                </div>
+            </div>
+
+            <!-- PRICE -->
+            <div class="filter-block">
+                <input type="checkbox" id="price-toggle">
+                <label for="price-toggle" class="filter-title">
+                    PRICE <i class="bi bi-chevron-down"></i>
+                </label>
+                <div class="filter-content">
+                    <input type="range" min="0" max="2000">
+                    <div class="price-range">
+                        <span>$0</span>
+                        <span>$2000+</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- PRODUCTS -->
+        <div class="product-area">
+            <div class="product-grid">
+            <!-- PRODUCT 1 -->
+            <div class="product-card">
+                <img src="#" class="product-image" >
+                <div class="product-info">
+                    <h3 class="product-name">Ceramic Dinner Plate Set</h3>
+                    <p class="product-price">$89.99</p>
+                </div>
+            </div>
+
+            <!-- PRODUCT 2 -->
+            <div class="product-card">
+                <img src="#" class="product-image" >
+                <div class="product-info">
+                    <h3 class="product-name">Porcelain Coffee Mug Set</h3>
+                    <p class="product-price">$45.99</p>
+                </div>
+            </div>
+
+            <!-- PRODUCT 3 -->
+            <div class="product-card">
+                <img src="#" class="product-image" >
+                <div class="product-info">
+                    <h3 class="product-name">Elegant Serving Bowl</h3>
+                    <p class="product-price">$129.99</p>
+                </div>
+            </div>
+
+            <!-- PRODUCT 4 -->
+            <div class="product-card">
+                <img src="#" class="product-image" >
+                <div class="product-info">
+                    <h3 class="product-name">Crystal Wine Glasses</h3>
+                    <p class="product-price">$159.99</p>
+                </div>
+            </div>
+
+            <!-- PRODUCT 5 -->
+            <div class="product-card">
+                <img src="#" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-name">Wooden Serving Tray</h3>
+                    <p class="product-price">$79.99</p>
+                </div>
+            </div>
+
+            <!-- PRODUCT 6 -->
+            <div class="product-card">
+                <img src="#" class="product-image" >
+                <div class="product-info">
+                    <h3 class="product-name">Premium Tea Set</h3>
+                    <p class="product-price">$199.99</p>
+                </div>
+            </div>
+
+            <!-- PRODUCT 7 -->
+            <div class="product-card">
+                <img src="#" class="product-image" >
+                <div class="product-info">
+                    <h3 class="product-name">Stainless Steel Cutlery Set</h3>
+                    <p class="product-price">$119.99</p>
+                </div>
+            </div>
+
+            <!-- PRODUCT 8 -->
+            <div class="product-card">
+                <img src="#" class="product-image" >
+                <div class="product-info">
+                    <h3 class="product-name">Ceramic Serving Platter</h3>
+                    <p class="product-price">$69.99</p>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City</p>
+                <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
+                <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#">About Us</a>
+                <a href="#">Shipping & Returns</a>
+                 <a href="#">FAQ</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-pinterest"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 HOME BLOOM. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

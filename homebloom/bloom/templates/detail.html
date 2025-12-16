@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details | HOME BLOOM</title>
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Georgia", serif;
+        }
+
+        :root {
+            --primary-color: #8B6F47;
+            --secondary-color: #8b7355;
+            --accent-color: #3f3007ff;
+            --text-dark: #333;
+            --bg-light: #dbc7adff;
+        }
+
+        body {
+            background: #e4d1bbff;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .page-title-section {
+            background-color: var(--bg-light);
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* BACK BUTTON */
+        .back-button {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            padding: 0 20px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #fff;
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: #fff;
+            transform: translateX(-5px);
+        }
+
+        /* MAIN CONTAINER */
+        .details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        /* ORDER HEADER */
+        .order-details-header {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .order-id-large {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .order-status-large {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-shipping {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .order-date {
+            font-size: 0.95rem;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        /* TRACKING TIMELINE */
+        .tracking-section {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tracking-section h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e0e0e0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -33px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 2px #e0e0e0;
+        }
+
+        .timeline-item.active .timeline-dot {
+            background: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .timeline-content h4 {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .timeline-content p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        /* SHIPPING INFO */
+        .shipping-details {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .shipping-details h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .shipping-route {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .location-box {
+            flex: 1;
+        }
+
+        .location-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .location-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .route-arrow {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        /* ITEMS SECTION */
+        .items-section {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .items-section h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .item-card {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .item-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .item-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .item-price-section {
+            text-align: right;
+        }
+
+        .item-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* SUMMARY SECTION */
+        .order-summary {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .order-summary h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-size: 1rem;
+            color: var(--text-dark);
+        }
+
+        .summary-row.total {
+            border-top: 2px solid #f0f0f0;
+            margin-top: 15px;
+            padding-top: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .summary-row.total .amount {
+            color: var(--accent-color);
+        }
+
+        /* ACTION BUTTONS */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: var(--text-dark);
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .header-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .shipping-route {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .route-arrow {
+                transform: rotate(90deg);
+            }
+
+            .item-card {
+                flex-direction: column;
+            }
+
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .item-price-section {
+                text-align: left;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <section class="page-title-section">
+        <a href="/" class="page-title">HOME BLOOM</a>
+    </section>
+
+    <!-- BACK BUTTON -->
+    <div class="back-button">
+        <a href="{%url 'order'%}" class="back-btn">
+            <i class="bi bi-arrow-left"></i>
+            Back to Orders
+        </a>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="details-container">
+        
+        <!-- ORDER HEADER -->
+        <div class="order-details-header">
+            <div class="header-top">
+                <div>
+                    <div class="order-id-large">
+                        <i class="bi bi-bag-check"></i>
+                        Order CTH-89765
+                    </div>
+                    <div class="order-date">Placed on May 15, 2024 at 2:30 PM</div>
+                </div>
+                <span class="order-status-large status-shipping">
+                    <i class="bi bi-truck"></i> On Deliver
+                </span>
+            </div>
+            <div style="font-size: 0.95rem; color: #666;">
+                <strong>Estimated Delivery:</strong> May 28, 2024
+            </div>
+        </div>
+
+        <!-- TRACKING TIMELINE -->
+        <div class="tracking-section">
+            <h3><i class="bi bi-clock-history"></i> Order Tracking</h3>
+            <div class="timeline">
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Order Placed</h4>
+                        <p>Your order has been confirmed</p>
+                        <div class="timeline-date">May 15, 2024 - 2:30 PM</div>
+                    </div>
+                </div>
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Processing</h4>
+                        <p>Order is being prepared for shipment</p>
+                        <div class="timeline-date">May 16, 2024 - 10:15 AM</div>
+                    </div>
+                </div>
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Shipped</h4>
+                        <p>Package has been dispatched from Illinois</p>
+                        <div class="timeline-date">May 18, 2024 - 8:45 AM</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>In Transit</h4>
+                        <p>Package is on the way to Indonesia</p>
+                        <div class="timeline-date">Expected: May 25, 2024</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Out for Delivery</h4>
+                        <p>Package is out for final delivery</p>
+                        <div class="timeline-date">Expected: May 28, 2024</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Delivered</h4>
+                        <p>Package successfully delivered</p>
+                        <div class="timeline-date">Expected: May 28, 2024</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SHIPPING INFO -->
+        <div class="shipping-details">
+            <h3><i class="bi bi-geo-alt"></i> Shipping Information</h3>
+            <div class="shipping-route">
+                <div class="location-box">
+                    <div class="location-label">Shipping From</div>
+                    <div class="location-name">
+                        <i class="bi bi-house"></i>
+                        Illinois, United States
+                    </div>
+                </div>
+                <div class="route-arrow">
+                    <i class="bi bi-arrow-right-circle"></i>
+                </div>
+                <div class="location-box">
+                    <div class="location-label">Delivering To</div>
+                    <div class="location-name">
+                        <i class="bi bi-house-check"></i>
+                        George's House, Indonesia
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+                <div style="font-size: 0.9rem; color: #666; margin-bottom: 8px;">
+                    <strong>Tracking Number:</strong> TRK-2024-89765-US-ID
+                </div>
+                <div style="font-size: 0.9rem; color: #666;">
+                    <strong>Carrier:</strong> International Express Shipping
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEMS -->
+        <div class="items-section">
+            <h3><i class="bi bi-box-seam"></i> Order Items</h3>
+            
+            <div class="item-card">
+                <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400" alt="Japan Green Outer" class="item-image">
+                <div class="item-info">
+                    <div>
+                        <div class="item-name">Japan Green Outer</div>
+                        <div class="item-meta">
+                            <span><strong>Size:</strong> M</span>
+                            <span><strong>Color:</strong> Olive Green</span>
+                            <span><strong>Quantity:</strong> 1</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-price-section">
+                    <div class="item-price">Rp 399.000</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400" alt="White off jacket 2024" class="item-image">
+                <div class="item-info">
+                    <div>
+                        <div class="item-name">White off jacket 2024</div>
+                        <div class="item-meta">
+                            <span><strong>Size:</strong> M</span>
+                            <span><strong>Color:</strong> White</span>
+                            <span><strong>Quantity:</strong> 1</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-price-section">
+                    <div class="item-price">Rp 450.000</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ORDER SUMMARY -->
+        <div class="order-summary">
+            <h3><i class="bi bi-receipt"></i> Order Summary</h3>
+            
+            <div class="summary-row">
+                <span>Subtotal (2 items)</span>
+                <span class="amount">Rp 849.000</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping Fee</span>
+                <span class="amount">Rp 150.000</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax</span>
+                <span class="amount">Rp 50.000</span>
+            </div>
+            <div class="summary-row">
+                <span>Discount</span>
+                <span class="amount" style="color: #28a745;">-Rp 100.000</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total Amount</span>
+                <span class="amount">Rp 949.000</span>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; font-size: 0.9rem; color: #666;">
+                <strong>Payment Method:</strong> Credit Card ending in ****4532<br>
+                <strong>Payment Status:</strong> <span style="color: #28a745; font-weight: 600;">Paid</span>
+            </div>
+
+    </div>
+
+</body>
+</html>

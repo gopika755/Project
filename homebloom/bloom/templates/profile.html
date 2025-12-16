@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile | Home Bloom</title>
+    <link rel="stylesheet" href="profile.css">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Georgia", serif;
+}
+
+body {
+    background: #e7d6c1;
+}
+
+.profile-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-card {
+    display: flex;
+    width: 900px;
+    background: #fff;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.profile-left {
+    width: 55%;
+    padding: 60px;
+}
+
+.profile-left h2 {
+    margin-bottom: 25px;
+}
+
+.profile-field {
+    margin-bottom: 20px;
+}
+
+.profile-field label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.profile-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.save-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #8b7355;
+    color: #fff;
+    border: none;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background: #6f5a41;
+}
+
+/* RIGHT SIDE */
+.profile-right {
+    width: 45%;
+    background: #8b7355;
+    color: #fff;
+    padding: 60px;
+}
+
+.profile-right h1 {
+    margin-top: 100px;
+    
+}
+
+.profile-right p {
+    margin-top: 40px;
+    
+}
+
+.profile-links li {
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+.profile-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.profile-links a:hover {
+    text-decoration: underline;
+}
+.page-title-section {
+            background-color: var(--bg-light);
+            padding: 11px 0;
+            text-align: center;
+            
+        }
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #8b7355;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+<body>
+    <section class="page-title-section">
+        <div class="container">
+            <a href='/'class="page-title">HOME BLOOM</a>
+        </div>
+    </section>
+
+<div class="profile-wrapper">
+    <div class="profile-card">
+
+        <!-- LEFT -->
+        <div class="profile-left">
+            <h2>My Profile</h2>
+
+            <div class="profile-field">
+                <label>Full Name</label>
+                <input type="text" >
+            </div>
+
+            <div class="profile-field">
+                <label>Email</label>
+                <input type="email" >
+            </div>
+
+            <div class="profile-field">
+                <label>Phone</label>
+                <input type="text" >
+            </div>
+            <div class="profile-field">
+                <label>Address</label>
+                <input type="text" >
+            </div>
+
+            <button class="save-btn">SAVE CHANGES</button>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="profile-right">
+            <h1>HOME BLOOM</h1>
+            <p>Your personal space for a beautiful home.</p>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
