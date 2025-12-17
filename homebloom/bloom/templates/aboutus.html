@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us | HOME BLOOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Georgia", serif;
+        }
+
+        :root {
+            --primary: #8B6F47;
+            --secondary: #8b7355;
+            --bg: #e4d1bbff;
+            --bg-light: #dbc7adff;
+            --text-dark: #333;
+        }
+
+        body {
+            background: var(--bg);
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+       /* HEADER */
+        .page-title-section {
+            background-color:#fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .page-title {
+            font-size: 50px;
+            font-weight: 70;
+            text-decoration: none;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* CONTENT */
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 50px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .about-container h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-container p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .highlight {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .about-section {
+            margin-top: 40px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .about-card {
+            background: #fafafa;
+            padding: 25px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        .about-card h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .about-card p {
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-container {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<section class="page-title-section">
+    <a href="/" class="page-title">HOME BLOOM</a>
+</section>
+
+<!-- ABOUT CONTENT -->
+<div class="about-container">
+
+    <h2>About Us</h2>
+
+    <p>
+        Home Bloom was created with one simple goal — to help people build homes that
+        feel warm, stylish, and personal. We believe your space should reflect who you
+        are, not just follow trends.
+    </p>
+
+    <p>
+        From carefully crafted furniture to thoughtfully designed décor, every product
+        at <span class="highlight">HOME BLOOM</span> is selected to bring comfort,
+        quality, and timeless design into your home.
+    </p>
+
+    <div class="about-section">
+        <h2>Our Mission</h2>
+        <p>
+            To make beautiful, functional home décor accessible to everyone — without
+            compromising on quality, craftsmanship, or aesthetics.
+        </p>
+    </div>
+
+    <div class="about-section">
+        <h2>Why Choose Home Bloom</h2>
+
+        <div class="about-grid">
+            <div class="about-card">
+                <h3>Premium Quality</h3>
+                <p>We focus on durable materials and fine craftsmanship.</p>
+            </div>
+
+            <div class="about-card">
+                <h3>Timeless Design</h3>
+                <p>Modern yet classic styles that never feel outdated.</p>
+            </div>
+
+            <div class="about-card">
+                <h3>Customer First</h3>
+                <p>Your satisfaction is at the heart of everything we do.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2>Our Promise</h2>
+        <p>
+            Whether you’re furnishing a new home or refreshing a single room, Home Bloom
+            is here to help you create a space you’ll love coming back to.
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

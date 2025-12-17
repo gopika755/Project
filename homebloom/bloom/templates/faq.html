@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FAQ | HOME BLOOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Georgia", serif;
+        }
+
+        :root {
+            --primary: #8B6F47;
+            --secondary: #8b7355;
+            --bg: #e4d1bbff;
+            --bg-light: #dbc7adff;
+            --text-dark: #333;
+        }
+
+        body {
+            background: var(--bg);
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .page-title-section {
+            background-color:#fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .page-title {
+            font-size: 50px;
+            font-weight: 70;
+            text-decoration: none;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* FAQ LAYOUT */
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .faq-container h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* FAQ ITEM */
+        .faq-item {
+            background: #fff;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .faq-item summary {
+            padding: 18px 22px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            position: relative;
+        }
+
+        .faq-item summary::after {
+            content: "+";
+            position: absolute;
+            right: 22px;
+            font-size: 1.4rem;
+            color: var(--secondary);
+        }
+
+        .faq-item[open] summary::after {
+            content: "–";
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-content {
+            padding: 0 22px 22px;
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<section class="page-title-section">
+    <a href="/" class="page-title">HOME BLOOM</a>
+</section>
+
+<!-- FAQ -->
+<div class="faq-container">
+    <h2>Frequently Asked Questions</h2>
+
+    <details class="faq-item">
+        <summary>How long does delivery take?</summary>
+        <div class="faq-content">
+            Orders are usually delivered within 3–7 business days depending on your location.
+        </div>
+    </details>
+
+    <details class="faq-item">
+        <summary>Do you offer Cash on Delivery?</summary>
+        <div class="faq-content">
+            Yes, Cash on Delivery is available for most locations across India.
+        </div>
+    </details>
+
+    <details class="faq-item">
+        <summary>Can I change or cancel my order?</summary>
+        <div class="faq-content">
+            Orders can be changed or cancelled before dispatch. Once shipped, cancellation may not be possible.
+        </div>
+    </details>
+
+    <details class="faq-item">
+        <summary>How do I contact Home Bloom support?</summary>
+        <div class="faq-content">
+            You can reach us via the Contact Us page or email us at support@homebloom.com.
+        </div>
+    </details>
+
+</div>
+
+</body>
+</html>

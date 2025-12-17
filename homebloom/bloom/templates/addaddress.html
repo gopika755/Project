@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile | Home Bloom</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Georgia", serif;
+        }
+
+        body {
+            background: #e7d6c1;
+        }
+
+        /* ===== PAGE TITLE ===== */
+        /* HEADER */
+        .page-title-section {
+            background-color:#fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .page-title {
+            font-size: 50px;
+            font-weight: 70;
+            text-decoration: none;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* ===== PROFILE LAYOUT ===== */
+        .profile-wrapper {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-card {
+            width: 900px;
+            display: flex;
+            background: #fff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        /* ===== LEFT SIDE ===== */
+        .profile-left {
+            width: 55%;
+            padding: 60px;
+        }
+
+        .profile-left h2 {
+            margin-bottom: 30px;
+        }
+
+        /* ===== PROFILE IMAGE ===== */
+        .profile-image-section {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .profile-image-wrapper {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #8b7355;
+            background: #f5f5f5;
+        }
+
+        .profile-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 8px 18px;
+            background: #8b7355;
+            color: #fff;
+            font-size: 14px;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .upload-btn:hover {
+            background: #6f5a41;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* ===== FORM FIELDS ===== */
+        .profile-field {
+            margin-bottom: 20px;
+        }
+
+        .profile-field label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .profile-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .save-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #8b7355;
+            color: #fff;
+            border: none;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #6f5a41;
+        }
+
+        /* ===== RIGHT SIDE ===== */
+        .profile-right {
+            width: 45%;
+            background: #8b7355;
+            color: #fff;
+            padding: 60px;
+            text-align: center;
+        }
+
+        .profile-right h1 {
+            margin-top: 120px;
+            letter-spacing: 3px;
+        }
+
+        .profile-right p {
+            margin-top: 30px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PAGE TITLE -->
+    <section class="page-title-section">
+        <a href="/" class="page-title">HOME BLOOM</a>
+    </section>
+
+    <!-- PROFILE -->
+    <div class="profile-wrapper">
+        <div class="profile-card">
+
+            <!-- LEFT -->
+            <div class="profile-left">
+
+                <!-- IMAGE UPLOAD -->
+                <div class="profile-image-section">
+                    <div class="profile-image-wrapper">
+                        <img src="https://via.placeholder.com/150" alt="Profile Image">
+                    </div>
+
+                    <label for="profileImage" class="upload-btn">Upload Photo</label>
+                    <input type="file" id="profileImage" name="profile_image" accept="image/*">
+                </div>
+
+                <h2>My Profile</h2>
+
+                <div class="profile-field">
+                    <label>Full Name</label>
+                    <input type="text">
+                </div>
+
+                <div class="profile-field">
+                    <label>Email</label>
+                    <input type="email">
+                </div>
+
+                <div class="profile-field">
+                    <label>Phone</label>
+                    <input type="text">
+                </div>
+
+                <div class="profile-field">
+                    <label>Address</label>
+                    <input type="text">
+                </div>
+
+                <button class="save-btn">SAVE CHANGES</button>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="profile-right">
+                <h1>HOME BLOOM</h1>
+                <p>Your personal space for a beautiful home.</p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

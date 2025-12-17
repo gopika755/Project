@@ -31,15 +31,13 @@
 
         /* HEADER */
         .page-title-section {
-            background-color: var(--bg-light);
+            background-color:#fff;
             padding: 20px 0;
             text-align: center;
-            margin-bottom: 40px;
         }
-
         .page-title {
-            font-size: 3rem;
-            font-weight: 700;
+            font-size: 50px;
+            font-weight: 70;
             text-decoration: none;
             color: var(--primary-color);
             text-transform: uppercase;
@@ -203,57 +201,6 @@
             margin-top: 5px;
         }
 
-        /* SHIPPING INFO */
-        .shipping-details {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .shipping-details h3 {
-            font-size: 1.3rem;
-            color: var(--primary-color);
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .shipping-route {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 8px;
-        }
-
-        .location-box {
-            flex: 1;
-        }
-
-        .location-label {
-            font-size: 0.85rem;
-            color: #666;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .location-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .route-arrow {
-            font-size: 2rem;
-            color: var(--primary-color);
-        }
-
         /* ITEMS SECTION */
         .items-section {
             background: #fff;
@@ -279,6 +226,7 @@
             border-radius: 8px;
             margin-bottom: 15px;
             transition: all 0.3s ease;
+            align-items: center;
         }
 
         .item-card:hover {
@@ -290,6 +238,7 @@
             height: 120px;
             object-fit: cover;
             border-radius: 8px;
+            background: #f0f0f0;
         }
 
         .item-info {
@@ -315,6 +264,10 @@
 
         .item-price-section {
             text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-end;
         }
 
         .item-price {
@@ -323,15 +276,38 @@
             color: var(--accent-color);
         }
 
-        /* SUMMARY SECTION */
-        .order-summary {
+        .cancel-order-btn.small {
+            padding: 8px 18px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            background: transparent;
+            color: #d32f2f;
+            border: 1.5px solid #d32f2f;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .cancel-order-btn.small:hover {
+            background: #d32f2f;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* INVOICE SECTION */
+        .invoice-section {
             background: #fff;
             padding: 30px;
             border-radius: 8px;
+            margin-top: 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .order-summary h3 {
+        .invoice-section h3 {
             font-size: 1.3rem;
             color: var(--primary-color);
             margin-bottom: 25px;
@@ -339,65 +315,94 @@
             letter-spacing: 1px;
         }
 
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            font-size: 1rem;
-            color: var(--text-dark);
+        .invoice-details {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 8px;
         }
 
-        .summary-row.total {
-            border-top: 2px solid #f0f0f0;
-            margin-top: 15px;
-            padding-top: 20px;
-            font-size: 1.3rem;
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            font-size: 1rem;
+        }
+
+        .invoice-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .invoice-label i {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .invoice-value {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .invoice-value.status-paid {
+            color: #28a745;
             font-weight: 700;
         }
 
-        .summary-row.total .amount {
+        .invoice-value.discount {
+            color: #28a745;
+        }
+
+        .invoice-divider {
+            height: 2px;
+            background: #e0e0e0;
+            margin: 15px 0;
+        }
+
+        .discount-row {
+            color: #28a745;
+        }
+
+        .total-row {
+            padding-top: 15px;
+            font-size: 1.3rem;
+        }
+
+        .total-row .invoice-label {
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .total-row .invoice-value {
             color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1.4rem;
         }
 
-        /* ACTION BUTTONS */
-        .action-buttons {
-            display: flex;
-            gap: 15px;
+        .download-btn {
+            display: block;
             margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
+            text-align: center;
             padding: 14px;
-            border: none;
+            background: #a58f74ff;
+            color: #ffffffff;
+            border: 2px solid #8b7355;
+            text-decoration: none;
+            letter-spacing: 2px;
+            font-size: 14px;
             border-radius: 8px;
-            font-size: 1rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .btn-primary {
-            background: var(--primary-color);
+        .download-btn:hover {
+            background: #8b7355;
             color: #fff;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .btn-secondary {
-            background: #f5f5f5;
-            color: var(--text-dark);
-            border: 2px solid #e0e0e0;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
         }
 
         /* RESPONSIVE */
@@ -412,15 +417,6 @@
                 gap: 15px;
             }
 
-            .shipping-route {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .route-arrow {
-                transform: rotate(90deg);
-            }
-
             .item-card {
                 flex-direction: column;
             }
@@ -432,10 +428,13 @@
 
             .item-price-section {
                 text-align: left;
+                width: 100%;
+                align-items: flex-start;
             }
 
-            .action-buttons {
-                flex-direction: column;
+            .cancel-order-btn.small {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -477,6 +476,7 @@
             </div>
         </div>
 
+
         <!-- TRACKING TIMELINE -->
         <div class="tracking-section">
             <h3><i class="bi bi-clock-history"></i> Order Tracking</h3>
@@ -501,16 +501,8 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <h4>Shipped</h4>
-                        <p>Package has been dispatched from Illinois</p>
+                        <p>Package has been dispatched</p>
                         <div class="timeline-date">May 18, 2024 - 8:45 AM</div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h4>In Transit</h4>
-                        <p>Package is on the way to Indonesia</p>
-                        <div class="timeline-date">Expected: May 25, 2024</div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -532,49 +524,16 @@
             </div>
         </div>
 
-        <!-- SHIPPING INFO -->
-        <div class="shipping-details">
-            <h3><i class="bi bi-geo-alt"></i> Shipping Information</h3>
-            <div class="shipping-route">
-                <div class="location-box">
-                    <div class="location-label">Shipping From</div>
-                    <div class="location-name">
-                        <i class="bi bi-house"></i>
-                        Illinois, United States
-                    </div>
-                </div>
-                <div class="route-arrow">
-                    <i class="bi bi-arrow-right-circle"></i>
-                </div>
-                <div class="location-box">
-                    <div class="location-label">Delivering To</div>
-                    <div class="location-name">
-                        <i class="bi bi-house-check"></i>
-                        George's House, Indonesia
-                    </div>
-                </div>
-            </div>
-            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
-                <div style="font-size: 0.9rem; color: #666; margin-bottom: 8px;">
-                    <strong>Tracking Number:</strong> TRK-2024-89765-US-ID
-                </div>
-                <div style="font-size: 0.9rem; color: #666;">
-                    <strong>Carrier:</strong> International Express Shipping
-                </div>
-            </div>
-        </div>
-
         <!-- ITEMS -->
         <div class="items-section">
             <h3><i class="bi bi-box-seam"></i> Order Items</h3>
             
             <div class="item-card">
-                <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400" alt="Japan Green Outer" class="item-image">
+                <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400" alt="Flos Brass Table Lamp" class="item-image">
                 <div class="item-info">
                     <div>
-                        <div class="item-name">Japan Green Outer</div>
+                        <div class="item-name">Flos Brass Table Lamp L</div>
                         <div class="item-meta">
-                            <span><strong>Size:</strong> M</span>
                             <span><strong>Color:</strong> Olive Green</span>
                             <span><strong>Quantity:</strong> 1</span>
                         </div>
@@ -582,56 +541,103 @@
                 </div>
                 <div class="item-price-section">
                     <div class="item-price">Rp 399.000</div>
+                    <button type="button" class="cancel-order-btn small">
+                        <i class="bi bi-x-circle"></i> Cancel Item
+                    </button>
                 </div>
             </div>
 
             <div class="item-card">
-                <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400" alt="White off jacket 2024" class="item-image">
+                <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400" alt="Linear Brass Coffee Table" class="item-image">
                 <div class="item-info">
                     <div>
-                        <div class="item-name">White off jacket 2024</div>
+                        <div class="item-name">Linear Brass Coffee Table</div>
                         <div class="item-meta">
-                            <span><strong>Size:</strong> M</span>
-                            <span><strong>Color:</strong> White</span>
+                            <span><strong>Color:</strong> Brass</span>
                             <span><strong>Quantity:</strong> 1</span>
                         </div>
                     </div>
                 </div>
                 <div class="item-price-section">
                     <div class="item-price">Rp 450.000</div>
+                    <button type="button" class="cancel-order-btn small">
+                        <i class="bi bi-x-circle"></i> Cancel Item
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- ORDER SUMMARY -->
-        <div class="order-summary">
-            <h3><i class="bi bi-receipt"></i> Order Summary</h3>
+        <!-- INVOICE SECTION -->
+        <div class="invoice-section">
+            <h3><i class="bi bi-receipt-cutoff"></i> Invoice Summary</h3>
             
-            <div class="summary-row">
-                <span>Subtotal (2 items)</span>
-                <span class="amount">Rp 849.000</span>
-            </div>
-            <div class="summary-row">
-                <span>Shipping Fee</span>
-                <span class="amount">Rp 150.000</span>
-            </div>
-            <div class="summary-row">
-                <span>Tax</span>
-                <span class="amount">Rp 50.000</span>
-            </div>
-            <div class="summary-row">
-                <span>Discount</span>
-                <span class="amount" style="color: #28a745;">-Rp 100.000</span>
-            </div>
-            <div class="summary-row total">
-                <span>Total Amount</span>
-                <span class="amount">Rp 949.000</span>
-            </div>
+            <div class="invoice-details">
+                <div class="invoice-row">
+                    <div class="invoice-label">
+                        <i class="bi bi-hash"></i>
+                        <span>Order Number</span>
+                    </div>
+                    <div class="invoice-value">CTH-89765</div>
+                </div>
 
-            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; font-size: 0.9rem; color: #666;">
-                <strong>Payment Method:</strong> Credit Card ending in ****4532<br>
-                <strong>Payment Status:</strong> <span style="color: #28a745; font-weight: 600;">Paid</span>
+                <div class="invoice-row">
+                    <div class="invoice-label">
+                        <i class="bi bi-calendar3"></i>
+                        <span>Order Date</span>
+                    </div>
+                    <div class="invoice-value">May 15, 2024</div>
+                </div>
+
+                <div class="invoice-row">
+                    <div class="invoice-label">
+                        <i class="bi bi-credit-card"></i>
+                        <span>Payment Method</span>
+                    </div>
+                    <div class="invoice-value">Credit Card (****4532)</div>
+                </div>
+
+                <div class="invoice-row">
+                    <div class="invoice-label">
+                        <i class="bi bi-check-circle"></i>
+                        <span>Payment Status</span>
+                    </div>
+                    <div class="invoice-value status-paid">Paid</div>
+                </div>
+
+                <div class="invoice-divider"></div>
+
+                <div class="invoice-row">
+                    <div class="invoice-label">Subtotal (2 items)</div>
+                    <div class="invoice-value">Rp 849.000</div>
+                </div>
+
+                <div class="invoice-row">
+                    <div class="invoice-label">Shipping Fee</div>
+                    <div class="invoice-value">Rp 150.000</div>
+                </div>
+
+                <div class="invoice-row">
+                    <div class="invoice-label">Tax</div>
+                    <div class="invoice-value">Rp 50.000</div>
+                </div>
+
+                <div class="invoice-row discount-row">
+                    <div class="invoice-label">Discount</div>
+                    <div class="invoice-value discount">-Rp 100.000</div>
+                </div>
+
+                <div class="invoice-divider"></div>
+
+                <div class="invoice-row total-row">
+                    <div class="invoice-label">Total Amount</div>
+                    <div class="invoice-value total">Rp 949.000</div>
+                </div>
             </div>
+        </div>
+
+        <a href="#" class="download-btn">
+            <i class="bi bi-download"></i> DOWNLOAD DETAILS
+        </a>
 
     </div>
 

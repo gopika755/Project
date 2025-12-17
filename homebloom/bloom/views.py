@@ -25,6 +25,41 @@ def order(request):
     return render(request,'order.html')
 def detail(reqeust):
     return render(reqeust,'detail.html')
-
-
+def adminorder(request):
+    return render(request,'adminorder.html')
+def addaddress(request):
+    return render(request,'addaddress.html')
+def wishlist(request):
+    return render(request,'wishlist.html')
+def cart(request):
+    return render(request,'cart.html')
+def checkout(request):
+    return render(request,'checkout.html')
+def faq(request):
+    return render(request,'faq.html')
+def privacy(request):
+    return render(request,'privacy.html')
+def aboutus(request):
+    return render(request,'aboutus.html')
+def product(request):
+    return render(request,'product.html')
+def adminpanel(request):
+    return render(request,'adminpanel.html')
+def admindashboard(request):
+    return render(request,'admindashboard.html')
+def adminproduct(request):
+    return render(request,'adminproduct.html')
+def productedit(request):
+    return render(request,'productedit.html')
+def admincustomer(request):
+    return render(request,'admincustomer.html')
+def admincategory(request):
+    return render(request,'admincategory.html')
+def categoryedit(request):
+    return render (request,'categoryedit.html')
+def admincoupon(request):
+    return render(request,'admincoupon.html')
+def couponedit(request):
+    return render(request,'couponedit.html')
+    
 # Create your views here.

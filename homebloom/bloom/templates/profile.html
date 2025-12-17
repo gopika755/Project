@@ -2,167 +2,166 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile | Home Bloom</title>
-    <link rel="stylesheet" href="profile.css">
+    <title>My Profile | Home Bloom</title>
+
     <style>
         * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Georgia", serif;
-}
-
-body {
-    background: #e7d6c1;
-}
-
-.profile-wrapper {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.profile-card {
-    display: flex;
-    width: 900px;
-    background: #fff;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
-
-.profile-left {
-    width: 55%;
-    padding: 60px;
-}
-
-.profile-left h2 {
-    margin-bottom: 25px;
-}
-
-.profile-field {
-    margin-bottom: 20px;
-}
-
-.profile-field label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 6px;
-}
-
-.profile-field input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-
-.save-btn {
-    margin-top: 20px;
-    width: 100%;
-    padding: 12px;
-    background: #8b7355;
-    color: #fff;
-    border: none;
-    letter-spacing: 2px;
-    cursor: pointer;
-}
-
-.save-btn:hover {
-    background: #6f5a41;
-}
-
-/* RIGHT SIDE */
-.profile-right {
-    width: 45%;
-    background: #8b7355;
-    color: #fff;
-    padding: 60px;
-}
-
-.profile-right h1 {
-    margin-top: 100px;
-    
-}
-
-.profile-right p {
-    margin-top: 40px;
-    
-}
-
-.profile-links li {
-    list-style: none;
-    margin-bottom: 15px;
-}
-
-.profile-links a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 15px;
-}
-
-.profile-links a:hover {
-    text-decoration: underline;
-}
-.page-title-section {
-            background-color: var(--bg-light);
-            padding: 11px 0;
-            text-align: center;
-            
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Georgia", serif;
         }
+
+        body {
+            background: #e7d6c1;
+        }
+
+        /* ===== PAGE TITLE ===== */
+        .page-title-section {
+            padding: 15px 0;
+            text-align: center;
+        }
+
         .page-title {
             font-size: 3rem;
-            font-weight: 700;
+            font-weight: 70;
             text-decoration: none;
             color: #8b7355;
-            text-transform: uppercase;
             letter-spacing: 3px;
+        }
+
+        /* ===== LAYOUT ===== */
+        .profile-wrapper {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-card {
+            width: 900px;
+            background: #fff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            padding: 60px;
+        }
+
+        /* ===== PROFILE HEADER ===== */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 40px;
+        }
+
+        .profile-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #8b7355;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info h2 {
+            margin-bottom: 10px;
+        }
+
+        .profile-info p {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        /* ===== ADDRESS SECTION ===== */
+        .address-section {
+            margin-top: 40px;
+        }
+
+        .address-section h3 {
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .address-box {
+            border: 1px solid #ccc;
+            padding: 25px;
+            margin-bottom: 25px;
+            background: #fafafa;
+        }
+
+        .address-box p {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        /* ===== BUTTON ===== */
+        .add-address-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #8b7355;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 2px;
+            font-size: 14px;
+        }
+
+        .add-address-btn:hover {
+            background: #6f5a41;
         }
     </style>
 </head>
+
 <body>
+
+    <!-- PAGE TITLE -->
     <section class="page-title-section">
-        <div class="container">
-            <a href='/'class="page-title">HOME BLOOM</a>
-        </div>
+        <a href="/" class="page-title">HOME BLOOM</a>
     </section>
+    
+    <!-- PROFILE OVERVIEW -->
+    <div class="profile-wrapper">
+        <div class="profile-card">
 
-<div class="profile-wrapper">
-    <div class="profile-card">
+            <!-- PROFILE HEADER -->
+            <div class="profile-header">
+                <div class="profile-image">
+                    <img src="https://via.placeholder.com/150" alt="Profile Image">
+                </div>
 
-        <!-- LEFT -->
-        <div class="profile-left">
-            <h2>My Profile</h2>
-
-            <div class="profile-field">
-                <label>Full Name</label>
-                <input type="text" >
+                <div class="profile-info">
+                    <h2>John Doe</h2>
+                    <p>Email: johndoe@gmail.com</p>
+                    <p>Phone: +91 98765 43210</p>
+                </div>
             </div>
 
-            <div class="profile-field">
-                <label>Email</label>
-                <input type="email" >
+            <!-- ADDRESS -->
+            <div class="address-section">
+                <h3>Saved Address</h3>
+
+                <div class="address-box">
+                    <p><strong>Full Name:</strong> John Doe</p>
+                    <p><strong>Email:</strong> johndoe@gmail.com</p>
+                    <p><strong>Phone:</strong> +91 98765 43210</p>
+                    <p><strong>Address:</strong>  
+                        12, Rose Garden Street,  
+                        Anna Nagar, Chennai,  
+                        Tamil Nadu – 600040
+                    </p>
+                </div>
+
+                <a href="{%url 'addaddress'%}" class="add-address-btn">
+                    ADD NEW ADDRESS
+                </a>
             </div>
 
-            <div class="profile-field">
-                <label>Phone</label>
-                <input type="text" >
-            </div>
-            <div class="profile-field">
-                <label>Address</label>
-                <input type="text" >
-            </div>
-
-            <button class="save-btn">SAVE CHANGES</button>
         </div>
-
-        <!-- RIGHT -->
-        <div class="profile-right">
-            <h1>HOME BLOOM</h1>
-            <p>Your personal space for a beautiful home.</p>
-
-        </div>
-
     </div>
-</div>
 
 </body>
 </html>

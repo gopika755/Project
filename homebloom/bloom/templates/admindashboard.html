@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | HOME BLOOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin-dashboard.css">
+    <style>
+        *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    background:#f4f1ec;
+}
+
+/* LAYOUT */
+.dashboard-wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:240px;
+    background:#3f3007;
+    color:#fff;
+    padding:30px 20px;
+}
+
+.brand{
+    font-size:1.4rem;
+    letter-spacing:2px;
+    margin-bottom:40px;
+}
+
+.sidebar nav a{
+    display:block;
+    color:#ddd;
+    text-decoration:none;
+    padding:12px 15px;
+    border-radius:8px;
+    margin-bottom:10px;
+    transition:0.3s;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active{
+    background:#8B6F47;
+    color:#fff;
+}
+
+.logout{
+    margin-top:30px;
+    background:#2b2205;
+}
+
+/* MAIN */
+.main-content{
+    flex:1;
+    padding:30px 40px;
+}
+
+/* TOP BAR */
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.top-bar h1{
+    font-size:1.8rem;
+    color:#3f3007;
+}
+
+.admin-info{
+    background:#fff;
+    padding:10px 18px;
+    border-radius:10px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+    margin-bottom:45px;
+}
+
+.stat-card{
+    background:#fff;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.stat-card p{
+    font-size:0.85rem;
+    color:#777;
+    margin-bottom:8px;
+}
+
+.stat-card h3{
+    font-size:1.8rem;
+    color:#3f3007;
+}
+/* PROFESSIONAL SALES CHART */
+.pro-chart{
+    background:#fff;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+.chart-header{
+    margin-bottom:30px;
+}
+
+.chart-header h2{
+    font-size:1.4rem;
+    color:#3f3007;
+}
+
+.chart-sub{
+    font-size:0.85rem;
+    color:#777;
+}
+
+/* BODY */
+.chart-body{
+    display:flex;
+}
+
+/* Y AXIS */
+.y-axis{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    height:280px;
+    margin-right:15px;
+    font-size:0.75rem;
+    color:#888;
+}
+
+/* CHART AREA */
+.chart-area{
+    position:relative;
+    flex:1;
+    height:280px;
+}
+
+/* GRID */
+.grid{
+    position:absolute;
+    inset:0;
+    background:
+        repeating-linear-gradient(
+            to top,
+            #eee,
+            #eee 1px,
+            transparent 1px,
+            transparent 20%
+        );
+}
+
+/* BARS WRAPPER */
+.bars{
+    position:relative;
+    height:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    padding:0 15px;
+}
+.bar{
+    width:8%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-end;
+}
+
+.bar span{
+    display:block;
+    width:100%;
+    background:linear-gradient(180deg,#8B6F47,#3f3007);
+    border-radius:8px 8px 0 0;
+    transition:0.3s;
+}
+
+
+/* MONTH LABEL */
+.bar label{
+    margin-top:10px;
+    font-size:0.8rem;
+    color:#555;
+}
+
+/* HOVER */
+.bar:hover span{
+    filter:brightness(1.1);
+}
+
+
+
+/* STATUS */
+.status{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:0.75rem;
+    font-weight:500;
+}
+
+.completed{
+    background:#d4edda;
+    color:#155724;
+}
+
+.pending{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.cancelled{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+/* RESPONSIVE */
+@media(max-width:992px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:576px){
+    .sidebar{
+        display:none;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h2 class="brand">HOME BLOOM</h2>
+
+        <nav>
+            <a href="{% url 'admindashboard' %}">Dashboard</a>
+            <a href="{%url 'adminproduct'%}">Products</a>
+            <a href="{% url 'adminorder' %}">Orders</a>
+             <a href="{%url 'admincustomer'%}">Customers</a>
+            <a href="{%url 'admincategory'%}">Categories</a>
+            <a href="{%url 'admincoupon'%}">Coupons</a>
+            <a href="/" class="logout">Logout</a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="top-bar">
+            <h1>Dashboard</h1>
+            <div class="admin-info">Admin</div>
+        </header>
+
+        <!-- STATS -->
+        <section class="stats">
+            <div class="stat-card">
+                <p>Total Orders</p>
+                <h3>1,248</h3>
+            </div>
+
+            <div class="stat-card">
+                <p>Total Products</p>
+                <h3>320</h3>
+            </div>
+
+            <div class="stat-card">
+                <p>Total Customers</p>
+                <h3>890</h3>
+            </div>
+
+            <div class="stat-card">
+                <p>Revenue</p>
+                <h3>$52,430</h3>
+            </div>
+        </section>
+<section class="chart-section pro-chart">
+    <div class="chart-header">
+        <h2>Monthly Sales</h2>
+        <span class="chart-sub">Revenue Overview</span>
+    </div>
+
+    <div class="chart-body">
+
+        <!-- Y AXIS -->
+        <div class="y-axis">
+            <span>100k</span>
+            <span>80k</span>
+            <span>60k</span>
+            <span>40k</span>
+            <span>20k</span>
+            <span>0</span>
+        </div>
+
+        <!-- CHART -->
+        <div class="chart-area">
+            <div class="grid"></div>
+
+            <div class="bars">
+                <div class="bar">
+                    <span style="height:65%"></span>
+                    <label>Jan</label>
+                </div>
+                <div class="bar">
+                    <span style="height:80%"></span>
+                    <label>Feb</label>
+                </div>
+                <div class="bar">
+                    <span style="height:55%"></span>
+                    <label>Mar</label>
+                </div>
+                <div class="bar">
+                    <span style="height:90%"></span>
+                    <label>Apr</label>
+                </div>
+                <div class="bar">
+                    <span style="height:70%"></span>
+                    <label>May</label>
+                </div>
+                <div class="bar">
+                    <span style="height:85%"></span>
+                    <label>Jun</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+    </main>
+</div>
+
+</body>
+</html>

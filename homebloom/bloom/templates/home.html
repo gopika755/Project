@@ -34,34 +34,6 @@
             line-height: 1.6;
         }
         
-        /* ===== HERO HEADER SECTION ===== */
-        .hero-header {
-            background: linear-gradient(135deg,#8B6F47 100%);
-            padding: 10px ;
-
-            text-align: left;
-        }
-        
-        .brand-name {
-            font-size: 30px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: #f9f9f9ff;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        @media (max-width: 768px) {
-            .brand-name {
-                font-size: 2.5rem;
-                letter-spacing: 4px;
-            }
-            
-            .hero-header {
-                padding: 40px 0;
-            }
-        }
-        
         /* ===== COMBINED NAVIGATION BAR ===== */
         .combined-navbar {
             background-color: var(--primary-color);
@@ -477,13 +449,13 @@
             font-weight: bold;
         }
         .page-title-section {
-            background-color: var(--bg-light);
+            background-color:#fff;
             padding: 20px 0;
             text-align: center;
         }
         .page-title {
-            font-size: 3rem;
-            font-weight: 700;
+            font-size: 50px;
+            font-weight: 70;
             text-decoration: none;
             color: var(--primary-color);
             text-transform: uppercase;
@@ -688,7 +660,7 @@ margin:8px 0;
         <li><a href="{% url 'login' %}">Login</a></li>
         <li><a href="{%url 'profile'%}">Profile</a></li>
         <li><a href="{%url 'order'%}">My Orders</a></li>
-        <li><a href="#">Wishlist</a></li>
+        <li><a href="{%url 'wishlist'%}">Wishlist</a></li>
         <li class="divider"></li>
         <li><a href="#">Logout</a></li>
     </ul>
@@ -696,7 +668,7 @@ margin:8px 0;
 
 
                     <li><a href="#" title="Search"><i class="bi bi-search"></i></a></li>
-                    <li><a href="#" title="Cart"><i class="bi bi-cart3"></i></a></li>
+                    <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
                 </ul>
             </div>
         </div>
@@ -916,7 +888,7 @@ margin:8px 0;
         </div>
     </section>
     
-    <!-- ===== FOOTER SECTION ===== -->
+       <!-- ===== FOOTER SECTION ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -931,10 +903,9 @@ margin:8px 0;
                 <!-- Quick Links -->
                 <div class="footer-section">
                     <h4>Quick Links</h4>
-                    <a href="#about">About Us</a>
-                    <a href="#shipping">Shipping & Returns</a>
-                    <a href="#faq">FAQ</a>
-                    <a href="#privacy">Privacy Policy</a>
+                    <a href="{%url 'aboutus'%}">About Us</a>
+                    <a href="{%url 'faq'%}">FAQ</a>
+                    <a href="{%url 'privacy'%}">Privacy Policy</a>
                 </div>
                 
                 <!-- Social Media -->

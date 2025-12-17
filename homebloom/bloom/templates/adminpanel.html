@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login | HOME BLOOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="admin-login.css">
+    <style>
+        *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    background:#f4f1ec;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* WRAPPER */
+.admin-login-wrapper{
+    width:100%;
+    max-width:420px;
+    padding:20px;
+}
+
+/* CARD */
+.login-card{
+    background:#fff;
+    padding:40px 35px;
+    border-radius:16px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+    text-align:center;
+}
+
+/* TITLES */
+.login-title{
+    font-size:1.8rem;
+    color:#3f3007;
+    margin-bottom:8px;
+}
+
+.login-subtitle{
+    font-size:0.9rem;
+    color:#777;
+    margin-bottom:30px;
+}
+
+/* INPUTS */
+.input-group{
+    text-align:left;
+    margin-bottom:20px;
+}
+
+.input-group label{
+    display:block;
+    font-size:0.85rem;
+    color:#555;
+    margin-bottom:6px;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#8B6F47;
+}
+
+.login-btn{
+    display: inline-block;
+    padding: 10px 135px;
+    background-color: #8B6F47;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+}
+.login-btn:hover{
+    background-color: #6f5736;
+}
+
+
+/* FOOTER */
+.footer-text{
+    margin-top:25px;
+    font-size:0.75rem;
+    color:#999;
+    letter-spacing:1px;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="admin-login-wrapper">
+
+        <div class="login-card">
+            <h1 class="login-title">Admin Login</h1>
+            <p class="login-subtitle">Authorized access only</p>
+
+            <form>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" >
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" >
+                </div>
+
+                <a href="{% url 'admindashboard' %}" class="login-btn">Login</a>
+            </form>
+
+            <p class="footer-text">HOME BLOOM • Admin Panel</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

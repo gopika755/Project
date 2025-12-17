@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | HOME BLOOM</title>
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Georgia", serif;
+        }
+
+        :root {
+            --primary-color: #8B6F47;
+            --secondary-color: #8b7355;
+            --accent-color: #3f3007ff;
+            --text-dark: #333;
+            --bg-light: #dbc7adff;
+        }
+
+        body {
+            background: #e4d1bbff;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+       /* HEADER */
+        .page-title-section {
+            background-color:#fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .page-title {
+            font-size: 50px;
+            font-weight: 70;
+            text-decoration: none;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        /* BREADCRUMB */
+        .breadcrumb-section {
+            text-align: center;
+            padding: 20px 0 40px;
+        }
+
+        .breadcrumb {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* MAIN CONTAINER */
+        .cart-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 30px;
+        }
+
+        /* CART TABLE */
+        .cart-table-section {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .cart-header {
+            display: grid;
+            grid-template-columns: 50px 1fr 120px 150px 120px;
+            gap: 20px;
+            padding: 20px 25px;
+            background:#8b7355;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cart-items {
+            padding: 15px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 50px 1fr 120px 150px 120px;
+            gap: 20px;
+            padding: 20px 10px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .remove-btn {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #999;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-btn:hover {
+            color: #d32f2f;
+            transform: scale(1.2);
+        }
+
+        .product-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #f0f0f0;
+        }
+
+        .product-details h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .product-meta {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* QUANTITY CONTROLS */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 5px;
+            width: fit-content;
+        }
+
+        .quantity-btn {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .product-subtotal {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* COUPON SECTION */
+        .coupon-section {
+            display: flex;
+            gap: 15px;
+            padding: 20px 25px;
+            background: #f9f9f9;
+            align-items: center;
+        }
+
+        .coupon-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .coupon-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .apply-coupon-btn {
+            padding: 12px 30px;
+            background: #8b7355;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .apply-coupon-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .clear-cart-btn {
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .clear-cart-btn:hover {
+            background: #8b7355;
+            color: #fff;
+        }
+
+        /* ORDER SUMMARY */
+        .order-summary {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            height: fit-content;
+        }
+
+        .order-summary h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .summary-row:not(:last-child) {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .summary-label {
+            color: #666;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .summary-value.discount {
+            color: #28a745;
+        }
+
+        .summary-row.total {
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            margin-top: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .summary-row.total .summary-value {
+            color: var(--accent-color);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: #8b7355;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            display: inline-block;
+    text-align: center;
+    text-decoration: none;
+        }
+
+        .checkout-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-header {
+                grid-template-columns: 40px 1fr 100px 120px 100px;
+                font-size: 0.85rem;
+                gap: 10px;
+            }
+
+            .cart-item {
+                grid-template-columns: 40px 1fr 100px 120px 100px;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .cart-header {
+                display: none;
+            }
+
+            .cart-item {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .remove-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+            .cart-item {
+                position: relative;
+            }
+
+            .product-info {
+                grid-column: 1;
+            }
+
+            .coupon-section {
+                flex-direction: column;
+            }
+
+            .coupon-input {
+                width: 100%;
+            }
+
+            .apply-coupon-btn,
+            .clear-cart-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .product-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .product-details h3 {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <section class="page-title-section">
+        <a href="/" class="page-title">HOME BLOOM</a>
+    </section>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb-section">
+        <div class="breadcrumb">
+            <span>Shopping Cart</span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="cart-container">
+        
+        <!-- CART TABLE -->
+        <div class="cart-table-section">
+            
+            <!-- HEADER -->
+            <div class="cart-header">
+                <div></div>
+                <div>Product</div>
+                <div>Price</div>
+                <div>Quantity</div>
+                <div>Subtotal</div>
+            </div>
+
+            <!-- CART ITEMS -->
+            <div class="cart-items">
+                
+                <!-- ITEM 1 -->
+                <div class="cart-item">
+                    <button class="remove-btn">
+                        <i class="bi bi-x"></i>
+                    </button>
+                    <div class="product-info">
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400" alt="Modern Velvet Sofa" class="product-image">
+                        <div class="product-details">
+                            <h3>Modern Velvet Sofa</h3>
+                            <div class="product-meta">Color: Brown | Size: Large</div>
+                        </div>
+                    </div>
+                    <div class="product-price">$75.00</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" value="4" class="quantity-input" readonly>
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <div class="product-subtotal">$300.00</div>
+                </div>
+
+                <!-- ITEM 2 -->
+                <div class="cart-item">
+                    <button class="remove-btn">
+                        <i class="bi bi-x"></i>
+                    </button>
+                    <div class="product-info">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400" alt="Elegant Table Lamp" class="product-image">
+                        <div class="product-details">
+                            <h3>Elegant Table Lamp</h3>
+                            <div class="product-meta">Color: Cream | Size: Medium</div>
+                        </div>
+                    </div>
+                    <div class="product-price">$165.00</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" value="1" class="quantity-input" readonly>
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <div class="product-subtotal">$165.00</div>
+                </div>
+
+                <!-- ITEM 3 -->
+                <div class="cart-item">
+                    <button class="remove-btn">
+                        <i class="bi bi-x"></i>
+                    </button>
+                    <div class="product-info">
+                        <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?w=400" alt="Ceramic Dinnerware Set" class="product-image">
+                        <div class="product-details">
+                            <h3>Ceramic Dinnerware Set</h3>
+                            <div class="product-meta">Color: Light Brown | Size: Small</div>
+                        </div>
+                    </div>
+                    <div class="product-price">$63.00</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" value="1" class="quantity-input" readonly>
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <div class="product-subtotal">$63.00</div>
+                </div>
+
+                <!-- ITEM 4 -->
+                <div class="cart-item">
+                    <button class="remove-btn">
+                        <i class="bi bi-x"></i>
+                    </button>
+                    <div class="product-info">
+                        <img src="https://images.unsplash.com/photo-1567016526105-22da7c13161a?w=400" alt="Decorative Wall Mirror" class="product-image">
+                        <div class="product-details">
+                            <h3>Decorative Wall Mirror</h3>
+                            <div class="product-meta">Color: Brown | Size: Small</div>
+                        </div>
+                    </div>
+                    <div class="product-price">$90.00</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn">-</button>
+                        <input type="number" value="2" class="quantity-input" readonly>
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <div class="product-subtotal">$180.00</div>
+                </div>
+
+            </div>
+
+            <!-- COUPON SECTION -->
+            <div class="coupon-section">
+                <input type="text" placeholder="Coupon Code" class="coupon-input">
+                <button class="apply-coupon-btn">Apply Coupon</button>
+                 <button class="apply-coupon-btn">available coupons</button>
+                <a href="#" class="clear-cart-btn">Clear Cart</a>
+            </div>
+
+        </div>
+
+        <!-- ORDER SUMMARY -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            
+            <div class="summary-row">
+                <span class="summary-label">Items</span>
+                <span class="summary-value">8</span>
+            </div>
+
+            <div class="summary-row">
+                <span class="summary-label">Sub Total</span>
+                <span class="summary-value">$708.00</span>
+            </div>
+
+            <div class="summary-row">
+                <span class="summary-label">Shipping</span>
+                <span class="summary-value">$00.00</span>
+            </div>
+
+            <div class="summary-row">
+                <span class="summary-label">Taxes</span>
+                <span class="summary-value">$00.00</span>
+            </div>
+
+            <div class="summary-row">
+                <span class="summary-label">Coupon Discount</span>
+                <span class="summary-value discount">-$100.00</span>
+            </div>
+
+            <div class="summary-row total">
+                <span class="summary-label">Total</span>
+                <span class="summary-value">$633.00</span>
+            </div>
+
+            <a href="{% url 'checkout'%}" class="checkout-btn">
+                <i class="bi bi-cart-check"></i> Proceed to Checkout
+            </a>
+
+    </div>
+
+</body>
+</html>

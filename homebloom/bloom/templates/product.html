@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | HOME BLOOM</title>
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Georgia", serif;
+        }
+
+        :root {
+            --primary-color: #8B6F47;
+            --secondary-color: #8b7355;
+            --accent-color: #3f3007ff;
+            --text-dark: #333;
+            --bg-light: #dbc7adff;
+        }
+
+        body {
+            background: #e4d1bbff;
+            min-height: 100vh;
+        }
+
+        /* ===== LOGO ===== */
+        .logo {
+            background-color:#fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .logo-title {
+            font-size: 50px;
+            font-weight: 70;
+            text-decoration: none;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* ===== COMBINED NAVIGATION BAR ===== */
+        .combined-navbar {
+            background-color: var(--primary-color);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .category-nav-items {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        
+        .category-nav-items a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        
+        .category-nav-items a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .icon-nav-items {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .icon-nav-items a {
+            color: #fff;
+            font-size: 1.4rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .icon-nav-items a:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        /* PRODUCT SECTION */
+        .product-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .product-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 60px;
+        }
+
+        /* IMAGE SECTION */
+        .product-images {
+            position: relative;
+           
+        }
+
+        .main-image-container {
+            position: relative;
+            width: 100%;
+            height: 550px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+             padding:60px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .image-nav:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .image-nav.prev {
+            left: 20px;
+        }
+
+        .image-nav.next {
+            right: 20px;
+        }
+
+        .thumbnail-images {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: var(--primary-color);
+        }
+
+        /* PRODUCT INFO */
+        .product-info {
+            padding: 20px 0;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 1rem;
+        }
+
+        .review-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .product-description {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .product-options {
+            margin-bottom: 25px;
+        }
+
+        .option-label {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .color-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-option {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .color-option:hover,
+        .color-option.active {
+            border-color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .quantity-input {
+    width: 80px;
+    height: 40px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .add-to-cart-btn {
+            flex: 1;
+            padding: 15px;
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .product-meta {
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .meta-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .meta-value {
+            color: #666;
+        }
+
+        .social-share {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        
+
+        /* TABS SECTION */
+        .product-tabs {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 60px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 40px;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+
+        .tab-button {
+            padding: 15px 0;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* REVIEWS */
+        .review-item {
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .review-date {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .review-stars {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .review-text {
+            color: #666;
+            line-height: 1.6;
+        }
+
+/* ===== RELATED PRODUCTS ===== */
+.related-products{
+    margin:90px 0;
+}
+
+.section-title{
+    text-align:center;
+    font-size:1.6rem;
+    letter-spacing:2px;
+    color:#8B6F47;
+    margin-bottom:45px;
+    text-transform:uppercase;
+}
+
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+}
+
+/* PRODUCT CARD */
+.product-card.placeholder{
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    height:420px; /* increased height */
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+    transition:all 0.3s ease;
+    display:flex;
+    flex-direction:column;
+}
+
+.product-card.placeholder:hover{
+    transform:translateY(-6px);
+    box-shadow:0 14px 40px rgba(0,0,0,0.15);
+}
+
+/* IMAGE PLACEHOLDER */
+.image-placeholder{
+    height:230px;
+    background:linear-gradient(135deg,#eee,#ddd);
+}
+
+/* INFO */
+.product-card-info{
+    flex:1;
+    padding:25px 20px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.product-title{
+    font-size:1.05rem;
+    font-weight:600;
+    color:#333;
+}
+
+.product-price{
+    font-size:1.25rem;
+    font-weight:700;
+    color:#3f3007;
+}
+
+.view-product-btn{
+    align-self:center;
+    padding:9px 24px;
+    background:#8B6F47;
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    font-size:14px;
+    letter-spacing:1px;
+    transition:0.3s;
+}
+
+.view-product-btn:hover{
+    background:#3f3007;
+}
+
+/* RESPONSIVE */
+@media(max-width:992px){
+    .products-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+@media(max-width:576px){
+    .products-grid{grid-template-columns:1fr;}
+}
+
+
+
+        /* ===== FOOTER SECTION ===== */
+        .footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 50px 0 20px;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 30px;
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            padding: 0 20px;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .product-main {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .navbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .category-nav-items {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .icon-nav-items {
+                justify-content: center;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-title {
+                font-size: 2rem;
+            }
+
+            .product-title {
+                font-size: 1.8rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .category-nav-items {
+                gap: 15px;
+            }
+            
+            .category-nav-items a {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+       /* hide radios */
+.product-tabs input[type="radio"] {
+    display: none;
+}
+
+/* hide all tabs by default */
+.tab-content {
+    display: none;
+}
+
+/* show selected tab */
+#tab-desc:checked ~ .description {
+    display: block;
+}
+
+#tab-reviews:checked ~ .reviews {
+    display: block;
+}
+
+/* active tab style */
+#tab-desc:checked ~ .tab-buttons label[for="tab-desc"],
+#tab-reviews:checked ~ .tab-buttons label[for="tab-reviews"] {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+}
+
+
+    </style>
+</head>
+<body>
+
+    <!-- ===== LOGO ===== -->
+    <section class="logo">
+        <div class="container">
+            <a href="/" class="logo-title">HOME BLOOM</a>
+        </div>
+    </section>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="combined-navbar">
+        <div class="navbar-content">
+            <ul class="category-nav-items">
+                <li><a href="#">Furniture</a></li>
+                <li><a href="#">Wall Decor</a></li>
+                <li><a href="#">Kitchen & Dining</a></li>
+                <li><a href="#">Lighting</a></li>
+                <li><a href="#">Bath Decor</a></li>
+            </ul>
+
+            <ul class="icon-nav-items">
+                <li><a href="#"><i class="bi bi-person"></i></a></li>
+                <li><a href="#"><i class="bi bi-search"></i></a></li>
+                <li><a href="#"><i class="bi bi-cart3"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- PRODUCT CONTAINER -->
+    <div class="product-container">
+        
+        <!-- MAIN PRODUCT SECTION -->
+        <div class="product-main">
+            
+            <!-- PRODUCT IMAGES -->
+            <div class="product-images">
+                <div class="main-image-container">
+                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600" alt="Luxury Velvet Sofa" class="main-image">
+                    <button class="image-nav prev">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="image-nav next">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="thumbnail-images">
+                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=100" class="thumbnail active">
+                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=100" class="thumbnail">
+                    <img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=100" class="thumbnail">
+                </div>
+            </div>
+
+            <!-- PRODUCT INFO -->
+            <div class="product-info">
+                <div class="breadcrumb">
+                    <a href="/">Home</a> / <a href="#">Living Room</a> / <span>Velvet Sofa</span>
+                </div>
+
+                <h1 class="product-title">Luxury Velvet Sofa</h1>
+
+                <div class="product-rating">
+                    <div class="stars">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-half"></i>
+                    </div>
+                    <span class="review-count">2 reviews</span>
+                </div>
+
+                <div class="product-price">$199</div>
+
+                <p class="product-description">
+                     E-commerce market has changed the way people do business. Previously, it was more local like
+            physical stores with limited online presence. Today, users expect seamless experiences
+            across all devices, especially mobile.
+                </p>
+
+                <div class="product-options">
+                    <div class="option-label">Select an option:</div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background: #e8d5c4;"></div>
+                        <div class="color-option" style="background: #d4a373;"></div>
+                        <div class="color-option" style="background: #2c2c2c;"></div>
+                    </div>
+                </div>
+
+                <div class="quantity-section">
+    <label class="option-label" for="quantity">Quantity:</label>
+    <input 
+        type="number" 
+        id="quantity"
+        name="quantity"
+        min="1"
+        value="1"
+        class="quantity-input"
+    >
+</div>
+                <div class="action-buttons">
+                    <button class="add-to-cart-btn">
+                        <i class="bi bi-cart-plus"></i> Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Product ID:</span>
+                        <span class="meta-value">FN213</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Category:</span>
+                        <span class="meta-value">Living Room, Furniture</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Tags:</span>
+                        <span class="meta-value">Sofa, Velvet, Modern</span>
+                    </div>
+                </div>
+
+               
+            </div>
+
+        </div>
+
+        <!-- TABS SECTION -->
+       <div class="product-tabs">
+
+    <!-- RADIO CONTROLS (MUST BE FIRST) -->
+    <input type="radio" name="tabs" id="tab-desc" checked>
+    <input type="radio" name="tabs" id="tab-reviews">
+
+    <!-- TAB BUTTONS -->
+    <div class="tab-buttons">
+        <label for="tab-desc" class="tab-button">Description</label>
+        <label for="tab-reviews" class="tab-button">Reviews</label>
+    </div>
+
+    <!-- DESCRIPTION CONTENT -->
+    <div class="tab-content description">
+        <p>
+            E-commerce market has changed the way people do business. Users expect fast,
+            responsive and mobile-friendly experiences. A product page must feel smooth
+            and informative to convert visitors into buyers.
+        </p>
+    </div>
+
+    <!-- REVIEWS CONTENT -->
+    <div class="tab-content reviews">
+
+        <div class="review-item">
+            <div class="review-header">
+                <span class="reviewer-name">Sarah Johnson</span>
+                <span class="review-date">December 10, 2024</span>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">
+                Absolutely love this sofa! Premium feel and very comfortable.
+            </p>
+        </div>
+
+        <div class="review-item">
+            <div class="review-header">
+                <span class="reviewer-name">Michael Chen</span>
+                <span class="review-date">December 5, 2024</span>
+            </div>
+            <div class="review-stars">★★★★☆</div>
+            <p class="review-text">
+                Great quality for the price. Delivery could be faster.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- RELATED PRODUCTS -->
+<section class="related-products">
+    <h2 class="section-title">You May Also Like</h2>
+
+    <div class="products-grid">
+
+        <article class="product-card placeholder">
+            <div class="image-placeholder"></div>
+
+            <div class="product-card-info">
+                <h3 class="product-title">Modern Accent Chair</h3>
+                <p class="product-price">$159</p>
+                <a href="#" class="view-product-btn">View</a>
+            </div>
+        </article>
+
+        <article class="product-card placeholder">
+            <div class="image-placeholder"></div>
+
+            <div class="product-card-info">
+                <h3 class="product-title">Wooden Coffee Table</h3>
+                <p class="product-price">$189</p>
+                <a href="#" class="view-product-btn">View</a>
+            </div>
+        </article>
+
+        <article class="product-card placeholder">
+            <div class="image-placeholder"></div>
+
+            <div class="product-card-info">
+                <h3 class="product-title">Contemporary Floor Lamp</h3>
+                <p class="product-price">$129</p>
+                <a href="#" class="view-product-btn">View</a>
+            </div>
+        </article>
+
+        <article class="product-card placeholder">
+            <div class="image-placeholder"></div>
+
+            <div class="product-card-info">
+                <h3 class="product-title">Elegant Table Lamp</h3>
+                <p class="product-price">$89</p>
+                <a href="#" class="view-product-btn">View </a>
+            </div>
+        </article>
+
+    </div>
+</section>
+</div>
+
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City</p>
+                <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
+                <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#">About Us</a>
+                <a href="#">Shipping & Returns</a>
+                <a href="#">FAQ</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-pinterest"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 HOME BLOOM. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

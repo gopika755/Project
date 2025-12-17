@@ -35,34 +35,6 @@
             background-color:  #e4d1bbff;
         }
         
-        /* ===== HERO HEADER SECTION ===== */
-        .hero-header {
-            background: linear-gradient(135deg,#8B6F47 100%);
-            padding: 10px 0;
-            text-align: left;
-        }
-        
-        .brand-name {
-            font-size: 33px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: #ffffffff;
-             text-decoration: none;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        @media (max-width: 768px) {
-            .brand-name {
-                font-size: 2.5rem;
-                letter-spacing: 4px;
-            }
-            
-            .hero-header {
-                padding: 40px 0;
-            }
-        }
-        
         /* ===== COMBINED NAVIGATION BAR ===== */
         .combined-navbar {
             background-color: var(--primary-color);
@@ -205,16 +177,17 @@
         
         /* ===== PAGE TITLE SECTION ===== */
         .page-title-section {
-            background-color: white ;
+            background-color:  #e4d1bbff ;
             padding: 5px 0;
             text-align: center;
-            margin-bottom:80px;
+            margin-top:40px;
+            margin-bottom:40px;
         }
         
         .page-title {
             font-size: 2rem;
             font-weight: 700;
-            color: #6e501aff;
+            color: #322305ff;
             text-transform: uppercase;
             letter-spacing: 3px;
         }
@@ -509,14 +482,14 @@
                 grid-template-columns: 1fr;
             }
         }
-        .logo {
-            background-color: var(--bg-light);
+        .logo{
+            background-color:#fff;
             padding: 20px 0;
             text-align: center;
         }
         .logo-title {
-            font-size: 3rem;
-            font-weight: 700;
+            font-size: 50px;
+            font-weight: 70;
             text-decoration: none;
             color: var(--primary-color);
             text-transform: uppercase;
@@ -855,13 +828,13 @@ margin:8px 0;
         <li><a href="{% url 'login' %}">Login</a></li>
         <li><a href="{%url 'profile'%}">Profile</a></li>
         <li><a href="{%url 'order'%}">My Orders</a></li>
-        <li><a href="#">Wishlist</a></li>
+        <li><a href="{%url 'wishlist'%}">Wishlist</a></li>
         <li class="divider"></li>
         <li><a href="#">Logout</a></li>
     </ul>
 </li>
                 <li><a href="#"><i class="bi bi-search"></i></a></li>
-                <li><a href="#"><i class="bi bi-cart3"></i></a></li>
+                <li><a href="{%url 'cart'%}"><i class="bi bi-cart3"></i></a></li>
             </ul>
 
         </div>
@@ -1019,44 +992,43 @@ margin:8px 0;
     </div>
 </section>
 
-
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City</p>
-                <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
-                <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
-            </div>
-
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <a href="#">About Us</a>
-                <a href="#">Shipping & Returns</a>
-                 <a href="#">FAQ</a>
-                <a href="#">Privacy Policy</a>
-            </div>
-
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <div class="social-icons">
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                    <a href="#"><i class="bi bi-instagram"></i></a>
-                    <a href="#"><i class="bi bi-twitter"></i></a>
-                    <a href="#"><i class="bi bi-pinterest"></i></a>
+    <!-- ===== FOOTER SECTION ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Contact Information -->
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City, DC 12345</p>
+                    <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
+                    <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="{%url 'aboutus'%}">About Us</a>
+                    <a href="{%url 'faq'%}">FAQ</a>
+                    <a href="{%url 'privacy'%}">Privacy Policy</a>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" title="Pinterest"><i class="bi bi-pinterest"></i></a>
+                    </div>
                 </div>
             </div>
-
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 HOME BLOOM. All Rights Reserved. | Designed with <i class="bi bi-heart-fill" style="color: #d4af37;"></i></p>
+            </div>
         </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 HOME BLOOM. All Rights Reserved.</p>
-        </div>
-    </div>
-</footer>
+    </footer>
 
 </body>
 </html>
