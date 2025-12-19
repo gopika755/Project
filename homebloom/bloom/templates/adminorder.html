@@ -153,6 +153,62 @@
                 display:none;
             }
         }
+        .order-view summary {
+    list-style: none;
+    cursor: pointer;
+    background: #3f3007;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    display: inline-block;
+}
+
+.order-view summary::-webkit-details-marker {
+    display: none;
+}
+
+.order-details {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f4f1ec;
+    border-radius: 12px;
+    width: 360px;
+}
+
+/* PRODUCT IMAGE SECTION */
+.product-preview {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.product-preview img {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.product-preview h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #3f3007;
+}
+
+.product-preview p {
+    margin: 2px 0;
+    font-size: 0.8rem;
+    color: #555;
+}
+
+.order-details hr {
+    margin: 12px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
     </style>
 </head>
 <body>
@@ -169,6 +225,7 @@
              <a href="{%url 'admincustomer'%}">Customers</a>
             <a href="{%url 'admincategory'%}">Categories</a>
             <a href="{%url 'admincoupon'%}">Coupons</a>
+            <a href="{%url 'addproduct'%}">Add Product</a>
             <a href="/" class="logout">Logout</a>
         </nav>
     </aside>
@@ -182,74 +239,175 @@
         </div>
 
         <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Order ID</th>
-                        <th>User</th>
-                        <th>Total Price</th>
-                        <th>Payment</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+           <table class="orders-table">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Order ID</th>
+      <th>User</th>
+      <th>Total Price</th>
+      <th>Payment</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
 
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="product">
-                                <img src="product.jpg">
-                                <span>Modern Chair</span>
-                            </div>
-                        </td>
-                        <td>#HB2041</td>
-                        <td>Rahul</td>
-                        <td>₹4,999</td>
-                        <td>UPI</td>
-                        <td>
-                            <select>
-                                <option>Order Placed</option>
-                                <option>Processing</option>
-                                <option>Shipped</option>
-                                <option>Out for Delivery</option>
-                                <option>Delivered</option>
-                            </select>
-                        </td>
-                        <td class="actions">
-                            <a href="#" class="view">View</a>
-                            <a href="#" class="update">Cancel</a>
-                        </td>
-                    </tr>
+  <tbody>
+    <tr>
+      <td>Modern Chair</td>
+      <td>#HB2041</td>
+      <td>Rahul</td>
+      <td>₹4,999</td>
+      <td>UPI</td>
+      <td>
+        <select>
+          <option>Order Placed</option>
+          <option>Processing</option>
+          <option>Shipped</option>
+          <option>Our for delivery</option>
+          <option>Delivered</option>
 
-                    <tr>
-                        <td>
-                            <div class="product">
-                                <img src="product.jpg">
-                                <span>Wooden Lamp</span>
-                            </div>
-                        </td>
-                        <td>#HB2042</td>
-                        <td>Ananya</td>
-                        <td>₹2,199</td>
-                        <td>Card</td>
-                        <td>
-                            <select>
-                                <option>Order Placed</option>
-                                <option selected>Processing</option>
-                                <option>Shipped</option>
-                                <option>Out for Delivery</option>
-                                <option>Delivered</option>
-                            </select>
-                        </td>
-                        <td class="actions">
-                            <a href="#" class="view">View</a>
-                            <a href="#" class="update">Cancel</a>
-                        </td>
-                    </tr>
+        </select>
+      </td>
+      <td>
+        <details class="order-view">
+          <summary class="view-btn">View</summary>
 
-                </tbody>
-            </table>
+          <!-- DROPDOWN -->
+          <div class="order-details">
+
+            <!-- PRODUCT PREVIEW -->
+            <div class="product-preview">
+              <img src="product.jpg" alt="Modern Chair">
+              <div>
+                <h4>Modern Chair</h4>
+                <p>Qty: 1</p>
+                <p>Price: ₹4,999</p>
+              </div>
+            </div>
+
+            <hr>
+
+            <h4>Customer Details</h4>
+            <p><strong>Name:</strong> Rahul</p>
+            <p><strong>Email:</strong> rahul@gmail.com</p>
+            <p><strong>Address:</strong> Kochi, Kerala</p>
+
+            <hr>
+
+            <h4>Payment Info</h4>
+            <p><strong>Method:</strong> UPI</p>
+            <p><strong>Status:</strong> Paid</p>
+
+          </div>
+        </details>
+      </td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>Bed side table</td>
+      <td>#HB2041</td>
+      <td>Neha</td>
+      <td>₹2,999</td>
+      <td>UPI</td>
+      <td>
+        <select>
+          <option>Order Placed</option>
+          <option>Processing</option>
+          <option>Shipped</option>
+          <option>Out for delivery</option>
+          <option>Delivered</option>
+        </select>
+      </td>
+      <td>
+        <details class="order-view">
+          <summary class="view-btn">View</summary>
+
+          <!-- DROPDOWN -->
+          <div class="order-details">
+
+            <!-- PRODUCT PREVIEW -->
+            <div class="product-preview">
+              <img src="product.jpg" alt="Modern Chair">
+              <div>
+                <h4>Bed side table</h4>
+                <p>Qty: 1</p>
+                <p>Price: ₹2,999</p>
+              </div>
+            </div>
+
+            <hr>
+
+            <h4>Customer Details</h4>
+            <p><strong>Name:</strong> Neha</p>
+            <p><strong>Email:</strong> Neha@gmail.com</p>
+            <p><strong>Address:</strong> Kannur, Kerala</p>
+
+            <hr>
+
+            <h4>Payment Info</h4>
+            <p><strong>Method:</strong> UPI</p>
+            <p><strong>Status:</strong> Paid</p>
+
+          </div>
+        </details>
+      </td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>wall vase</td>
+      <td>#HB2089</td>
+      <td>Zain</td>
+      <td>₹1,800</td>
+      <td>UPI</td>
+      <td>
+        <select>
+          <option>Order Placed</option>
+          <option>Processing</option>
+          <option>Shipped</option>
+          <option>Out for delivery</option>
+          <option>Delivered</option>
+        </select>
+      </td>
+      <td>
+        <details class="order-view">
+          <summary class="view-btn">View</summary>
+
+          <!-- DROPDOWN -->
+          <div class="order-details">
+
+            <!-- PRODUCT PREVIEW -->
+            <div class="product-preview">
+              <img src="product.jpg" alt="Modern Chair">
+              <div>
+                <h4>Wall vase</h4>
+                <p>Qty: 2</p>
+                <p>Price: ₹3,600</p>
+              </div>
+            </div>
+
+            <hr>
+
+            <h4>Customer Details</h4>
+            <p><strong>Name:</strong>Zain</p>
+            <p><strong>Email:</strong> Zain@gmail.com</p>
+            <p><strong>Address:</strong> Kollam, Kerala</p>
+
+            <hr>
+
+            <h4>Payment Info</h4>
+            <p><strong>Method:</strong> UPI</p>
+            <p><strong>Status:</strong> Paid</p>
+
+          </div>
+        </details>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
         </div>
 
     </main>

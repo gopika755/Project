@@ -61,5 +61,9 @@ def admincoupon(request):
     return render(request,'admincoupon.html')
 def couponedit(request):
     return render(request,'couponedit.html')
+def chairs(request):
+    return render(request,'chairs.html')
+def addproduct(request):
+    return render(request,'addproduct.html')
     
 # Create your views here.

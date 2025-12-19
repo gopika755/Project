@@ -513,6 +513,47 @@ height:1px;
 background:#e5e5e5;
 margin:8px 0;
 }
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+}
+
+#search-toggle {
+  display: none;
+}
+
+.search-icon {
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+}
+
+.nav-search {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-form {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  margin-left: 8px;
+}
+
+.search-form input {
+  width: 180px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+}
+
+/* 🔥 THIS LINE MAKES IT WORK */
+#search-toggle:checked ~ .search-form {
+  width: 180px;
+}
 
 
     </style>
@@ -540,7 +581,7 @@ margin:8px 0;
                                 <div class="mega-menu-column">
                                     <h4>Seating</h4>
                                     <ul>
-                                        <li><a href="#chairs">Chairs</a></li>
+                                        <li><a href="{%url 'chairs'%}">Chairs</a></li>
                                         <li><a href="#sofa">Sofa</a></li>
                                         <li><a href="#stools">Stools</a></li>
                                         <li><a href="#all-seating">All Seating</a></li>
@@ -667,7 +708,17 @@ margin:8px 0;
 </li>
 
 
-                    <li><a href="#" title="Search"><i class="bi bi-search"></i></a></li>
+                       <li class="nav-search">
+  <input type="checkbox" id="search-toggle">
+
+  <label for="search-toggle" class="search-icon" title="Search">
+    <i class="bi bi-search"></i>
+  </label>
+
+  <form action="search.html" method="get" class="search-form">
+    <input type="text" name="q" placeholder="Search..." />
+  </form>
+</li>
                     <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
                 </ul>
             </div>

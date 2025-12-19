@@ -694,6 +694,61 @@ height:1px;
 background:#e5e5e5;
 margin:8px 0;
 }
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+}
+
+#search-toggle {
+  display: none;
+}
+
+.search-icon {
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+}
+
+.nav-search {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-form {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  margin-left: 8px;
+}
+
+.search-form input {
+  width: 180px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+}
+
+/* 🔥 THIS LINE MAKES IT WORK */
+#search-toggle:checked ~ .search-form {
+  width: 180px;
+}
+.view-btn{
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    background: #8B6F47;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.view-btn:hover{
+    background: #3f3007;
+}
     </style>
 </head>
 
@@ -720,7 +775,7 @@ margin:8px 0;
                                 <div class="mega-menu-column">
                                     <h4>Seating</h4>
                                     <ul>
-                                        <li><a href="#chairs">Chairs</a></li>
+                                        <li><a href="{%url 'chairs'%}">Chairs</a></li>
                                         <li><a href="#sofa">Sofa</a></li>
                                         <li><a href="#stools">Stools</a></li>
                                         <li><a href="#all-seating">All Seating</a></li>
@@ -835,7 +890,17 @@ margin:8px 0;
         <li><a href="#">Logout</a></li>
     </ul>
 </li>
-                <li><a href="#"><i class="bi bi-search"></i></a></li>
+                   <li class="nav-search">
+  <input type="checkbox" id="search-toggle">
+
+  <label for="search-toggle" class="search-icon" title="Search">
+    <i class="bi bi-search"></i>
+  </label>
+
+  <form action="search.html" method="get" class="search-form">
+    <input type="text" name="q" placeholder="Search..." />
+  </form>
+</li>
                 <li><a href="{%url 'cart'%}"><i class="bi bi-cart3"></i></a></li>
             </ul>
 
@@ -877,6 +942,7 @@ margin:8px 0;
                 <div class="filter-content">
                     <label><input type="checkbox"> Bath sets</label>
                     <label><input type="checkbox"> Towel holder</label>
+                    <label><input type="checkbox"> toothbrush Holder</label>
                     <label><input type="checkbox"> Organizers</label>
                 </div>
             </div>
@@ -920,6 +986,8 @@ margin:8px 0;
                 <div class="product-info">
                     <h3 class="product-name">Arezzo Grey Bath Set of 3</h3>
                     <p class="product-price">$249.99</p>
+                    <a href="
+                    #" class="view-btn">View</a>
                 </div>
             </div>
 
@@ -929,6 +997,8 @@ margin:8px 0;
                 <div class="product-info">
                     <h3 class="product-name">Desert Beige Bath Set of 3</h3>
                     <p class="product-price">$189.99</p>
+                    <a href="
+                    #" class="view-btn">View</a>
                 </div>
             </div>
 
@@ -938,6 +1008,8 @@ margin:8px 0;
                 <div class="product-info">
                     <h3 class="product-name">Fervo Grey & Chrome Cotton Jar</h3>
                     <p class="product-price">$129.99</p>
+                    <a href="
+                    #" class="view-btn">View</a>
                 </div>
             </div>
 
@@ -947,6 +1019,8 @@ margin:8px 0;
                 <div class="product-info">
                     <h3 class="product-name">Delightful 4 Piece Bathroom Set - White</h3>
                     <p class="product-price">$159.99</p>
+                    <a href="
+                    #" class="view-btn">View</a>
                 </div>
             </div>
 
@@ -956,6 +1030,8 @@ margin:8px 0;
                 <div class="product-info">
                     <h3 class="product-name">Ceramic Wall Vase</h3>
                     <p class="product-price">$99.99</p>
+                    <a href="
+                    #" class="view-btn">View</a>
                 </div>
             </div>
 
@@ -965,6 +1041,8 @@ margin:8px 0;
                 <div class="product-info">
                     <h3 class="product-name">Floating Wall Shelf</h3>
                     <p class="product-price">$119.99</p>
+                    <a href="
+                    #" class="view-btn">View</a>
                 </div>
             </div>
             </div>

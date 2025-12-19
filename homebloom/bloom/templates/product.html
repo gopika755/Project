@@ -50,9 +50,10 @@
             padding: 15px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             position: sticky;
-            top: 0;
-            z-index: 999;
-            transition: all 0.3s ease;
+    top: 0;
+    z-index: 999;
+
+    transition: all 0.3s ease;
         }
         
         .navbar-content {
@@ -60,11 +61,9 @@
             justify-content: space-between;
             align-items: center;
             gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
         }
         
+        /* Category Links */
         .category-nav-items {
             display: flex;
             justify-content: center;
@@ -93,13 +92,14 @@
             transform: translateY(-2px);
         }
         
+        /* Icon Links */
         .icon-nav-items {
             display: flex;
             justify-content: flex-end;
             align-items: center;
             gap: 25px;
             list-style: none;
-            margin: 0;
+            margin-right: 20px;
             padding: 0;
         }
         
@@ -114,6 +114,163 @@
             color: var(--accent-color);
             transform: scale(1.1);
         }
+        
+        /* ===== DROPDOWN MEGA MENU ===== */
+        .category-nav-items li {
+            position: relative;
+        }
+        
+        .dropdown-mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            padding: 20px 30px;
+            margin-top: 1px;
+            border-radius: 8px;
+            min-width: 280px;
+            display: none;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        
+        .category-nav-items li:hover .dropdown-mega-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .mega-menu-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .mega-menu-column h4 {
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .mega-menu-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mega-menu-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .mega-menu-column ul li a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+            display: block;
+            text-transform: capitalize;
+        }
+        
+        .mega-menu-column ul li a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+        
+/* menu */
+.account-menu{
+position:absolute;
+top:120%;
+right:0;
+background:#8B6F47;
+min-width:180px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+border-radius:13px;
+padding:5px 0;
+opacity:0;
+visibility:hidden;
+transform:translateY(10px);
+transition:all 0.3s ease;
+z-index:9999;
+}
+
+/* show on hover */
+.account-dropdown:hover .account-menu{
+opacity:1;
+visibility:visible;
+transform:translateY(0);
+}
+
+.account-menu li{
+list-style:none;
+}
+
+.account-menu a{
+display:block;
+padding:5px 10px;
+color:whtie;
+text-decoration:none;
+font-size:14px;
+}
+
+.account-menu a:hover{
+background:#f5f5f5;
+}
+
+.account-menu .divider{
+height:1px;
+background:#e5e5e5;
+margin:8px 0;}
+.view-btn{
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    background: #8B6F47;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+#search-toggle {
+  display: none;
+}
+
+.search-icon {
+    color:white;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.search-form {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  margin-left: 8px;
+}
+
+.search-form input {
+  width: 180px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Slide open */
+#search-toggle:checked ~ .search-form {
+  width: 180px;
+}
+.nav-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
         /* PRODUCT SECTION */
         .product-container {
@@ -302,6 +459,7 @@
 
         .action-buttons {
             display: flex;
+            margin-top:30px;
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -666,6 +824,27 @@
     color: var(--primary-color);
     border-bottom: 3px solid var(--primary-color);
 }
+.buy-now-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #8B6F47;   /* your theme brown */
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.buy-now-btn:hover {
+    background-color: #6f5737;
+    transform: translateY(-2px);
+}
+
+.buy-now-btn:active {
+    transform: translateY(0);
+}
 
 
     </style>
@@ -679,22 +858,163 @@
         </div>
     </section>
 
-    <!-- ===== NAVBAR ===== -->
+   <!-- ===== COMBINED NAVIGATION BAR ===== -->
     <nav class="combined-navbar">
-        <div class="navbar-content">
-            <ul class="category-nav-items">
-                <li><a href="#">Furniture</a></li>
-                <li><a href="#">Wall Decor</a></li>
-                <li><a href="#">Kitchen & Dining</a></li>
-                <li><a href="#">Lighting</a></li>
-                <li><a href="#">Bath Decor</a></li>
-            </ul>
+        <div class="container">
+            <div class="navbar-content">
+                
+                <!-- Category Links (Left/Center) -->
+                <ul class="category-nav-items">
 
-            <ul class="icon-nav-items">
-                <li><a href="#"><i class="bi bi-person"></i></a></li>
-                <li><a href="#"><i class="bi bi-search"></i></a></li>
-                <li><a href="#"><i class="bi bi-cart3"></i></a></li>
-            </ul>
+                    <li>
+                        <a href="{%url 'furniture'%}">Furniture</a>
+                        <!-- Furniture Mega Menu -->
+                        <div class="dropdown-mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4>Seating</h4>
+                                    <ul>
+                                        <li><a href="{%url 'chairs'%}">Chairs</a></li>
+                                        <li><a href="#sofa">Sofa</a></li>
+                                        <li><a href="#stools">Stools</a></li>
+                                        <li><a href="#all-seating">All Seating</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h4>Tables</h4>
+                                    <ul>
+                                        <li><a href="#coffee-table">Coffee Table</a></li>
+                                        <li><a href="#side-table">Side & Nesting Table</a></li>
+                                        <li><a href="#console-table">Console Table</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h4>Shelves</h4>
+                                    <ul>
+                                        <li><a href="#wall-mounted">Wall Mounted</a></li>
+                                        <li><a href="#floating-shelves">Floating Shelves</a></li>
+                                        <li><a href="#corner-shelves">Corner Shelves</a></li>
+                                        <li><a href="#ladder-shelves">Ladder Shelves</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <a href="{% url 'walldecor'%}">Wall Decor</a>
+                        <!-- Wall Decor Mega Menu -->
+                        <div class="dropdown-mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4>Wall Decor</h4>
+                                    <ul>
+                                        <li><a href="#wall-vase">Wall Vase</a></li>
+                                        <li><a href="#mirrors">Mirrors</a></li>
+                                        <li><a href="#painting">Painting</a></li>
+                                        <li><a href="#wall-plates">Wall Plates & Accents</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <a href="{%url 'kitchen'%}">Kitchen & Dining</a>
+                        <!-- Kitchen & Dining Mega Menu -->
+                        <div class="dropdown-mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4>Dinnerware</h4>
+                                    <ul>
+                                        <li><a href="#tableware">Tableware</a></li>
+                                        <li><a href="#tea-coffee">Tea & Coffee</a></li>
+                                        <li><a href="#table-accessories">Table Accessories</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h4>Serveware</h4>
+                                    <ul>
+                                        <li><a href="#serving-bowls">Serving Bowls</a></li>
+                                        <li><a href="#serving-trays">Serving Trays</a></li>
+                                        <li><a href="#platters-stands">Platters & Stands</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <a href="{% url 'lighting'%}">Lighting</a>
+                        <!-- Lighting Mega Menu -->
+                        <div class="dropdown-mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4>Lighting</h4>
+                                    <ul>
+                                        <li><a href="#table-lamps">Table Lamps</a></li>
+                                        <li><a href="#floor-lamps">Floor Lamps</a></li>
+                                        <li><a href="#chandelier-pendants">Chandelier & Pendants</a></li>
+                                        <li><a href="#lamps">Lamps</a></li>
+                                        <li><a href="#wall-lamps">Wall Lamps</a></li>
+                                        <li><a href="#all-lamps">All Lamps</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <a href="{%url 'bath'%}">Bath Decor</a>
+                        <!-- Bath Decor Mega Menu -->
+                        <div class="dropdown-mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4>Bath Decor</h4>
+                                    <ul>
+                                        <li><a href="#bath-sets">Bath Sets</a></li>
+                                        <li><a href="#towel-holder">Towels Holder</a></li>
+                                        <li><a href="#toothbrush-holder">Tooth Brush Holder</a></li>
+                                        <li><a href="#organizers">Organizers</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <!-- Icon Links (Right) -->
+                <ul class="icon-nav-items">
+                     <li class="account-dropdown">
+    <a href="#" title="Account">
+        <i class="bi bi-person"></i>
+    </a>
+
+    <ul class="account-menu">
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{%url 'profile'%}">Profile</a></li>
+        <li><a href="{%url 'order'%}">My Orders</a></li>
+        <li><a href="{%url 'wishlist'%}">Wishlist</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Logout</a></li>
+    </ul>
+</li>
+      <li class="nav-search">
+  <input type="checkbox" id="search-toggle">
+
+  <label for="search-toggle" class="search-icon" title="Search">
+    <i class="bi bi-search"></i>
+  </label>
+
+  <form action="search.html" method="get" class="search-form">
+    <input type="text" name="q" placeholder="Search..." />
+  </form>
+</li>
+
+
+                    <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -707,7 +1027,7 @@
             <!-- PRODUCT IMAGES -->
             <div class="product-images">
                 <div class="main-image-container">
-                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600" alt="Luxury Velvet Sofa" class="main-image">
+                    <img src="#" alt="Luxury Velvet Sofa" class="main-image">
                     <button class="image-nav prev">
                         <i class="bi bi-chevron-left"></i>
                     </button>
@@ -716,9 +1036,9 @@
                     </button>
                 </div>
                 <div class="thumbnail-images">
-                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=100" class="thumbnail active">
-                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=100" class="thumbnail">
-                    <img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=100" class="thumbnail">
+                    <img src="#" class="thumbnail active">
+                    <img src="#" class="thumbnail">
+                    <img src="#" class="thumbnail">
                 </div>
             </div>
 
@@ -773,7 +1093,10 @@
                     <button class="add-to-cart-btn">
                         <i class="bi bi-cart-plus"></i> Add to Cart
                     </button>
+                    <a href="{%url 'checkout'%}" class="buy-now-btn">Buy Now</a>
+
                 </div>
+
 
                 <div class="product-meta">
                     <div class="meta-item">
@@ -899,39 +1222,41 @@
 </div>
 
 
-    <!-- ===== FOOTER ===== -->
+ <!-- ===== FOOTER SECTION ===== -->
     <footer class="footer">
-        <div class="footer-content">
-
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City</p>
-                <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
-                <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
-            </div>
-
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <a href="#">About Us</a>
-                <a href="#">Shipping & Returns</a>
-                <a href="#">FAQ</a>
-                <a href="#">Privacy Policy</a>
-            </div>
-
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <div class="social-icons">
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                    <a href="#"><i class="bi bi-instagram"></i></a>
-                    <a href="#"><i class="bi bi-twitter"></i></a>
-                    <a href="#"><i class="bi bi-pinterest"></i></a>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Contact Information -->
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City, DC 12345</p>
+                    <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
+                    <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="{%url 'aboutus'%}">About Us</a>
+                    <a href="{%url 'faq'%}">FAQ</a>
+                    <a href="{%url 'privacy'%}">Privacy Policy</a>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" title="Pinterest"><i class="bi bi-pinterest"></i></a>
+                    </div>
                 </div>
             </div>
-
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 HOME BLOOM. All Rights Reserved.</p>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 HOME BLOOM. All Rights Reserved. | Designed with <i class="bi bi-heart-fill" style="color: #d4af37;"></i></p>
+            </div>
         </div>
     </footer>
 

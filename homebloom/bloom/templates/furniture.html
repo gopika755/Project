@@ -471,13 +471,15 @@
 /* ACCORDION */
 .filter-content {
     max-height: 0;
-    overflow: hidden;
+    overflow-y: auto;          /* allow scroll */
+    overflow-x: hidden;
     transition: max-height 0.4s ease;
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-top: 10px;
 }
+
 
 .filter-block input:checked ~ .filter-content {
     max-height: 300px;
@@ -576,6 +578,41 @@ margin:8px 0;}
 .view-btn:hover{
     background: #3f3007;
 }
+.nav-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#search-toggle {
+  display: none;
+}
+
+.search-icon {
+    color:white;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.search-form {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  margin-left: 8px;
+}
+
+.search-form input {
+  width: 180px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Slide open */
+#search-toggle:checked ~ .search-form {
+  width: 180px;
+}
+
 
     </style>
 </head>
@@ -604,7 +641,7 @@ margin:8px 0;}
                                 <div class="mega-menu-column">
                                     <h4>Seating</h4>
                                     <ul>
-                                        <li><a href="#chairs">Chairs</a></li>
+                                        <li><a href="{%url 'chairs'%}">Chairs</a></li>
                                         <li><a href="#sofa">Sofa</a></li>
                                         <li><a href="#stools">Stools</a></li>
                                         <li><a href="#all-seating">All Seating</a></li>
@@ -729,7 +766,19 @@ margin:8px 0;}
         <li><a href="#">Logout</a></li>
     </ul>
 </li>
-                    <li><a href="#" title="Search"><i class="bi bi-search"></i></a></li>
+      <li class="nav-search">
+  <input type="checkbox" id="search-toggle">
+
+  <label for="search-toggle" class="search-icon" title="Search">
+    <i class="bi bi-search"></i>
+  </label>
+
+  <form action="search.html" method="get" class="search-form">
+    <input type="text" name="q" placeholder="Search..." />
+  </form>
+</li>
+
+
                     <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
                 </ul>
             </div>
@@ -764,14 +813,22 @@ margin:8px 0;}
             <div class="filter-header">Filter</div>
 
             <div class="filter-block">
-                <input type="checkbox" id="cat-toggle">
+                <input type="checkbox" id="cat-toggle"hidden>
                 <label for="cat-toggle" class="filter-title">
                     CATEGORY <i class="bi bi-chevron-down"></i>
                 </label>
                 <div class="filter-content">
                     <label><input type="checkbox"> Chairs</label>
                     <label><input type="checkbox"> Sofa</label>
-                    <label><input type="checkbox"> Tables</label>
+                    <label><input type="checkbox"> Stool</label>
+                    <label><input type="checkbox"> All seating</label>
+                    <label><input type="checkbox"> coffee table</label>
+                    <label><input type="checkbox"> Side & Nesting tables</label>
+                    <label><input type="checkbox"> Console tables</label>
+                    <label><input type="checkbox"> Wall mounted</label>
+                    <label><input type="checkbox"> Floating Shelves</label>
+                    <label><input type="checkbox"> Corner Shelves</label>
+                    <label><input type="checkbox"> Ladder Shelves</label>
                 </div>
             </div>
 
@@ -827,7 +884,7 @@ margin:8px 0;}
                         <div class="product-info">
                             <h3 class="product-name">Modern Dining Chair</h3>
                             <p class="product-price">$199.99</p>
-                            <a href="product-details.html" class="view-btn">View</a>
+                            <a href="#" class="view-btn">View</a>
                         </div>
                     </div>
                     
@@ -845,7 +902,7 @@ margin:8px 0;}
                         <div class="product-info">
                             <h3 class="product-name">Modern Bar Stool</h3>
                             <p class="product-price">$149.99</p>
-                            <a href="product-details.html" class="view-btn">View</a>
+                            <a href="#" class="view-btn">View</a>
                         </div>
                     </div>
                     
@@ -854,7 +911,7 @@ margin:8px 0;}
                         <div class="product-info">
                             <h3 class="product-name">Leather Accent Chair</h3>
                             <p class="product-price">$599.99</p>
-                            <a href="product-details.html" class="view-btn">View</a>
+                            <a href="#" class="view-btn">View</a>
                         </div>
                     </div>
                 </div>
@@ -868,7 +925,7 @@ margin:8px 0;}
                         <div class="product-info">
                             <h3 class="product-name">Modern Dining Chair</h3>
                             <p class="product-price">$199.99</p>
-                             <a href="product-details.html" class="view-btn">View</a>
+                             <a href="#" class="view-btn">View</a>
                         </div>
                     </div>
                     
@@ -877,7 +934,7 @@ margin:8px 0;}
                         <div class="product-info">
                             <h3 class="product-name">Luxury Velvet Sofa</h3>
                             <p class="product-price">$1,299.99</p>
-                            <a href="product-details.html" class="view-btn">View</a>
+                            <a href="#" class="view-btn">View</a>
                         </div>
                     </div>
                     
@@ -886,7 +943,7 @@ margin:8px 0;}
                         <div class="product-info">
                             <h3 class="product-name">Modern Bar Stool</h3>
                             <p class="product-price">$149.99</p>
-                            <a href="product-details.html" class="view-btn">View</a>
+                            <a href="#" class="view-btn">View</a>
                         </div>
                     </div>
                     
@@ -895,7 +952,7 @@ margin:8px 0;}
                         <div class="product-info">
                             <h3 class="product-name">Leather Accent Chair</h3>
                             <p class="product-price">$599.99</p>
-                            <a href="product-details.html" class="view-btn">View</a>
+                            <a href="#" class="view-btn">View</a>
                         </div>
                     </div>
                 </div>

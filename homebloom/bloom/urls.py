@@ -32,4 +32,6 @@ urlpatterns = [
     path('categoryedit',views.categoryedit,name='categoryedit'),
     path('admincoupon',views.admincoupon,name='admincoupon'),
     path('couponedit',views.couponedit,name='couponedit'),
+    path('chairs',views.chairs,name='chairs'),
+    path('addproduct',views.addproduct,name='addproduct'),
 ]

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chairs | HOME BLOOM</title>
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Georgia", serif;
+        }
+
+        :root {
+            --primary-color: #8B6F47;
+            --secondary-color: #8b7355;
+            --accent-color: #3f3007ff;
+            --text-dark: #333;
+            --bg-light: #dbc7adff;
+        }
+
+        body {
+            background: #e4d1bbff;
+            min-height: 100vh;
+        }
+
+        /* ===== LOGO ===== */
+        .logo {
+            background-color:white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        .logo-title {
+            font-size:50px ;
+            font-weight: 70;
+            text-decoration: none;
+            color: #8B6F47;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* ===== COMBINED NAVIGATION BAR ===== */
+        .combined-navbar {
+            background-color: var(--primary-color);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .category-nav-items {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        
+        .category-nav-items a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        
+        .category-nav-items a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .icon-nav-items {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .icon-nav-items a {
+            color: #fff;
+            font-size: 1.4rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .icon-nav-items a:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        /* ===== DROPDOWN MEGA MENU ===== */
+        .category-nav-items li {
+            position: relative;
+        }
+        
+        .dropdown-mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            padding: 20px 30px;
+            margin-top: 1px;
+            border-radius: 8px;
+            min-width: 280px;
+            display: none;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        
+        .category-nav-items li:hover .dropdown-mega-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .mega-menu-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .mega-menu-column h4 {
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .mega-menu-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mega-menu-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .mega-menu-column ul li a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+            display: block;
+            text-transform: capitalize;
+        }
+        
+        .mega-menu-column ul li a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+
+        /* ===== PAGE TITLE SECTION ===== */
+        .page-title-section {
+            background-color:  #e6d0b5ff;
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6e501aff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* ===== PRODUCTS SECTION ===== */
+        .products-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn, .add-cart-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        .view-btn {
+            background: var(--primary-color);
+            text-decoration:none;
+            color: #fff;
+        }
+
+        .view-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .add-cart-btn {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .add-cart-btn:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        /* ===== FOOTER SECTION ===== */
+        .footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 50px 0 20px;
+            margin-top: 160px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 30px;
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            padding: 0 20px;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .category-nav-items {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .icon-nav-items {
+                justify-content: center;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo-title {
+                font-size: 2rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .category-nav-items {
+                gap: 15px;
+            }
+            
+            .category-nav-items a {
+                font-size: 0.85rem;
+            }
+            
+            .products-grid {
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+.account-dropdown{
+position:relative;
+list-style:none;
+}
+
+/* menu */
+.account-menu{
+position:absolute;
+top:120%;
+right:0;
+background:#8B6F47;
+min-width:180px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+border-radius:13px;
+padding:5px 0;
+opacity:0;
+visibility:hidden;
+transform:translateY(10px);
+transition:all 0.3s ease;
+z-index:9999;
+}
+
+/* show on hover */
+.account-dropdown:hover .account-menu{
+opacity:1;
+visibility:visible;
+transform:translateY(0);
+}
+
+/* links */
+.account-menu li{
+list-style:none;
+}
+
+.account-menu a{
+display:block;
+padding:5px 10px;
+color:whtie;
+text-decoration:none;
+font-size:14px;
+}
+
+.account-menu a:hover{
+background:#f5f5f5;
+}
+
+.account-menu .divider{
+height:1px;
+background:#e5e5e5;
+margin:8px 0;
+}
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+}
+
+#search-toggle {
+  display: none;
+}
+
+.search-icon {
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+}
+
+.nav-search {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-form {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  margin-left: 8px;
+}
+
+.search-form input {
+  width: 180px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+}
+
+/* 🔥 THIS LINE MAKES IT WORK */
+#search-toggle:checked ~ .search-form {
+  width: 180px;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- ===== LOGO ===== -->
+    <section class="logo">
+        <div class="container">
+            <a href="/" class="logo-title">HOME BLOOM</a>
+        </div>
+    </section>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="combined-navbar">
+        <div class="navbar-content">
+            <ul class="category-nav-items">
+                <li>
+                    <a href="{%url 'furniture'%}">Furniture</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Seating</h4>
+                                <ul>
+                                    <li><a href="{%url 'chairs'%}">Chairs</a></li>
+                                    <li><a href="#sofa">Sofa</a></li>
+                                    <li><a href="#stools">Stools</a></li>
+                                    <li><a href="#all-seating">All Seating</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Tables</h4>
+                                <ul>
+                                    <li><a href="#coffee-table">Coffee Table</a></li>
+                                    <li><a href="#side-table">Side & Nesting Table</a></li>
+                                    <li><a href="#console-table">Console Table</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Shelves</h4>
+                                <ul>
+                                    <li><a href="#wall-mounted">Wall Mounted</a></li>
+                                    <li><a href="#floating-shelves">Floating Shelves</a></li>
+                                    <li><a href="#corner-shelves">Corner Shelves</a></li>
+                                    <li><a href="#ladder-shelves">Ladder Shelves</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="{%url 'walldecor'%}">Wall Decor</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Wall Decor</h4>
+                                <ul>
+                                    <li><a href="#">Wall Vase</a></li>
+                                    <li><a href="#">Mirrors</a></li>
+                                    <li><a href="#">Paintings</a></li>
+                                    <li><a href="#">Wall Plates & Accents</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="{%url 'kitchen'%}">Kitchen & Dining</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Dinnerware</h4>
+                                <ul>
+                                    <li><a href="#tableware">Tableware</a></li>
+                                    <li><a href="#tea-coffee">Tea & Coffee</a></li>
+                                    <li><a href="#table-accessories">Table Accessories</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Serveware</h4>
+                                <ul>
+                                    <li><a href="#serving-bowls">Serving Bowls</a></li>
+                                    <li><a href="#serving-trays">Serving Trays</a></li>
+                                    <li><a href="#platters-stands">Platters & Stands</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="{%url 'lighting'%}">Lighting</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Lighting</h4>
+                                <ul>
+                                    <li><a href="#table-lamps">Table Lamps</a></li>
+                                    <li><a href="#floor-lamps">Floor Lamps</a></li>
+                                    <li><a href="#chandelier-pendants">Chandelier & Pendants</a></li>
+                                    <li><a href="#lamps">Lamps</a></li>
+                                    <li><a href="#wall-lamps">Wall Lamps</a></li>
+                                    <li><a href="#all-lamps">All Lamps</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="{%url 'bath'%}">Bath Decor</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Bath Decor</h4>
+                                <ul>
+                                    <li><a href="#bath-sets">Bath Sets</a></li>
+                                    <li><a href="#towel-holder">Towels Holder</a></li>
+                                    <li><a href="#toothbrush-holder">Tooth Brush Holder</a></li>
+                                    <li><a href="#organizers">Organizers</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Icon Links (Right) -->
+                <ul class="icon-nav-items">
+                     <li class="account-dropdown">
+    <a href="#" title="Account">
+        <i class="bi bi-person"></i>
+    </a>
+
+    <ul class="account-menu">
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{%url 'profile'%}">Profile</a></li>
+        <li><a href="{%url 'order'%}">My Orders</a></li>
+        <li><a href="{%url 'wishlist'%}">Wishlist</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Logout</a></li>
+    </ul>
+</li>
+      <li class="nav-search">
+  <input type="checkbox" id="search-toggle">
+
+  <label for="search-toggle" class="search-icon" title="Search">
+    <i class="bi bi-search"></i>
+  </label>
+
+  <form action="search.html" method="get" class="search-form">
+    <input type="text" name="q" placeholder="Search..." />
+  </form>
+</li>
+
+
+                    <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
+                </ul>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE TITLE ===== -->
+    <section class="page-title-section">
+        <div class="container">
+            <h1 class="page-title">Chairs</h1>
+        </div>
+    </section>
+
+    <!-- ===== PRODUCTS SECTION ===== -->
+    <div class="products-container">
+        <div class="products-grid">
+            
+            <!-- PRODUCT 1 -->
+            <div class="product-card">
+                <img src="#" alt="Modern Dining Chair" class="product-image">
+                <div class="product-info">
+                    <div>
+                        <h3 class="product-name">Modern Dining Chair</h3>
+                        <p class="product-price">$149.99</p>
+                    </div>
+                    <div class="product-actions">
+                        <a href="{%url 'product'%}"class="view-btn">View</a>
+                        <button class="add-cart-btn">
+                            <i class="bi bi-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUCT 2 -->
+            <div class="product-card">
+                <img src="#" alt="Velvet Accent Chair" class="product-image">
+                <div class="product-info">
+                    <div>
+                        <h3 class="product-name">Velvet Accent Chair</h3>
+                        <p class="product-price">$189.99</p>
+                    </div>
+                    <div class="product-actions">
+                        <button class="view-btn">View</button>
+                        <button class="add-cart-btn">
+                            <i class="bi bi-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUCT 3 -->
+            <div class="product-card">
+                <img src="#" alt="Wooden Office Chair" class="product-image">
+                <div class="product-info">
+                    <div>
+                        <h3 class="product-name">Wooden Office Chair</h3>
+                        <p class="product-price">$129.99</p>
+                    </div>
+                    <div class="product-actions">
+                        <button class="view-btn">View</button>
+                        <button class="add-cart-btn">
+                            <i class="bi bi-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUCT 4 -->
+            <div class="product-card">
+                <img src="#" alt="Leather Lounge Chair" class="product-image">
+                <div class="product-info">
+                    <div>
+                        <h3 class="product-name">Leather Lounge Chair</h3>
+                        <p class="product-price">$299.99</p>
+                    </div>
+                    <div class="product-actions">
+                        <button class="view-btn">View</button>
+                        <button class="add-cart-btn">
+                            <i class="bi bi-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City</p>
+                <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
+                <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
+            </div>
+
+            <!-- Quick Links -->
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="{%url 'aboutus'%}">About Us</a>
+                    <a href="{%url 'faq'%}">FAQ</a>
+                    <a href="{%url 'privacy'%}">Privacy Policy</a>
+                </div>
+
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-pinterest"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+       
+            <div class="footer-bottom">
+                <p>&copy; 2025 HOME BLOOM. All Rights Reserved. | Designed with <i class="bi bi-heart-fill" style="color: #d4af37;"></i></p>
+            </div>
+    </footer>
+
+</body>
+</html>
