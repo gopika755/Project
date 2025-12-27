@@ -261,10 +261,151 @@ body {
             font-size: 50px;
             font-weight: 70;
             text-decoration: none;
-            color: var(--primary-color);
+            color: #855317ff;
             text-transform: uppercase;
             letter-spacing: 3px;
         }
+        .order-item{
+    display:flex;
+    gap:15px;
+    padding-bottom:20px;
+    margin-bottom:20px;
+    border-bottom:1px solid #eee;
+}
+
+.order-item img{
+    width:90px;
+    height:90px;
+    object-fit:cover;
+    border-radius:6px;
+}
+
+.order-item-info h4{
+    font-size:0.95rem;
+    margin-bottom:6px;
+    color:#333;
+}
+
+.seller{
+    font-size:0.8rem;
+    color:#777;
+    margin-bottom:8px;
+}
+
+.assured{
+    background:#2874f0;
+    color:#fff;
+    font-size:0.7rem;
+    padding:2px 6px;
+    border-radius:4px;
+    margin-left:5px;
+}
+
+.price-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:6px;
+}
+
+.final-price{
+    font-size:1.1rem;
+    font-weight:700;
+    color:#000;
+}
+
+.mrp{
+    text-decoration:line-through;
+    color:#888;
+    font-size:0.85rem;
+}
+
+.off{
+    color:#388e3c;
+    font-size:0.85rem;
+    font-weight:700;
+}
+
+.coupon{
+    font-size:0.8rem;
+    color:#388e3c;
+    margin-bottom:10px;
+}
+
+.qty-remove{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+.qty-box{
+    display:flex;
+    align-items:center;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+
+.qty-box button{
+    background:none;
+    border:none;
+    padding:4px 10px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.qty-box span{
+    padding:4px 10px;
+    font-size:0.9rem;
+}
+
+.remove{
+    font-size:0.85rem;
+    font-weight:700;
+    color:#000;
+    text-decoration:none;
+}
+.price-details{
+    margin-top:25px;
+    border-top:1px solid #e5e5e5;
+    padding-top:20px;
+}
+
+.price-details h3{
+    font-size:1rem;
+    margin-bottom:15px;
+    color:#333;
+    letter-spacing:0.5px;
+}
+
+.price-details .price-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:0.9rem;
+    padding:8px 0;
+    color:#555;
+}
+
+.price-details .price-row.total{
+    border-top:1px dashed #ccc;
+    margin-top:10px;
+    padding-top:12px;
+    font-size:1.05rem;
+    font-weight:700;
+    color:#000;
+}
+
+.price-details .green{
+    color:#388e3c;
+    font-weight:600;
+}
+
+.save-text{
+    margin-top:12px;
+    font-size:0.85rem;
+    color:#388e3c;
+    font-weight:600;
+}
+
 </style>
 </head>
 
@@ -345,7 +486,7 @@ body {
             <h2>Payment Method</h2>
 
             <div class="payment-option">
-                <input type="radio" name="payment" checked>
+                <input type="radio" name="payment">
                 <span>Cash on Delivery</span>
             </div>
 
@@ -356,42 +497,76 @@ body {
         </div>
 
     </div>
+    
 
     <!-- RIGHT -->
     <div class="box">
         <h2>Order Summary</h2>
 
-        <div class="summary-row">
-            <span>Items</span>
-            <span>8</span>
+        <!-- ORDER ITEM -->
+<div class="order-item">
+
+    <img src="https://via.placeholder.com/90" alt="Product">
+
+    <div class="order-item-info">
+        <h4>Luxury Velvet Sofa (Pack of 1)</h4>
+
+        <p class="seller">
+            Seller: HomeBloom <span class="assured">Assured</span>
+        </p>
+
+        <div class="price-row">
+            <span class="final-price">$266</span>
+            <span class="mrp">$1,999</span>
+            <span class="off">86% OFF</span>
         </div>
 
-        <div class="summary-row">
-            <span>Subtotal</span>
-            <span>$708.00</span>
-        </div>
+        <p class="coupon">1 coupon applied</p>
 
-        <div class="summary-row">
-            <span>Shipping</span>
-            <span>$0.00</span>
-        </div>
+        <div class="qty-remove">
+            <div class="qty-box">
+                <button>-</button>
+                <span>1</span>
+                <button>+</button>
 
-        <div class="summary-row">
-            <span>Discount</span>
-            <span>-$100.00</span>
-        </div>
 
-        <div class="summary-row total">
-            <span>Total</span>
-            <span>$633.00</span>
-        </div>
-
-        <button class="place-order">
-            <i class="bi bi-bag-check"></i> Place Order
-        </button>
     </div>
+</div>
+<!-- PRICE DETAILS -->
+<div class="price-details">
+
+    <h3>Price Details</h3>
+
+    <div class="price-row">
+        <span>Price (1 item)</span>
+        <span>₹1,999</span>
+    </div>
+
+    <div class="price-row">
+        <span>Discount</span>
+        <span class="green">− ₹1,733</span>
+    </div>
+
+    <div class="price-row">
+        <span>Delivery Charges</span>
+        <span class="green">FREE</span>
+    </div>
+
+    <div class="price-row total">
+        <span>Total Amount</span>
+        <span>₹266</span>
+    </div>
+
+    <p class="save-text">
+        You will save ₹1,733 on this order
+    </p>
 
 </div>
 
+</div>
+
+
+</div>
+<button class="place-order"> <i class="bi bi-bag-check"></i> Place Order </button>
 </body>
 </html>

@@ -845,6 +845,103 @@ margin:8px 0;}
 .buy-now-btn:active {
     transform: translateY(0);
 }
+.price-box{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.sale-price{
+    font-size:2.1rem;
+    font-weight:700;
+    color:#3f3007;
+}
+
+.original-price{
+    font-size:1.1rem;
+    color:#999;
+    text-decoration:line-through;
+}
+
+.discount-badge{
+    background:#8B6F47;
+    color:#fff;
+    font-size:0.85rem;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:4px;
+    letter-spacing:0.5px;
+}
+.product-details-box{
+    background:#fff;
+    padding:30px;
+    border-radius:8px;
+    margin-top:40px;
+}
+
+.details-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px 40px;
+    font-size:0.9rem;
+    color:#555;
+    margin-bottom:30px;
+}
+
+.details-list strong{
+    color:#333;
+}
+
+.icon-specs{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    border-top:1px solid #e5e5e5;
+    border-bottom:1px solid #e5e5e5;
+    padding:25px 0;
+    margin-bottom:30px;
+}
+
+.spec{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    font-size:0.85rem;
+    color:#555;
+}
+
+.spec i{
+    font-size:1.4rem;
+    color:#8B6F47;
+}
+
+.about-item h3{
+    font-size:1.2rem;
+    margin-bottom:15px;
+    color:#3f3007;
+}
+
+.about-item ul{
+    padding-left:20px;
+    color:#555;
+    line-height:1.8;
+}
+
+.about-item li{
+    margin-bottom:8px;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .details-list{
+        grid-template-columns:1fr;
+    }
+
+    .icon-specs{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
 
 
     </style>
@@ -1061,7 +1158,12 @@ margin:8px 0;}
                     <span class="review-count">2 reviews</span>
                 </div>
 
-                <div class="product-price">$199</div>
+                <div class="price-box">
+    <span class="sale-price">$149</span>
+    <span class="original-price">$199</span>
+    <span class="discount-badge">25% OFF</span>
+</div>
+
 
                 <p class="product-description">
                      E-commerce market has changed the way people do business. Previously, it was more local like
@@ -1113,7 +1215,52 @@ margin:8px 0;}
                     </div>
                 </div>
 
-               
+               <!-- PRODUCT DETAILS -->
+<div class="product-details-box">
+
+    <div class="details-list">
+        <div><strong>Assembly Required:</strong> Yes</div>
+        <div><strong>Seat Depth:</strong> 54.5 cm</div>
+        <div><strong>Seat Height:</strong> 45.5 cm</div>
+        <div><strong>Weight Limit:</strong> 100 kg</div>
+        <div><strong>Item Weight:</strong> 32 kg</div>
+        <div><strong>Type:</strong> Standard</div>
+        <div><strong>Colour:</strong> Green</div>
+        <div><strong>Special Feature:</strong> Armrest</div>
+    </div>
+
+    <div class="icon-specs">
+        <div class="spec">
+            <i class="bi bi-people"></i>
+            <span><strong>Seating Capacity</strong><br>3</span>
+        </div>
+        <div class="spec">
+            <i class="bi bi-columns-gap"></i>
+            <span><strong>Style</strong><br>Paramount</span>
+        </div>
+        <div class="spec">
+            <i class="bi bi-bounding-box"></i>
+            <span><strong>Shape</strong><br>Rectangular</span>
+        </div>
+        <div class="spec">
+            <i class="bi bi-tree"></i>
+            <span><strong>Frame Material</strong><br>Pine Wood</span>
+        </div>
+    </div>
+
+    <div class="about-item">
+        <h3>About this item</h3>
+        <ul>
+            <li>Comfort-oriented backrest supports shoulders and promotes relaxed posture</li>
+            <li>Soft foam cushions for long-lasting comfort on seat and back</li>
+            <li>Durable wooden frame ensures strength and longevity</li>
+            <li>Elegant quilted stitching enhances premium look</li>
+            <li>Warranty: 1 Year</li>
+        </ul>
+    </div>
+
+</div>
+
             </div>
 
         </div>

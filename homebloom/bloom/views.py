@@ -1,4 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.contrib.auth import login
+from django.contrib.auth import  login as login
+
+from .forms import SignupForm,LoginForm
+
 
 
 def home(request):
@@ -13,10 +18,26 @@ def lighting(request):
     return render(request,'lighting.html')
 def bath(request):
     return render(request,'bath.html')
-def login(request):
-    return render(request,'login.html')
-def signup(reqeust):
-    return render(reqeust,'signup.html')
+def login_view(request):
+    form = LoginForm(request, data=request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        login(request, form.get_user())
+        return redirect("/")
+
+    return render(request, "login.html", {"form": form})
+
+def signup(request):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("login")
+    else:
+        form = SignupForm()
+
+    return render(request, "signup.html", {"form": form})
 def forgot(request):
     return render(request,'forgot.html')
 def profile(request):
