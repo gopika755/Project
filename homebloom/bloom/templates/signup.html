@@ -108,14 +108,30 @@ border-radius:6px;
 background:#fff;
 cursor:pointer;
 }
+   /* ===== PAGE TITLE ===== */
+        .page-title-section {
+            padding: 25px 0;
+            text-align: center;
+            margin-bottom:30px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 70;
+            text-decoration: none;
+            color: #8b7355;
+            letter-spacing: 3px;
+        }
 </style>
 </head>
 
 <body>
 
-<section class="page-title-section text-center py-3">
-    <a href="/" class="page-title text-decoration-none">HOME BLOOM</a>
-</section>
+
+    <!-- PAGE TITLE -->
+    <section class="page-title-section">
+        <a href="/" class="page-title">HOME BLOOM</a>
+    </section>
 
 <div class="auth-wrapper">
 <div class="auth-card">
@@ -125,37 +141,41 @@ cursor:pointer;
 <h2>Create Account</h2>
 
 <form method="POST">
-{% csrf_token %}
+  {% csrf_token %}
 
-<!-- ERROR BLOCK -->
-{% if form.errors %}
-<div class="alert alert-danger">
-    {{ form.errors }}
-</div>
-{% endif %}
+  {% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    {{ form.non_field_errors }}
+  </div>
+  {% endif %}
 
-<div class="form-group">
-<label>Username *</label>
-{{ form.username }}
-</div>
+  <div class="form-group">
+    <label>Username </label>
+    {{ form.username }}
+    {{ form.username.errors }}
+  </div>
 
-<div class="form-group">
-<label>Email *</label>
-{{ form.email }}
-</div>
+  <div class="form-group">
+    <label>Email </label>
+    {{ form.email }}
+    {{ form.email.errors }}
+  </div>
 
-<div class="form-group">
-<label>Password *</label>
-{{ form.password1 }}
-</div>
+  <div class="form-group">
+    <label>Password </label>
+    {{ form.password1 }}
+    {{ form.password1.errors }}
+  </div>
 
-<div class="form-group">
-<label>Confirm Password *</label>
-{{ form.password2 }}
-</div>
+  <div class="form-group">
+    <label>Confirm Password </label>
+    {{ form.password2 }}
+    {{ form.password2.errors }}
+  </div>
 
-<button type="submit" class="signup-btn">SIGN UP</button>
+  <button type="submit" class="signup-btn">SIGN UP</button>
 </form>
+
 </div>
 
 <!-- RIGHT: LOGIN -->

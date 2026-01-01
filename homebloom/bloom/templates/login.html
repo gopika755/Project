@@ -188,30 +188,40 @@ body{
   <h2>Login</h2>
 
   <form method="POST">
-    {% csrf_token %}
+  {% csrf_token %}
 
-    <div class="form-group">
-      <label>Email *</label>
-      {{ form.username }}
+  {% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    {{ form.non_field_errors }}
+  </div>
+  {% endif %}
+
+  <div class="form-group">
+    <label>Email </label>
+    {{ form.username }}
+    {{ form.username.errors }}
+  </div>
+
+  <div class="form-group">
+    <label>Password </label>
+    {{ form.password }}
+    {{ form.password.errors }}
+
+    <div class="forgot">
+      <a href="{% url 'forgot' %}">Forgot the password?</a>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label>Password *</label>
-      {{ form.password }}
-      <div class="forgot">
-        <a href="{% url 'forgot' %}">Forgot the password?</a>
-      </div>
-    </div>
+  <!-- GOOGLE LOGIN (UI ONLY) -->
+  <button type="button" class="google-btn">
+    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+    Continue with Google
+  </button>
 
-    <!-- GOOGLE LOGIN (UI ONLY) -->
-    <button type="button" class="google-btn">
-      <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
-      Continue with Google
-    </button>
+  <button type="submit" class="login-btn">LOGIN</button>
+</form>
 
-    <button type="submit" class="login-btn">LOGIN</button>
-  </form>
-</div>
+
 
     </div>
 
