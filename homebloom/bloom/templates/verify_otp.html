@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify OTP | HOME BLOOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body { margin: 0; }
+
+        .auth-wrapper{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#e4d1bb;
+        }
+
+        .auth-box{
+            display:flex;
+            width:800px;
+            background:#fff;
+            box-shadow:0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .auth-left, .auth-right{
+            padding:50px;
+            width:50%;
+        }
+
+        .auth-right{
+            background:#8b7355;
+            color:#fff;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        }
+
+        .login-btn{
+            width:100%;
+            padding:14px;
+            background:#8b7355;
+            color:#fff;
+            border:none;
+            letter-spacing:2px;
+            cursor:pointer;
+        }
+
+        .auth-link{
+            display:block;
+            margin-top:15px;
+            color:#555;
+            text-decoration:none;
+            font-size:14px;
+        }
+
+        .form-group{
+            margin-bottom:18px;
+        }
+
+        .form-group label{
+            font-weight:600;
+            margin-bottom:6px;
+            display:block;
+        }
+
+        .form-group input{
+            width:100%;
+            padding:10px 12px;
+            border:1px solid #bbb;
+            border-radius:2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-box">
+
+        <!-- LEFT -->
+        <div class="auth-left">
+            <h2>Verify OTP</h2>
+            <p>Enter the 6-digit code sent to your email.</p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>OTP *</label>
+                    {{ form.otp }}
+                </div>
+
+                <button type="submit" class="login-btn">
+                    VERIFY OTP
+                </button>
+
+                <button type="submit" name="resend" class="auth-link">
+                    Resend OTP
+                </button>
+            </form>
+
+            <a href="{% url 'login' %}" class="auth-link">
+                Back to Login
+            </a>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="auth-right">
+            <h3>HOME BLOOM</h3>
+            <p>Secure access for a beautiful home.</p>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

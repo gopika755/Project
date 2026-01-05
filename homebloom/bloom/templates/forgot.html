@@ -86,16 +86,11 @@ border-radius:2px;
                 No stress. Enter your email and we’ll help you reset it.
             </p>
 
-            <form>
-                <div class="form-group">
-                    <label> RESET PASSWOR</label>
-                    <input type="password" PLACEHOLDER='Enter email'>
-                    </div>
-
-                <button type="submit" class="login-btn">
-                    RESET PASSWORD
-                </button>
-            </form>
+           <form method="POST">
+  {% csrf_token %}
+  {{ form.email }}
+  <button type="submit">Send OTP</button>
+</form>
 
             <a href="{% url 'login'%}" class="auth-link">
                 Back to Login

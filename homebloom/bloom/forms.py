@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
-
+from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm,UserCreationForm
+from django import forms
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -19,3 +18,50 @@ class LoginForm(AuthenticationForm):
         widget=forms.EmailInput(attrs={
         })
     )
+class PasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            "class": "form-control",
+            "placeholder": "Enter your email"
+        })
+    )    
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField()
+
+class OTPVerifyForm(forms.Form):
+    otp = forms.CharField(max_length=6)
+
+class ResetPasswordForm(forms.Form):
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={"placeholder": "New Password"}),
+        label="New Password",
+        min_length=6
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={"placeholder": "Confirm Password"}),
+        label="Confirm Password",
+        min_length=6
+    )
+
+    def __init__(self, *args, **kwargs):
+        # Expect the user object to be passed in
+        self.user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        p1 = cleaned_data.get("password1")
+        p2 = cleaned_data.get("password2")
+
+        if p1 and p2 and p1 != p2:
+            raise forms.ValidationError("Passwords do not match.")
+
+        if not self.user:
+            raise forms.ValidationError("User not found or session expired.")
+
+        return cleaned_data
+
+    def save(self):
+        # Set the new password
+        self.user.set_password(self.cleaned_data["password1"])
+        self.user.save()

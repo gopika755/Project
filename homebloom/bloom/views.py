@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from .forms import SignupForm, LoginForm
+from django.contrib.auth import login,get_user_model
+from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm
+from .models import PasswordResetOTP
+from django.core.mail import send_mail
+from django.contrib import messages
+import random
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 
-
-
+User = get_user_model()
 def home(request):
     return render(request,'home.html')
 def furniture(request):
@@ -38,7 +43,94 @@ def login_view(request):
 
 
 def forgot(request):
-    return render(request,'forgot.html')
+    form = ForgotPasswordForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        email = form.cleaned_data["email"]
+        user = User.objects.filter(email=email).first()
+
+        if user:
+            otp = str(random.randint(100000, 999999))
+
+            PasswordResetOTP.objects.filter(user=user).delete()
+            PasswordResetOTP.objects.create(user=user, otp=otp)
+
+            send_mail(
+                "Password Reset OTP",
+                f"Your OTP is {otp}. It expires in 5 minutes.",
+                None,
+                [email],
+            )
+
+            request.session["reset_user"] = user.id
+            return redirect("verify_otp")
+
+    return render(request, "forgot.html", {"form": form})
+
+def verify_otp(request):
+    form = OTPVerifyForm(request.POST or None)
+    user_id = request.session.get("reset_user")
+
+    if not user_id:
+        return redirect("forgot")
+
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        return redirect("forgot")
+
+    otp_obj = PasswordResetOTP.objects.filter(user=user).last()
+
+    if request.method == "POST":
+        if "resend" in request.POST:
+            if otp_obj:
+                otp_obj.delete()
+
+            new_otp = str(random.randint(100000, 999999))
+            PasswordResetOTP.objects.create(user=user, otp=new_otp)
+
+            send_mail(
+                "New OTP",
+                f"Your new OTP is {new_otp}",
+                None,
+                [user.email],
+            )
+            return redirect("verify_otp")
+
+        if form.is_valid():
+            if otp_obj and not otp_obj.is_expired() and form.cleaned_data["otp"] == otp_obj.otp:
+                # ✅ THIS WAS MISSING
+                request.session["reset_user_id"] = user.id
+                return redirect("reset_password")
+
+    return render(request, "verify_otp.html", {"form": form})
+
+
+def reset_password(request):
+    user_id = request.session.get("reset_user_id")
+
+    if not user_id:
+        return redirect("forgot")  # ❌ NOT reset_password
+
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        return redirect("forgot")
+
+    if request.method == "POST":
+        form = ResetPasswordForm(request.POST, user=user)
+        if form.is_valid():
+            form.save()
+            del request.session["reset_user_id"]
+            return redirect("login")
+    else:
+        form = ResetPasswordForm(user=user)
+
+    return render(request, "reset_password.html", {"form": form})
+
+
+def password_changed(request):
+    return render(request, "password_changed.html")
+
+
 def profile(request):
     return render(request,'profile.html')
 def order(request):
@@ -63,10 +155,32 @@ def aboutus(request):
     return render(request,'aboutus.html')
 def product(request):
     return render(request,'product.html')
+
 def adminpanel(request):
-    return render(request,'adminpanel.html')
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        try:
+            user = User.objects.get(username=username, is_staff=True)
+        except User.DoesNotExist:
+            messages.error(request, "Invalid admin credentials")
+            return render(request, "adminpanel.html")
+
+        if user.check_password(password):
+            login(request, user)
+            return redirect("admindashboard")
+        else:
+            messages.error(request, "Invalid admin credentials")
+
+    return render(request, "adminpanel.html")
+
+@login_required
 def admindashboard(request):
-    return render(request,'admindashboard.html')
+    if not request.user.is_staff:
+        return HttpResponseForbidden("Access denied")
+
+    return render(request, "admindashboard.html")
 def adminproduct(request):
     return render(request,'adminproduct.html')
 def productedit(request):

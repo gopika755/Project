@@ -113,19 +113,21 @@ body{
             <h1 class="login-title">Admin Login</h1>
             <p class="login-subtitle">Authorized access only</p>
 
-            <form>
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" >
-                </div>
+            <form method="POST">
+    {% csrf_token %}
 
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" >
-                </div>
+    <div class="input-group">
+        <label>Admin Username</label>
+        <input type="text" name="username" required>
+    </div>
 
-                <a href="{% url 'admindashboard' %}" class="login-btn">Login</a>
-            </form>
+    <div class="input-group">
+        <label>Password</label>
+        <input type="password" name="password" required>
+    </div>
+
+    <button type="submit" class="login-btn">Login</button>
+</form>
 
             <p class="footer-text">HOME BLOOM • Admin Panel</p>
         </div>
