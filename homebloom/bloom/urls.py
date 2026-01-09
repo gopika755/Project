@@ -1,5 +1,6 @@
 from django.urls import path
 from bloom import views
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('',views.home,name='home'),
@@ -25,16 +26,19 @@ urlpatterns = [
     path('faq',views.faq,name='faq'),
     path('parivacy',views.privacy,name='privacy'),
     path('aboutus',views.aboutus,name='aboutus'),
-    path('product',views.product,name='product'),
-    path('adminpanel',views.adminpanel,name='adminpanel'),
-    path('admindashboard',views.admindashboard,name='admindashboard'),
-    path('adminproduct',views.adminproduct,name='adminproduct'),
-    path('productedit',views.productedit,name='productedit'),
-    path('admincutomer',views.admincustomer,name='admincustomer'),
-    path('admincategory',views.admincategory,name='admincategory'),
-    path('categoryedit',views.categoryedit,name='categoryedit'),
-    path('admincoupon',views.admincoupon,name='admincoupon'),
-    path('couponedit',views.couponedit,name='couponedit'),
+    path('product/',views.product,name='product'),
+    path('adminpanel/',views.adminpanel,name='adminpanel'),
+    path('admindashboard/',views.admindashboard,name='admindashboard'),
+    path('adminproduct/',views.adminproduct,name='adminproduct'),
+    path("productedit/<int:pk>/", views.productedit, name="productedit"),
+    path('product/delete/<int:id>/', views.product_delete, name='productdelete'),
+    path('admincutomer/',views.admincustomer,name='admincustomer'),
+    path("dashboard/customers/delete/<int:user_id>/", views.delete_customer, name="delete_customer"),    path('admincategory',views.admincategory,name='admincategory'),
+    path('categoryedit/',views.categoryedit,name='categoryedit'),
+    # path("categoryadd/", views.categoryadd, name="categoryadd"),
+    path('admincoupon/',views.admincoupon,name='admincoupon'),
+    path('couponedit/',views.couponedit,name='couponedit'),
     path('chairs',views.chairs,name='chairs'),
-    path('addproduct',views.addproduct,name='addproduct'),
+    path("add_product/", views.add_product, name="addproduct"),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]

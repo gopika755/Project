@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load socialaccount %}
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -94,23 +95,26 @@ body{
   text-decoration: none;
 }
 
-/* GOOGLE BUTTON */
 .google-btn{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 12px;
-  border: 1px solid #ddd;
-  background: #fff;
-  font-weight: 600;
-  margin: 25px 0;
-  cursor: pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    text-decoration:none;
+    color:#444;
+    font-weight:500;
+    background:#fff;
+}
+
+.google-btn:hover{
+    background:#f5f5f5;
 }
 
 .google-btn img{
-  width: 18px;
+    width:18px;
 }
 
 /* LOGIN BUTTON */
@@ -171,6 +175,15 @@ body{
     border-top: 1px solid #ddd;
   }
 }
+.logout-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    color:white;
+    margin-left:12px;
+    cursor: pointer;
+    font: inherit;
+}
 </style>
 </head>
 
@@ -212,11 +225,10 @@ body{
     </div>
   </div>
 
-  <!-- GOOGLE LOGIN (UI ONLY) -->
-  <button type="button" class="google-btn">
+ <a href="{% provider_login_url 'google' %}" class="google-btn">
     <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
     Continue with Google
-  </button>
+</a>
 
   <button type="submit" class="login-btn">LOGIN</button>
 </form>

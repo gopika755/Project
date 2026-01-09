@@ -1,12 +1,16 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import login,get_user_model
-from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm
-from .models import PasswordResetOTP
+from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm,ProductForm
+from .models import PasswordResetOTP, Product, Category,SubCategory
 from django.core.mail import send_mail
 from django.contrib import messages
 import random
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from decimal import Decimal
+
+
+
 
 User = get_user_model()
 def home(request):
@@ -21,12 +25,16 @@ def lighting(request):
     return render(request,'lighting.html')
 def bath(request):
     return render(request,'bath.html')
+from django.contrib.auth import login
+
 def signup_view(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+
     form = SignupForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
-        user = form.save()
-        login(request, user)
+        form.save()
         return redirect("login")
 
     return render(request, "signup.html", {"form": form})
@@ -98,7 +106,6 @@ def verify_otp(request):
 
         if form.is_valid():
             if otp_obj and not otp_obj.is_expired() and form.cleaned_data["otp"] == otp_obj.otp:
-                # ✅ THIS WAS MISSING
                 request.session["reset_user_id"] = user.id
                 return redirect("reset_password")
 
@@ -109,7 +116,7 @@ def reset_password(request):
     user_id = request.session.get("reset_user_id")
 
     if not user_id:
-        return redirect("forgot")  # ❌ NOT reset_password
+        return redirect("forgot")
 
     user = User.objects.filter(id=user_id).first()
     if not user:
@@ -130,19 +137,27 @@ def reset_password(request):
 def password_changed(request):
     return render(request, "password_changed.html")
 
-
+@login_required(login_url='login')
 def profile(request):
     return render(request,'profile.html')
+
+@login_required(login_url='login')
 def order(request):
     return render(request,'order.html')
+
+
 def detail(reqeust):
     return render(reqeust,'detail.html')
 def adminorder(request):
     return render(request,'adminorder.html')
 def addaddress(request):
     return render(request,'addaddress.html')
+
+@login_required(login_url='login')
 def wishlist(request):
     return render(request,'wishlist.html')
+
+
 def cart(request):
     return render(request,'cart.html')
 def checkout(request):
@@ -168,36 +183,216 @@ def adminpanel(request):
             return render(request, "adminpanel.html")
 
         if user.check_password(password):
-            login(request, user)
+            login(
+                request,
+                user,
+                backend="django.contrib.auth.backends.ModelBackend"
+            )
             return redirect("admindashboard")
         else:
             messages.error(request, "Invalid admin credentials")
 
-    return render(request, "adminpanel.html")
-
+    return render(request, "adminpanel.html")   
 @login_required
 def admindashboard(request):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
 
     return render(request, "admindashboard.html")
+
 def adminproduct(request):
-    return render(request,'adminproduct.html')
-def productedit(request):
-    return render(request,'productedit.html')
+    query = request.GET.get('q', '')
+    if query:
+        products = Product.objects.filter(name__icontains=query)
+    else:
+        products = Product.objects.all()
+    
+    return render(request, "adminproduct.html", {
+        "products": products
+    })
+    
+def productedit(request, pk):
+    try:
+        product = Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        messages.error(request, "Product not found.")
+        return redirect("adminproduct")
+
+    categories = Category.objects.all()
+    
+
+    selected_category_id = request.POST.get("category")
+    if selected_category_id:
+        selected_category_id = str(selected_category_id)
+    else:
+        selected_category_id = str(product.category_id) if product.category_id else None
+    
+    subcategories = SubCategory.objects.filter(
+        category_id=selected_category_id
+    ) if selected_category_id else SubCategory.objects.none()
+
+    if request.method == "POST":
+        if "submit_product" not in request.POST:
+            return render(request, "productedit.html", {
+                "product": product,
+                "categories": categories,
+                "subcategories": subcategories,
+                "selected_category_id": selected_category_id,
+            })
+        
+       
+        name = request.POST.get("name", "").strip()
+        category_id = request.POST.get("category")
+        subcategory_id = request.POST.get("subcategory")
+        price = request.POST.get("price")
+        quantity = request.POST.get("quantity")
+        
+        if not all([name, category_id, subcategory_id, price, quantity]):
+            messages.error(request, "Please fill in all required fields.")
+            return render(request, "productedit.html", {
+                "product": product,
+                "categories": categories,
+                "subcategories": subcategories,
+                "selected_category_id": selected_category_id,
+            })
+        
+        try:
+            
+            product.name = name
+            product.category_id = category_id
+            product.subcategory_id = subcategory_id
+            product.price = float(price)
+            product.quantity = int(quantity)
+            product.description = request.POST.get("description", "").strip()
+            
+            offer_price = request.POST.get("offer_price", "").strip()
+            product.offer_price = float(offer_price) if offer_price else None
+            
+            offer = request.POST.get("offer", "").strip()
+            product.offer = float(offer) if offer else None
+
+            for i in range(1, 5):
+                image_field = f"image{i}"
+                if request.FILES.get(image_field):
+                    setattr(product, image_field, request.FILES.get(image_field))
+            
+            product.save()
+            messages.success(request, f"Product '{product.name}' updated successfully!")
+            return redirect("adminproduct")
+            
+        except (ValueError, TypeError) as e:
+            messages.error(request, "Invalid data provided. Please check your inputs.")
+            return render(request, "productedit.html", {
+                "product": product,
+                "categories": categories,
+                "subcategories": subcategories,
+                "selected_category_id": selected_category_id,
+            })
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+            return render(request, "productedit.html", {
+                "product": product,
+                "categories": categories,
+                "subcategories": subcategories,
+                "selected_category_id": selected_category_id,
+            })
+
+    return render(request, "productedit.html", {
+        "product": product,
+        "categories": categories,
+        "subcategories": subcategories,
+        "selected_category_id": selected_category_id,
+    })
+
+def product_delete(request, id):
+    product = get_object_or_404(Product, id=id)
+    product.delete()
+    return redirect('adminproduct')
+
+@login_required
 def admincustomer(request):
-    return render(request,'admincustomer.html')
+    if not request.user.is_staff:
+        return HttpResponseForbidden("Access denied")
+
+    customers = User.objects.filter(is_staff=False)
+
+    return render(request, "admincustomer.html", {
+        "customers": customers
+    })
+    
+@login_required
+def delete_customer(request, user_id):
+    if not request.user.is_staff:
+        return HttpResponseForbidden("Access denied")
+    user = get_object_or_404(User, id=user_id, is_staff=False)
+
+    if request.method == "POST":
+        user.delete()
+        return redirect("admincustomer") 
+    
 def admincategory(request):
     return render(request,'admincategory.html')
 def categoryedit(request):
     return render (request,'categoryedit.html')
+
+def category_add(request):
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        description = request.POST.get("description", "").strip()
+
+        if not name:
+            messages.error(request, "Category name is required.")
+            return redirect("categoryadd")
+
+        Category.objects.create(
+            name=name,
+            description=description
+        )
+        messages.success(request, "Category added successfully.")
+        return redirect("admincategory")
+
+    return render(request, "categoryadd.html")
+
+
 def admincoupon(request):
     return render(request,'admincoupon.html')
 def couponedit(request):
     return render(request,'couponedit.html')
 def chairs(request):
     return render(request,'chairs.html')
-def addproduct(request):
-    return render(request,'addproduct.html')
-    
-# Create your views here.
+
+from decimal import Decimal
+from .models import Category, SubCategory, Product
+
+def add_product(request):
+    categories = Category.objects.all()
+
+    selected_category_id = request.POST.get("category")
+    subcategories = SubCategory.objects.filter(
+        category_id=selected_category_id
+    ) if selected_category_id else []
+
+    if request.method == "POST" and "submit_product" in request.POST:
+        Product.objects.create(
+            name=request.POST.get("name"),
+            category_id=selected_category_id,
+            subcategory_id=request.POST.get("subcategory"),
+            price=Decimal(request.POST.get("price")),
+            offer_price=request.POST.get("offer_price") or None,
+            quantity=int(request.POST.get("quantity")),
+            offer=request.POST.get("offer") or None,
+            description=request.POST.get("description", ""),
+            image1=request.FILES.get("image1"),
+            image2=request.FILES.get("image2"),
+            image3=request.FILES.get("image3"),
+            image4=request.FILES.get("image4"),
+        )
+        return redirect("adminproduct")
+
+    return render(request, "addproduct.html", {
+        "categories": categories,
+        "subcategories": subcategories,
+        "selected_category_id": selected_category_id,
+        "form_data": request.POST,
+    })
+
