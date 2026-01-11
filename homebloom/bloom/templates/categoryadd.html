@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Category | HOME BLOOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins', sans-serif;
+        }
+
+        body{
+            background:#f4f1ec;
+        }
+
+        .dashboard-wrapper{
+            display:flex;
+            min-height:100vh;
+        }
+
+        .sidebar{
+            width:240px;
+            background:#3f3007;
+            color:#fff;
+            padding:30px 20px;
+        }
+
+        .brand{
+            font-size:1.4rem;
+            letter-spacing:2px;
+            margin-bottom:40px;
+        }
+
+        .sidebar nav a{
+            display:block;
+            color:#ddd;
+            text-decoration:none;
+            padding:12px 15px;
+            border-radius:8px;
+            margin-bottom:10px;
+        }
+
+        .sidebar nav a:hover{
+            background:#8B6F47;
+            color:#fff;
+        }
+
+        .main-content{
+            flex:1;
+            padding:40px;
+        }
+
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .top-bar h1{
+            font-size:1.8rem;
+            color:#3f3007;
+        }
+
+        .form-card{
+            background:#fff;
+            padding:30px;
+            border-radius:16px;
+            max-width:500px;
+            box-shadow:0 10px 30px rgba(0,0,0,.08);
+        }
+
+        .form-group{
+            display:flex;
+            flex-direction:column;
+            margin-bottom:20px;
+        }
+
+        .form-group label{
+            font-size:0.85rem;
+            color:#555;
+            margin-bottom:6px;
+        }
+
+        .form-group input{
+            padding:12px;
+            border-radius:10px;
+            border:1px solid #ccc;
+            font-size:0.9rem;
+        }
+
+        .form-group input:focus{
+            outline:none;
+            border-color:#8B6F47;
+        }
+
+        .form-actions{
+            display:flex;
+            gap:15px;
+            margin-top:20px;
+        }
+
+        .btn{
+            padding:12px 22px;
+            border-radius:10px;
+            border:none;
+            cursor:pointer;
+            font-weight:500;
+        }
+
+        .btn-save{
+            background:#8B6F47;
+            color:#fff;
+        }
+
+        .btn-cancel{
+            background:#e0e0e0;
+            color:#333;
+            text-decoration:none;
+            display:flex;
+            align-items:center;
+        }
+
+        @media(max-width:768px){
+            .sidebar{
+                display:none;
+            }
+        }
+        .logout{
+    margin-top:30px;
+    background:#2b2205;
+}
+    </style>
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+
+  <aside class="sidebar">
+        <h2 class="brand">HOME BLOOM</h2>
+
+        <nav>
+            <a href="{% url 'admindashboard' %}"class="active">Dashboard</a>
+           <a href="{% url 'adminproduct' %}" >Products</a>
+            <a href="{% url 'adminorder' %}">Orders</a>
+             <a href="{%url 'admincustomer'%}">Customers</a>
+            <a href="{%url 'admincategory'%}">Categories</a>
+            <a href="{%url 'admincoupon'%}">Coupons</a>
+            <a href="{%url 'addproduct'%}">Add Product</a>
+            <a href="/" class="logout">Logout</a>
+
+        </nav>
+    </aside>
+
+    <main class="main-content">
+
+        <div class="top-bar">
+            <h1>Add Category</h1>
+        </div>
+
+        <div class="form-card">
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Category Name</label>
+                    <input type="text" name="name" placeholder="Eg: Furniture" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">Add Category</button>
+                    <a href="{% url 'admincategory' %}" class="btn btn-cancel">Cancel</a>
+                </div>
+
+            </form>
+<!-- EXISTING CATEGORIES -->
+<div class="form-card" style="margin-top:40px;">
+    <h3 style="margin-bottom:20px; color:#3f3007;">
+        Existing Categories
+    </h3>
+
+    {% for cat in categories %}
+    <form method="post" style="margin-bottom:15px;">
+        {% csrf_token %}
+
+        <div style="display:flex; gap:10px; align-items:center;">
+
+            <input type="text"
+                   name="edit_name"
+                   value="{{ cat.name }}"
+                   style="flex:1;">
+
+            <button type="submit"
+                    name="edit_category"
+                    value="{{ cat.id }}"
+                    class="btn btn-save">
+                Update
+            </button>
+
+            <button type="submit"
+                    name="delete_category"
+                    value="{{ cat.id }}"
+                    class="btn"
+                    style="background:#c0392b; color:#fff;">
+                Delete
+            </button>
+
+        </div>
+    </form>
+    {% empty %}
+        <p style="color:#777;">No categories added yet.</p>
+    {% endfor %}
+</div>
+
+
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

@@ -418,7 +418,7 @@
         }
         .logo {
             background-color:#fff;
-            padding: 20px 0;
+            padding: 10px 0;
             text-align: center;
         }
         .logo-title {
@@ -443,8 +443,9 @@
     padding: 20px;
     border-radius: 6px;
     position: sticky;
-    top: 120px;
+    top: 100px;
     height: fit-content;
+    margin-top:-40px;
 }
 
 .filter-header {
@@ -642,7 +643,7 @@ margin:8px 0;}
                 <ul class="category-nav-items">
 
                     <li>
-                        <a href="#furniture">Furniture</a>
+                        <a href="{%url 'furniture'%}">Furniture</a>
                         <!-- Furniture Mega Menu -->
                         <div class="dropdown-mega-menu">
                             <div class="mega-menu-content">
@@ -739,18 +740,16 @@ margin:8px 0;}
                         </div>
                     </li>
                     
-                    <li>
-                        <a href="{%url 'bath'%}">Bath Decor</a>
-                        <!-- Bath Decor Mega Menu -->
-                        <div class="dropdown-mega-menu">
+                    <li><a href="{%url 'bath'%}">Accessoriesr</a>
+                 <div class="dropdown-mega-menu">
                             <div class="mega-menu-content">
                                 <div class="mega-menu-column">
-                                    <h4>Bath Decor</h4>
+                                    <h4>Accessories</h4>
                                     <ul>
-                                        <li><a href="#bath-sets">Bath Sets</a></li>
-                                        <li><a href="#towel-holder">Towels Holder</a></li>
-                                        <li><a href="#toothbrush-holder">Tooth Brush Holder</a></li>
-                                        <li><a href="#organizers">Organizers</a></li>
+                                        <li><a href="#bath-sets">Vase</a></li>
+                                        <li><a href="#towel-holder">Candle Holders</a></li>
+                                        <li><a href="#toothbrush-holder">Planters &Pots</a></li>
+                                        <li><a href="#organizers">Decor objects & Sculptures</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -773,7 +772,7 @@ margin:8px 0;}
         <li class="divider"></li>
 
         <li>
-            <form method="post" action="{% url 'logout' %}">
+            <form method="post" action="{% url 'userlogout' %}">
                 {% csrf_token %}
                 <button type="submit" class="logout-btn">
                     Logout
@@ -811,13 +810,16 @@ margin:8px 0;}
         </div>
     </section>
     <!-- WALL DECOR BANNER -->
+{% if banner %}
 <section class="category-banner">
     <div class="container">
-        <div class="banner-image">
-            <h2>Furniture Collection</h2>
+        <div class="banner-image"
+             style="background-image:url('{{ banner.image.url }}')">
+            <h2>{{ banner.title }}</h2>
         </div>
     </div>
 </section>
+{% endif %}
 
     
     
@@ -891,92 +893,46 @@ margin:8px 0;}
 
     
     <!-- ===== PRODUCTS SECTION ===== -->
-    <section class="products-section">
-        <div class="container">
-            
-            <!-- Seating Category -->
-            <div class="category-group">
+    <section class="container mb-5">
+    <div class="product-grid">
 
-                <div class="product-grid">
-                    <div class="product-card">
-                        <img src="#" alt="Modern Chair" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">Modern Dining Chair</h3>
-                            <p class="product-price">$199.99</p>
-                            <a href="#" class="view-btn">View</a>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card">
-                        <img src="#" alt="Luxury Sofa" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">Luxury Velvet Sofa</h3>
-                            <p class="product-price">$1,299.99</p>
-                            <a href="{%url 'product'%}" class="view-btn">View</a>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card">
-                        <img src="#" alt="Bar Stool" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">Modern Bar Stool</h3>
-                            <p class="product-price">$149.99</p>
-                            <a href="#" class="view-btn">View</a>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card">
-                        <img src="#" alt="Accent Chair" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">Leather Accent Chair</h3>
-                            <p class="product-price">$599.99</p>
-                            <a href="#" class="view-btn">View</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="category-group">
+        {% for product in products %}
+            <div class="product-card">
 
-                <div class="product-grid">
-                    <div class="product-card">
-                        <img src="#" alt="Modern Chair" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">Modern Dining Chair</h3>
-                            <p class="product-price">$199.99</p>
-                             <a href="#" class="view-btn">View</a>
-                        </div>
+                <img src="{{ product.image1.url }}"
+                     alt="{{ product.name }}"
+                     class="product-image">
+
+                <div class="product-info">
+                    <div>
+                        <h3 class="product-name">{{ product.name }}</h3>
+
+                        {% if product.offer_price %}
+                            <p class="product-price">
+                                ₹{{ product.offer_price }}
+                                <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
+                                    ₹{{ product.price }}
+                                </span>
+                            </p>
+                        {% else %}
+                            <p class="product-price">₹{{ product.price }}</p>
+                        {% endif %}
                     </div>
-                    
-                    <div class="product-card">
-                        <img src="#" alt="Luxury Sofa" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">Luxury Velvet Sofa</h3>
-                            <p class="product-price">$1,299.99</p>
-                            <a href="#" class="view-btn">View</a>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card">
-                        <img src="#" alt="Bar Stool" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">Modern Bar Stool</h3>
-                            <p class="product-price">$149.99</p>
-                            <a href="#" class="view-btn">View</a>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card">
-                        <img src="#" alt="Accent Chair" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">Leather Accent Chair</h3>
-                            <p class="product-price">$599.99</p>
-                            <a href="#" class="view-btn">View</a>
-                        </div>
-                    </div>
+
+                    <a href="{% url 'product_detail' product.id %}" class="view-btn">
+                        View
+                    </a>
                 </div>
+
             </div>
-        </section>
+        {% empty %}
+            <p style="grid-column:1/-1; text-align:center;">
+                No furniture products available.
+            </p>
+        {% endfor %}
+
+    </div>
+</section>
     </div>
 
         <!-- ===== FOOTER SECTION ===== -->

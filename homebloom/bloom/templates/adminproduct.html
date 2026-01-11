@@ -220,8 +220,14 @@
                         <td>{{ product.quantity }}</td>
                         <td class="actions">
                             <a href="{% url 'productedit' product.id %}" class="edit">Edit</a>
-                            <a href="{% url 'productdelete' product.id %}" class="delete">Delete</a>
+
+                            {% if product.is_active %}
+                                <a href="{% url 'product_toggle' product.id %}" class="delete">Unlist</a>
+                            {% else %}
+                                <a href="{% url 'product_toggle' product.id %}" class="edit">List</a>
+                            {% endif %}
                         </td>
+
                     </tr>
                 {% empty %}
                     <tr>

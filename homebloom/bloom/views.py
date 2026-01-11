@@ -1,31 +1,132 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from django.contrib.auth import login,get_user_model
+from django.contrib.auth import login,get_user_model,logout
 from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm,ProductForm
-from .models import PasswordResetOTP, Product, Category,SubCategory
+from .models import PasswordResetOTP, Product, Category,SubCategory,Banner
 from django.core.mail import send_mail
 from django.contrib import messages
 import random
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from decimal import Decimal
+from django.views.decorators.cache import never_cache
+
 
 
 
 
 User = get_user_model()
+
 def home(request):
-    return render(request,'home.html')
+    banners = Banner.objects.filter(is_active=True)
+
+    whats_new_products = Product.objects.filter(
+        is_new=True,
+        is_active=True
+    ).order_by("-created_at")[:6]
+
+    best_sellers = Product.objects.filter(
+        is_best_seller=True,
+        is_active=True
+    ).order_by("-created_at")[:8]
+
+    return render(request, "home.html", {
+        "banners": banners,
+        "whats_new_products": whats_new_products,
+        "best_sellers": best_sellers,
+    })
+
+
 def furniture(request):
-    return render(request,'furniture.html')
+    banner = Banner.objects.filter(
+        page="furniture",
+        is_active=True
+    ).first()
+
+    products = Product.objects.filter(category__name="Furniture")
+
+    return render(request, "furniture.html", {
+        "banner": banner,
+        "products": products,
+    })
+
 def walldecor(request):
-    return render(request,'walldecor.html')
+   
+    wall_decor_category = get_object_or_404(Category,name__iexact="Wall Decor")
+    
+    products = Product.objects.filter(category=wall_decor_category,is_active=True).order_by("-created_at")
+
+    banner = Banner.objects.filter(
+        page="walldecor",
+        is_active=True
+    ).first()
+
+    return render(request, "walldecor.html", {
+        "products": products,
+        "banner": banner,
+    })
+    
 def kitchen(request):
-    return render(request,'kitchen.html')
+    kitchen_category = get_object_or_404(
+        Category,
+        name__iexact="Kitchen & Dining"
+    )
+
+    products = Product.objects.filter(
+        category=kitchen_category,
+        is_active=True
+    ).order_by("-created_at")
+    
+    banner = Banner.objects.filter(
+        page="kitchen",
+        is_active=True
+    ).first()
+
+    return render(request, "kitchen.html", {
+        "products": products,
+        "banner": banner,
+    })
+    
+    
 def lighting(request):
-    return render(request,'lighting.html')
+    
+    lighting_category = get_object_or_404(
+        Category,
+        name__iexact="Lighting"
+    )
+
+   
+    products = Product.objects.filter(
+        category=lighting_category,
+        is_active=True
+    ).order_by("-created_at")
+
+    
+    banner = Banner.objects.filter(
+        page="lighting",
+        is_active=True
+    ).first()
+
+    return render(request, "lighting.html", {
+        "products": products,
+        "banner": banner,
+    })
 def bath(request):
-    return render(request,'bath.html')
-from django.contrib.auth import login
+    accessories_category = Category.objects.get(name__iexact="Accessories")
+
+    products = Product.objects.filter(
+        category=accessories_category,
+        is_active=True
+    ).order_by("-created_at")
+
+    banner = Banner.objects.filter(
+        page="bath",
+        is_active=True
+    ).first()   # ✅ important: avoids crash if no banner
+
+    return render(request, "bath.html", {
+        "products": products,
+        "banner": banner
+    })
 
 def signup_view(request):
     if request.user.is_authenticated:
@@ -192,13 +293,17 @@ def adminpanel(request):
         else:
             messages.error(request, "Invalid admin credentials")
 
-    return render(request, "adminpanel.html")   
-@login_required
+    return render(request, "adminpanel.html")
+@never_cache   
+@login_required(login_url="login")
 def admindashboard(request):
-    if not request.user.is_staff:
-        return HttpResponseForbidden("Access denied")
+    total_products = Product.objects.count()
 
-    return render(request, "admindashboard.html")
+    context = {
+        "total_products": total_products,
+    }
+
+    return render(request, "admindashboard.html", context)
 
 def adminproduct(request):
     query = request.GET.get('q', '')
@@ -206,110 +311,60 @@ def adminproduct(request):
         products = Product.objects.filter(name__icontains=query)
     else:
         products = Product.objects.all()
-    
+
     return render(request, "adminproduct.html", {
         "products": products
     })
     
 def productedit(request, pk):
-    try:
-        product = Product.objects.get(pk=pk)
-    except Product.DoesNotExist:
-        messages.error(request, "Product not found.")
-        return redirect("adminproduct")
-
+    product = get_object_or_404(Product, pk=pk)
     categories = Category.objects.all()
-    
-
-    selected_category_id = request.POST.get("category")
-    if selected_category_id:
-        selected_category_id = str(selected_category_id)
-    else:
-        selected_category_id = str(product.category_id) if product.category_id else None
-    
-    subcategories = SubCategory.objects.filter(
-        category_id=selected_category_id
-    ) if selected_category_id else SubCategory.objects.none()
 
     if request.method == "POST":
-        if "submit_product" not in request.POST:
-            return render(request, "productedit.html", {
-                "product": product,
-                "categories": categories,
-                "subcategories": subcategories,
-                "selected_category_id": selected_category_id,
-            })
-        
-       
-        name = request.POST.get("name", "").strip()
-        category_id = request.POST.get("category")
-        subcategory_id = request.POST.get("subcategory")
-        price = request.POST.get("price")
-        quantity = request.POST.get("quantity")
-        
-        if not all([name, category_id, subcategory_id, price, quantity]):
-            messages.error(request, "Please fill in all required fields.")
-            return render(request, "productedit.html", {
-                "product": product,
-                "categories": categories,
-                "subcategories": subcategories,
-                "selected_category_id": selected_category_id,
-            })
-        
-        try:
+        selected_category_id = request.POST.get("category")
+
+        if "submit_product" in request.POST:
+            product.name = request.POST.get("name")
+            product.category_id = selected_category_id
+            product.subcategory_id = request.POST.get("subcategory")
+            product.price = request.POST.get("price")
+            product.quantity = request.POST.get("quantity")
+            product.description = request.POST.get("description")
             
-            product.name = name
-            product.category_id = category_id
-            product.subcategory_id = subcategory_id
-            product.price = float(price)
-            product.quantity = int(quantity)
-            product.description = request.POST.get("description", "").strip()
-            
-            offer_price = request.POST.get("offer_price", "").strip()
-            product.offer_price = float(offer_price) if offer_price else None
-            
-            offer = request.POST.get("offer", "").strip()
-            product.offer = float(offer) if offer else None
+            product.is_new = "is_new" in request.POST
+            product.is_best_seller = "is_best_seller" in request.POST
 
             for i in range(1, 5):
-                image_field = f"image{i}"
-                if request.FILES.get(image_field):
-                    setattr(product, image_field, request.FILES.get(image_field))
-            
+                img = request.FILES.get(f"image{i}")
+                if img:
+                    setattr(product, f"image{i}", img)
+
             product.save()
-            messages.success(request, f"Product '{product.name}' updated successfully!")
             return redirect("adminproduct")
-            
-        except (ValueError, TypeError) as e:
-            messages.error(request, "Invalid data provided. Please check your inputs.")
-            return render(request, "productedit.html", {
-                "product": product,
-                "categories": categories,
-                "subcategories": subcategories,
-                "selected_category_id": selected_category_id,
-            })
-        except Exception as e:
-            messages.error(request, f"An error occurred: {str(e)}")
-            return render(request, "productedit.html", {
-                "product": product,
-                "categories": categories,
-                "subcategories": subcategories,
-                "selected_category_id": selected_category_id,
-            })
+
+    else:
+        selected_category_id = product.category_id
+
+    subcategories = SubCategory.objects.filter(category_id=selected_category_id)
 
     return render(request, "productedit.html", {
         "product": product,
         "categories": categories,
         "subcategories": subcategories,
-        "selected_category_id": selected_category_id,
+        "selected_category_id": int(selected_category_id) if selected_category_id else None,
     })
 
-def product_delete(request, id):
+
+def product_toggle_status(request, id):
     product = get_object_or_404(Product, id=id)
-    product.delete()
+    product.is_active = not product.is_active
+    product.save()
     return redirect('adminproduct')
 
-@login_required
+
+@never_cache
+@login_required(login_url="login")
+
 def admincustomer(request):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -320,7 +375,8 @@ def admincustomer(request):
         "customers": customers
     })
     
-@login_required
+@never_cache
+@login_required(login_url="login")
 def delete_customer(request, user_id):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -329,30 +385,97 @@ def delete_customer(request, user_id):
     if request.method == "POST":
         user.delete()
         return redirect("admincustomer") 
-    
+@never_cache
+@login_required(login_url="login")  
 def admincategory(request):
-    return render(request,'admincategory.html')
-def categoryedit(request):
-    return render (request,'categoryedit.html')
+    categories = Category.objects.all()
 
-def category_add(request):
+    return render(request, "admincategory.html", {
+        "categories": categories
+    })
+@never_cache
+@login_required(login_url="login")   
+def categoryedit(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    subcategories = SubCategory.objects.filter(category=category)
+
     if request.method == "POST":
-        name = request.POST.get("name", "").strip()
-        description = request.POST.get("description", "").strip()
 
-        if not name:
-            messages.error(request, "Category name is required.")
-            return redirect("categoryadd")
+        delete_sub_id = request.POST.get("delete_sub")
+        if delete_sub_id:
+            SubCategory.objects.filter(
+                id=delete_sub_id,
+                category=category
+            ).delete()
+            messages.success(request, "Subcategory deleted successfully.")
+            return redirect("categoryedit", pk=pk)
 
-        Category.objects.create(
-            name=name,
-            description=description
-        )
-        messages.success(request, "Category added successfully.")
+        category.name = request.POST.get("category_name")
+        category.save()
+
+        for sub in subcategories:
+            new_name = request.POST.get(f"sub_{sub.id}")
+            if new_name:
+                sub.name = new_name
+                sub.save()
+
+        new_sub = request.POST.get("new_subcategory")
+        if new_sub:
+            SubCategory.objects.create(
+                name=new_sub,
+                category=category
+            )
+
+        messages.success(request, "Category updated successfully.")
         return redirect("admincategory")
 
-    return render(request, "categoryadd.html")
+    return render(request, "categoryedit.html", {
+        "category": category,
+        "subcategories": subcategories
+    })
 
+@never_cache
+@login_required(login_url="login")
+def categoryadd(request):
+    if request.method == "POST" and "delete_category" in request.POST:
+        cat_id = request.POST.get("delete_category")
+        Category.objects.filter(id=cat_id).delete()
+        return redirect("categoryadd")
+
+    if request.method == "POST" and "edit_category" in request.POST:
+        cat_id = request.POST.get("edit_category")
+        new_name = request.POST.get("edit_name")
+
+        if new_name:
+            Category.objects.filter(id=cat_id).update(name=new_name)
+
+        return redirect("categoryadd")
+    if request.method == "POST":
+        name = request.POST.get("name")
+        if name:
+            Category.objects.create(name=name)
+            return redirect("admincategory")
+
+    categories = Category.objects.all()
+
+    return render(request, "categoryadd.html", {
+        "categories": categories
+    })
+
+@never_cache
+@login_required(login_url="login")
+def categorydelete(request, pk):
+    if request.method == "POST":
+        category = get_object_or_404(Category, pk=pk)
+
+        # Optional safety check
+        if category.subcategory_set.exists() or category.product_set.exists():
+            # You can add messages framework later
+            return redirect("admincategory")
+
+        category.delete()
+
+    return redirect("admincategory")
 
 def admincoupon(request):
     return render(request,'admincoupon.html')
@@ -363,7 +486,8 @@ def chairs(request):
 
 from decimal import Decimal
 from .models import Category, SubCategory, Product
-
+@never_cache
+@login_required(login_url="login")
 def add_product(request):
     categories = Category.objects.all()
 
@@ -395,4 +519,44 @@ def add_product(request):
         "selected_category_id": selected_category_id,
         "form_data": request.POST,
     })
+    
+@never_cache
+@login_required(login_url="login")
 
+def adminlogout(request):
+    logout(request)
+    return redirect("home")
+
+@never_cache
+def userlogout(request):
+    logout(request)
+    return redirect("login") 
+
+@never_cache
+@login_required(login_url="adminpanel")
+def banner_add(request):
+    if request.method == "POST":
+        if request.POST.get("delete_banner_id"):
+            banner = Banner.objects.get(id=request.POST.get("delete_banner_id"))
+            banner.delete()
+            return redirect("banner_add")
+        
+        Banner.objects.create(
+            title=request.POST.get("title"),
+            subtitle=request.POST.get("subtitle"),
+            page=request.POST.get("page"),   # 🔥 NEW
+            image=request.FILES.get("image"),
+            is_active=True
+        )
+        return redirect("banner_add")
+
+    banners = Banner.objects.all()
+    return render(request, "adminbanner.html", {
+        "banners": banners
+    })
+
+def product_detail(request, id):
+    product = get_object_or_404(Product, id=id, is_active=True)
+    return render(request, "product_detail.html", {
+        "product": product
+    })    

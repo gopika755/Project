@@ -56,13 +56,37 @@ class Product(models.Model):
     quantity = models.IntegerField()
     offer = models.IntegerField(null=True, blank=True)
     description = models.TextField(blank=True,null=True)
+    
 
     image1 = models.ImageField(upload_to="products/")
     image2 = models.ImageField(upload_to="products/", null=True, blank=True)
     image3 = models.ImageField(upload_to="products/", null=True, blank=True)
     image4 = models.ImageField(upload_to="products/", null=True, blank=True)
-
+    is_new = models.BooleanField(default=False)
+    is_best_seller = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
+
+class Banner(models.Model):
+    PAGE_CHOICES = [
+        ("home", "Home"),
+        ("furniture", "Furniture"),
+        ("lighting", "Lighting"),
+        ("bath", "Accessories"),
+    ]
+
+    title = models.CharField(max_length=200, blank=True)
+    subtitle = models.CharField(max_length=255, blank=True, null=True)
+    page = models.CharField(max_length=50, choices=PAGE_CHOICES)
+    image = models.ImageField(upload_to="banners/")
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title or "Banner"
+
+
+    
+    

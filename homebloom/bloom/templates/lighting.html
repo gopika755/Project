@@ -484,7 +484,7 @@
         }
         .logo{
             background-color:#fff;
-            padding: 20px 0;
+            padding: 10px 0;
             text-align: center;
         }
         .logo-title {
@@ -610,7 +610,7 @@
 }
 /* CATEGORY BANNER */
 .category-banner {
-    margin-bottom: 40px;
+    margin-bottom: 70px;
 }
 
 .banner-image {
@@ -864,16 +864,16 @@ margin:8px 0;
                             </div>
                         </div>
                     </li>
-                <li><a href="{%url 'bath'%}">Bath Decor</a>
+                <li><a href="{%url 'bath'%}">Accessoriesr</a>
                  <div class="dropdown-mega-menu">
                             <div class="mega-menu-content">
                                 <div class="mega-menu-column">
-                                    <h4>Bath Decor</h4>
+                                    <h4>Accessories</h4>
                                     <ul>
-                                        <li><a href="#bath-sets">Bath Sets</a></li>
-                                        <li><a href="#towel-holder">Towels Holder</a></li>
-                                        <li><a href="#toothbrush-holder">Tooth Brush Holder</a></li>
-                                        <li><a href="#organizers">Organizers</a></li>
+                                        <li><a href="#bath-sets">Vase</a></li>
+                                        <li><a href="#towel-holder">Candle Holders</a></li>
+                                        <li><a href="#toothbrush-holder">Planters &Pots</a></li>
+                                        <li><a href="#organizers">Decor objects & Sculptures</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -896,7 +896,7 @@ margin:8px 0;
         <li class="divider"></li>
 
         <li>
-            <form method="post" action="{% url 'logout' %}">
+            <form method="post" action="{% url 'userlogout' %}">
                 {% csrf_token %}
                 <button type="submit" class="logout-btn">
                     Logout
@@ -933,13 +933,17 @@ margin:8px 0;
     </div>
 </section>
 <!-- WALL DECOR BANNER -->
+{% if banner %}
 <section class="category-banner">
     <div class="container">
-        <div class="banner-image">
-            <h2>Illuminate Your Home</h2>
+        <div class="banner-image"
+             style="background-image:url('{{ banner.image.url }}')">
+            <h2>{{ banner.title }}</h2>
         </div>
     </div>
 </section>
+{% endif %}
+
 
 <!-- ===== FILTER BAR SECTION ===== -->
 <section class="shop-section">
@@ -999,87 +1003,46 @@ margin:8px 0;
 
         <!-- PRODUCTS -->
         <div class="product-area">
-            <div class="product-grid">
-            <!-- PRODUCT 1 -->
-            <div class="product-card">
-                <img src="#" class="product-image" alt="Dinner Plate Set">
-                <div class="product-info">
-                    <h3 class="product-name">Luna Glow Grey Table Lamp</h3>
-                    <p class="product-price">$89.99</p>
-                    <a href="" class="view-btn">View</a>
+    <div class="product-grid">
+
+        {% for product in products %}
+        <div class="product-card">
+
+            <img src="{{ product.image1.url }}"
+                 alt="{{ product.name }}"
+                 class="product-image">
+
+            <div class="product-info">
+                <div>
+                    <h3 class="product-name">{{ product.name }}</h3>
+
+                    {% if product.offer_price %}
+                        <p class="product-price">
+                            ₹{{ product.offer_price }}
+                            <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
+                                ₹{{ product.price }}
+                            </span>
+                        </p>
+                    {% else %}
+                        <p class="product-price">₹{{ product.price }}</p>
+                    {% endif %}
                 </div>
+
+                <a href="{% url 'product_detail' product.id %}" class="view-btn">
+                    View
+                </a>
             </div>
 
-            <!-- PRODUCT 2 -->
-            <div class="product-card">
-                <img src="#" class="product-image" alt="Coffee Mug Set">
-                <div class="product-info">
-                    <h3 class="product-name">Flos Brass Table Lamp L</h3>
-                    <p class="product-price">$45.99</p>
-                    <a href="" class="view-btn">View</a>
-                </div>
-            </div>
+        </div>
+        {% empty %}
+            <p style="grid-column:1/-1; text-align:center;">
+                No lighting products available.
+            </p>
+        {% endfor %}
 
-            <!-- PRODUCT 3 -->
-            <div class="product-card">
-                <img src="#" class="product-image" alt="Serving Bowl">
-                <div class="product-info">
-                    <h3 class="product-name">Loire Grey Glass Table Lamp</h3>
-                    <p class="product-price">$129.99</p>
-                    <a href="" class="view-btn">View</a>
-                </div>
-            </div>
+    </div>
+</div>
 
-            <!-- PRODUCT 4 -->
-            <div class="product-card">
-                <img src="#" class="product-image" alt="Wine Glasses">
-                <div class="product-info">
-                    <h3 class="product-name">Thames Beige Glass Table Lamp</h3>
-                    <p class="product-price">$159.99</p>
-                    <a href="" class="view-btn">View</a>
-                </div>
-            </div>
-
-            <!-- PRODUCT 5 -->
-            <div class="product-card">
-                <img src="#" class="product-image" alt="Serving Tray">
-                <div class="product-info">
-                    <h3 class="product-name">Rhone Clear Glass Table Lamp</h3>
-                    <p class="product-price">$79.99</p>
-                    <a href="" class="view-btn">View</a>
-                </div>
-            </div>
-
-            <!-- PRODUCT 6 -->
-            <div class="product-card">
-                <img src="#" class="product-image" alt="Tea Set">
-                <div class="product-info">
-                    <h3 class="product-name">Elbe Clear Glass Table Lamp</h3>
-                    <p class="product-price">$199.99</p>
-                    <a href="" class="view-btn">View</a>
-                </div>
-            </div>
-
-            <!-- PRODUCT 7 -->
-            <div class="product-card">
-                <img src="#" class="product-image" alt="Cutlery Set">
-                <div class="product-info">
-                    <h3 class="product-name">Stainless Steel Cutlery Set</h3>
-                    <p class="product-price">$119.99</p>
-                    <a href="" class="view-btn">View</a>
-                </div>
-            </div>
-
-            <!-- PRODUCT 8 -->
-            <div class="product-card">
-                <img src="#" class="product-image" alt="Platter">
-                <div class="product-info">
-                    <h3 class="product-name">Ashen Grey & White Table Lamp</h3>
-                    <p class="product-price">$69.99</p>
-                    <a href="" class="view-btn">View</a>
-                </div>
-            </div>
-            </div>
         </div>
 
     </div>

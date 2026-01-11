@@ -55,10 +55,30 @@ body{
     color:#fff;
 }
 
-.logout{
-    margin-top:30px;
-    background:#2b2205;
+.logout-form{
+    margin-top:25px;
 }
+
+.logout-pill{
+    width:100%;
+    padding:14px 18px;
+    background:#2b2205;          /* dark brown */
+    color:#fff;
+    border:none;
+    border-radius:14px;          /* pill shape */
+    font-size:1rem;
+    font-weight:500;
+    text-align:left;
+    cursor:pointer;
+    transition:0.3s ease;
+    font-family:'Poppins', sans-serif;
+}
+
+.logout-pill:hover{
+    background:#8B6F47;          /* hover brown */
+}
+
+
 
 /* MAIN */
 .main-content{
@@ -269,8 +289,15 @@ body{
              <a href="{%url 'admincustomer'%}">Customers</a>
             <a href="{%url 'admincategory'%}">Categories</a>
             <a href="{%url 'admincoupon'%}">Coupons</a>
+            <a href="{% url 'banner_add'%}">Banner</a>
             <a href="{%url 'addproduct'%}">Add Product</a>
-            <a href="/" class="logout">Logout</a>
+        <form method="post" action="{% url 'adminlogout' %}" class="logout-form">
+    {% csrf_token %}
+    <button type="submit" class="logout-pill">
+        Logout
+    </button>
+</form>
+
 
         </nav>
     </aside>
@@ -292,9 +319,9 @@ body{
             </div>
 
             <div class="stat-card">
-                <p>Total Products</p>
-                <h3>320</h3>
-            </div>
+        <p>Total Products</p>
+        <h3>{{ total_products }}</h3>
+    </div>
 
             <div class="stat-card">
                 <p>Total Customers</p>

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Categories | Admin Dashboard | HOME BLOOM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -67,7 +68,7 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
 
 .top-bar h1{
@@ -82,12 +83,12 @@ body{
     box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
 
-/* SEARCH */
-.search-wrapper{
-    margin-bottom:20px;
+/* SEARCH + ADD */
+.actions-bar{
     display:flex;
-    justify-content:flex-end;
-    gap:10px;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
 }
 
 .search-input{
@@ -108,19 +109,26 @@ body{
     cursor:pointer;
 }
 
+.add-btn{
+    background:#8B6F47;
+    color:#fff;
+    padding:10px 18px;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:0.9rem;
+}
+
 /* TABLE */
 .table-wrapper{
     background:#fff;
     border-radius:16px;
     padding:25px;
     box-shadow:0 10px 30px rgba(0,0,0,.08);
-    overflow-x:auto;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:800px;
 }
 
 th,td{
@@ -135,7 +143,6 @@ th{
     font-weight:500;
 }
 
-/* ACTION BUTTONS */
 .actions a{
     padding:6px 12px;
     border-radius:8px;
@@ -143,7 +150,6 @@ th{
     text-decoration:none;
     color:#fff;
     margin-right:6px;
-    display:inline-block;
 }
 
 .edit{
@@ -154,14 +160,13 @@ th{
     background:#b3261e;
 }
 
-/* Responsive */
-@media(max-width:576px){
-    .sidebar{
-        display:none;
-    }
+.empty{
+    text-align:center;
+    color:#777;
 }
 </style>
 </head>
+
 <body>
 
 <div class="dashboard-wrapper">
@@ -173,15 +178,15 @@ th{
             <a href="{% url 'admindashboard' %}">Dashboard</a>
             <a href="{% url 'adminproduct' %}">Products</a>
             <a href="{% url 'adminorder' %}">Orders</a>
-            <a href="{%url 'admincustomer'%}">Customers</a>
-            <a href="{%url 'admincategory'%}"class="active">Categories</a>
-            <a href="{%url 'admincoupon'%}">Coupons</a>
-            <a href="{%url 'addproduct'%}">Add Product</a>
+            <a href="{% url 'admincustomer' %}">Customers</a>
+            <a href="{% url 'admincategory' %}" class="active">Categories</a>
+            <a href="{% url 'admincoupon' %}">Coupons</a>
+            <a href="{% url 'addproduct' %}">Add Product</a>
             <a href="/" class="logout">Logout</a>
         </nav>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main class="main-content">
 
         <div class="top-bar">
@@ -189,71 +194,43 @@ th{
             <div class="admin-info">Admin</div>
         </div>
 
-        <!-- SEARCH -->
-        <div class="search-wrapper">
-            <form method="get" action="{% url 'admincategory' %}">
-                <input type="text" name="q" placeholder="Search categories..." class="search-input">
-                <button type="submit" class="search-btn">Search</button>
-            </form>
+        <div class="actions-bar">
+
+            <a href="{% url 'categoryadd' %}" class="add-btn">+ Add Category</a>
         </div>
 
-        <!-- CATEGORY TABLE -->
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
                         <th>Category Name</th>
-                        <th>Description</th>
-                        <th>Number of Products</th>
+                        <th>Subcategories</th>
+                        <th>Products</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-    <tr>
-        <td>Furniture</td>
-        <td>All kinds of furniture for home and office.</td>
-        <td>25</td>
-        <td class="actions">
-             <a href="{%url 'categoryedit'%}" class="edit">Edit</a>
-            <a href="#" class="delete">Delete</a>
-        </td>
-    </tr>
-    <tr>
-        <td>Wall Decor</td>
-        <td>Decorative items for walls like paintings, mirrors.</td>
-        <td>18</td>
-        <td class="actions">
-             <a href="{%url 'categoryedit'%}" class="edit">Edit</a>
-            <a href="#" class="delete">Delete</a>
-        </td>
-    </tr>
-    <tr>
-        <td>Bath Decor</td>
-        <td>Bathroom accessories and decor items.</td>
-        <td>12</td>
-        <td class="actions">
-             <a href="{%url 'categoryedit'%}" class="edit">Edit</a>
-            <a href="#" class="delete">Delete</a>
-        </td>
-    </tr>
-    <tr>
-        <td>Lighting</td>
-        <td>Lamps, chandeliers, and lighting solutions.</td>
-        <td>15</td>
-        <td class="actions">
-            <a href="{%url 'categoryedit'%}" class="edit">Edit</a>
-            <a href="#" class="delete">Delete</a>
-        </td>
-    </tr>
-    <tr>
-        <td>Kitchen & Dinning</td>
-        <td>Kitchen furniture, dining tables, and accessories.</td>
-        <td>20</td>
-        <td class="actions">
-            <a href="{%url 'categoryedit'%}" class="edit">Edit</a>
-            <a href="#" class="delete">Delete</a>
-        </td>
-    </tr>
-</tbody>
+
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.subcategory_set.count }}</td>
+                        <td>{{ category.product_set.count }}</td>
+                        <td class="actions">
+                            <!-- THIS PASSES THE ID -->
+                            <a href="{% url 'categoryedit' category.id %}" class="edit">
+                                Edit
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty">
+                            No categories found.
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
 
             </table>
         </div>

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Edit Category | Admin Dashboard | HOME BLOOM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -88,7 +89,7 @@ body{
     padding:30px;
     border-radius:16px;
     box-shadow:0 10px 30px rgba(0,0,0,.08);
-    max-width:600px;
+    max-width:650px;
 }
 
 .form-wrapper h2{
@@ -108,8 +109,7 @@ body{
     margin-bottom:6px;
 }
 
-.form-group input,
-.form-group textarea{
+.form-group input{
     padding:10px 14px;
     border-radius:10px;
     border:1px solid #ccc;
@@ -117,28 +117,33 @@ body{
     width:100%;
 }
 
-.form-group textarea{
-    resize:vertical;
+.sub-row{
+    display:flex;
+    gap:10px;
 }
 
 .submit-btn{
-    padding:10px 20px;
+    padding:10px 18px;
     background:#8B6F47;
     color:#fff;
     border:none;
-    text-decoration:none;
     border-radius:10px;
     cursor:pointer;
-    font-size:0.95rem;
-    margin-top:10px;
-    transition:0.3s;
+    font-size:0.9rem;
 }
 
 .submit-btn:hover{
     background:#6b5234;
 }
 
-/* Responsive */
+.delete-btn{
+    background:#c0392b;
+}
+
+.delete-btn:hover{
+    background:#a93226;
+}
+
 @media(max-width:576px){
     .sidebar{
         display:none;
@@ -155,17 +160,17 @@ body{
         <h2 class="brand">HOME BLOOM</h2>
         <nav>
             <a href="{% url 'admindashboard' %}">Dashboard</a>
-            <a href="{%url 'adminproduct'%}">Products</a>
+            <a href="{% url 'adminproduct' %}">Products</a>
             <a href="{% url 'adminorder' %}">Orders</a>
-             <a href="{%url 'admincustomer'%}">Customers</a>
-            <a href="{%url 'admincategory'%}">Categories</a>
-            <a href="{%url 'admincoupon'%}">Coupons</a>
-            <a href="{%url 'addproduct'%}">Add Product</a>
+            <a href="{% url 'admincustomer' %}">Customers</a>
+            <a href="{% url 'admincategory' %}" class="active">Categories</a>
+            <a href="{% url 'admincoupon' %}">Coupons</a>
+            <a href="{% url 'addproduct' %}">Add Product</a>
             <a href="/" class="logout">Logout</a>
         </nav>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main class="main-content">
 
         <div class="top-bar">
@@ -174,17 +179,54 @@ body{
         </div>
 
         <div class="form-wrapper">
-            <h2>Update Category Details</h2>
-            <form>
+            <h2>Update Category</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- CATEGORY NAME -->
                 <div class="form-group">
-                    <label for="name">Category Name</label>
-                    <input type="text" id="name" name="name" value="Furniture" required>
+                    <label>Category Name</label>
+                    <input type="text" name="category_name"
+                           value="{{ category.name }}" required>
                 </div>
+
+                <hr style="margin:25px 0;">
+
+                <!-- SUBCATEGORIES -->
+                <h3 style="margin-bottom:15px;">Subcategories</h3>
+
+                {% for sub in subcategories %}
                 <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" rows="4" required>All kinds of furniture for home and office.</textarea>
+                    <div class="sub-row">
+                        <input type="text"
+                               name="sub_{{ sub.id }}"
+                               value="{{ sub.name }}"
+                               placeholder="Subcategory name">
+
+                        <button type="submit"
+                                name="delete_sub"
+                                value="{{ sub.id }}"
+                                class="submit-btn delete-btn">
+                            Delete
+                        </button>
+                    </div>
                 </div>
-                <a href="{%url 'admincategory'%}"type="submit" class="submit-btn">Update Category</a
+                {% empty %}
+                <p style="color:#777;">No subcategories available.</p>
+                {% endfor %}
+
+                <!-- ADD NEW -->
+                <div class="form-group">
+                    <label>Add New Subcategory</label>
+                    <input type="text" name="new_subcategory"
+                           placeholder="Enter new subcategory">
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Update Category
+                </button>
+
             </form>
         </div>
 
