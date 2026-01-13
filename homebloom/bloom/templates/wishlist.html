@@ -105,7 +105,7 @@
             align-items: center;
             gap: 25px;
             list-style: none;
-            margin-right: 40px;
+            margin-right: 30px;
             padding: 0;
         }
         
@@ -632,16 +632,16 @@ margin:8px 0;
                             </div>
                         </div>
                     </li>
-                <li><a href="{%url 'bath'%}">Bath Decor</a>
+                <li><a href="{%url 'bath'%}">Accessoriesr</a>
                  <div class="dropdown-mega-menu">
                             <div class="mega-menu-content">
                                 <div class="mega-menu-column">
-                                    <h4>Bath Decor</h4>
+                                    <h4>Accessories</h4>
                                     <ul>
-                                        <li><a href="#bath-sets">Bath Sets</a></li>
-                                        <li><a href="#towel-holder">Towels Holder</a></li>
-                                        <li><a href="#toothbrush-holder">Tooth Brush Holder</a></li>
-                                        <li><a href="#organizers">Organizers</a></li>
+                                        <li><a href="#bath-sets">Vase</a></li>
+                                        <li><a href="#towel-holder">Candle Holders</a></li>
+                                        <li><a href="#toothbrush-holder">Planters &Pots</a></li>
+                                        <li><a href="#organizers">Decor objects & Sculptures</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -676,16 +676,16 @@ margin:8px 0;
     {% endif %}
 </ul>
 </li>
-                   <li class="nav-search">
+                       <li class="nav-search">
   <input type="checkbox" id="search-toggle">
 
   <label for="search-toggle" class="search-icon" title="Search">
     <i class="bi bi-search"></i>
   </label>
 
-  <form action="search.html" method="get" class="search-form">
+<form action="{% url 'search' %}" method="get" class="search-form">
     <input type="text" name="q" placeholder="Search..." />
-  </form>
+</form>
 </li>
                 <li><a href="{%url 'cart'%}"><i class="bi bi-cart3"></i></a></li>
             </ul>

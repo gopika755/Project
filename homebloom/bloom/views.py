@@ -9,15 +9,17 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from decimal import Decimal
 from django.views.decorators.cache import never_cache
-
+from django.db.models import Q
 
 
 
 
 User = get_user_model()
 
+@never_cache
+
 def home(request):
-    banners = Banner.objects.filter(is_active=True)
+    banners = Banner.objects.filter(page='home',is_active=True)
 
     whats_new_products = Product.objects.filter(
         is_new=True,
@@ -35,20 +37,33 @@ def home(request):
         "best_sellers": best_sellers,
     })
 
-
+@never_cache
+@login_required(login_url="login")
 def furniture(request):
     banner = Banner.objects.filter(
         page="furniture",
         is_active=True
     ).first()
 
-    products = Product.objects.filter(category__name="Furniture")
+    products = Product.objects.filter(
+        category__name__iexact="Furniture",
+        is_active=True
+    )
+
+    sub = request.GET.get("sub")
+
+    if sub:
+        products = products.filter(subcategory__slug=sub)
 
     return render(request, "furniture.html", {
         "banner": banner,
         "products": products,
+        "active_sub": sub
     })
 
+    
+@never_cache
+@login_required(login_url="login")
 def walldecor(request):
    
     wall_decor_category = get_object_or_404(Category,name__iexact="Wall Decor")
@@ -65,6 +80,8 @@ def walldecor(request):
         "banner": banner,
     })
     
+@never_cache
+@login_required(login_url="login")    
 def kitchen(request):
     kitchen_category = get_object_or_404(
         Category,
@@ -86,7 +103,8 @@ def kitchen(request):
         "banner": banner,
     })
     
-    
+@never_cache
+@login_required(login_url="login") 
 def lighting(request):
     
     lighting_category = get_object_or_404(
@@ -110,6 +128,9 @@ def lighting(request):
         "products": products,
         "banner": banner,
     })
+    
+@never_cache
+@login_required(login_url="login")    
 def bath(request):
     accessories_category = Category.objects.get(name__iexact="Accessories")
 
@@ -127,6 +148,7 @@ def bath(request):
         "products": products,
         "banner": banner
     })
+    
 
 def signup_view(request):
     if request.user.is_authenticated:
@@ -140,7 +162,7 @@ def signup_view(request):
 
     return render(request, "signup.html", {"form": form})
 
-
+@never_cache
 def login_view(request):
     form = LoginForm(request, data=request.POST or None)
 
@@ -151,28 +173,40 @@ def login_view(request):
     return render(request, "login.html", {"form": form})
 
 
+@never_cache
 def forgot(request):
     form = ForgotPasswordForm(request.POST or None)
 
-    if request.method == "POST" and form.is_valid():
-        email = form.cleaned_data["email"]
-        user = User.objects.filter(email=email).first()
+    if request.method == "POST":
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            user = User.objects.filter(email=email).first()
 
-        if user:
+            if not user:
+                messages.error(request, "No account found with this email")
+                return render(request, "forgot.html", {"form": form})
+
             otp = str(random.randint(100000, 999999))
 
             PasswordResetOTP.objects.filter(user=user).delete()
             PasswordResetOTP.objects.create(user=user, otp=otp)
 
-            send_mail(
-                "Password Reset OTP",
-                f"Your OTP is {otp}. It expires in 5 minutes.",
-                None,
-                [email],
-            )
+            try:
+                send_mail(
+                    "Password Reset OTP",
+                    f"Your OTP is {otp}. It expires in 5 minutes.",
+                    None,
+                    [email],
+                )
+            except Exception as e:
+                messages.error(request, "Failed to send OTP email")
+                return render(request, "forgot.html", {"form": form})
 
             request.session["reset_user"] = user.id
             return redirect("verify_otp")
+
+        else:
+            print(form.errors)  # debug in terminal
 
     return render(request, "forgot.html", {"form": form})
 
@@ -249,8 +283,7 @@ def order(request):
 
 def detail(reqeust):
     return render(reqeust,'detail.html')
-def adminorder(request):
-    return render(request,'adminorder.html')
+
 def addaddress(request):
     return render(request,'addaddress.html')
 
@@ -258,9 +291,12 @@ def addaddress(request):
 def wishlist(request):
     return render(request,'wishlist.html')
 
-
+@never_cache
+@login_required(login_url="login")
 def cart(request):
     return render(request,'cart.html')
+@never_cache
+@login_required(login_url="login")
 def checkout(request):
     return render(request,'checkout.html')
 def faq(request):
@@ -272,6 +308,9 @@ def aboutus(request):
 def product(request):
     return render(request,'product.html')
 
+
+
+@never_cache
 def adminpanel(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -294,8 +333,10 @@ def adminpanel(request):
             messages.error(request, "Invalid admin credentials")
 
     return render(request, "adminpanel.html")
-@never_cache   
-@login_required(login_url="login")
+
+
+@never_cache
+@login_required
 def admindashboard(request):
     total_products = Product.objects.count()
 
@@ -305,6 +346,7 @@ def admindashboard(request):
 
     return render(request, "admindashboard.html", context)
 
+@never_cache
 def adminproduct(request):
     query = request.GET.get('q', '')
     if query:
@@ -316,6 +358,8 @@ def adminproduct(request):
         "products": products
     })
     
+    
+@never_cache    
 def productedit(request, pk):
     product = get_object_or_404(Product, pk=pk)
     categories = Category.objects.all()
@@ -385,6 +429,8 @@ def delete_customer(request, user_id):
     if request.method == "POST":
         user.delete()
         return redirect("admincustomer") 
+    
+    
 @never_cache
 @login_required(login_url="login")  
 def admincategory(request):
@@ -393,6 +439,7 @@ def admincategory(request):
     return render(request, "admincategory.html", {
         "categories": categories
     })
+    
 @never_cache
 @login_required(login_url="login")   
 def categoryedit(request, pk):
@@ -477,17 +524,20 @@ def categorydelete(request, pk):
 
     return redirect("admincategory")
 
+
+@never_cache
 def admincoupon(request):
     return render(request,'admincoupon.html')
+
+@never_cache
 def couponedit(request):
     return render(request,'couponedit.html')
-def chairs(request):
-    return render(request,'chairs.html')
 
-from decimal import Decimal
-from .models import Category, SubCategory, Product
 @never_cache
-@login_required(login_url="login")
+def adminorder(request):
+    return render(request,'adminorder.html')
+
+@never_cache
 def add_product(request):
     categories = Category.objects.all()
 
@@ -520,9 +570,8 @@ def add_product(request):
         "form_data": request.POST,
     })
     
-@never_cache
-@login_required(login_url="login")
 
+@never_cache
 def adminlogout(request):
     logout(request)
     return redirect("home")
@@ -530,7 +579,7 @@ def adminlogout(request):
 @never_cache
 def userlogout(request):
     logout(request)
-    return redirect("login") 
+    return redirect("login")
 
 @never_cache
 @login_required(login_url="adminpanel")
@@ -544,9 +593,8 @@ def banner_add(request):
         Banner.objects.create(
             title=request.POST.get("title"),
             subtitle=request.POST.get("subtitle"),
-            page=request.POST.get("page"),   # 🔥 NEW
+            page=request.POST.get("page"),
             image=request.FILES.get("image"),
-            is_active=True
         )
         return redirect("banner_add")
 
@@ -554,9 +602,44 @@ def banner_add(request):
     return render(request, "adminbanner.html", {
         "banners": banners
     })
-
+    
+@never_cache
 def product_detail(request, id):
     product = get_object_or_404(Product, id=id, is_active=True)
-    return render(request, "product_detail.html", {
+    return render(request, "product.html", {
         "product": product
-    })    
+    })  
+    
+def search(request):
+    query = request.GET.get("q", "").strip()
+
+    products = Product.objects.none()
+
+    if query:
+        products = Product.objects.filter(
+            is_active=True
+        ).filter(
+            Q(name__icontains=query) |
+            Q(subcategory__name__icontains=query)
+        ).distinct()
+
+    return render(request, "search.html", {
+        "products": products,
+        "query": query
+    })
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

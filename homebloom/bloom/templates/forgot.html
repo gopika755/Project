@@ -85,12 +85,28 @@ border-radius:2px;
             <p>
                 No stress. Enter your email and we’ll help you reset it.
             </p>
+<form method="POST">
+    {% csrf_token %}
 
-           <form method="POST">
-  {% csrf_token %}
-  {{ form.email }}
-  <button type="submit">Send OTP</button>
+    <div class="form-group">
+        <label>Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <small style="color:red;">
+                {{ form.email.errors }}
+            </small>
+        {% endif %}
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color:red;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <button type="submit" class="login-btn">Send OTP</button>
 </form>
+
 
             <a href="{% url 'login'%}" class="auth-link">
                 Back to Login

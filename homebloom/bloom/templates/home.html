@@ -247,7 +247,7 @@
 .carousel-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(215, 195, 152, 0.35);
+    background: rgba(232, 217, 184, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -496,7 +496,7 @@
             text-align: center;
         }
         .page-title {
-            font-size: clamp(1.8rem, 6vw, 3rem);
+            font-size: 50px;
             font-weight: 70;
             text-decoration: none;
             color: var(--primary-color);
@@ -636,7 +636,7 @@ margin:8px 0;
                                 <div class="mega-menu-column">
                                     <h4>Seating</h4>
                                     <ul>
-                                        <li><a href="{%url 'chairs'%}">Chairs</a></li>
+                                        <li><a href="#chairs">Chairs</a></li>
                                         <li><a href="#sofa">Sofa</a></li>
                                         <li><a href="#stools">Stools</a></li>
                                         <li><a href="#all-seating">All Seating</a></li>
@@ -779,9 +779,9 @@ margin:8px 0;
     <i class="bi bi-search"></i>
   </label>
 
-  <form action="search.html" method="get" class="search-form">
+<form action="{% url 'search' %}" method="get" class="search-form">
     <input type="text" name="q" placeholder="Search..." />
-  </form>
+</form>
 </li>
                     <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
                 </ul>
@@ -840,7 +840,6 @@ margin:8px 0;
 
     </div>
 </section>
-
     
 <section class="whats-new-section">
     <div class="container">
@@ -849,7 +848,7 @@ margin:8px 0;
         <div id="whatsNewCarousel" class="carousel slide whats-new-carousel" data-bs-ride="carousel">
             <div class="carousel-inner">
 
-                {% for product in whats_new_products %}
+               {% for product in whats_new_products %}
                     {% if forloop.counter0|divisibleby:3 %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <div class="row g-3">

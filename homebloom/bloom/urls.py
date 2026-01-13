@@ -39,13 +39,16 @@ urlpatterns = [
     path("categoryadd/", views.categoryadd, name="categoryadd"),
     path('admincoupon/',views.admincoupon,name='admincoupon'),
     path('couponedit/',views.couponedit,name='couponedit'),
-    path('chairs',views.chairs,name='chairs'),
     path("add_product/", views.add_product, name="addproduct"),
     path("categorydelete/<int:pk>/", views.categorydelete, name="categorydelete"),
     path("logout/", views.userlogout, name="userlogout"),
     path("adminlogout/", views.adminlogout, name="adminlogout"),
     path("adminbanner/", views.banner_add, name="banner_add"),
     path("product/<int:id>/", views.product_detail, name="product_detail"),
+    path("search/", views.search, name="search"),
+
+    
+
 
 
 
