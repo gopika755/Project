@@ -776,38 +776,38 @@ margin:8px 0;
             <ul class="category-nav-items">
 
                 <li>
-                    <a href="{% url 'furniture'%}">Furniture</a>
-                    <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Seating</h4>
-                                    <ul>
-                                        <li><a href="#">Chairs</a></li>
-                                        <li><a href="#sofa">Sofa</a></li>
-                                        <li><a href="#stools">Stools</a></li>
-                                        <li><a href="#all-seating">All Seating</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Tables</h4>
-                                    <ul>
-                                        <li><a href="#coffee-table">Coffee Table</a></li>
-                                        <li><a href="#side-table">Side & Nesting Table</a></li>
-                                        <li><a href="#console-table">Console Table</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Shelves</h4>
-                                    <ul>
-                                        <li><a href="#wall-mounted">Wall Mounted</a></li>
-                                        <li><a href="#floating-shelves">Floating Shelves</a></li>
-                                        <li><a href="#corner-shelves">Corner Shelves</a></li>
-                                        <li><a href="#ladder-shelves">Ladder Shelves</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                </li>
+    <a href="{% url 'furniture' %}">Furniture</a>
+    <div class="dropdown-mega-menu">
+        <div class="mega-menu-content">
+            <div class="mega-menu-column">
+                <h4>Seating</h4>
+                <ul>
+                    <li><a href="{% url 'furniture' %}?sub=chair">Chairs</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=sofa">Sofa</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=stools">Stools</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=all seating">All Seating</a></li>
+                </ul>
+            </div>
+            <div class="mega-menu-column">
+                <h4>Tables</h4>
+                <ul>
+                    <li><a href="{% url 'furniture' %}?sub=coffee table">Coffee Table</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=side table">Side & Nesting Table</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=console table">Console Table</a></li>
+                </ul>
+            </div>
+            <div class="mega-menu-column">
+                <h4>Shelves</h4>
+                <ul>
+                    <li><a href="{% url 'furniture' %}?sub=wall mounted">Wall Mounted</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=floating shelves">Floating Shelves</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=corner shelves">Corner Shelves</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=ladder shelves">Ladder Shelves</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</li>
 
                 <li>
                     <a href="{%url 'walldecor'%}">Wall Decor</a>
@@ -831,17 +831,17 @@ margin:8px 0;
                                 <div class="mega-menu-column">
                                     <h4>Dinnerware</h4>
                                     <ul>
-                                        <li><a href="#tableware">Tableware</a></li>
-                                        <li><a href="#tea-coffee">Tea & Coffee</a></li>
-                                        <li><a href="#table-accessories">Table Accessories</a></li>
+                                        <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
+                                        <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
+                                        <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-menu-column">
                                     <h4>Serveware</h4>
                                     <ul>
-                                        <li><a href="#serving-bowls">Serving Bowls</a></li>
-                                        <li><a href="#serving-trays">Serving Trays</a></li>
-                                        <li><a href="#platters-stands">Platters & Stands</a></li>
+                                        <li><a href="{%url 'kitchen'%}?sub_id=21">Serving Bowls</a></li>
+                                        <li><a href="{%url 'kitchen'%}?sub_id=22">Serving Trays</a></li>
+                                        <li><a href="{%url 'kitchen'%}?sub_id=23">Platters & Stands</a></li>
                                     </ul>
                                 </div>
                             </div>

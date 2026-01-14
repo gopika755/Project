@@ -777,39 +777,38 @@ margin:8px 0;
             <ul class="category-nav-items">
 
                 <li>
-                    <a href="{% url 'furniture'%}">Furniture</a>
-                    <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Seating</h4>
-                                    <ul>
-                                        <li><a href="#">Chairs</a></li>
-                                        <li><a href="#sofa">Sofa</a></li>
-                                        <li><a href="#stools">Stools</a></li>
-                                        <li><a href="#all-seating">All Seating</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Tables</h4>
-                                    <ul>
-                                        <li><a href="#coffee-table">Coffee Table</a></li>
-                                        <li><a href="#side-table">Side & Nesting Table</a></li>
-                                        <li><a href="#console-table">Console Table</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Shelves</h4>
-                                    <ul>
-                                        <li><a href="#wall-mounted">Wall Mounted</a></li>
-                                        <li><a href="#floating-shelves">Floating Shelves</a></li>
-                                        <li><a href="#corner-shelves">Corner Shelves</a></li>
-                                        <li><a href="#ladder-shelves">Ladder Shelves</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                </li>
-
+    <a href="{% url 'furniture' %}">Furniture</a>
+    <div class="dropdown-mega-menu">
+        <div class="mega-menu-content">
+            <div class="mega-menu-column">
+                <h4>Seating</h4>
+                <ul>
+                    <li><a href="{% url 'furniture' %}?sub=chair">Chairs</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=sofa">Sofa</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=stools">Stools</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=all seating">All Seating</a></li>
+                </ul>
+            </div>
+            <div class="mega-menu-column">
+                <h4>Tables</h4>
+                <ul>
+                    <li><a href="{% url 'furniture' %}?sub=coffee table">Coffee Table</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=side table">Side & Nesting Table</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=console table">Console Table</a></li>
+                </ul>
+            </div>
+            <div class="mega-menu-column">
+                <h4>Shelves</h4>
+                <ul>
+                    <li><a href="{% url 'furniture' %}?sub=wall mounted">Wall Mounted</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=floating shelves">Floating Shelves</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=corner shelves">Corner Shelves</a></li>
+                    <li><a href="{% url 'furniture' %}?sub=ladder shelves">Ladder Shelves</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</li>
                 <li>
                     <a href="{%url 'walldecor'%}">Wall Decor</a>
                     <div class="dropdown-mega-menu">
@@ -817,10 +816,11 @@ margin:8px 0;
                             <div class="mega-menu-column">
                                 <h4>Wall Decor</h4>
                                 <ul>
-                                    <li><a href="#">Wall Vase</a></li>
-                                    <li><a href="#">Mirrors</a></li>
-                                    <li><a href="#">Paintings</a></li>
-                                    <li><a href="#">Wall Plates&Accents</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub=wall vase">Wall Vase</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub=mirrors">Mirrors</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub=paintings">Paintings</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
+
                                 </ul>
                             </div>
                         </div>

@@ -28,14 +28,12 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
 class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
-    slug = models.SlugField( blank=True)
-    
+    name = models.CharField(max_length=100)
+
     def __str__(self):
-        return self.name
+        return f"{self.category.name} - {self.name}"
     
 class Product(models.Model):
     name = models.CharField(max_length=200)

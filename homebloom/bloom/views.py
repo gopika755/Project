@@ -45,108 +45,99 @@ def furniture(request):
         is_active=True
     ).first()
 
-    products = Product.objects.filter(
-        category__name__iexact="Furniture",
-        is_active=True
-    )
-
-    sub = request.GET.get("sub")
-
-    if sub:
-        products = products.filter(subcategory__slug=sub)
+    subcategory = request.GET.get('sub', None)
+    products = Product.objects.filter(category__name="Furniture")
+    if subcategory:
+        products = products.filter(subcategory__name__iexact=subcategory)
+    page_title = subcategory.title() if subcategory else "Furniture"
 
     return render(request, "furniture.html", {
         "banner": banner,
         "products": products,
-        "active_sub": sub
+        "page_title": page_title,
+        "selected_sub": subcategory,
     })
-
     
 @never_cache
 @login_required(login_url="login")
 def walldecor(request):
-   
-    wall_decor_category = get_object_or_404(Category,name__iexact="Wall Decor")
-    
-    products = Product.objects.filter(category=wall_decor_category,is_active=True).order_by("-created_at")
+    banner = Banner.objects.filter(page="walldecor", is_active=True).first()
 
-    banner = Banner.objects.filter(
-        page="walldecor",
+    sub_id = request.GET.get("sub_id")
+
+    products = Product.objects.filter(
+        category__name__iexact="Wall Decor",
         is_active=True
-    ).first()
+    )
+
+    if sub_id:
+        products = products.filter(subcategory_id=sub_id)
 
     return render(request, "walldecor.html", {
-        "products": products,
         "banner": banner,
+        "products": products
     })
+
+
     
 @never_cache
 @login_required(login_url="login")    
 def kitchen(request):
-    kitchen_category = get_object_or_404(
-        Category,
-        name__iexact="Kitchen & Dining"
-    )
+    banner = Banner.objects.filter(page="kitchen", is_active=True).first()
 
     products = Product.objects.filter(
-        category=kitchen_category,
+        category__name__iexact="Kitchen & Dining",
         is_active=True
-    ).order_by("-created_at")
-    
-    banner = Banner.objects.filter(
-        page="kitchen",
-        is_active=True
-    ).first()
+    )
+
+    sub_id = request.GET.get("sub_id")
+
+    if sub_id:
+        products = products.filter(subcategory_id=sub_id)
 
     return render(request, "kitchen.html", {
-        "products": products,
         "banner": banner,
+        "products": products
     })
     
 @never_cache
 @login_required(login_url="login") 
 def lighting(request):
-    
-    lighting_category = get_object_or_404(
-        Category,
-        name__iexact="Lighting"
+    banner = Banner.objects.filter(page="lighting", is_active=True).first()
+
+    products = Product.objects.filter(
+        category__name__iexact="Lighting",
+        is_active=True
     )
 
-   
-    products = Product.objects.filter(
-        category=lighting_category,
-        is_active=True
-    ).order_by("-created_at")
+    sub_id = request.GET.get("sub_id")
 
-    
-    banner = Banner.objects.filter(
-        page="lighting",
-        is_active=True
-    ).first()
+    if sub_id:
+        products = products.filter(subcategory_id=sub_id)
 
     return render(request, "lighting.html", {
-        "products": products,
         "banner": banner,
+        "products": products
     })
     
 @never_cache
 @login_required(login_url="login")    
 def bath(request):
-    accessories_category = Category.objects.get(name__iexact="Accessories")
+    banner = Banner.objects.filter(page="bath", is_active=True).first()
 
     products = Product.objects.filter(
-        category=accessories_category,
+        category__name__iexact="Accessories",
         is_active=True
-    ).order_by("-created_at")
+    )
 
-    banner = Banner.objects.filter(
-        page="bath",
-        is_active=True
-    ).first()   # ✅ important: avoids crash if no banner
+    sub_id = request.GET.get("sub_id")
+
+    if sub_id:
+        products = products.filter(subcategory_id=sub_id)
 
     return render(request, "bath.html", {
-        "products": products,
-        "banner": banner
+        "banner": banner,
+        "products": products
     })
     
 
