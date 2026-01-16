@@ -338,6 +338,19 @@
     margin:0 auto;
     padding:0 20px;   /* THIS creates gap from edges */
 }
+.product-card-link{
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-card{
+    cursor: pointer;
+}
+.product-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
     </style>
 </head>
 
@@ -364,7 +377,7 @@
                                 <div class="mega-menu-column">
                                     <h4>Seating</h4>
                                     <ul>
-                                        <li><a href="{%url 'chairs'%}">Chairs</a></li>
+                                        <li><a href="#">Chairs</a></li>
                                         <li><a href="#sofa">Sofa</a></li>
                                         <li><a href="#stools">Stools</a></li>
                                         <li><a href="#all-seating">All Seating</a></li>
@@ -526,32 +539,42 @@
 <section class="container">
     <div class="product-grid">
 
-        {% for product in products %}
-        <div class="product-card">
-            <img src="{{ product.image1.url }}" class="product-image">
+         {% for product in products %}
 
-            <div class="product-info">
-                <div>
-                    <h3 class="product-name">{{ product.name }}</h3>
+<a href="{% url 'product_detail' product.id %}" class="product-card-link">
 
-                    {% if product.offer_price %}
-                        <p class="product-price">
-                            ₹{{ product.offer_price }}
-                            <span style="text-decoration:line-through;color:#999;font-size:.9rem;">
-                                ₹{{ product.price }}
-                            </span>
-                        </p>
-                    {% else %}
-                        <p class="product-price">₹{{ product.price }}</p>
-                    {% endif %}
-                </div>
+    <div class="product-card">
 
-                <a href="{% url 'product_detail' product.id %}" class="view-btn">View</a>
+        <img src="{{ product.image1.url }}"
+             alt="{{ product.name }}"
+             class="product-image">
+
+        <div class="product-info">
+            <div>
+                <h3 class="product-name">{{ product.name }}</h3>
+
+                {% if product.offer_price %}
+                    <p class="product-price">
+                        ₹{{ product.offer_price }}
+                        <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
+                            ₹{{ product.price }}
+                        </span>
+                    </p>
+                {% else %}
+                    <p class="product-price">₹{{ product.price }}</p>
+                {% endif %}
             </div>
         </div>
-        {% empty %}
-            <p style="grid-column:1/-1;text-align:center;">No products found.</p>
-        {% endfor %}
+
+    </div>
+
+</a>
+
+{% empty %}
+<p style="grid-column:1/-1; text-align:center;">
+    No furniture products available.
+</p>
+{% endfor %}
 
     </div>
 </section>

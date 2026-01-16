@@ -1,74 +1,53 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import login,get_user_model,logout
-from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm,ProductForm
+from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm
 from .models import PasswordResetOTP, Product, Category,SubCategory,Banner
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.contrib import messages
-import random
+from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from decimal import Decimal
-from django.views.decorators.cache import never_cache
-from django.db.models import Q
-
+import random
 
 
 
 User = get_user_model()
 
 @never_cache
-
 def home(request):
     banners = Banner.objects.filter(page='home',is_active=True)
-
-    whats_new_products = Product.objects.filter(
-        is_new=True,
-        is_active=True
-    ).order_by("-created_at")[:6]
-
-    best_sellers = Product.objects.filter(
-        is_best_seller=True,
-        is_active=True
-    ).order_by("-created_at")[:8]
+    whats_new_products = Product.objects.filter(is_new=True,is_active=True).order_by("-created_at")[:6]
+    best_sellers = Product.objects.filter(is_best_seller=True,is_active=True).order_by("-created_at")[:8]
 
     return render(request, "home.html", {
         "banners": banners,
         "whats_new_products": whats_new_products,
         "best_sellers": best_sellers,
     })
-
-@never_cache
-@login_required(login_url="login")
-def furniture(request):
-    banner = Banner.objects.filter(
-        page="furniture",
-        is_active=True
-    ).first()
-
-    subcategory = request.GET.get('sub', None)
-    products = Product.objects.filter(category__name="Furniture")
-    if subcategory:
-        products = products.filter(subcategory__name__iexact=subcategory)
-    page_title = subcategory.title() if subcategory else "Furniture"
-
-    return render(request, "furniture.html", {
-        "banner": banner,
-        "products": products,
-        "page_title": page_title,
-        "selected_sub": subcategory,
-    })
+    
     
 @never_cache
-@login_required(login_url="login")
-def walldecor(request):
-    banner = Banner.objects.filter(page="walldecor", is_active=True).first()
+def furniture(request):
+    banner = Banner.objects.filter(page="furniture",is_active=True).first()
+    products = Product.objects.filter(category__name__iexact="Furniture",is_active=True)
 
     sub_id = request.GET.get("sub_id")
 
-    products = Product.objects.filter(
-        category__name__iexact="Wall Decor",
-        is_active=True
-    )
+    if sub_id:
+        products = products.filter(subcategory_id=sub_id)
+
+    return render(request, "furniture.html", {
+        "banner": banner,
+        "products": products
+    })
+    
+@never_cache
+def walldecor(request):
+    banner = Banner.objects.filter(page="walldecor", is_active=True).first()
+    sub_id = request.GET.get("sub_id")
+    products = Product.objects.filter(category__name__iexact="Wall Decor",is_active=True)
 
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
@@ -80,16 +59,11 @@ def walldecor(request):
 
 
     
-@never_cache
-@login_required(login_url="login")    
+@never_cache   
 def kitchen(request):
     banner = Banner.objects.filter(page="kitchen", is_active=True).first()
-
-    products = Product.objects.filter(
-        category__name__iexact="Kitchen & Dining",
-        is_active=True
-    )
-
+    products = Product.objects.filter(category__name__iexact="Kitchen & Dining",is_active=True)
+    
     sub_id = request.GET.get("sub_id")
 
     if sub_id:
@@ -100,16 +74,11 @@ def kitchen(request):
         "products": products
     })
     
-@never_cache
-@login_required(login_url="login") 
+    
+@never_cache 
 def lighting(request):
     banner = Banner.objects.filter(page="lighting", is_active=True).first()
-
-    products = Product.objects.filter(
-        category__name__iexact="Lighting",
-        is_active=True
-    )
-
+    products = Product.objects.filter(category__name__iexact="Lighting",is_active=True)
     sub_id = request.GET.get("sub_id")
 
     if sub_id:
@@ -120,16 +89,10 @@ def lighting(request):
         "products": products
     })
     
-@never_cache
-@login_required(login_url="login")    
+@never_cache    
 def bath(request):
     banner = Banner.objects.filter(page="bath", is_active=True).first()
-
-    products = Product.objects.filter(
-        category__name__iexact="Accessories",
-        is_active=True
-    )
-
+    products = Product.objects.filter(category__name__iexact="Accessories",is_active=True)
     sub_id = request.GET.get("sub_id")
 
     if sub_id:
@@ -140,7 +103,7 @@ def bath(request):
         "products": products
     })
     
-
+@never_cache
 def signup_view(request):
     if request.user.is_authenticated:
         return redirect("home")
@@ -158,8 +121,14 @@ def login_view(request):
     form = LoginForm(request, data=request.POST or None)
 
     if request.method == "POST" and form.is_valid():
-        login(request, form.get_user())
-        return redirect("/")
+        user = form.get_user()
+        
+        if user.is_active:
+            login(request, user)
+            messages.success(request, f'Welcome back, {user.username}!')
+            return redirect("/")
+        else:
+            return render(request, "login.html", {"form": form})
 
     return render(request, "login.html", {"form": form})
 
@@ -197,9 +166,10 @@ def forgot(request):
             return redirect("verify_otp")
 
         else:
-            print(form.errors)  # debug in terminal
+            print(form.errors)
 
     return render(request, "forgot.html", {"form": form})
+
 
 def verify_otp(request):
     form = OTPVerifyForm(request.POST or None)
@@ -296,8 +266,19 @@ def privacy(request):
     return render(request,'privacy.html')
 def aboutus(request):
     return render(request,'aboutus.html')
-def product(request):
-    return render(request,'product.html')
+
+
+@never_cache
+@login_required(login_url="login")
+def product(request, pk):
+    product = get_object_or_404(Product, pk=pk, is_active=True)
+
+    related_products = Product.objects.filter(category=product.category,is_active=True).exclude(id=product.id)[:4]
+
+    return render(request, "product.html", {
+        "product": product,
+        "related_products": related_products,
+    })
 
 
 
@@ -409,6 +390,19 @@ def admincustomer(request):
     return render(request, "admincustomer.html", {
         "customers": customers
     })
+    
+@login_required(login_url="login")
+@never_cache
+def toggle_customer_block(request, user_id):
+    if not request.user.is_staff:
+        return HttpResponseForbidden("Access denied")
+
+    user = get_object_or_404(User, id=user_id, is_staff=False)
+
+    user.is_active = not user.is_active
+    user.save()
+
+    return redirect("admincustomer")
     
 @never_cache
 @login_required(login_url="login")

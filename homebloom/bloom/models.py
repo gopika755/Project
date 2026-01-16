@@ -56,7 +56,6 @@ class Product(models.Model):
     offer = models.IntegerField(null=True, blank=True)
     description = models.TextField(blank=True,null=True)
     
-
     image1 = models.ImageField(upload_to="products/")
     image2 = models.ImageField(upload_to="products/", null=True, blank=True)
     image3 = models.ImageField(upload_to="products/", null=True, blank=True)

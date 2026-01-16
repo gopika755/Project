@@ -2,65 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>{{ product.name }} | HOME BLOOM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details | HOME BLOOM</title>
-    
+
     <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
-    
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Georgia", serif;
+        :root{
+            --primary:#8B6F47;
+            --accent:#3f3007;
+            --bg:#e4d1bb;
+            --white:#fff;
+            --text:#333;
         }
 
-        :root {
-            --primary-color: #8B6F47;
-            --secondary-color: #8b7355;
-            --accent-color: #3f3007ff;
-            --text-dark: #333;
-            --bg-light: #dbc7adff;
-        }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:"Georgia",serif;}
 
-        body {
-            background: #e4d1bbff;
-            min-height: 100vh;
-        }
+        body{background:var(--bg);color:var(--text);}
 
         /* ===== LOGO ===== */
-        .logo {
-            background-color:#fff;
-            padding: 20px 0;
-            text-align: center;
+        .logo{
+            background:#fff;
+            padding:22px 0;
+            text-align:center;
         }
-        .logo-title {
-            font-size: 50px;
-            font-weight: 70;
-            text-decoration: none;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 3px;
+        .logo a{
+            font-size:50px;
+            color:var(--primary);
+            text-decoration:none;
+            letter-spacing:3px;
         }
 
         /* ===== COMBINED NAVIGATION BAR ===== */
         .combined-navbar {
-            background-color: var(--primary-color);
-            padding: 15px 0;
+            background-color: #8B6F47;
+            padding: 20px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             position: sticky;
-    top: 0;
-    z-index: 999;
-
-    transition: all 0.3s ease;
+            top: 0;
+            z-index: 999;
+            transition: all 0.3s ease;
         }
         
         .navbar-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
+            gap:20px;
         }
         
         /* Category Links */
@@ -88,9 +77,10 @@
         }
         
         .category-nav-items a:hover {
-            color: var(--accent-color);
+            color: #3f3007ff;
             transform: translateY(-2px);
         }
+        
         
         /* Icon Links */
         .icon-nav-items {
@@ -99,7 +89,7 @@
             align-items: center;
             gap: 25px;
             list-style: none;
-            margin-right: 20px;
+            margin-right: 55px;
             padding: 0;
         }
         
@@ -114,7 +104,6 @@
             color: var(--accent-color);
             transform: scale(1.1);
         }
-        
         /* ===== DROPDOWN MEGA MENU ===== */
         .category-nav-items li {
             position: relative;
@@ -150,12 +139,12 @@
         }
         
         .mega-menu-column h4 {
-            color: var(--primary-color);
+            color: #8B6F47;
             font-size: 1rem;
             font-weight: 700;
             margin-bottom: 12px;
             padding-bottom: 8px;
-            border-bottom: 2px solid var(--accent-color);
+            border-bottom: 2px solid #3f3007ff;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -167,11 +156,11 @@
         }
         
         .mega-menu-column ul li {
-            margin-bottom: 8px;
+            margin-bottom: 14px;
         }
         
         .mega-menu-column ul li a {
-            color: var(--text-dark);
+            color: #333;
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.3s ease, padding-left 0.3s ease;
@@ -180,10 +169,250 @@
         }
         
         .mega-menu-column ul li a:hover {
-            color: var(--accent-color);
+            color: #3f3007ff;
             padding-left: 5px;
         }
-        
+
+        /* ===== PRODUCT SECTION ===== */
+        .product-wrapper{
+            max-width:1400px;
+            margin:60px auto;
+            padding:0 20px;
+        }
+
+        .product-main{
+            background:#fff;
+            padding:40px;
+            border-radius:10px;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:50px;
+        }
+
+        /* IMAGES */
+        .image-box{
+            background:#f5f5f5;
+            border-radius:10px;
+            padding:20px;
+        }
+        .main-img{
+            width:100%;
+            height:480px;
+            object-fit:contain;
+        }
+
+        .thumbs{
+            display:flex;
+            gap:12px;
+            justify-content:center;
+            margin-top:15px;
+        }
+        .thumbs img{
+            width:80px;
+            height:80px;
+            object-fit:cover;
+            border-radius:6px;
+            border:2px solid #ddd;
+        }
+
+        /* INFO */
+        .product-info h1{
+            font-size:2.2rem;
+            margin-bottom:15px;
+            text-transform:uppercase;
+        }
+
+        .breadcrumb{
+            font-size:13px;
+            color:#777;
+            margin-bottom:10px;
+        }
+
+        .price-box{
+            display:flex;
+            gap:15px;
+            align-items:center;
+            margin:20px 0;
+        }
+        .sale{
+            font-size:2rem;
+            font-weight:700;
+            color:#3f3007ff;
+        }
+        .original{
+            text-decoration:line-through;
+            color:#999;
+        }
+
+        .desc{
+            line-height:1.7;
+            font-size:15px;
+            margin-bottom:25px;
+        }
+
+        .qty{
+            width:90px;
+            padding:8px;
+            margin-bottom:25px;
+        }
+
+        .actions{
+            display:flex;
+            gap:15px;
+        }
+        .btn{
+            padding:14px;
+            border:none;
+            cursor:pointer;
+            font-size:14px;
+            letter-spacing:1px;
+            border-radius:6px;
+            text-transform:uppercase;
+        }
+        .cart-btn{
+            background:#3f3007ff;
+            color:#fff;
+            flex:1;
+        }
+        .buy-btn{
+            background:#8B6F47;
+            color:#fff;
+            flex:1;
+            text-decoration:none;
+            text-align:center;
+        }
+
+        /* META */
+        .meta{
+            margin-top:30px;
+            font-size:14px;
+            color:#666;
+        }
+
+        /* ===== RELATED ===== */
+        .related{
+            margin-top:90px;
+        }
+        .related h2{
+            text-align:center;
+            margin-bottom:40px;
+            letter-spacing:2px;
+            color:#8B6F47;
+        }
+
+        .related-grid{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:30px;
+        }
+
+        .card{
+            background:#fff;
+            border-radius:10px;
+            overflow:hidden;
+            box-shadow:0 6px 20px rgba(0,0,0,.1);
+            text-align:center;
+            padding-bottom:20px;
+        }
+        .card img{
+            width:100%;
+            height:220px;
+            object-fit:cover;
+        }
+        .card h3{
+            font-size:15px;
+            margin:15px 10px;
+        }
+        .card p{
+            font-weight:700;
+            color:var(--accent);
+        }
+        .card a{
+            display:inline-block;
+            margin-top:10px;
+            padding:8px 20px;
+            background:var(--primary);
+            color:#fff;
+            text-decoration:none;
+            border-radius:4px;
+            font-size:13px;
+        }
+
+        /* FOOTER */
+        footer{
+            background:var(--primary);
+            color:#fff;
+            text-align:center;
+            padding:30px;
+            margin-top:80px;
+        }
+
+        @media(max-width:992px){
+            .product-main{grid-template-columns:1fr;}
+            .related-grid{grid-template-columns:repeat(2,1fr);}
+        }
+        @media(max-width:576px){
+            .related-grid{grid-template-columns:1fr;}
+        }
+        /* hide radio buttons */
+.image-box input[type="radio"]{
+    display:none;
+}
+
+/* main image container */
+.main-images{
+    position:relative;
+    width:100%;
+    height:480px;
+    background:#f5f5f5;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+/* all images hidden */
+.main-img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    opacity:0;
+    transition:opacity 0.4s ease;
+}
+
+/* show selected image */
+#img1:checked ~ .main-images .img1{opacity:1;}
+#img2:checked ~ .main-images .img2{opacity:1;}
+#img3:checked ~ .main-images .img3{opacity:1;}
+#img4:checked ~ .main-images .img4{opacity:1;}
+
+/* thumbnails */
+.thumbs{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    margin-top:15px;
+}
+
+.thumbs img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:6px;
+    cursor:pointer;
+    border:2px solid #ddd;
+    transition:0.3s;
+}
+
+.thumbs img:hover{
+    border-color:#8B6F47;
+}
+
+.account-dropdown{
+position:relative;
+list-style:none;
+}
+
 /* menu */
 .account-menu{
 position:absolute;
@@ -238,6 +467,16 @@ margin:8px 0;}
     border-radius: 4px;
     font-size: 14px;
 }
+
+.view-btn:hover{
+    background: #3f3007;
+}
+.nav-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 #search-toggle {
   display: none;
 }
@@ -266,682 +505,6 @@ margin:8px 0;}
 #search-toggle:checked ~ .search-form {
   width: 180px;
 }
-.nav-search {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-        /* PRODUCT SECTION */
-        .product-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .product-main {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            background: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            margin-bottom: 60px;
-        }
-
-        /* IMAGE SECTION */
-        .product-images {
-            position: relative;
-           
-        }
-
-        .main-image-container {
-            position: relative;
-            width: 100%;
-            height: 550px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 20px;
-             padding:60px;
-        }
-
-        .main-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .image-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.9);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .image-nav:hover {
-            background: var(--primary-color);
-            color: #fff;
-        }
-
-        .image-nav.prev {
-            left: 20px;
-        }
-
-        .image-nav.next {
-            right: 20px;
-        }
-
-        .thumbnail-images {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .thumbnail {
-            width: 80px;
-            height: 80px;
-            border-radius: 6px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .thumbnail:hover,
-        .thumbnail.active {
-            border-color: var(--primary-color);
-        }
-
-        /* PRODUCT INFO */
-        .product-info {
-            padding: 20px 0;
-        }
-
-        .breadcrumb {
-            font-size: 0.85rem;
-            color: #999;
-            margin-bottom: 15px;
-        }
-
-        .breadcrumb a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .product-title {
-            font-size: 2.5rem;
-            color: var(--text-dark);
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .product-rating {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .stars {
-            color: #ffc107;
-            font-size: 1rem;
-        }
-
-        .review-count {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .product-price {
-            font-size: 2rem;
-            color: var(--accent-color);
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .product-description {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .product-options {
-            margin-bottom: 25px;
-        }
-
-        .option-label {
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-dark);
-        }
-
-        .color-options {
-            display: flex;
-            gap: 10px;
-        }
-
-        .color-option {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .color-option:hover,
-        .color-option.active {
-            border-color: var(--accent-color);
-            transform: scale(1.1);
-        }
-
-        .quantity-input {
-    width: 80px;
-    height: 40px;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 600;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-}
-
-
-        .action-buttons {
-            display: flex;
-            margin-top:30px;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .add-to-cart-btn {
-            flex: 1;
-            padding: 15px;
-            background: var(--accent-color);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .add-to-cart-btn:hover {
-            background: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        .product-meta {
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .meta-item {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-
-        .meta-label {
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .meta-value {
-            color: #666;
-        }
-
-        .social-share {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        
-
-        /* TABS SECTION */
-        .product-tabs {
-            background: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            margin-bottom: 60px;
-        }
-
-        .tab-buttons {
-            display: flex;
-            gap: 40px;
-            border-bottom: 2px solid #e0e0e0;
-            margin-bottom: 30px;
-        }
-
-        .tab-button {
-            padding: 15px 0;
-            background: transparent;
-            border: none;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            color: #999;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-            transition: all 0.3s ease;
-        }
-
-        .tab-button.active {
-            color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
-        }
-
-        .tab-content {
-            display: none;
-            line-height: 1.8;
-            color: #666;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* REVIEWS */
-        .review-item {
-            padding: 20px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .reviewer-name {
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .review-date {
-            color: #999;
-            font-size: 0.85rem;
-        }
-
-        .review-stars {
-            color: #ffc107;
-            margin-bottom: 10px;
-        }
-
-        .review-text {
-            color: #666;
-            line-height: 1.6;
-        }
-
-/* ===== RELATED PRODUCTS ===== */
-.related-products{
-    margin:90px 0;
-}
-
-.section-title{
-    text-align:center;
-    font-size:1.6rem;
-    letter-spacing:2px;
-    color:#8B6F47;
-    margin-bottom:45px;
-    text-transform:uppercase;
-}
-
-.products-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:30px;
-}
-
-/* PRODUCT CARD */
-.product-card.placeholder{
-    background:#fff;
-    border-radius:16px;
-    overflow:hidden;
-    height:420px; /* increased height */
-    box-shadow:0 6px 20px rgba(0,0,0,0.08);
-    transition:all 0.3s ease;
-    display:flex;
-    flex-direction:column;
-}
-
-.product-card.placeholder:hover{
-    transform:translateY(-6px);
-    box-shadow:0 14px 40px rgba(0,0,0,0.15);
-}
-
-/* IMAGE PLACEHOLDER */
-.image-placeholder{
-    height:230px;
-    background:linear-gradient(135deg,#eee,#ddd);
-}
-
-/* INFO */
-.product-card-info{
-    flex:1;
-    padding:25px 20px;
-    text-align:center;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-}
-
-.product-title{
-    font-size:1.05rem;
-    font-weight:600;
-    color:#333;
-}
-
-.product-price{
-    font-size:1.25rem;
-    font-weight:700;
-    color:#3f3007;
-}
-
-.view-product-btn{
-    align-self:center;
-    padding:9px 24px;
-    background:#8B6F47;
-    color:#fff;
-    text-decoration:none;
-    border-radius:6px;
-    font-size:14px;
-    letter-spacing:1px;
-    transition:0.3s;
-}
-
-.view-product-btn:hover{
-    background:#3f3007;
-}
-
-/* RESPONSIVE */
-@media(max-width:992px){
-    .products-grid{grid-template-columns:repeat(2,1fr);}
-}
-
-@media(max-width:576px){
-    .products-grid{grid-template-columns:1fr;}
-}
-
-
-
-        /* ===== FOOTER SECTION ===== */
-        .footer {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 50px 0 20px;
-            margin-top: 40px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-bottom: 30px;
-            max-width: 1400px;
-            margin: 0 auto 30px;
-            padding: 0 20px;
-        }
-        
-        .footer-section h4 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-        }
-        
-        .footer-section p,
-        .footer-section a {
-            color: #ddd;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        .footer-section a:hover {
-            color: var(--accent-color);
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .social-icons a {
-            color: #fff;
-            transition: color 0.3s ease;
-        }
-        
-        .social-icons a:hover {
-            color: var(--accent-color);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 992px) {
-            .product-main {
-                grid-template-columns: 1fr;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .navbar-content {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .category-nav-items {
-                justify-content: center;
-                gap: 20px;
-            }
-            
-            .icon-nav-items {
-                justify-content: center;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .logo-title {
-                font-size: 2rem;
-            }
-
-            .product-title {
-                font-size: 1.8rem;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .category-nav-items {
-                gap: 15px;
-            }
-            
-            .category-nav-items a {
-                font-size: 0.85rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-       /* hide radios */
-.product-tabs input[type="radio"] {
-    display: none;
-}
-
-/* hide all tabs by default */
-.tab-content {
-    display: none;
-}
-
-/* show selected tab */
-#tab-desc:checked ~ .description {
-    display: block;
-}
-
-#tab-reviews:checked ~ .reviews {
-    display: block;
-}
-
-/* active tab style */
-#tab-desc:checked ~ .tab-buttons label[for="tab-desc"],
-#tab-reviews:checked ~ .tab-buttons label[for="tab-reviews"] {
-    color: var(--primary-color);
-    border-bottom: 3px solid var(--primary-color);
-}
-.buy-now-btn {
-    display: inline-block;
-    padding: 12px 28px;
-    background-color: #8B6F47;   /* your theme brown */
-    color: #fff;
-    font-weight: 600;
-    font-size: 0.95rem;
-    border-radius: 6px;
-    text-decoration: none;
-    text-align: center;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.buy-now-btn:hover {
-    background-color: #6f5737;
-    transform: translateY(-2px);
-}
-
-.buy-now-btn:active {
-    transform: translateY(0);
-}
-.price-box{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    margin-bottom:20px;
-}
-
-.sale-price{
-    font-size:2.1rem;
-    font-weight:700;
-    color:#3f3007;
-}
-
-.original-price{
-    font-size:1.1rem;
-    color:#999;
-    text-decoration:line-through;
-}
-
-.discount-badge{
-    background:#8B6F47;
-    color:#fff;
-    font-size:0.85rem;
-    font-weight:600;
-    padding:4px 10px;
-    border-radius:4px;
-    letter-spacing:0.5px;
-}
-.product-details-box{
-    background:#fff;
-    padding:30px;
-    border-radius:8px;
-    margin-top:40px;
-}
-
-.details-list{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px 40px;
-    font-size:0.9rem;
-    color:#555;
-    margin-bottom:30px;
-}
-
-.details-list strong{
-    color:#333;
-}
-
-.icon-specs{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-    border-top:1px solid #e5e5e5;
-    border-bottom:1px solid #e5e5e5;
-    padding:25px 0;
-    margin-bottom:30px;
-}
-
-.spec{
-    display:flex;
-    gap:10px;
-    align-items:flex-start;
-    font-size:0.85rem;
-    color:#555;
-}
-
-.spec i{
-    font-size:1.4rem;
-    color:#8B6F47;
-}
-
-.about-item h3{
-    font-size:1.2rem;
-    margin-bottom:15px;
-    color:#3f3007;
-}
-
-.about-item ul{
-    padding-left:20px;
-    color:#555;
-    line-height:1.8;
-}
-
-.about-item li{
-    margin-bottom:8px;
-}
-
-/* Responsive */
-@media(max-width:768px){
-    .details-list{
-        grid-template-columns:1fr;
-    }
-
-    .icon-specs{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
 .logout-btn {
     background: none;
     border: none;
@@ -952,144 +515,139 @@ margin:8px 0;}
     font: inherit;
 }
 
+
     </style>
 </head>
 <body>
 
-    <!-- ===== LOGO ===== -->
-    <section class="logo">
-        <div class="container">
-            <a href="/" class="logo-title">HOME BLOOM</a>
-        </div>
-    </section>
+<!-- LOGO -->
+<div class="logo">
+    <a href="/">HOME BLOOM</a>
+</div>
 
-   <!-- ===== COMBINED NAVIGATION BAR ===== -->
-    <nav class="combined-navbar">
-        <div class="container">
-            <div class="navbar-content">
-                
-                <!-- Category Links (Left/Center) -->
-                <ul class="category-nav-items">
+<!-- NAV -->
+<nav class="combined-navbar">
+    <div class="container">
+        <div class="navbar-content">
 
-                    <li>
-                        <a href="{%url 'furniture'%}">Furniture</a>
-                        <!-- Furniture Mega Menu -->
-                        <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Seating</h4>
-                                    <ul>
-                                        <li><a href="#">Chairs</a></li>
-                                        <li><a href="#sofa">Sofa</a></li>
-                                        <li><a href="#stools">Stools</a></li>
-                                        <li><a href="#all-seating">All Seating</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Tables</h4>
-                                    <ul>
-                                        <li><a href="#coffee-table">Coffee Table</a></li>
-                                        <li><a href="#side-table">Side & Nesting Table</a></li>
-                                        <li><a href="#console-table">Console Table</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Shelves</h4>
-                                    <ul>
-                                        <li><a href="#wall-mounted">Wall Mounted</a></li>
-                                        <li><a href="#floating-shelves">Floating Shelves</a></li>
-                                        <li><a href="#corner-shelves">Corner Shelves</a></li>
-                                        <li><a href="#ladder-shelves">Ladder Shelves</a></li>
-                                    </ul>
-                                </div>
+            <!-- CATEGORY NAV -->
+            <ul class="category-nav-items">
+
+                <!-- Furniture -->
+                <li>
+                    <a href="{% url 'furniture' %}">Furniture</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Seating</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=35">Chairs</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=36">Sofa</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=3">Stools</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Tables</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=8">Console Table</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Shelves</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a></li>
+                                </ul>
                             </div>
                         </div>
-                    </li>
-                    
-                    <li>
-                        <a href="{% url 'walldecor'%}">Wall Decor</a>
-                        <!-- Wall Decor Mega Menu -->
-                        <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Wall Decor</h4>
-                                    <ul>
-                                        <li><a href="#wall-vase">Wall Vase</a></li>
-                                        <li><a href="#mirrors">Mirrors</a></li>
-                                        <li><a href="#painting">Painting</a></li>
-                                        <li><a href="#wall-plates">Wall Plates & Accents</a></li>
-                                    </ul>
-                                </div>
+                    </div>
+                </li>
+
+                <!-- Wall Decor -->
+                <li>
+                    <a href="{% url 'walldecor' %}">Wall Decor</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Wall Decor</h4>
+                                <ul>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=16">Paintings</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
+                                </ul>
                             </div>
                         </div>
-                    </li>
-                    
-                    <li>
-                        <a href="{%url 'kitchen'%}">Kitchen & Dining</a>
-                        <!-- Kitchen & Dining Mega Menu -->
-                        <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Dinnerware</h4>
+                    </div>
+                </li>
+
+                <!-- Kitchen -->
+                <li>
+                    <a href="{% url 'kitchen' %}">Kitchen & Dining</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                            <h4>Dinnerware</h4>
                                     <ul>
-                                        <li><a href="#tableware">Tableware</a></li>
-                                        <li><a href="#tea-coffee">Tea & Coffee</a></li>
-                                        <li><a href="#table-accessories">Table Accessories</a></li>
+                                        <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
+                                        <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
+                                        <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-menu-column">
                                     <h4>Serveware</h4>
                                     <ul>
-                                        <li><a href="#serving-bowls">Serving Bowls</a></li>
-                                        <li><a href="#serving-trays">Serving Trays</a></li>
-                                        <li><a href="#platters-stands">Platters & Stands</a></li>
+                                        <li><a href="{%url 'kitchen'%}?sub_id=21">Serving Bowls</a></li>
+                                        <li><a href="{%url 'kitchen'%}?sub_id=22">Serving Trays</a></li>
+                                        <li><a href="{%url 'kitchen'%}?sub_id=23">Platters & Stands</a></li>
                                     </ul>
-                                </div>
                             </div>
                         </div>
-                    </li>
-                    
-                    <li>
-                        <a href="{% url 'lighting'%}">Lighting</a>
-                        <!-- Lighting Mega Menu -->
-                        <div class="dropdown-mega-menu">
+                    </div>
+                </li>
+
+                <!-- Lighting -->
+                <li>
+                    <a href="{% url 'lighting' %}">Lighting</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Lighting</h4>
+                                    <ul>
+                                        <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
+                                        <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
+                                        <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
+                                        <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Accessories -->
+                <li><a href="{%url 'bath'%}">Accessoriesr</a>
+                 <div class="dropdown-mega-menu">
                             <div class="mega-menu-content">
                                 <div class="mega-menu-column">
-                                    <h4>Lighting</h4>
+                                    <h4>Accessories</h4>
                                     <ul>
-                                        <li><a href="#table-lamps">Table Lamps</a></li>
-                                        <li><a href="#floor-lamps">Floor Lamps</a></li>
-                                        <li><a href="#chandelier-pendants">Chandelier & Pendants</a></li>
-                                        <li><a href="#lamps">Lamps</a></li>
-                                        <li><a href="#wall-lamps">Wall Lamps</a></li>
-                                        <li><a href="#all-lamps">All Lamps</a></li>
+                                        <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
+                                        <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
+                                        <li><a href="{% url 'bath' %}?sub_id=32">Planters &Pots</a></li>
+                                        <li><a href="{% url 'bath' %}?sub_id=33">Decor objects & Sculptures</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    
-                    <li>
-                        <a href="{%url 'bath'%}">Bath Decor</a>
-                        <!-- Bath Decor Mega Menu -->
-                        <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Bath Decor</h4>
-                                    <ul>
-                                        <li><a href="#bath-sets">Bath Sets</a></li>
-                                        <li><a href="#towel-holder">Towels Holder</a></li>
-                                        <li><a href="#toothbrush-holder">Tooth Brush Holder</a></li>
-                                        <li><a href="#organizers">Organizers</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                
-                <!-- Icon Links (Right) -->
-                <ul class="icon-nav-items">
+            </ul>
+
+            <!-- RIGHT ICONS -->
+            <ul class="icon-nav-items">
                      <li class="account-dropdown">
     <a href="#" title="Account">
         <i class="bi bi-person"></i>
@@ -1115,316 +673,141 @@ margin:8px 0;}
     {% endif %}
 </ul>
 </li>
-      <li class="nav-search">
+                       <li class="nav-search">
   <input type="checkbox" id="search-toggle">
 
   <label for="search-toggle" class="search-icon" title="Search">
     <i class="bi bi-search"></i>
   </label>
 
-  <form action="search.html" method="get" class="search-form">
+<form action="{% url 'search' %}" method="get" class="search-form">
     <input type="text" name="q" placeholder="Search..." />
-  </form>
+</form>
 </li>
 
 
                     <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
                 </ul>
-            </div>
-        </div>
-    </nav>
 
-    <!-- PRODUCT CONTAINER -->
-    <div class="product-container">
-        
-        <!-- MAIN PRODUCT SECTION -->
-        <div class="product-main">
-            
-            <!-- PRODUCT IMAGES -->
-            <div class="product-images">
-                <div class="main-image-container">
-                    <img src="#" alt="Luxury Velvet Sofa" class="main-image">
-                    <button class="image-nav prev">
-                        <i class="bi bi-chevron-left"></i>
-                    </button>
-                    <button class="image-nav next">
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="thumbnail-images">
-                    <img src="#" class="thumbnail active">
-                    <img src="#" class="thumbnail">
-                    <img src="#" class="thumbnail">
-                </div>
-            </div>
-
-            <!-- PRODUCT INFO -->
-            <div class="product-info">
-                <div class="breadcrumb">
-                    <a href="/">Home</a> / <a href="#">Living Room</a> / <span>Velvet Sofa</span>
-                </div>
-
-                <h1 class="product-title">Luxury Velvet Sofa</h1>
-
-                <div class="product-rating">
-                    <div class="stars">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
-                    </div>
-                    <span class="review-count">2 reviews</span>
-                </div>
-
-                <div class="price-box">
-    <span class="sale-price">$149</span>
-    <span class="original-price">$199</span>
-    <span class="discount-badge">25% OFF</span>
-</div>
-
-
-                <p class="product-description">
-                     E-commerce market has changed the way people do business. Previously, it was more local like
-            physical stores with limited online presence. Today, users expect seamless experiences
-            across all devices, especially mobile.
-                </p>
-
-                <div class="product-options">
-                    <div class="option-label">Select an option:</div>
-                    <div class="color-options">
-                        <div class="color-option active" style="background: #e8d5c4;"></div>
-                        <div class="color-option" style="background: #d4a373;"></div>
-                        <div class="color-option" style="background: #2c2c2c;"></div>
-                    </div>
-                </div>
-
-                <div class="quantity-section">
-    <label class="option-label" for="quantity">Quantity:</label>
-    <input 
-        type="number" 
-        id="quantity"
-        name="quantity"
-        min="1"
-        value="1"
-        class="quantity-input"
-    >
-</div>
-                <div class="action-buttons">
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                    <a href="{%url 'checkout'%}" class="buy-now-btn">Buy Now</a>
-
-                </div>
-
-
-                <div class="product-meta">
-                    <div class="meta-item">
-                        <span class="meta-label">Product ID:</span>
-                        <span class="meta-value">FN213</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Category:</span>
-                        <span class="meta-value">Living Room, Furniture</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Tags:</span>
-                        <span class="meta-value">Sofa, Velvet, Modern</span>
-                    </div>
-                </div>
-
-               <!-- PRODUCT DETAILS -->
-<div class="product-details-box">
-
-    <div class="details-list">
-        <div><strong>Assembly Required:</strong> Yes</div>
-        <div><strong>Seat Depth:</strong> 54.5 cm</div>
-        <div><strong>Seat Height:</strong> 45.5 cm</div>
-        <div><strong>Weight Limit:</strong> 100 kg</div>
-        <div><strong>Item Weight:</strong> 32 kg</div>
-        <div><strong>Type:</strong> Standard</div>
-        <div><strong>Colour:</strong> Green</div>
-        <div><strong>Special Feature:</strong> Armrest</div>
-    </div>
-
-    <div class="icon-specs">
-        <div class="spec">
-            <i class="bi bi-people"></i>
-            <span><strong>Seating Capacity</strong><br>3</span>
-        </div>
-        <div class="spec">
-            <i class="bi bi-columns-gap"></i>
-            <span><strong>Style</strong><br>Paramount</span>
-        </div>
-        <div class="spec">
-            <i class="bi bi-bounding-box"></i>
-            <span><strong>Shape</strong><br>Rectangular</span>
-        </div>
-        <div class="spec">
-            <i class="bi bi-tree"></i>
-            <span><strong>Frame Material</strong><br>Pine Wood</span>
         </div>
     </div>
+</nav>
 
-    <div class="about-item">
-        <h3>About this item</h3>
-        <ul>
-            <li>Comfort-oriented backrest supports shoulders and promotes relaxed posture</li>
-            <li>Soft foam cushions for long-lasting comfort on seat and back</li>
-            <li>Durable wooden frame ensures strength and longevity</li>
-            <li>Elegant quilted stitching enhances premium look</li>
-            <li>Warranty: 1 Year</li>
-        </ul>
+                
+
+<!-- PRODUCT -->
+<section class="product-wrapper">
+    <div class="product-main">
+
+   <div class="image-box">
+
+    <!-- RADIO CONTROLS -->
+    <input type="radio" name="img" id="img1" checked>
+    {% if product.image2 %}<input type="radio" name="img" id="img2">{% endif %}
+    {% if product.image3 %}<input type="radio" name="img" id="img3">{% endif %}
+    {% if product.image4 %}<input type="radio" name="img" id="img4">{% endif %}
+
+    <!-- MAIN IMAGES -->
+    <div class="main-images">
+        <img src="{{ product.image1.url }}" class="main-img img1">
+
+        {% if product.image2 %}
+            <img src="{{ product.image2.url }}" class="main-img img2">
+        {% endif %}
+
+        {% if product.image3 %}
+            <img src="{{ product.image3.url }}" class="main-img img3">
+        {% endif %}
+
+        {% if product.image4 %}
+            <img src="{{ product.image4.url }}" class="main-img img4">
+        {% endif %}
     </div>
 
-</div>
+    <!-- THUMBNAILS -->
+    <div class="thumbs">
+        <label for="img1">
+            <img src="{{ product.image1.url }}">
+        </label>
 
-            </div>
+        {% if product.image2 %}
+        <label for="img2">
+            <img src="{{ product.image2.url }}">
+        </label>
+        {% endif %}
 
-        </div>
+        {% if product.image3 %}
+        <label for="img3">
+            <img src="{{ product.image3.url }}">
+        </label>
+        {% endif %}
 
-        <!-- TABS SECTION -->
-       <div class="product-tabs">
-
-    <!-- RADIO CONTROLS (MUST BE FIRST) -->
-    <input type="radio" name="tabs" id="tab-desc" checked>
-    <input type="radio" name="tabs" id="tab-reviews">
-
-    <!-- TAB BUTTONS -->
-    <div class="tab-buttons">
-        <label for="tab-desc" class="tab-button">Description</label>
-        <label for="tab-reviews" class="tab-button">Reviews</label>
-    </div>
-
-    <!-- DESCRIPTION CONTENT -->
-    <div class="tab-content description">
-        <p>
-            E-commerce market has changed the way people do business. Users expect fast,
-            responsive and mobile-friendly experiences. A product page must feel smooth
-            and informative to convert visitors into buyers.
-        </p>
-    </div>
-
-    <!-- REVIEWS CONTENT -->
-    <div class="tab-content reviews">
-
-        <div class="review-item">
-            <div class="review-header">
-                <span class="reviewer-name">Sarah Johnson</span>
-                <span class="review-date">December 10, 2024</span>
-            </div>
-            <div class="review-stars">★★★★★</div>
-            <p class="review-text">
-                Absolutely love this sofa! Premium feel and very comfortable.
-            </p>
-        </div>
-
-        <div class="review-item">
-            <div class="review-header">
-                <span class="reviewer-name">Michael Chen</span>
-                <span class="review-date">December 5, 2024</span>
-            </div>
-            <div class="review-stars">★★★★☆</div>
-            <p class="review-text">
-                Great quality for the price. Delivery could be faster.
-            </p>
-        </div>
-
+        {% if product.image4 %}
+        <label for="img4">
+            <img src="{{ product.image4.url }}">
+        </label>
+        {% endif %}
     </div>
 
 </div>
 
 
-
-<!-- RELATED PRODUCTS -->
-<section class="related-products">
-    <h2 class="section-title">You May Also Like</h2>
-
-    <div class="products-grid">
-
-        <article class="product-card placeholder">
-            <div class="image-placeholder"></div>
-
-            <div class="product-card-info">
-                <h3 class="product-title">Modern Accent Chair</h3>
-                <p class="product-price">$159</p>
-                <a href="#" class="view-product-btn">View</a>
+        <!-- INFO -->
+        <div class="product-info">
+            <div class="breadcrumb">
+                Home / {{ product.category.name }} / {{ product.name }}
             </div>
-        </article>
 
-        <article class="product-card placeholder">
-            <div class="image-placeholder"></div>
+            <h1>{{ product.name }}</h1>
 
-            <div class="product-card-info">
-                <h3 class="product-title">Wooden Coffee Table</h3>
-                <p class="product-price">$189</p>
-                <a href="#" class="view-product-btn">View</a>
+            <div class="price-box">
+                {% if product.offer_price %}
+                    <span class="sale">₹{{ product.offer_price }}</span>
+                    <span class="original">₹{{ product.price }}</span>
+                {% else %}
+                    <span class="sale">₹{{ product.price }}</span>
+                {% endif %}
             </div>
-        </article>
 
-        <article class="product-card placeholder">
-            <div class="image-placeholder"></div>
+            <p class="desc">{{ product.description }}</p>
 
-            <div class="product-card-info">
-                <h3 class="product-title">Contemporary Floor Lamp</h3>
-                <p class="product-price">$129</p>
-                <a href="#" class="view-product-btn">View</a>
+            <form method="post" action="#">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="1" min="1" class="qty">
+
+                <div class="actions">
+                    <button class="btn cart-btn">Add to Cart</button>
+                    <a href="{% url 'checkout' %}" class="btn buy-btn">Buy Now</a>
+                </div>
+            </form>
+
+            <div class="meta">
+                Category: {{ product.category.name }} <br>
+                Subcategory: {{ product.subcategory.name }}
             </div>
-        </article>
+        </div>
+    </div>
 
-        <article class="product-card placeholder">
-            <div class="image-placeholder"></div>
+    <!-- RELATED -->
+    <div class="related">
+        <h2>You May Also Like</h2>
 
-            <div class="product-card-info">
-                <h3 class="product-title">Elegant Table Lamp</h3>
-                <p class="product-price">$89</p>
-                <a href="#" class="view-product-btn">View </a>
+        <div class="related-grid">
+            {% for p in related_products %}
+            <div class="card">
+                <img src="{{ p.image1.url }}">
+                <h3>{{ p.name }}</h3>
+                <p>₹{{ p.price }}</p>
+                <a href="{% url 'product_detail' p.id %}">View</a>
             </div>
-        </article>
-
+            {% endfor %}
+        </div>
     </div>
 </section>
-</div>
 
-
- <!-- ===== FOOTER SECTION ===== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <!-- Contact Information -->
-                <div class="footer-section">
-                    <h4>Contact Us</h4>
-                    <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City, DC 12345</p>
-                    <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
-                    <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
-                </div>
-                
-                <!-- Quick Links -->
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <a href="{%url 'aboutus'%}">About Us</a>
-                    <a href="{%url 'faq'%}">FAQ</a>
-                    <a href="{%url 'privacy'%}">Privacy Policy</a>
-                </div>
-                
-                <!-- Social Media -->
-                <div class="footer-section">
-                    <h4>Follow Us</h4>
-                    <div class="social-icons">
-                        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="#" title="Pinterest"><i class="bi bi-pinterest"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 HOME BLOOM. All Rights Reserved. | Designed with <i class="bi bi-heart-fill" style="color: #d4af37;"></i></p>
-            </div>
-        </div>
-    </footer>
+<footer>
+    © 2025 HOME BLOOM
+</footer>
 
 </body>
 </html>

@@ -248,10 +248,26 @@ th{
         <td>{{ user.email }}</td>
         <td>
     <!-- Block/Unblock -->
-    <div class="block-toggle">
-        <input type="checkbox" id="block{{ user.id }}">
-        <label for="block{{ user.id }}"></label>
-    </div>
+    <form action="{% url 'toggle_customer_block' user.id %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit"
+        style="
+            padding:6px 12px;
+            border-radius:8px;
+            border:none;
+            cursor:pointer;
+            font-size:0.85rem;
+            background:{% if user.is_active %}#b3261e{% else %}#8B6F47{% endif %};
+            color:#fff;
+        ">
+        {% if user.is_active %}
+            Block
+        {% else %}
+            Unblock
+        {% endif %}
+    </button>
+</form>
+
 
     <!-- Delete Button -->
   <form action="{% url 'delete_customer' user.id %}" method="post" style="display:inline;">

@@ -46,7 +46,6 @@ class ResetPasswordForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        # Expect the user object to be passed in
         self.user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
 
@@ -64,7 +63,7 @@ class ResetPasswordForm(forms.Form):
         return cleaned_data
 
     def save(self):
-        # Set the new password
+      
         self.user.set_password(self.cleaned_data["password1"])
         self.user.save()
         

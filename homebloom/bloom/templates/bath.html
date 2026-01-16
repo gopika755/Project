@@ -52,7 +52,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
         
         /* Category Links */
@@ -758,6 +758,20 @@ margin:8px 0;
     cursor: pointer;
     font: inherit;
 }
+
+.product-card-link{
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-card{
+    cursor: pointer;
+}
+.product-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
     </style>
 </head>
 
@@ -775,83 +789,97 @@ margin:8px 0;
     <div class="container">
         <div class="navbar-content">
 
-            <ul class="category-nav-items">
+             <ul class="category-nav-items">
 
-                <li>
+<li>
     <a href="{% url 'furniture' %}">Furniture</a>
     <div class="dropdown-mega-menu">
         <div class="mega-menu-content">
             <div class="mega-menu-column">
                 <h4>Seating</h4>
                 <ul>
-                    <li><a href="{% url 'furniture' %}?sub=chair">Chairs</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=sofa">Sofa</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=stools">Stools</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=all seating">All Seating</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=35">Chairs</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=36">Sofa</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=3">Stools</a></li>
                 </ul>
             </div>
-            <li><a href="{%url 'kitchen'%}">wall devcor</a><div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
             <div class="mega-menu-column">
                 <h4>Tables</h4>
                 <ul>
-                    <li><a href="{% url 'furniture' %}?sub=coffee table">Coffee Table</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=side table">Side & Nesting Table</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=console table">Console Table</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=8">Console Table</a></li>
                 </ul>
             </div>
             <div class="mega-menu-column">
                 <h4>Shelves</h4>
                 <ul>
-                    <li><a href="{% url 'furniture' %}?sub=wall mounted">Wall Mounted</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=floating shelves">Floating Shelves</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=corner shelves">Corner Shelves</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=ladder shelves">Ladder Shelves</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a></li>
+                    <li><a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </li>
+                    <li>
+                    <a href="{%url 'walldecor'%}">Wall Decor</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Wall Decor</h4>
+                                <ul>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=16">Paintings</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
 
-                <li><a href="{%url 'kitchen'%}">Kitchen & Dining</a><div class="dropdown-mega-menu">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                    
+                    <li><a href="{%url 'kitchen'%}">Kitchen & Dining</a><div class="dropdown-mega-menu">
                             <div class="mega-menu-content">
                                 <div class="mega-menu-column">
                                     <h4>Dinnerware</h4>
                                     <ul>
-                                        <li><a href="#tableware">Tableware</a></li>
-                                        <li><a href="#tea-coffee">Tea & Coffee</a></li>
-                                        <li><a href="#table-accessories">Table Accessories</a></li>
+                                        <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
+                                        <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
+                                        <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-menu-column">
                                     <h4>Serveware</h4>
                                     <ul>
-                                        <li><a href="#serving-bowls">Serving Bowls</a></li>
-                                        <li><a href="#serving-trays">Serving Trays</a></li>
-                                        <li><a href="#platters-stands">Platters & Stands</a></li>
+                                        <li><a href="{%url 'kitchen'%}?sub_id=21">Serving Bowls</a></li>
+                                        <li><a href="{%url 'kitchen'%}?sub_id=22">Serving Trays</a></li>
+                                        <li><a href="{%url 'kitchen'%}?sub_id=23">Platters & Stands</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </li>
-                <li><a href="lighting">Lighting</a>
+
+                   <li><a href="{%url 'lighting'%}">Lighting</a>
                 <div class="dropdown-mega-menu">
                             <div class="mega-menu-content">
                                 <div class="mega-menu-column">
                                     <h4>Lighting</h4>
                                     <ul>
-                                        <li><a href="#table-lamps">Table Lamps</a></li>
-                                        <li><a href="#floor-lamps">Floor Lamps</a></li>
-                                        <li><a href="#chandelier-pendants">Chandelier & Pendants</a></li>
-                                        <li><a href="#lamps">Lamps</a></li>
-                                        <li><a href="#wall-lamps">Wall Lamps</a></li>
-                                        <li><a href="#all-lamps">All Lamps</a></li>
+                                        <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
+                                        <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
+                                        <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
+                                        <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </li>
-                <li><a href="{%url 'bath'%}">Accessoriesr</a>
+                    
+                    <li><a href="{%url 'bath'%}">Accessoriesr</a>
                  <div class="dropdown-mega-menu">
                             <div class="mega-menu-content">
                                 <div class="mega-menu-column">
@@ -867,7 +895,7 @@ margin:8px 0;
                         </div>
                     </li>
 
-            </ul>
+                </ul>
 
             <ul class="icon-nav-items">
                  <li class="account-dropdown">
@@ -988,40 +1016,42 @@ margin:8px 0;
         <div class="product-area">
     <div class="product-grid">
 
-        {% for product in products %}
-        <div class="product-card">
+         {% for product in products %}
 
-            <img src="{{ product.image1.url }}"
-                 alt="{{ product.name }}"
-                 class="product-image">
+<a href="{% url 'product_detail' product.id %}" class="product-card-link">
 
-            <div class="product-info">
-                <div>
-                    <h3 class="product-name">{{ product.name }}</h3>
+    <div class="product-card">
 
-                    {% if product.offer_price %}
-                        <p class="product-price">
-                            ₹{{ product.offer_price }}
-                            <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
-                                ₹{{ product.price }}
-                            </span>
-                        </p>
-                    {% else %}
-                        <p class="product-price">₹{{ product.price }}</p>
-                    {% endif %}
-                </div>
+        <img src="{{ product.image1.url }}"
+             alt="{{ product.name }}"
+             class="product-image">
 
-                <a href="{% url 'product_detail' product.id %}" class="view-btn">
-                    View
-                </a>
+        <div class="product-info">
+            <div>
+                <h3 class="product-name">{{ product.name }}</h3>
+
+                {% if product.offer_price %}
+                    <p class="product-price">
+                        ₹{{ product.offer_price }}
+                        <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
+                            ₹{{ product.price }}
+                        </span>
+                    </p>
+                {% else %}
+                    <p class="product-price">₹{{ product.price }}</p>
+                {% endif %}
             </div>
-
         </div>
-        {% empty %}
-            <p style="grid-column:1/-1; text-align:center;">
-                No Accessories decor products available.
-            </p>
-        {% endfor %}
+
+    </div>
+
+</a>
+
+{% empty %}
+<p style="grid-column:1/-1; text-align:center;">
+    No furniture products available.
+</p>
+{% endfor %}
 
     </div>
 </div>

@@ -621,7 +621,19 @@ margin:8px 0;}
     cursor: pointer;
     font: inherit;
 }
+.product-card-link{
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
 
+.product-card{
+    cursor: pointer;
+}
+.product-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
     </style>
 </head>
 <body>
@@ -680,9 +692,9 @@ margin:8px 0;}
                             <div class="mega-menu-column">
                                 <h4>Wall Decor</h4>
                                 <ul>
-                                    <li><a href="{% url 'walldecor' %}?sub=wall vase">Wall Vase</a></li>
-                                    <li><a href="{% url 'walldecor' %}?sub=mirrors">Mirrors</a></li>
-                                    <li><a href="{% url 'walldecor' %}?sub=paintings">Paintings</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=16">Paintings</a></li>
                                     <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
 
                                 </ul>
@@ -930,39 +942,44 @@ margin:8px 0;}
     <div class="product-grid">
 
         {% for product in products %}
-            <div class="product-card">
 
-                <img src="{{ product.image1.url }}"
-                     alt="{{ product.name }}"
-                     class="product-image">
+<a href="{% url 'product_detail' product.id %}" class="product-card-link">
 
-                <div class="product-info">
-                    <div>
-                        <h3 class="product-name">{{ product.name }}</h3>
+    <div class="product-card">
 
-                        {% if product.offer_price %}
-                            <p class="product-price">
-                                ₹{{ product.offer_price }}
-                                <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
-                                    ₹{{ product.price }}
-                                </span>
-                            </p>
-                        {% else %}
-                            <p class="product-price">₹{{ product.price }}</p>
-                        {% endif %}
-                    </div>
+        <img src="{{ product.image1.url }}"
+             alt="{{ product.name }}"
+             class="product-image">
 
-                    <a href="{% url 'product_detail' product.id %}" class="view-btn">
-                        View
-                    </a>
-                </div>
+        <div class="product-info">
+            <div>
+                <h3 class="product-name">{{ product.name }}</h3>
 
+                {% if product.offer_price %}
+                    <p class="product-price">
+                        ₹{{ product.offer_price }}
+                        <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
+                            ₹{{ product.price }}
+                        </span>
+                    </p>
+                {% else %}
+                    <p class="product-price">₹{{ product.price }}</p>
+                    
+                {% endif %}
+                <button class="btn cart-btn">Add to Cart</button>
             </div>
-        {% empty %}
-            <p style="grid-column:1/-1; text-align:center;">
-                No furniture products available.
-            </p>
-        {% endfor %}
+        </div>
+
+    </div>
+
+</a>
+
+{% empty %}
+<p style="grid-column:1/-1; text-align:center;">
+    No furniture products available.
+</p>
+{% endfor %}
+
 
     </div>
 </section>
