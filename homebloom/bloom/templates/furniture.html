@@ -634,6 +634,43 @@ margin:8px 0;}
     transform: translateY(-6px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
+
+.pagination-wrapper{
+    display:flex;
+    justify-content:center;
+    margin:60px 0;
+}
+
+.pagination{
+    list-style:none;
+    display:flex;
+    gap:12px;
+    padding:0;
+}
+
+.pagination li a,
+.pagination li span{
+    display:block;
+    padding:10px 16px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+    color:#8B6F47;
+    background:#fff;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+.pagination li a:hover{
+    background:#8B6F47;
+    color:#fff;
+}
+
+.pagination li.active span{
+    background:#3f3007;
+    color:#fff;
+}
+
     </style>
 </head>
 <body>
@@ -980,6 +1017,36 @@ margin:8px 0;}
 </p>
 {% endfor %}
 
+<!-- PAGINATION -->
+<div class="pagination-wrapper">
+    <ul class="pagination">
+
+        {% if products.has_previous %}
+            <li>
+                <a href="?page={{ products.previous_page_number }}">« Prev</a>
+            </li>
+        {% endif %}
+
+        {% for num in products.paginator.page_range %}
+            {% if products.number == num %}
+                <li class="active">
+                    <span>{{ num }}</span>
+                </li>
+            {% else %}
+                <li>
+                    <a href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if products.has_next %}
+            <li>
+                <a href="?page={{ products.next_page_number }}">Next »</a>
+            </li>
+        {% endif %}
+
+    </ul>
+</div>
 
     </div>
 </section>

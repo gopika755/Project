@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
 from decimal import Decimal
 import random
@@ -31,12 +32,20 @@ def home(request):
 @never_cache
 def furniture(request):
     banner = Banner.objects.filter(page="furniture",is_active=True).first()
-    products = Product.objects.filter(category__name__iexact="Furniture",is_active=True)
+    
+    products_qs = Product.objects.filter(
+        category__name__iexact="Furniture",
+        is_active=True
+    ).order_by("-created_at")
 
     sub_id = request.GET.get("sub_id")
 
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
+        
+    paginator = Paginator(products_qs, 12)  # 12 products per page
+    page_number = request.GET.get("page")
+    products = paginator.get_page(page_number)
 
     return render(request, "furniture.html", {
         "banner": banner,
