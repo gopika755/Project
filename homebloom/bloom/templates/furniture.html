@@ -634,43 +634,6 @@ margin:8px 0;}
     transform: translateY(-6px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
-
-.pagination-wrapper{
-    display:flex;
-    justify-content:center;
-    margin:60px 0;
-}
-
-.pagination{
-    list-style:none;
-    display:flex;
-    gap:12px;
-    padding:0;
-}
-
-.pagination li a,
-.pagination li span{
-    display:block;
-    padding:10px 16px;
-    border-radius:6px;
-    text-decoration:none;
-    font-weight:600;
-    color:#8B6F47;
-    background:#fff;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-    transition:0.3s;
-}
-
-.pagination li a:hover{
-    background:#8B6F47;
-    color:#fff;
-}
-
-.pagination li.active span{
-    background:#3f3007;
-    color:#fff;
-}
-
     </style>
 </head>
 <body>
@@ -878,98 +841,87 @@ margin:8px 0;}
                     CATEGORY <i class="bi bi-chevron-down"></i>
                 </label>
                 <div class="filter-content">
-            <a href="{% url 'furniture' %}?sub=chair" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
+            <a href="{% url 'furniture' %}?sub_id=35" 
+             style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'chairs' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Chairs
             </a>
-            <a href="{% url 'furniture' %}?sub=sofa" 
+            <a href="{% url 'furniture' %}?sub_id=36" 
                style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'sofa' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Sofa
             </a>
-            <a href="{% url 'furniture' %}?sub=stools" 
+            <a href="{% url 'furniture' %}?sub_id=3" 
                style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'stools' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Stools
             </a>
-            <a href="{% url 'furniture' %}?sub=all seating" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'all seating' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                All Seating
-            </a>
-            <a href="{% url 'furniture' %}?sub=coffee table" 
+            <a href="{% url 'furniture' %}?sub_id=6" 
                style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'coffee table' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Coffee Table
             </a>
-            <a href="{% url 'furniture' %}?sub=side table" 
+            <a href="{% url 'furniture' %}?sub_id=7" 
                style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'side table' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Side & Nesting Tables
             </a>
-            <a href="{% url 'furniture' %}?sub=console table" 
+            <a href="{% url 'furniture' %}?sub_id=8" 
                style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'console table' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Console Tables
             </a>
-            <a href="{% url 'furniture' %}?sub=wall mounted" 
+            <a href="{% url 'furniture' %}?sub_id=10" 
                style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'wall mounted' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Wall Mounted
             </a>
-            <a href="{% url 'furniture' %}?sub=floating shelves" 
+            <a href="{% url 'furniture' %}?sub_id=11" 
                style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'floating shelves' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Floating Shelves
             </a>
-            <a href="{% url 'furniture' %}?sub=corner shelves" 
+            <a href="{% url 'furniture' %}?sub_id=12" 
                style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'corner shelves' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Corner Shelves
             </a>
-            <a href="{% url 'furniture' %}?sub=ladder shelves" 
+            <a href="{% url 'furniture' %}?sub_id=13" 
                style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
                {% if selected_sub == 'ladder shelves' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
                 Ladder Shelves
             </a>
         </div>
     </div>
-            <div class="filter-block">
-                <input type="checkbox" id="color-toggle">
-                <label for="color-toggle" class="filter-title">
-                    COLOR <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content colors">
-                    <span style="background:#000"></span>
-                    <span style="background:#fff;border:1px solid #aaa"></span>
-                    <span style="background:#c2a46d"></span>
-                    <span style="background:#8b5cf6"></span>
-                </div>
-            </div>
+            
+<div class="filter-block">
+    <label class="filter-title">PRICE</label>
 
-              <div class="filter-block">
-                <input type="checkbox" id="price-toggle">
-                <label for="price-toggle" class="filter-title">
-                    PRICE <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content">
-                    <input type="range" min="0" max="2000">
-                    <div class="price-range">
-                        <span>$0</span>
-                        <span>$2000+</span>
-                    </div>
-                </div>
-            </div>
+    <form method="get">
+        {% if selected_sub_id %}
+            <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
+        {% endif %}
+
+        <input type="number"
+               name="min_price"
+               placeholder="Min price"
+               value="{{ min_price }}"
+               style="width:100%; margin-bottom:10px; padding:6px;">
+
+        <input type="number"
+               name="max_price"
+               placeholder="Max price"
+               value="{{ max_price }}"
+               style="width:100%; margin-bottom:10px; padding:6px;">
+
+        <button type="submit"
+                style="width:100%; background:#8B6F47; color:#fff; border:none; padding:8px;">
+            Apply
+        </button>
+    </form>
+</div>
+
         </aside>
-
-        <!-- PRODUCTS -->
-        <div class="products-section">
-            <div class="product-grid">
-                <!-- KEEP ALL YOUR PRODUCT CARDS HERE -->
-            </div>
-        </div>
-
     </div>
 </section>
 
@@ -1017,36 +969,6 @@ margin:8px 0;}
 </p>
 {% endfor %}
 
-<!-- PAGINATION -->
-<div class="pagination-wrapper">
-    <ul class="pagination">
-
-        {% if products.has_previous %}
-            <li>
-                <a href="?page={{ products.previous_page_number }}">« Prev</a>
-            </li>
-        {% endif %}
-
-        {% for num in products.paginator.page_range %}
-            {% if products.number == num %}
-                <li class="active">
-                    <span>{{ num }}</span>
-                </li>
-            {% else %}
-                <li>
-                    <a href="?page={{ num }}">{{ num }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
-
-        {% if products.has_next %}
-            <li>
-                <a href="?page={{ products.next_page_number }}">Next »</a>
-            </li>
-        {% endif %}
-
-    </ul>
-</div>
 
     </div>
 </section>
@@ -1092,3 +1014,6 @@ margin:8px 0;}
     
 </body>
 </html>
+
+
+ 

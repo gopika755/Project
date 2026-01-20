@@ -7,7 +7,6 @@ from django.db.models import Q
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
 from decimal import Decimal
 import random
@@ -32,24 +31,28 @@ def home(request):
 @never_cache
 def furniture(request):
     banner = Banner.objects.filter(page="furniture",is_active=True).first()
-    
-    products_qs = Product.objects.filter(
-        category__name__iexact="Furniture",
-        is_active=True
-    ).order_by("-created_at")
+    products = Product.objects.filter(category__name__iexact="Furniture",is_active=True)
 
     sub_id = request.GET.get("sub_id")
 
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
         
-    paginator = Paginator(products_qs, 12)  # 12 products per page
-    page_number = request.GET.get("page")
-    products = paginator.get_page(page_number)
+    min_price = request.GET.get("min_price")
+    max_price = request.GET.get("max_price")
 
+    if min_price:
+        products = products.filter(price__gte=min_price)
+
+    if max_price:
+        products = products.filter(price__lte=max_price)
+        
     return render(request, "furniture.html", {
         "banner": banner,
-        "products": products
+        "products": products,
+        "selected_sub_id": sub_id,
+        "min_price": min_price,
+        "max_price": max_price,
     })
     
 @never_cache
@@ -57,9 +60,22 @@ def walldecor(request):
     banner = Banner.objects.filter(page="walldecor", is_active=True).first()
     sub_id = request.GET.get("sub_id")
     products = Product.objects.filter(category__name__iexact="Wall Decor",is_active=True)
+    price = request.GET.get("price")
 
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
+        
+    if price == "0-500":
+        products = products.filter(price__lte=500)
+
+    elif price == "500-1000":
+        products = products.filter(price__gte=500, price__lte=1000)
+
+    elif price == "1000-2000":
+        products = products.filter(price__gte=1000, price__lte=2000)
+
+    elif price == "2000+":
+        products = products.filter(price__gte=2000)
 
     return render(request, "walldecor.html", {
         "banner": banner,
