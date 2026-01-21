@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOME BLOOM - Furniture</title>
     
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
     
     <style>
@@ -175,7 +173,6 @@
         
         /* ===== PAGE TITLE SECTION ===== */
         .page-title-section {
-            background-colorf: #e4d1bbff ;
             padding: 5px 0;
             text-align: center;
             margin-top:40px;
@@ -189,59 +186,43 @@
             text-transform: uppercase;
             letter-spacing: 3px;
         }
-   /* CATEGORY BANNER */
-.category-banner {
-    margin-bottom: 40px;
-}
 
-.banner-image {
-    height: 280px;
-    border-radius: 12px;
-    background-image: url("images/wall-decor-banner.jpg"); /* CHANGE THIS */
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
+        /* CATEGORY BANNER */
+        .category-banner {
+            margin-bottom: 40px;
+        }
 
-/* Dark overlay for text readability */
-.banner-image::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-}
+        .banner-image {
+            height: 280px;
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-.banner-image h2 {
-    position: relative;
-    color: #fff;
-    font-size: 2.5rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    z-index: 1;
-}
+        .banner-image::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        .banner-image h2 {
+            position: relative;
+            color: #fff;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            z-index: 1;
+        }
 
         /* ===== PRODUCTS SECTION ===== */
         .products-section {
-            padding: 40px 0 80px;
-        }
-        
-        .category-group {
-            margin-bottom: 60px;
-        }
-        
-        .category-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            padding: 10px 0 80px;
         }
         
         .product-grid {
@@ -346,75 +327,99 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
         
-        /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 1200px) {
-            .product-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        /* ===================== SHOP LAYOUT ===================== */
+        .shop-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            padding: 40px 0;
         }
-        
-        @media (max-width: 992px) {
-            .navbar-content {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .category-nav-items {
-                justify-content: center;
-                gap: 20px;
-            }
-            
-            .icon-nav-items {
-                justify-content: center;
-            }
-            
-            .dropdown-mega-menu {
-                min-width: 90vw;
-                left: 5vw;
-                transform: none;
-            }
-            
-            .mega-menu-content {
-                gap: 20px;
-            }
-            
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+
+        .filter-sidebar {
+            background: #fff;
+            padding: 20px;
+            border-radius: 6px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            margin-top:10px;
         }
-        
-        @media (max-width: 768px) {
-            .category-nav-items {
-                gap: 15px;
-            }
-            
-            .category-nav-items a {
-                font-size: 0.85rem;
-            }
-            
-            .dropdown-mega-menu {
-                padding: 20px;
-            }
-            
-            .page-title {
-                font-size: 2rem;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .product-grid {
-                gap: 20px;
-            }
+
+        .filter-header {
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
-        
-        @media (max-width: 576px) {
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
+
+        .filter-block {
+            border-bottom: 1px solid #e5e5e5;
+            padding: 15px 0;
         }
+
+        .filter-title {
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* UPDATED PRICE FILTER CSS - Ensures Visibility */
+        .filter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .filter-block input[type="checkbox"]:checked ~ .filter-content {
+            max-height: 600px; /* Increased to fit form */
+            overflow: visible;
+        }
+        .filter-link {
+                display: block;
+                padding: 5px 0;
+                text-decoration: none;
+                color: #555;
+                font-size: 14px;
+                transition: color 0.3s ease;
+            }
+            .filter-link:hover {
+                color: #8B6F47;
+            }
+            .filter-link.active {
+                font-weight: bold;
+                color: #8B6F47;
+            }
+        .price-input-box {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .price-apply-btn {
+            width: 100%;
+            background: #8B6F47;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        /* ===== LOGO SECTION ===== */
         .logo {
             background-color:#fff;
             padding: 10px 0;
@@ -428,230 +433,83 @@
             text-transform: uppercase;
             letter-spacing: 3px;
         }
-       /* ===================== SHOP LAYOUT ===================== */
-.shop-layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 40px;
-    padding: 40px 0;
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 992px) {
+            .shop-layout { grid-template-columns: 1fr; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+            .filter-sidebar { position: static; }
+        }
+        @media (max-width: 576px) {
+            .product-grid { grid-template-columns: 1fr; }
+        }
+
+        .account-dropdown { position:relative; list-style:none; }
+        .account-menu {
+            position:absolute; top:120%; right:0; background:#8B6F47; min-width:180px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.15); border-radius:13px; padding:5px 0;
+            opacity:0; visibility:hidden; transform:translateY(10px); transition:all 0.3s ease; z-index:9999;
+        }
+        .account-dropdown:hover .account-menu { opacity:1; visibility:visible; transform:translateY(0); }
+        .account-menu a { display:block; padding:8px 15px; color:white; text-decoration:none; font-size:14px; }
+        .account-menu a:hover { background: rgba(255,255,255,0.1); }
+        
+        .nav-search { position: relative; display: flex; align-items: center; }
+        #search-toggle { display: none; }
+        .search-icon { color:white; cursor: pointer; font-size: 18px; }
+        .search-form { width: 0; overflow: hidden; transition: width 0.3s ease; margin-left: 8px; }
+        .search-form input { width: 180px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; }
+        #search-toggle:checked ~ .search-form { width: 180px; }
+        .logout-btn { background: none; border: none; padding: 8px 15px; color:white; width: 100%; text-align: left; cursor: pointer; font: inherit; }
+        .product-card-link { display: block; text-decoration: none; color: inherit; }
+
+
+/* position: left side */
+.wishlist-form {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
 }
 
-/* ===================== FILTER SIDEBAR ===================== */
-.filter-sidebar {
-    background: #fff;
-    padding: 20px;
-    border-radius: 6px;
-    position: sticky;
-    top: 100px;
-    height: fit-content;
-    margin-top:-40px;
-}
-
-.filter-header {
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-.filter-block {
-    border-bottom: 1px solid #e5e5e5;
-    padding: 15px 0;
-}
-
-.filter-block input {
-    display: none;
-}
-
-.filter-title {
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-/* ACCORDION */
-.filter-content {
-    max-height: 0;
-    overflow-y: auto;          /* allow scroll */
-    overflow-x: hidden;
-    transition: max-height 0.4s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-
-.filter-block input:checked ~ .filter-content {
-    max-height: 300px;
-}
-
-/* COLOR DOTS */
-.filter-content.colors {
-    flex-direction: row;
-    gap: 10px;
-}
-
-.filter-content.colors span {
-    width: 24px;
-    height: 24px;
+/* DEFAULT: white heart */
+.wishlist-btn {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
+    background: white;
+    border: 1px solid #ddd;
+    font-size: 20px;
     cursor: pointer;
-}
-
-/* PRICE */
-.price-range {
+    color: white;                 /* white heart */
+    text-shadow: 0 0 1px #000;    /* visibility */
     display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
 }
 
-/* RESPONSIVE */
-@media (max-width: 992px) {
-    .shop-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .filter-sidebar {
-        position: static;
-    }
-}
-.account-dropdown{
-position:relative;
-list-style:none;
-}
-
-/* menu */
-.account-menu{
-position:absolute;
-top:120%;
-right:0;
-background:#8B6F47;
-min-width:180px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-border-radius:13px;
-padding:5px 0;
-opacity:0;
-visibility:hidden;
-transform:translateY(10px);
-transition:all 0.3s ease;
-z-index:9999;
-}
-
-/* show on hover */
-.account-dropdown:hover .account-menu{
-opacity:1;
-visibility:visible;
-transform:translateY(0);
-}
-
-.account-menu li{
-list-style:none;
-}
-
-.account-menu a{
-display:block;
-padding:5px 10px;
-color:whtie;
-text-decoration:none;
-font-size:14px;
-}
-
-.account-menu a:hover{
-background:#f5f5f5;
-}
-
-.account-menu .divider{
-height:1px;
-background:#e5e5e5;
-margin:8px 0;}
-.view-btn{
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 14px;
-    background: #8B6F47;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.view-btn:hover{
-    background: #3f3007;
-}
-.nav-search {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-#search-toggle {
-  display: none;
-}
-
-.search-icon {
-    color:white;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.search-form {
-  width: 0;
-  overflow: hidden;
-  transition: width 0.3s ease;
-  margin-left: 8px;
-}
-
-.search-form input {
-  width: 180px;
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Slide open */
-#search-toggle:checked ~ .search-form {
-  width: 180px;
-}
-.logout-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    color:white;
-    margin-left:12px;
-    cursor: pointer;
-    font: inherit;
-}
-.product-card-link{
-    display: block;
-    text-decoration: none;
-    color: inherit;
-}
-
-.product-card{
-    cursor: pointer;
-}
-.product-card:hover{
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+/* ACTIVE: added to wishlist */
+.wishlist-btn.active {
+    background: #6b4f1d;  /* your light brown */
+    color: white;
+    border-color: #6b4f1d;
 }
     </style>
 </head>
 <body>
     
-    <!-- ===== HERO HEADER SECTION ===== -->
-    
     <section class="logo">
         <div class="container">
-            <a href='/'class="logo-title">HOME BLOOM</a>
+            <a href='/' class="logo-title">HOME BLOOM</a>
         </div>
     </section>
-    <!-- ===== COMBINED NAVIGATION BAR ===== -->
-    <nav class="combined-navbar">
-        <div class="container">
-            <div class="navbar-content">
-                
-                <!-- Category Links (Left/Center) -->
-                <ul class="category-nav-items">
+
+   <nav class="combined-navbar">
+    <div class="container">
+        <div class="navbar-content">
+
+             <ul class="category-nav-items">
 
 <li>
     <a href="{% url 'furniture' %}">Furniture</a>
@@ -758,10 +616,9 @@ margin:8px 0;}
                     </li>
 
                 </ul>
-                
-                <!-- Icon Links (Right) -->
-                <ul class="icon-nav-items">
-                     <li class="account-dropdown">
+
+            <ul class="icon-nav-items">
+                 <li class="account-dropdown">
     <a href="#" title="Account">
         <i class="bi bi-person"></i>
     </a>
@@ -796,186 +653,120 @@ margin:8px 0;}
 <form action="{% url 'search' %}" method="get" class="search-form">
     <input type="text" name="q" placeholder="Search..." />
 </form>
-</li>
+</li>              <li><a href="{%url 'cart'%}"><i class="bi bi-cart3"></i></a></li>
+            </ul>
 
-
-                    <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
-                </ul>
-            </div>
         </div>
-    </nav>
+    </div>
+</nav>
     
-    <!-- ===== PAGE TITLE SECTION ===== -->
     <section class="page-title-section">
         <div class="container">
             <h1 class="page-title">Furniture</h1>
         </div>
     </section>
-    <!-- WALL DECOR BANNER -->
-{% if banner %}
-<section class="category-banner">
-    <div class="container">
-        <div class="banner-image"
-             style="background-image:url('{{ banner.image.url }}')">
-            <h2>{{ banner.title }}</h2>
-        </div>
-    </div>
-</section>
-{% endif %}
 
-    
-    
-   <section class="shop-section">
-    <div class="container shop-layout">
-
-       <section class="shop-section">
-    <div class="container shop-layout">
-
-        <!-- FILTER SIDEBAR -->
-        <aside class="filter-sidebar">
-            <div class="filter-header">Filter</div>
-
-            <div class="filter-block">
-                <input type="checkbox" id="cat-toggle"hidden>
-                <label for="cat-toggle" class="filter-title">
-                    CATEGORY <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content">
-            <a href="{% url 'furniture' %}?sub_id=35" 
-             style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'chairs' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Chairs
-            </a>
-            <a href="{% url 'furniture' %}?sub_id=36" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'sofa' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Sofa
-            </a>
-            <a href="{% url 'furniture' %}?sub_id=3" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'stools' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Stools
-            </a>
-            <a href="{% url 'furniture' %}?sub_id=6" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'coffee table' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Coffee Table
-            </a>
-            <a href="{% url 'furniture' %}?sub_id=7" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'side table' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Side & Nesting Tables
-            </a>
-            <a href="{% url 'furniture' %}?sub_id=8" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'console table' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Console Tables
-            </a>
-            <a href="{% url 'furniture' %}?sub_id=10" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'wall mounted' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Wall Mounted
-            </a>
-            <a href="{% url 'furniture' %}?sub_id=11" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'floating shelves' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Floating Shelves
-            </a>
-            <a href="{% url 'furniture' %}?sub_id=12" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'corner shelves' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Corner Shelves
-            </a>
-            <a href="{% url 'furniture' %}?sub_id=13" 
-               style="display:block; padding:8px 0; text-decoration:none; color:inherit;"
-               {% if selected_sub == 'ladder shelves' %}style="font-weight:bold; color:#8B6F47;"{% endif %}>
-                Ladder Shelves
-            </a>
-        </div>
-    </div>
-            
-<div class="filter-block">
-    <label class="filter-title">PRICE</label>
-
-    <form method="get">
-        {% if selected_sub_id %}
-            <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
-        {% endif %}
-
-        <input type="number"
-               name="min_price"
-               placeholder="Min price"
-               value="{{ min_price }}"
-               style="width:100%; margin-bottom:10px; padding:6px;">
-
-        <input type="number"
-               name="max_price"
-               placeholder="Max price"
-               value="{{ max_price }}"
-               style="width:100%; margin-bottom:10px; padding:6px;">
-
-        <button type="submit"
-                style="width:100%; background:#8B6F47; color:#fff; border:none; padding:8px;">
-            Apply
-        </button>
-    </form>
-</div>
-
-        </aside>
-    </div>
-</section>
-
-    
-    <!-- ===== PRODUCTS SECTION ===== -->
-    <section class="container mb-5">
-    <div class="product-grid">
-
-        {% for product in products %}
-
-<a href="{% url 'product_detail' product.id %}" class="product-card-link">
-
-    <div class="product-card">
-
-        <img src="{{ product.image1.url }}"
-             alt="{{ product.name }}"
-             class="product-image">
-
-        <div class="product-info">
-            <div>
-                <h3 class="product-name">{{ product.name }}</h3>
-
-                {% if product.offer_price %}
-                    <p class="product-price">
-                        ₹{{ product.offer_price }}
-                        <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
-                            ₹{{ product.price }}
-                        </span>
-                    </p>
-                {% else %}
-                    <p class="product-price">₹{{ product.price }}</p>
-                    
-                {% endif %}
-                <button class="btn cart-btn">Add to Cart</button>
+    {% if banner %}
+    <section class="category-banner">
+        <div class="container">
+            <div class="banner-image" style="background-image:url('{{ banner.image.url }}')">
+                <h2>{{ banner.title }}</h2>
             </div>
         </div>
+    </section>
+    {% endif %}
 
-    </div>
+    <section class="shop-section">
+        <div class="container shop-layout">
+            <aside class="filter-sidebar">
+                <div class="filter-header">Filter</div>
 
-</a>
+                <div class="filter-block">
+                    <input type="checkbox" id="cat-toggle" hidden >
+                    <label for="cat-toggle" class="filter-title">
+                        CATEGORY <i class="bi bi-chevron-down"></i>
+                    </label>
+                    <div class="filter-content">
+                        <a href="{% url 'furniture' %}?sub_id=35" class="filter-link">Chairs</a>
+                        <a href="{% url 'furniture' %}?sub_id=36" class="filter-link">Sofa</a>
+                        <a href="{% url 'furniture' %}?sub_id=3" class="filter-link">Stools</a>
+                        <a href="{% url 'furniture' %}?sub_id=6" class="filter-link">Coffee Table</a>
+                        <a href="{% url 'furniture' %}?sub_id=7" class="filter-link">Side & Nesting Table</a>
+                        <a href="{% url 'furniture' %}?sub_id=8" class="filter-link">Console Table</a>
+                        <a href="{% url 'furniture' %}?sub_id=10" class="filter-link">Wall Mounted</a>
+                        <a href="{% url 'furniture' %}?sub_id=11" class="filter-link">Floating Shelves</a>
+                        <a href="{% url 'furniture' %}?sub_id=12" class="filter-link">Corner Shelves</a>
+                        <a href="{% url 'furniture' %}?sub_id=13" class="filter-link">Ladder Shelves</a>
+                    </div>
+                </div>
 
-{% empty %}
-<p style="grid-column:1/-1; text-align:center;">
-    No furniture products available.
-</p>
-{% endfor %}
+                <div class="filter-block">
+                    <input type="checkbox" id="price-toggle" hidden >
+                    <label for="price-toggle" class="filter-title">
+                        PRICE <i class="bi bi-chevron-down"></i>
+                    </label>
+                    <div class="filter-content">
+                        <form method="get" action="">
+                            {% if selected_sub_id %}
+                                <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
+                            {% endif %}
+
+                            <div style="margin-bottom: 10px;">
+                                <label style="font-size: 11px; color: #666;">Min Price</label>
+                                <input type="number" name="min_price" placeholder="₹0" value="{{ min_price|default:'' }}" class="price-input-box">
+                            </div>
+
+                            <div style="margin-bottom: 15px;">
+                                <label style="font-size: 11px; color: #666;">Max Price</label>
+                                <input type="number" name="max_price" placeholder="₹50,000" value="{{ max_price|default:'' }}" class="price-input-box">
+                            </div>
+
+                            <button type="submit" class="price-apply-btn">APPLY FILTER</button>
+                            
+                            <a href="{% url 'furniture' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}" 
+                               style="display: block; text-align: center; margin-top: 10px; font-size: 13px; color: #8B6F47; text-decoration: none;">
+                               Clear Filter
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="products-section">
+                <div class="product-grid">
+                    {% for product in products %}
+                    <a href="{% url 'product_detail' product.id %}" class="product-card-link">
+                        <div class="product-card">
+                    <form method="POST"
+                        action="{% url 'toggle_wishlist' product.id %}"
+                        class="wishlist-form">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">
+                            ♥
+                        </button>
+                    </form>
 
 
-    </div>
-</section>
-    </div>
+                            <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
+                            <div class="product-info">
+                                <div>
+                                    <h3 class="product-name">{{ product.name }}</h3>
+                                    <p class="product-price">₹{{ product.price }}</p>
+                                </div>
+                                <button class="btn btn-sm btn-outline-dark">Add to car</button>
+                            </div>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <p style="grid-column:1/-1; text-align:center;">No furniture products available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- ===== FOOTER SECTION ===== -->
-    <footer class="footer">
+<footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <!-- Contact Information -->
@@ -1014,6 +805,3 @@ margin:8px 0;}
     
 </body>
 </html>
-
-
- 

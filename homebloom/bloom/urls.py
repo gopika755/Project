@@ -21,6 +21,7 @@ urlpatterns = [
     path('adminorder',views.adminorder,name='adminorder'),
     path('addaddress',views.addaddress,name='addaddress'),
     path('wishlist',views.wishlist,name='wishlist'),
+    path('wishlist/toggle/<int:product_id>/', views.toggle_wishlist, name='toggle_wishlist'),
     path('cart',views.cart,name='cart'),
     path('checkout',views.checkout,name='checkout'),
     path('faq',views.faq,name='faq'),

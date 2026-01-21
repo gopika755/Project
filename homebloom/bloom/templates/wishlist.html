@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Wishlist | HOME BLOOM</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
-    
+
     <style>
         * {
             margin: 0;
@@ -18,221 +18,61 @@
 
         :root {
             --primary-color: #8B6F47;
-            --secondary-color: #8b7355;
-            --accent-color: #3f3007ff;
+            --accent-color: #3f3007;
+            --bg-light: #e4d1bb;
             --text-dark: #333;
-            --bg-light: #dbc7adff;
         }
 
         body {
-            background: #e4d1bbff;
-            min-height: 100vh;
+            background: var(--bg-light);
         }
 
-        /* HEADER */
-       .page-title-section {
-            background-color:#fff;
-            padding: 20px 0;
+        .page-title-section {
+            background: #fff;
+            padding: 20px;
             text-align: center;
         }
+
         .page-title {
-            font-size: 50px;
-            font-weight: 70;
-            text-decoration: none;
+            font-size: 42px;
             color: var(--primary-color);
-            text-transform: uppercase;
+            text-decoration: none;
             letter-spacing: 3px;
         }
 
-        /* MAIN CONTAINER */
         .wishlist-container {
             max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px 60px;
-        }
-        /* ===== COMBINED NAVIGATION BAR ===== */
-        .combined-navbar {
-            background-color: var(--primary-color);
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: sticky;
-    top: 0;
-    z-index: 999;
-
-    transition: all 0.3s ease;
-        }
-        
-        .navbar-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        /* Category Links */
-        .category-nav-items {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            flex-wrap: wrap;
-            flex: 1;
-        }
-        
-        .category-nav-items a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: color 0.3s ease, transform 0.3s ease;
-            display: inline-block;
-        }
-        
-        .category-nav-items a:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-        
-        /* Icon Links */
-        .icon-nav-items {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 25px;
-            list-style: none;
-            margin-right: 30px;
-            padding: 0;
-        }
-        
-        .icon-nav-items a {
-            color: #fff;
-            font-size: 1.4rem;
-            transition: color 0.3s ease, transform 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .icon-nav-items a:hover {
-            color: var(--accent-color);
-            transform: scale(1.1);
-        }
-        
-        /* ===== DROPDOWN MEGA MENU ===== */
-        .category-nav-items li {
-            position: relative;
-        }
-        
-        .dropdown-mega-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            padding: 20px 30px;
-            margin-top: 1px;
-            border-radius: 8px;
-            min-width: 280px;
-            display: none;
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        
-        .category-nav-items li:hover .dropdown-mega-menu {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .mega-menu-content {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-        
-        .mega-menu-column h4 {
-            color: var(--primary-color);
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .mega-menu-column ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .mega-menu-column ul li {
-            margin-bottom: 8px;
-        }
-        
-        .mega-menu-column ul li a {
-            color: var(--text-dark);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease, padding-left 0.3s ease;
-            display: block;
-            text-transform: capitalize;
-        }
-        
-        .mega-menu-column ul li a:hover {
-            color: var(--accent-color);
-            padding-left: 5px;
-        }
-        /* WISHLIST HEADER */
-        .wishlist-header {
-            margin-bottom: 40px;
-            margin-top:30px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
         .wishlist-header h1 {
-            font-size: 2rem;
+            font-size: 28px;
+            margin-bottom: 30px;
             color: var(--text-dark);
-            font-weight: 700;
         }
 
-        .wishlist-header h1 span {
+        .wishlist-header span {
             color: var(--primary-color);
-            font-weight: 400;
+            font-weight: normal;
         }
 
-        /* WISHLIST GRID */
         .wishlist-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 30px;
         }
 
-        /* WISHLIST CARD */
         .wishlist-card {
             background: #fff;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-        }
-
-        .wishlist-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .card-image-wrapper {
             position: relative;
-            width: 100%;
-            height: 350px;
-            overflow: hidden;
+            height: 320px;
         }
 
         .card-image {
@@ -241,728 +81,137 @@
             object-fit: cover;
         }
 
-        /* REMOVE BUTTON */
         .remove-btn {
             position: absolute;
             top: 15px;
             right: 15px;
-            width: 35px;
-            height: 35px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
+            width: 36px;
+            height: 36px;
+            background: white;
             border-radius: 50%;
+            border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-
-        .remove-btn:hover {
-            background: #fff;
-            transform: scale(1.1);
         }
 
         .remove-btn i {
-            font-size: 1.2rem;
-            color: var(--text-dark);
-        }
-
-        /* NEW BADGE */
-        .new-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #c59152ff;
-            color: #fff;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* CARD INFO */
-        .card-info {
-            padding: 20px;
-        }
-
-        .product-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 12px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 48px;
-        }
-
-        .price-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .current-price {
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 20px;
             color: var(--accent-color);
         }
 
-        .original-price {
-            font-size: 1rem;
-            color: #999;
-            text-decoration: line-through;
+        .card-info {
+            padding: 18px;
         }
 
-        .discount-badge {
-            background: #a47031ff;
-            color: #fff;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
+        .product-name {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--text-dark);
         }
 
-        /* ADD TO CART BUTTON */
-        .add-to-cart-btn {
-            width: 100%;
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .view-btn {
             margin-top: 15px;
+            display: block;
+            text-align: center;
             padding: 12px;
             background: var(--primary-color);
             color: #fff;
-            border: none;
+            text-decoration: none;
             border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 14px;
         }
 
-        .add-to-cart-btn:hover {
+        .view-btn:hover {
             background: var(--accent-color);
-            transform: translateY(-2px);
         }
 
-        /* EMPTY WISHLIST */
         .empty-wishlist {
             text-align: center;
             padding: 100px 20px;
         }
 
         .empty-wishlist i {
-            font-size: 5rem;
+            font-size: 80px;
             color: var(--primary-color);
-            margin-bottom: 20px;
         }
 
         .empty-wishlist h2 {
-            font-size: 2rem;
-            color: var(--text-dark);
-            margin-bottom: 15px;
-        }
-
-        .empty-wishlist p {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .shop-now-btn {
-            display: inline-block;
-            padding: 14px 40px;
-            background: var(--primary-color);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .shop-now-btn:hover {
-            background: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 1200px) {
-            .wishlist-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            margin-top: 20px;
+            font-size: 28px;
         }
 
         @media (max-width: 992px) {
-            .wishlist-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .page-title {
-                font-size: 2rem;
-            }
-
-            .wishlist-header h1 {
-                font-size: 1.5rem;
-            }
-
-            .wishlist-grid {
-                gap: 20px;
-            }
+            .wishlist-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 576px) {
-            .wishlist-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .card-image-wrapper {
-                height: 300px;
-            }
+            .wishlist-grid { grid-template-columns: 1fr; }
         }
-        .account-dropdown{
-position:relative;
-list-style:none;
-}
-
-/* menu */
-.account-menu{
-position:absolute;
-top:120%;
-right:0;
-background:#8B6F47;
-min-width:180px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-border-radius:13px;
-padding:5px 0;
-opacity:0;
-visibility:hidden;
-transform:translateY(10px);
-transition:all 0.3s ease;
-z-index:9999;
-}
-
-/* show on hover */
-.account-dropdown:hover .account-menu{
-opacity:1;
-visibility:visible;
-transform:translateY(0);
-}
-
-.account-menu li{
-list-style:none;
-}
-
-.account-menu a{
-display:block;
-padding:5px 10px;
-color:whtie;
-text-decoration:none;
-font-size:14px;
-}
-
-.account-menu a:hover{
-background:#f5f5f5;
-}
-
-.account-menu .divider{
-height:1px;
-background:#e5e5e5;
-margin:8px 0;
-}
-.nav-icons {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  list-style: none;
-}
-
-#search-toggle {
-  display: none;
-}
-
-.search-icon {
-  cursor: pointer;
-  color: white;
-  font-size: 20px;
-}
-
-.nav-search {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.search-form {
-  width: 0;
-  overflow: hidden;
-  transition: width 0.3s ease;
-  margin-left: 8px;
-}
-
-.search-form input {
-  width: 180px;
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: none;
-}
-
-/* 🔥 THIS LINE MAKES IT WORK */
-#search-toggle:checked ~ .search-form {
-  width: 180px;
-}
-.logout-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    color:white;
-    margin-left:12px;
-    cursor: pointer;
-    font: inherit;
-}
     </style>
 </head>
 <body>
 
+<!-- HEADER -->
+<section class="page-title-section">
+    <a href="/" class="page-title">HOME BLOOM</a>
+</section>
+
+<div class="wishlist-container">
+
     <!-- HEADER -->
-    <section class="page-title-section">
-        <a href="/" class="page-title">HOME BLOOM</a>
-    </section>
-    <nav class="combined-navbar">
-    <div class="container">
-        <div class="navbar-content">
-
-            <ul class="category-nav-items">
-
-                <li>
-    <a href="{% url 'furniture' %}">Furniture</a>
-    <div class="dropdown-mega-menu">
-        <div class="mega-menu-content">
-            <div class="mega-menu-column">
-                <h4>Seating</h4>
-                <ul>
-                    <li><a href="{% url 'furniture' %}?sub=chair">Chairs</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=sofa">Sofa</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=stools">Stools</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=all seating">All Seating</a></li>
-                </ul>
-            </div>
-            <div class="mega-menu-column">
-                <h4>Tables</h4>
-                <ul>
-                    <li><a href="{% url 'furniture' %}?sub=coffee table">Coffee Table</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=side table">Side & Nesting Table</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=console table">Console Table</a></li>
-                </ul>
-            </div>
-            <div class="mega-menu-column">
-                <h4>Shelves</h4>
-                <ul>
-                    <li><a href="{% url 'furniture' %}?sub=wall mounted">Wall Mounted</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=floating shelves">Floating Shelves</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=corner shelves">Corner Shelves</a></li>
-                    <li><a href="{% url 'furniture' %}?sub=ladder shelves">Ladder Shelves</a></li>
-                </ul>
-            </div>
-        </div>
+    <div class="wishlist-header">
+        <h1>
+            My Wishlist
+            <span>({{ wishlist_items|length }} items)</span>
+        </h1>
     </div>
-</li>
 
-                <li>
-                    <a href="{%url 'walldecor'%}">Wall Decor</a>
-                    <div class="dropdown-mega-menu">
-                        <div class="mega-menu-content">
-                            <div class="mega-menu-column">
-                                <h4>Wall Decor</h4>
-                                <ul>
-                                    <li><a href="#">Wall Vase</a></li>
-                                    <li><a href="#">Mirrors</a></li>
-                                    <li><a href="#">Paintings</a></li>
-                                    <li><a href="#">Wall Plates&Accents</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+    <!-- GRID -->
+    <div class="wishlist-grid">
 
-                <li><a href="kitchen">Kitchen & Dining</a><div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Dinnerware</h4>
-                                    <ul>
-                                        <li><a href="#tableware">Tableware</a></li>
-                                        <li><a href="#tea-coffee">Tea & Coffee</a></li>
-                                        <li><a href="#table-accessories">Table Accessories</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Serveware</h4>
-                                    <ul>
-                                        <li><a href="#serving-bowls">Serving Bowls</a></li>
-                                        <li><a href="#serving-trays">Serving Trays</a></li>
-                                        <li><a href="#platters-stands">Platters & Stands</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                <li><a href="{%url 'lighting'%}">Lighting</a>
-                <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Lighting</h4>
-                                    <ul>
-                                        <li><a href="#table-lamps">Table Lamps</a></li>
-                                        <li><a href="#floor-lamps">Floor Lamps</a></li>
-                                        <li><a href="#chandelier-pendants">Chandelier & Pendants</a></li>
-                                        <li><a href="#lamps">Lamps</a></li>
-                                        <li><a href="#wall-lamps">Wall Lamps</a></li>
-                                        <li><a href="#all-lamps">All Lamps</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                <li><a href="{%url 'bath'%}">Accessoriesr</a>
-                 <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Accessories</h4>
-                                    <ul>
-                                        <li><a href="#bath-sets">Vase</a></li>
-                                        <li><a href="#towel-holder">Candle Holders</a></li>
-                                        <li><a href="#toothbrush-holder">Planters &Pots</a></li>
-                                        <li><a href="#organizers">Decor objects & Sculptures</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+        {% for item in wishlist_items %}
+        <div class="wishlist-card">
 
-            </ul>
+            <div class="card-image-wrapper">
+                <img src="{{ item.product.image1.url }}"
+                     alt="{{ item.product.name }}"
+                     class="card-image">
 
-            <ul class="icon-nav-items">
-                 <li class="account-dropdown">
-    <a href="#" title="Account">
-        <i class="bi bi-person"></i>
-    </a>
-
-     <ul class="account-menu">
-    {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}">Profile</a></li>
-        <li><a href="{% url 'order' %}">My Orders</a></li>
-        <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-        <li class="divider"></li>
-
-        <li>
-            <form method="post" action="{% url 'userlogout' %}">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">
-                    Logout
-                </button>
-            </form>
-        </li>
-    {% else %}
-        <li><a href="{% url 'login' %}">Login</a></li>
-    {% endif %}
-</ul>
-</li>
-                       <li class="nav-search">
-  <input type="checkbox" id="search-toggle">
-
-  <label for="search-toggle" class="search-icon" title="Search">
-    <i class="bi bi-search"></i>
-  </label>
-
-<form action="{% url 'search' %}" method="get" class="search-form">
-    <input type="text" name="q" placeholder="Search..." />
-</form>
-</li>
-                <li><a href="{%url 'cart'%}"><i class="bi bi-cart3"></i></a></li>
-            </ul>
-
-        </div>
-    </div>
-</nav>
-
-    <!-- MAIN CONTAINER -->
-    <div class="wishlist-container">
-        
-        <!-- WISHLIST HEADER -->
-        <div class="wishlist-header">
-            <h1>My Wishlist <span>12 items</span></h1>
-        </div>
-
-        <!-- WISHLIST GRID -->
-        <div class="wishlist-grid">
+                <!-- REMOVE -->
+                <form method="POST"
+                      action="{% url 'toggle_wishlist' item.product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="remove-btn">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </form>
+            </div>
             
-            <!-- PRODUCT 1 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Modern Sofa Set" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Elegant Velvet Sofa Set - Contemporary Design</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.324</span>
-                        <span class="original-price">Rs.2,499</span>
-                        <span class="discount-badge">87% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
+            <div class="card-info">
+                <h3 class="product-name">{{ item.product.name }}</h3>
+                <div class="price">₹{{ item.product.price }}</div>
 
-            <!-- PRODUCT 2 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Wall Mirror" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Rose Gold Decorative Wall Mirror</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.499</span>
-                        <span class="original-price">Rs.679</span>
-                        <span class="discount-badge">27% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 3 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Dining Table" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Floral Print Ceramic Dinnerware Set</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.477</span>
-                        <span class="original-price">Rs.2,999</span>
-                        <span class="discount-badge">Rs. 2522 OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 4 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Table Lamp" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <span class="new-badge">NEW</span>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Vintage Pattern Decorative Lamp</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.417</span>
-                        <span class="original-price">Rs.999</span>
-                        <span class="discount-badge">Rs. 582 OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 5 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Wall Art" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Abstract Canvas Wall Art Painting</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.899</span>
-                        <span class="original-price">Rs.2,499</span>
-                        <span class="discount-badge">64% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 6 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Coffee Table" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Wooden Modern Coffee Table with Storage</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.1,299</span>
-                        <span class="original-price">Rs.3,999</span>
-                        <span class="discount-badge">68% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 7 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Cushions" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <span class="new-badge">NEW</span>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Decorative Throw Pillow Set - 4 Pieces</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.549</span>
-                        <span class="original-price">Rs.1,499</span>
-                        <span class="discount-badge">63% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 8 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Floor Lamp" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Contemporary Arc Floor Lamp</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.799</span>
-                        <span class="original-price">Rs.2,199</span>
-                        <span class="discount-badge">64% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 9 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Bookshelf" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Industrial Ladder Bookshelf</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.1,599</span>
-                        <span class="original-price">Rs.4,999</span>
-                        <span class="discount-badge">68% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 10 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" alt="Vase Set" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Ceramic Decorative Vase Set - 3 Pieces</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.399</span>
-                        <span class="original-price">Rs.999</span>
-                        <span class="discount-badge">60% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 11 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#"  class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Bohemian Style Area Rug</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.1,099</span>
-                        <span class="original-price">Rs.3,499</span>
-                        <span class="discount-badge">69% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
-
-            <!-- PRODUCT 12 -->
-            <div class="wishlist-card">
-                <div class="card-image-wrapper">
-                    <img src="#" class="card-image">
-                    <button class="remove-btn">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <span class="new-badge">NEW</span>
-                </div>
-                <div class="card-info">
-                    <h3 class="product-name">Luxury Silent Wall Clock - Gold Frame</h3>
-                    <div class="price-section">
-                        <span class="current-price">Rs.299</span>
-                        <span class="original-price">Rs.899</span>
-                        <span class="discount-badge">67% OFF</span>
-                    </div>
-                    <button class="add-to-cart-btn">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
+                <a href="{% url 'product_detail' item.product.id %}"class="view-btn">Move to cart</a>
             </div>
 
         </div>
+        {% empty %}
+        <div class="empty-wishlist">
+            <i class="bi bi-heart"></i>
+            <h2>Your wishlist is empty</h2>
+        </div>
+        {% endfor %}
 
     </div>
+</div>
 
 </body>
-</html>     
+</html>

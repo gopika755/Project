@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import login,get_user_model,logout
 from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm
-from .models import PasswordResetOTP, Product, Category,SubCategory,Banner
+from .models import PasswordResetOTP, Product, Category,SubCategory,Banner,Wishlist
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.contrib import messages
@@ -32,8 +32,11 @@ def home(request):
 def furniture(request):
     banner = Banner.objects.filter(page="furniture",is_active=True).first()
     products = Product.objects.filter(category__name__iexact="Furniture",is_active=True)
-
     sub_id = request.GET.get("sub_id")
+    wishlist_products = []
+    if request.user.is_authenticated:
+        wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list('product_id', flat=True)
+        )
 
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
@@ -53,6 +56,7 @@ def furniture(request):
         "selected_sub_id": sub_id,
         "min_price": min_price,
         "max_price": max_price,
+        "wishlist_products": wishlist_products,
     })
     
 @never_cache
@@ -275,7 +279,28 @@ def addaddress(request):
 
 @login_required(login_url='login')
 def wishlist(request):
-    return render(request,'wishlist.html')
+    wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
+    return render(request, 'wishlist.html', {
+        'wishlist_items': wishlist_items
+    })
+@login_required
+def toggle_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    wishlist_item = Wishlist.objects.filter(
+        user=request.user,
+        product=product
+    ).first()
+
+    if wishlist_item:
+        wishlist_item.delete()
+    else:
+        # not in wishlist → add
+        Wishlist.objects.create(
+            user=request.user,
+            product=product
+        )
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @never_cache
 @login_required(login_url="login")

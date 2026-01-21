@@ -766,6 +766,7 @@ margin:8px 0;}
                     <span class="original">₹{{ product.price }}</span>
                 {% else %}
                     <span class="sale">₹{{ product.price }}</span>
+                    <span class="sale">%{{product.offer}}</span>
                 {% endif %}
             </div>
 
