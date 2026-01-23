@@ -407,17 +407,17 @@
             font-size: 14px;
         }
 
-        .price-apply-btn {
-            width: 100%;
-            background: #8B6F47;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 5px;
-        }
+            .price-apply-btn {
+                width: 100%;
+                background: #8B6F47;
+                color: #fff;
+                border: none;
+                padding: 10px;
+                border-radius: 4px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 5px;
+            }
 
         /* ===== LOGO SECTION ===== */
         .logo {
@@ -754,7 +754,13 @@
                                     <h3 class="product-name">{{ product.name }}</h3>
                                     <p class="product-price">₹{{ product.price }}</p>
                                 </div>
-                                <button class="btn btn-sm btn-outline-dark">Add to car</button>
+                               <form method="post" action="{% url 'cart' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <button type="submit" class="btn btn-sm btn-outline-dark">
+                                    Add to cart
+                                </button>
+                                </form>
                             </div>
                         </div>
                     </a>

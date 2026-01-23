@@ -251,26 +251,6 @@
             color: var(--text-dark);
         }
         
-        /* Color Swatches */
-        
-        .color-swatch input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .color-swatch input[type="checkbox"]:checked ~ .color-circle {
-            box-shadow: 0 0 0 3px var(--accent-color);
-            transform: scale(1.1);
-        }
-        
-        
-        .color-swatch:hover .color-circle {
-            transform: scale(1.05);
-        }
-        
         /* Price Slider */
         
         .price-slider::-moz-range-thumb {
@@ -289,6 +269,17 @@
             font-weight: 600;
             color: var(--primary-color);
         }
+        .price-apply-btn {
+                width: 100%;
+                background: #8B6F47;
+                color: #fff;
+                border: none;
+                padding: 10px;
+                border-radius: 4px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 5px;
+            }
         
         /* ===== PRODUCTS SECTION ===== */
         .products-section {
@@ -770,6 +761,21 @@ margin:8px 0;
     transform: translateY(-6px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
+.filter-link {
+                display: block;
+                padding: 5px 0;
+                text-decoration: none;
+                color: #555;
+                font-size: 14px;
+                transition: color 0.3s ease;
+            }
+            .filter-link:hover {
+                color: #8B6F47;
+            }
+            .filter-link.active {
+                font-weight: bold;
+                color: #8B6F47;
+            }
     </style>
 </head>
 
@@ -974,43 +980,49 @@ margin:8px 0;
                     CATEGORY <i class="bi bi-chevron-down"></i>
                 </label>
                 <div class="filter-content">
-                    <label><input type="checkbox"> Tableware</label>
-                    <label><input type="checkbox"> Tea & Coffee</label>
-                    <label><input type="checkbox"> Table Accessories</label>
-                    <label><input type="checkbox"> Serving Bowls</label>
-                    <label><input type="checkbox"> Serving Trays</label>
-                    <label><input type="checkbox"> Platters & Stands</label>
-                </div>
+                        <a href="{% url 'kitchen' %}?sub_id=18" class="filter-link">Tableware</a>
+                        <a href="{% url 'kitchen' %}?sub_id=19" class="filter-link">Tea&Coffee</a>
+                        <a href="{% url 'kitchen' %}?sub_id=20" class="filter-link">Table Accessories</a>
+                        <a href="{% url 'kitchen' %}?sub_id=21" class="filter-link">Serving Bowls</a>
+                        <a href="{% url 'kitchen' %}?sub_id=22" class="filter-link">Serving Trays</a>
+                        <a href="{% url 'kitchen' %}?sub_id=23" class="filter-link">Platters & Stands</a>
+                    </div>
             </div>
 
-            <!-- COLOR -->
-            <div class="filter-block">
-                <input type="checkbox" id="color-toggle">
-                <label for="color-toggle" class="filter-title">
-                    COLOR <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content colors">
-                    <span style="background:#000"></span>
-                    <span style="background:#fff;border:1px solid #aaa"></span>
-                    <span style="background:#c2a46d"></span>
-                    <span style="background:#8b5cf6"></span>
-                </div>
-            </div>
 
             <!-- PRICE -->
-            <div class="filter-block">
-                <input type="checkbox" id="price-toggle">
-                <label for="price-toggle" class="filter-title">
-                    PRICE <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content">
-                    <input type="range" min="0" max="2000">
-                    <div class="price-range">
-                        <span>$0</span>
-                        <span>$2000+</span>
+<div class="filter-block">
+    <input type="checkbox" id="price-toggle">
+    <label for="price-toggle" class="filter-title">
+        PRICE <i class="bi bi-chevron-down"></i>
+    </label>
+
+  <div class="filter-content">
+                        <form method="get" action="">
+                            {% if selected_sub_id %}
+                                <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
+                            {% endif %}
+
+                            <div style="margin-bottom: 10px;">
+                                <label style="font-size: 11px; color: #666;">Min Price</label>
+                                <input type="number" name="min_price" placeholder="₹0" value="{{ min_price|default:'' }}" class="price-input-box">
+                            </div>
+
+                            <div style="margin-bottom: 15px;">
+                                <label style="font-size: 11px; color: #666;">Max Price</label>
+                                <input type="number" name="max_price" placeholder="₹50,000" value="{{ max_price|default:'' }}" class="price-input-box">
+                            </div>
+
+                            <button type="submit" class="price-apply-btn">APPLY FILTER</button>
+                            
+                            <a href="{% url 'furniture' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}" 
+                               style="display: block; text-align: center; margin-top: 10px; font-size: 13px; color: #8B6F47; text-decoration: none;">
+                               Clear Filter
+                            </a>
+                        </form>
                     </div>
-                </div>
-            </div>
+</div>
+
         </aside>
 
         <!-- PRODUCTS -->

@@ -8,9 +8,9 @@ from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 import random
-
+from django.db.models.functions import Coalesce
 
 
 User = get_user_model()
@@ -30,26 +30,36 @@ def home(request):
     
 @never_cache
 def furniture(request):
-    banner = Banner.objects.filter(page="furniture",is_active=True).first()
+    banner = Banner.objects.filter(page="furniture", is_active=True).first()
     products = Product.objects.filter(category__name__iexact="Furniture",is_active=True)
     sub_id = request.GET.get("sub_id")
-    wishlist_products = []
-    if request.user.is_authenticated:
-        wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list('product_id', flat=True)
-        )
 
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
-        
+
     min_price = request.GET.get("min_price")
     max_price = request.GET.get("max_price")
 
-    if min_price:
+    try:
+        min_price = int(min_price) if min_price else None
+    except ValueError:
+        min_price = None
+
+    try:
+        max_price = int(max_price) if max_price else None
+    except ValueError:
+        max_price = None
+
+    if min_price is not None:
         products = products.filter(price__gte=min_price)
 
-    if max_price:
+    if max_price is not None:
         products = products.filter(price__lte=max_price)
-        
+
+    wishlist_products = []
+    if request.user.is_authenticated:
+        wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True))
+
     return render(request, "furniture.html", {
         "banner": banner,
         "products": products,
@@ -58,79 +68,184 @@ def furniture(request):
         "max_price": max_price,
         "wishlist_products": wishlist_products,
     })
+
     
 @never_cache
 def walldecor(request):
+    
     banner = Banner.objects.filter(page="walldecor", is_active=True).first()
-    sub_id = request.GET.get("sub_id")
-    products = Product.objects.filter(category__name__iexact="Wall Decor",is_active=True)
-    price = request.GET.get("price")
 
+    products = Product.objects.filter(
+        category__name__iexact="Wall Decor",
+        is_active=True
+    )
+
+    sub_id = request.GET.get("sub_id")
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
+
+    min_price_raw = request.GET.get("min_price")
+    max_price_raw = request.GET.get("max_price")
+
+    try:
+        min_price = Decimal(min_price_raw) if min_price_raw else None
+    except InvalidOperation:
+        min_price = None
+
+    try:
+        max_price = Decimal(max_price_raw) if max_price_raw else None
+    except InvalidOperation:
+        max_price = None
         
-    if price == "0-500":
-        products = products.filter(price__lte=500)
+    products = products.annotate(
+        effective_price=Coalesce("offer_price", "price")
+    )
 
-    elif price == "500-1000":
-        products = products.filter(price__gte=500, price__lte=1000)
+    if min_price is not None:
+        products = products.filter(price__gte=min_price)
 
-    elif price == "1000-2000":
-        products = products.filter(price__gte=1000, price__lte=2000)
-
-    elif price == "2000+":
-        products = products.filter(price__gte=2000)
-
+    if max_price is not None:
+        products = products.filter(price__lte=max_price)
+        
     return render(request, "walldecor.html", {
         "banner": banner,
-        "products": products
+        "products": products,
+        "min_price": min_price,
+        "max_price": max_price,
+        "selected_sub_id": sub_id,
     })
 
-
     
-@never_cache   
+@never_cache
 def kitchen(request):
-    banner = Banner.objects.filter(page="kitchen", is_active=True).first()
-    products = Product.objects.filter(category__name__iexact="Kitchen & Dining",is_active=True)
     
-    sub_id = request.GET.get("sub_id")
 
+    banner = Banner.objects.filter(page="kitchen", is_active=True).first()
+
+    products = Product.objects.filter(
+        category__name__iexact="Kitchen & Dining",
+        is_active=True
+    )
+
+    sub_id = request.GET.get("sub_id")
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
+
+    min_price = request.GET.get("min_price")
+    max_price = request.GET.get("max_price")
+
+    try:
+        min_price = Decimal(min_price) if min_price else None
+    except InvalidOperation:
+        min_price = None
+
+    try:
+        max_price = Decimal(max_price) if max_price else None
+    except InvalidOperation:
+        max_price = None
+
+    if min_price is not None and max_price is not None:
+        if min_price > max_price:
+            min_price, max_price = max_price, min_price
+
+    if min_price is not None:
+        products = products.filter(price__gte=min_price)
+
+    if max_price is not None:
+        products = products.filter(price__lte=max_price)
 
     return render(request, "kitchen.html", {
         "banner": banner,
-        "products": products
+        "products": products,
+        "min_price": min_price,
+        "max_price": max_price,
+        "selected_sub_id": sub_id,
     })
     
-    
-@never_cache 
+@never_cache
 def lighting(request):
     banner = Banner.objects.filter(page="lighting", is_active=True).first()
-    products = Product.objects.filter(category__name__iexact="Lighting",is_active=True)
-    sub_id = request.GET.get("sub_id")
 
+    products = Product.objects.filter(
+        category__name__iexact="Lighting",
+        is_active=True
+    )
+
+    sub_id = request.GET.get("sub_id")
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
+
+    min_price_raw = request.GET.get("min_price")
+    max_price_raw = request.GET.get("max_price")
+
+    try:
+        min_price = Decimal(min_price_raw) if min_price_raw else None
+    except InvalidOperation:
+        min_price = None
+
+    try:
+        max_price = Decimal(max_price_raw) if max_price_raw else None
+    except InvalidOperation:
+        max_price = None
+        
+    if min_price is not None and max_price is not None:
+        if min_price > max_price:
+            min_price, max_price = max_price, min_price
+
+    if min_price is not None:
+        products = products.filter(price__gte=min_price)
+
+    if max_price is not None:
+        products = products.filter(price__lte=max_price)
 
     return render(request, "lighting.html", {
         "banner": banner,
-        "products": products
+        "products": products,
+        "min_price": min_price,
+        "max_price": max_price,
+        "selected_sub_id": sub_id,
     })
-    
-@never_cache    
+@never_cache
 def bath(request):
     banner = Banner.objects.filter(page="bath", is_active=True).first()
-    products = Product.objects.filter(category__name__iexact="Accessories",is_active=True)
-    sub_id = request.GET.get("sub_id")
 
+    products = Product.objects.filter(category__name__iexact="Accessories",is_active=True)
+
+    sub_id = request.GET.get("sub_id")
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
 
+    min_price_raw = request.GET.get("min_price")
+    max_price_raw = request.GET.get("max_price")
+
+    try:
+        min_price = Decimal(min_price_raw) if min_price_raw else None
+    except InvalidOperation:
+        min_price = None
+
+    try:
+        max_price = Decimal(max_price_raw) if max_price_raw else None
+    except InvalidOperation:
+        max_price = None
+        
+    if min_price is not None and max_price is not None:
+        if min_price > max_price:
+            min_price, max_price = max_price, min_price
+
+    if min_price is not None:
+        products = products.filter(price__gte=min_price)
+
+    if max_price is not None:
+        products = products.filter(price__lte=max_price)
+
     return render(request, "bath.html", {
         "banner": banner,
-        "products": products
+        "products": products,
+        "min_price": min_price,
+        "max_price": max_price,
+        "selected_sub_id": sub_id,
     })
+    
     
 @never_cache
 def signup_view(request):
@@ -394,6 +509,8 @@ def productedit(request, pk):
             product.category_id = selected_category_id
             product.subcategory_id = request.POST.get("subcategory")
             product.price = request.POST.get("price")
+            offer_price = request.POST.get("offer_price")
+            product.offer_price = offer_price if offer_price else None
             product.quantity = request.POST.get("quantity")
             product.description = request.POST.get("description")
             

@@ -15,7 +15,6 @@ class User(AbstractUser):
 class PasswordResetOTP(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def is_expired(self):
         return timezone.now() > self.created_at + timezone.timedelta(minutes=5)
@@ -87,15 +86,8 @@ class Banner(models.Model):
 
 
 class Wishlist(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
-    )
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.CASCADE
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('user', 'product')

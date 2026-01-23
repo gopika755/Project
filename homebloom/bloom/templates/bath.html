@@ -235,7 +235,21 @@
             font-size: 1.2rem;
             transition: transform 0.3s ease;
         }
-        
+        .filter-link {
+                display: block;
+                padding: 5px 0;
+                text-decoration: none;
+                color: #555;
+                font-size: 14px;
+                transition: color 0.3s ease;
+            }
+            .filter-link:hover {
+                color: #8B6F47;
+            }
+            .filter-link.active {
+                font-weight: bold;
+                color: #8B6F47;
+            }
         /* Accordion functionality */
         
         
@@ -772,6 +786,18 @@ margin:8px 0;
     transform: translateY(-6px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
+.price-apply-btn {
+                width: 100%;
+                background: #8B6F47;
+                color: #fff;
+                border: none;
+                padding: 10px;
+                border-radius: 4px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 5px;
+            }
+        
     </style>
 </head>
 
@@ -969,33 +995,20 @@ margin:8px 0;
             </div>
 
             <!-- CATEGORY -->
+             <!-- CATEGORY -->
             <div class="filter-block">
                 <input type="checkbox" id="cat-toggle">
                 <label for="cat-toggle" class="filter-title">
                     CATEGORY <i class="bi bi-chevron-down"></i>
                 </label>
                 <div class="filter-content">
-                    <label><input type="checkbox"> Vases</label>
-                    <label><input type="checkbox"> Candle holders</label>
-                    <label><input type="checkbox">Planters & pots</label>
-                    <label><input type="checkbox">Decor objects & Sculptures</label>
-                </div>
+                        <a href="{% url 'bath' %}?sub_id=30" class="filter-link">Vase</a>
+                        <a href="{% url 'bath' %}?sub_id=31" class="filter-link">Candle Holders</a>
+                        <a href="{% url 'bath' %}?sub_id=32" class="filter-link">Planters & Pots</a>
+                        <a href="{% url 'bath' %}?sub_id=33" class="filter-link">Decor objects & Sculptures </a>
+                        
+                    </div>
             </div>
-
-            <!-- COLOR -->
-            <div class="filter-block">
-                <input type="checkbox" id="color-toggle">
-                <label for="color-toggle" class="filter-title">
-                    COLOR <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content colors">
-                    <span style="background:#000"></span>
-                    <span style="background:#fff;border:1px solid #aaa"></span>
-                    <span style="background:#c2a46d"></span>
-                    <span style="background:#8b5cf6"></span>
-                </div>
-            </div>
-
             <!-- PRICE -->
             <div class="filter-block">
                 <input type="checkbox" id="price-toggle">
@@ -1003,12 +1016,44 @@ margin:8px 0;
                     PRICE <i class="bi bi-chevron-down"></i>
                 </label>
                 <div class="filter-content">
-                    <input type="range" min="0" max="2000">
-                    <div class="price-range">
-                        <span>$0</span>
-                        <span>$2000+</span>
-                    </div>
-                </div>
+    <form method="get" action="{% url 'bath' %}">
+
+        {% if selected_sub_id %}
+            <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
+        {% endif %}
+
+        <div style="margin-bottom: 10px;">
+            <label style="font-size: 11px; color: #666;">Min Price</label>
+            <input
+                type="number"
+                name="min_price"
+                placeholder="₹0"
+                value="{{ min_price|default:'' }}"
+                class="price-input-box">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="font-size: 11px; color: #666;">Max Price</label>
+            <input
+                type="number"
+                name="max_price"
+                placeholder="₹50,000"
+                value="{{ max_price|default:'' }}"
+                class="price-input-box">
+        </div>
+
+        <button type="submit" class="price-apply-btn">
+            APPLY FILTER
+        </button>
+
+        <!-- CLEAR FILTER -->
+        <a href="{% url 'bath' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}"
+           style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#8B6F47;text-decoration:none;">
+            Clear Filter
+        </a>
+
+    </form>
+</div>
             </div>
         </aside>
 

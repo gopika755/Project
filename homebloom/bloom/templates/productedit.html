@@ -256,10 +256,20 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Price</label>
-                        <input type="number" name="price" value="{{ product.price }}" required>
-                    </div>
+                <div class="form-group">
+                    <label>Price (MRP)</label>
+                    <input type="number" name="price" value="{{ product.price }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Offer Price</label>
+                    <input
+                        type="number"
+                        name="offer_price"
+                        value="{{ product.offer_price|default:'' }}"
+                        placeholder="Leave empty if no offer">
+                </div>
+                    
 
                     <div class="form-group">
                         <label>Quantity</label>

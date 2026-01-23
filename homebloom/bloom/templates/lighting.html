@@ -250,6 +250,21 @@
             font-size: 0.95rem;
             color: var(--text-dark);
         }
+        .filter-link {
+                display: block;
+                padding: 5px 0;
+                text-decoration: none;
+                color: #555;
+                font-size: 14px;
+                transition: color 0.3s ease;
+            }
+            .filter-link:hover {
+                color: #8B6F47;
+            }
+            .filter-link.active {
+                font-weight: bold;
+                color: #8B6F47;
+            }
         
         /* Color Swatches */
         
@@ -770,6 +785,18 @@ margin:8px 0;
     transform: translateY(-6px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
+.price-apply-btn {
+                width: 100%;
+                background: #8B6F47;
+                color: #fff;
+                border: none;
+                padding: 10px;
+                border-radius: 4px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 5px;
+            }
+        
     </style>
 </head>
 
@@ -975,28 +1002,15 @@ margin:8px 0;
                     CATEGORY <i class="bi bi-chevron-down"></i>
                 </label>
                 <div class="filter-content">
-                    <label><input type="checkbox"> Table lamps</label>
-                    <label><input type="checkbox"> Floor lamps</label>
-                    <label><input type="checkbox"> Chandelier & pendants</label>
-                    <label><input type="checkbox"> Lamps</label>
-                    <label><input type="checkbox"> Wall lamps</label>
-                    <label><input type="checkbox"> All lamps</label>
-                </div>
+                        <a href="{% url 'lighting' %}?sub_id=24" class="filter-link">Table Lamps</a>
+                        <a href="{% url 'lighting' %}?sub_id=25" class="filter-link">Floor Lamps</a>
+                        <a href="{% url 'lighting' %}?sub_id=26" class="filter-link">Chandelier & Pendants</a>
+                        <a href="{% url 'lighting' %}?sub_id=28" class="filter-link">Wall Lamps</a>
+                        
+                    </div>
             </div>
 
-            <!-- COLOR -->
-            <div class="filter-block">
-                <input type="checkbox" id="color-toggle">
-                <label for="color-toggle" class="filter-title">
-                    COLOR <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content colors">
-                    <span style="background:#000"></span>
-                    <span style="background:#fff;border:1px solid #aaa"></span>
-                    <span style="background:#c2a46d"></span>
-                    <span style="background:#8b5cf6"></span>
-                </div>
-            </div>
+            
 
             <!-- PRICE -->
             <div class="filter-block">
@@ -1004,13 +1018,46 @@ margin:8px 0;
                 <label for="price-toggle" class="filter-title">
                     PRICE <i class="bi bi-chevron-down"></i>
                 </label>
-                <div class="filter-content">
-                    <input type="range" min="0" max="2000">
-                    <div class="price-range">
-                        <span>$0</span>
-                        <span>$2000+</span>
-                    </div>
-                </div>
+                 <div class="filter-content">
+    <form method="get" action="{% url 'lighting' %}">
+
+        {% if selected_sub_id %}
+            <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
+        {% endif %}
+
+        <div style="margin-bottom: 10px;">
+            <label style="font-size: 11px; color: #666;">Min Price</label>
+            <input
+                type="number"
+                name="min_price"
+                placeholder="₹0"
+                value="{{ min_price|default:'' }}"
+                class="price-input-box">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="font-size: 11px; color: #666;">Max Price</label>
+            <input
+                type="number"
+                name="max_price"
+                placeholder="₹50,000"
+                value="{{ max_price|default:'' }}"
+                class="price-input-box">
+        </div>
+
+        <button type="submit" class="price-apply-btn">
+            APPLY FILTER
+        </button>
+
+        <!-- CLEAR FILTER -->
+        <a href="{% url 'lighting' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}"
+           style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#8B6F47;text-decoration:none;">
+            Clear Filter
+        </a>
+
+    </form>
+</div>
+
             </div>
         </aside>
 

@@ -251,6 +251,21 @@
             font-size: 0.95rem;
             color: var(--text-dark);
         }
+        .filter-link {
+                display: block;
+                padding: 5px 0;
+                text-decoration: none;
+                color: #555;
+                font-size: 14px;
+                transition: color 0.3s ease;
+            }
+            .filter-link:hover {
+                color: #8B6F47;
+            }
+            .filter-link.active {
+                font-weight: bold;
+                color: #8B6F47;
+            }
         
         /* Color Swatches */
         
@@ -771,6 +786,17 @@ margin:8px 0;
     transform: translateY(-6px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
+.price-apply-btn {
+            width: 100%;
+            background: #8B6F47;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -968,47 +994,55 @@ margin:8px 0;
             </div>
 
             <!-- CATEGORY -->
-            <div class="filter-block">
-                <input type="checkbox" id="cat-toggle">
-                <label for="cat-toggle" class="filter-title">
-                    CATEGORY <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content">
-                    <label><input type="checkbox"> Wall vase</label>
-                    <label><input type="checkbox"> Wall mirrors</label>
-                    <label><input type="checkbox"> Paintings</label>
-                    <label><input type="checkbox"> Wall Plates&Accents</label>
-                </div>
-            </div>
+            <form method="get">
+    <!-- CATEGORY -->
+    <div class="filter-block">
+        <input type="checkbox" id="cat-toggle">
+        <label for="cat-toggle" class="filter-title">
+            CATEGORY <i class="bi bi-chevron-down"></i>
+        </label>
 
-            <!-- COLOR -->
-            <div class="filter-block">
-                <input type="checkbox" id="color-toggle">
-                <label for="color-toggle" class="filter-title">
-                    COLOR <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content colors">
-                    <span style="background:#000"></span>
-                    <span style="background:#fff;border:1px solid #aaa"></span>
-                    <span style="background:#c2a46d"></span>
-                    <span style="background:#8b5cf6"></span>
-                </div>
-            </div>
-
-            <!-- PRICE -->
-            <div class="filter-block">
-                <input type="checkbox" id="price-toggle">
-                <label for="price-toggle" class="filter-title">
-                    PRICE <i class="bi bi-chevron-down"></i>
-                </label>
-                <div class="filter-content">
-                    <input type="range" min="0" max="2000">
-                    <div class="price-range">
-                        <span>$0</span>
-                        <span>$2000+</span>
+         <div class="filter-content">
+                        <a href="{% url 'walldecor' %}?sub_id=14" class="filter-link">Wall vase</a>
+                        <a href="{% url 'walldecor' %}?sub_id=15" class="filter-link">Mirrors</a>
+                        <a href="{% url 'walldecor' %}?sub_id=16" class="filter-link">Painting</a>
+                        <a href="{% url 'walldecor' %}?sub_id=17" class="filter-link">Wall plates& Accents</a>
+                        
                     </div>
-                </div>
-            </div>
+    </div>
+
+    <!-- PRICE -->
+    <div class="filter-block">
+        <input type="checkbox" id="price-toggle">
+        <label for="price-toggle" class="filter-title">
+            PRICE <i class="bi bi-chevron-down"></i>
+        </label>
+
+        <div class="filter-content">
+                       <form method="get" action="">
+    {% if selected_sub_id %}
+        <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
+    {% endif %}
+
+    <label>Min Price</label>
+    <input
+        type="number"
+        name="min_price"
+        placeholder="0"
+        value="{{ request.GET.min_price }}">
+
+    <label>Max Price</label>
+    <input
+        type="number"
+        name="max_price"
+        placeholder="50000"
+        value="{{ request.GET.max_price }}">
+
+    <button type="submit">APPLY FILTER</button>
+</form>
+
+                    </div>
+
         </aside>
 
         <!-- PRODUCTS -->
