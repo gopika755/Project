@@ -331,6 +331,11 @@
     grid-template-columns: repeat(4, 1fr) !important;  /* Force 4 columns */
     gap: 30px;
 }
+.product-card-wrapper {
+    position: relative;
+}
+
+
         
        .product-card {
             background: #fff;
@@ -797,6 +802,63 @@ margin:8px 0;
             cursor: pointer;
             margin-top: 5px;
         }
+/* position: left side */
+.wishlist-form {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+}
+
+/* DEFAULT: white heart */
+.wishlist-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #ddd;
+    font-size: 20px;
+    cursor: pointer;
+    color: white;                 /* white heart */
+    text-shadow: 0 0 1px #000;    /* visibility */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+/* ACTIVE: added to wishlist */
+.wishlist-btn.active {
+    background: #6b4f1d;  /* your light brown */
+    color: white;
+    border-color: #6b4f1d;
+}
+
+/* ADD TO CART – HOME BLOOM STYLE */
+.add-to-cart-btn {
+    background: #8B6F47;          /* primary theme color */
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease;
+}
+
+.add-to-cart-btn:hover {
+    background: #3f3007;          /* darker accent */
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.add-to-cart-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
     </style>
 </head>
 
@@ -1019,28 +1081,28 @@ margin:8px 0;
         </label>
 
         <div class="filter-content">
-                       <form method="get" action="">
-    {% if selected_sub_id %}
-        <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
-    {% endif %}
+                        <form method="get" action="">
+                            {% if selected_sub_id %}
+                                <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
+                            {% endif %}
 
-    <label>Min Price</label>
-    <input
-        type="number"
-        name="min_price"
-        placeholder="0"
-        value="{{ request.GET.min_price }}">
+                            <div style="margin-bottom: 10px;">
+                                <label style="font-size: 11px; color: #666;">Min Price</label>
+                                <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
+                            </div>
 
-    <label>Max Price</label>
-    <input
-        type="number"
-        name="max_price"
-        placeholder="50000"
-        value="{{ request.GET.max_price }}">
+                            <div style="margin-bottom: 15px;">
+                                <label style="font-size: 11px; color: #666;">Max Price</label>
+                                <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
+                            </div>
 
-    <button type="submit">APPLY FILTER</button>
-</form>
-
+                            <button type="submit" class="price-apply-btn">APPLY FILTER</button>
+                            
+                            <a href="{% url 'walldecor' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}" 
+                               style="display: block; text-align: center; margin-top: 10px; font-size: 13px; color: #8B6F47; text-decoration: none;">
+                               Clear Filter
+                            </a>
+                        </form>
                     </div>
 
         </aside>
@@ -1048,12 +1110,21 @@ margin:8px 0;
         <!-- PRODUCTS -->
        <div class="product-area">
     <div class="product-grid">
-
-         {% for product in products %}
+{% for product in products %}
 
 <a href="{% url 'product_detail' product.id %}" class="product-card-link">
-
     <div class="product-card">
+
+        <!-- ❤️ WISHLIST BUTTON (SAME AS FURNITURE) -->
+        <form method="POST"
+              action="{% url 'toggle_wishlist' product.id %}"
+              class="wishlist-form">
+            {% csrf_token %}
+            <button type="submit"
+                    class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">
+                ♥
+            </button>
+        </form>
 
         <img src="{{ product.image1.url }}"
              alt="{{ product.name }}"
@@ -1062,29 +1133,28 @@ margin:8px 0;
         <div class="product-info">
             <div>
                 <h3 class="product-name">{{ product.name }}</h3>
-
-                {% if product.offer_price %}
-                    <p class="product-price">
-                        ₹{{ product.offer_price }}
-                        <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
-                            ₹{{ product.price }}
-                        </span>
-                    </p>
-                {% else %}
-                    <p class="product-price">₹{{ product.price }}</p>
-                {% endif %}
+                <p class="product-price">₹{{ product.price }}</p>
             </div>
+
+            <form method="post" action="{% url 'cart' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="add-to-cart-btn">
+                        Add to cart
+                    </button>
+                    </form>
         </div>
 
     </div>
-
 </a>
 
 {% empty %}
 <p style="grid-column:1/-1; text-align:center;">
-    No furniture products available.
+    No products available.
 </p>
 {% endfor %}
+
+
 
     </div>
 </div>

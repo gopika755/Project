@@ -450,10 +450,63 @@
             box-shadow:0 10px 30px rgba(0,0,0,0.15); border-radius:13px; padding:5px 0;
             opacity:0; visibility:hidden; transform:translateY(10px); transition:all 0.3s ease; z-index:9999;
         }
-        .account-dropdown:hover .account-menu { opacity:1; visibility:visible; transform:translateY(0); }
-        .account-menu a { display:block; padding:8px 15px; color:white; text-decoration:none; font-size:14px; }
-        .account-menu a:hover { background: rgba(255,255,255,0.1); }
-        
+        .account-dropdown {
+    position: relative;
+    list-style: none;
+}
+
+/* dropdown box */
+.account-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background: #8B6F47;
+    min-width: 180px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 14px;
+    padding: 5px 0;
+
+    /* IMPORTANT */
+    list-style: none;
+    margin: 0;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+/* show on hover */
+.account-dropdown:hover .account-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.account-menu li {
+    list-style: none;
+}
+
+.account-menu a {
+    display: block;
+    padding: 8px 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.account-menu a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* divider */
+.account-menu .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.3);
+    margin: 8px 0;
+}
+
         .nav-search { position: relative; display: flex; align-items: center; }
         #search-toggle { display: none; }
         .search-icon { color:white; cursor: pointer; font-size: 18px; }
@@ -495,6 +548,32 @@
     color: white;
     border-color: #6b4f1d;
 }
+
+/* ADD TO CART – HOME BLOOM STYLE */
+.add-to-cart-btn {
+    background: #8B6F47;          /* primary theme color */
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease;
+}
+
+.add-to-cart-btn:hover {
+    background: #3f3007;          /* darker accent */
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.add-to-cart-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
     </style>
 </head>
 <body>
@@ -713,12 +792,12 @@
 
                             <div style="margin-bottom: 10px;">
                                 <label style="font-size: 11px; color: #666;">Min Price</label>
-                                <input type="number" name="min_price" placeholder="₹0" value="{{ min_price|default:'' }}" class="price-input-box">
+                                <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
                             </div>
 
                             <div style="margin-bottom: 15px;">
                                 <label style="font-size: 11px; color: #666;">Max Price</label>
-                                <input type="number" name="max_price" placeholder="₹50,000" value="{{ max_price|default:'' }}" class="price-input-box">
+                                <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
                             </div>
 
                             <button type="submit" class="price-apply-btn">APPLY FILTER</button>
@@ -755,12 +834,12 @@
                                     <p class="product-price">₹{{ product.price }}</p>
                                 </div>
                                <form method="post" action="{% url 'cart' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="product_id" value="{{ product.id }}">
-                                <button type="submit" class="btn btn-sm btn-outline-dark">
-                                    Add to cart
-                                </button>
-                                </form>
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="add-to-cart-btn">
+                        Add to cart
+                    </button>
+                    </form>
                             </div>
                         </div>
                     </a>

@@ -72,7 +72,6 @@ def furniture(request):
     
 @never_cache
 def walldecor(request):
-    
     banner = Banner.objects.filter(page="walldecor", is_active=True).first()
 
     products = Product.objects.filter(
@@ -96,23 +95,28 @@ def walldecor(request):
         max_price = Decimal(max_price_raw) if max_price_raw else None
     except InvalidOperation:
         max_price = None
-        
+
     products = products.annotate(
         effective_price=Coalesce("offer_price", "price")
     )
 
     if min_price is not None:
-        products = products.filter(price__gte=min_price)
+        products = products.filter(effective_price__gte=min_price)
 
     if max_price is not None:
-        products = products.filter(price__lte=max_price)
+        products = products.filter(effective_price__lte=max_price)
         
+    wishlist_products = []
+    if request.user.is_authenticated:
+        wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True))
+
     return render(request, "walldecor.html", {
         "banner": banner,
         "products": products,
         "min_price": min_price,
         "max_price": max_price,
         "selected_sub_id": sub_id,
+        "wishlist_products":wishlist_products,
     })
 
     
@@ -148,18 +152,26 @@ def kitchen(request):
         if min_price > max_price:
             min_price, max_price = max_price, min_price
 
+    products = products.annotate(
+        effective_price=Coalesce("offer_price", "price")
+    )
+
     if min_price is not None:
-        products = products.filter(price__gte=min_price)
+        products = products.filter(effective_price__gte=min_price)
 
     if max_price is not None:
-        products = products.filter(price__lte=max_price)
-
+        products = products.filter(effective_price__lte=max_price)
+    wishlist_products = []
+    if request.user.is_authenticated:
+        wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True))
+        
     return render(request, "kitchen.html", {
         "banner": banner,
         "products": products,
         "min_price": min_price,
         "max_price": max_price,
         "selected_sub_id": sub_id,
+        "wishlist_products":wishlist_products,
     })
     
 @never_cache
@@ -192,18 +204,27 @@ def lighting(request):
         if min_price > max_price:
             min_price, max_price = max_price, min_price
 
+    products = products.annotate(
+        effective_price=Coalesce("offer_price", "price")
+    )
+
     if min_price is not None:
-        products = products.filter(price__gte=min_price)
+        products = products.filter(effective_price__gte=min_price)
 
     if max_price is not None:
-        products = products.filter(price__lte=max_price)
-
+        products = products.filter(effective_price__lte=max_price)
+        
+    wishlist_products = []
+    if request.user.is_authenticated:
+        wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True))
+        
     return render(request, "lighting.html", {
         "banner": banner,
         "products": products,
         "min_price": min_price,
         "max_price": max_price,
         "selected_sub_id": sub_id,
+        "wishlist_products":wishlist_products,
     })
 @never_cache
 def bath(request):
@@ -232,18 +253,27 @@ def bath(request):
         if min_price > max_price:
             min_price, max_price = max_price, min_price
 
+    products = products.annotate(
+        effective_price=Coalesce("offer_price", "price")
+    )
+
     if min_price is not None:
-        products = products.filter(price__gte=min_price)
+        products = products.filter(effective_price__gte=min_price)
 
     if max_price is not None:
-        products = products.filter(price__lte=max_price)
-
+        products = products.filter(effective_price__lte=max_price)
+        
+    wishlist_products = []
+    if request.user.is_authenticated:
+        wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True)) 
+        
     return render(request, "bath.html", {
         "banner": banner,
         "products": products,
         "min_price": min_price,
         "max_price": max_price,
         "selected_sub_id": sub_id,
+        "wishlist_products":wishlist_products,
     })
     
     
