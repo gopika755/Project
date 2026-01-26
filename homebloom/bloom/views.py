@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import login,get_user_model,logout
-from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm
-from .models import PasswordResetOTP, Product, Category,SubCategory,Banner,Wishlist
+from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm,AddressForm
+from .models import PasswordResetOTP, Product, Category,SubCategory,Banner,Wishlist,Cart,Profile,Address,Order,OrderItem
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.contrib import messages
@@ -11,6 +11,12 @@ from django.http import HttpResponseForbidden
 from decimal import Decimal, InvalidOperation
 import random
 from django.db.models.functions import Coalesce
+from django.utils.crypto import get_random_string
+from django.db import transaction
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+
 
 
 User = get_user_model()
@@ -59,6 +65,13 @@ def furniture(request):
     wishlist_products = []
     if request.user.is_authenticated:
         wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True))
+        
+    cart_product_ids = []
+    if request.user.is_authenticated:
+        cart_product_ids = list(
+            Cart.objects.filter(user=request.user)
+            .values_list("product_id", flat=True)
+        )
 
     return render(request, "furniture.html", {
         "banner": banner,
@@ -67,6 +80,7 @@ def furniture(request):
         "min_price": min_price,
         "max_price": max_price,
         "wishlist_products": wishlist_products,
+        "cart_product_ids":cart_product_ids
     })
 
     
@@ -409,18 +423,147 @@ def password_changed(request):
 
 @login_required(login_url='login')
 def profile(request):
-    return render(request,'profile.html')
+    profile, created = Profile.objects.get_or_create(
+        user=request.user
+    )
+
+    addresses = Address.objects.filter(user=request.user).order_by('-id')
+
+
+
+    return render(request, "profile.html", {
+        "profile": profile,
+        "addresses": addresses
+    })
+@login_required
+def editprofile(request):
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        # update user fields
+        request.user.first_name = request.POST.get("name")
+        request.user.email = request.POST.get("email")
+        request.user.save()
+
+        # update profile fields
+        profile.phone = request.POST.get("phone")
+
+        if request.FILES.get("profile_image"):
+            profile.image = request.FILES["profile_image"]
+
+        profile.save()
+        return redirect("profile")
+
+    return render(request, "editprofile.html", {
+        "profile": profile
+    })
+
+    
+@login_required
+def editaddress(request, id):
+    address = get_object_or_404(Address, id=id, user=request.user)
+
+    if request.method == "POST":
+        form = AddressForm(request.POST, instance=address)
+        if form.is_valid():
+            form.save()
+            return redirect("profile")
+    else:
+        form = AddressForm(instance=address)
+
+    return render(request, "editaddress.html", {
+        "form": form,
+        "address": address
+    })
+
 
 @login_required(login_url='login')
 def order(request):
-    return render(request,'order.html')
+    orders = (
+        Order.objects
+        .filter(user=request.user)
+        .prefetch_related("items__product")
+        .order_by("-created_at")
+    )
+    return render(request, "order.html", {"orders": orders})
 
 
-def detail(reqeust):
-    return render(reqeust,'detail.html')
 
+@login_required(login_url='login')
+def detail(request, id):
+    order = get_object_or_404(Order, id=id, user=request.user)
+    return render(request, "detail.html", {"order": order})
+
+@login_required
+def download_invoice(request, id):
+    order = Order.objects.prefetch_related("items__product").get(
+        id=id,
+        user=request.user
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="invoice_{order.order_id}.pdf"'
+
+    p = canvas.Canvas(response, pagesize=A4)
+    y = 800
+
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(50, y, "HOME BLOOM - INVOICE")
+    y -= 40
+
+    p.setFont("Helvetica", 10)
+    p.drawString(50, y, f"Order ID: {order.order_id}")
+    y -= 20
+    p.drawString(50, y, f"Date: {order.created_at.strftime('%d %b %Y')}")
+    y -= 30
+
+    for item in order.items.all():
+        p.drawString(50, y, f"{item.product.name} x {item.quantity}")
+        p.drawRightString(550, y, f"₹ {item.price}")
+        y -= 20
+
+    y -= 10
+    p.drawString(50, y, "-" * 80)
+    y -= 20
+
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(50, y, "Total")
+    p.drawRightString(550, y, f"₹ {order.total}")
+
+    p.showPage()
+    p.save()
+
+    return response
+
+@login_required
 def addaddress(request):
-    return render(request,'addaddress.html')
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        form = AddressForm(request.POST)
+
+
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            return redirect("profile")
+    else:
+        form = AddressForm()
+
+    return render(request, "addaddress.html", {
+        "form": form,
+        "profile": profile
+    })
+    
+@login_required
+def delete_address(request, id):
+    address = get_object_or_404(Address, id=id, user=request.user)
+
+    if request.method == "POST":
+        address.delete()
+        return redirect("profile")
+
 
 @login_required(login_url='login')
 def wishlist(request):
@@ -447,14 +590,149 @@ def toggle_wishlist(request, product_id):
         )
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
+def payment_page(request):
+    return render(request, "payment.html")
+
 @never_cache
-@login_required(login_url="login")
+@login_required
 def cart(request):
-    return render(request,'cart.html')
-@never_cache
-@login_required(login_url="login")
+    if request.method == "POST":
+        product_id = request.POST.get("product_id")
+        product = get_object_or_404(Product, id=product_id)
+
+        cart_item, created = Cart.objects.get_or_create(
+            user=request.user,
+            product=product
+        )
+
+        if not created:
+            cart_item.quantity += 1
+            cart_item.save()
+
+        return redirect(request.META.get("HTTP_REFERER", "cart"))
+
+
+    # GET → show cart
+    cart_items = Cart.objects.filter(user=request.user)
+    subtotal = sum(item.subtotal for item in cart_items)
+
+    return render(request, "cart.html", {
+        "cart_items": cart_items,
+        "subtotal": subtotal,
+    })
+    
+@login_required(login_url='login')
+def remove_cart_item(request, item_id):
+    cart_item = get_object_or_404(Cart, id=item_id, user=request.user)
+    cart_item.delete()
+    return redirect("cart")
+
+
+@login_required
 def checkout(request):
-    return render(request,'checkout.html')
+    addresses = Address.objects.filter(user=request.user)
+    cart_items = Cart.objects.filter(user=request.user)
+
+    total = sum(item.product.price * item.quantity for item in cart_items)
+
+    if request.method == "POST":
+        address_id = request.POST.get("address")
+
+        if not address_id:
+            messages.error(request, "Please select an address")
+            return redirect("checkout")
+
+        address = Address.objects.get(id=address_id, user=request.user)
+
+        if not cart_items.exists():
+            messages.error(request, "Cart is empty")
+            return redirect("cart")
+
+        with transaction.atomic():
+            order = Order.objects.create(
+                user=request.user,
+                address=address,
+                order_id=f"CTH-{get_random_string(8).upper()}",
+                total=total,
+                status="pending"
+            )
+
+            for item in cart_items:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    quantity=item.quantity,
+                    price=item.product.price
+                )
+
+            cart_items.delete()
+
+        return redirect("ordersuccess")
+
+    return render(request, "checkout.html", {
+        "addresses": addresses,
+        "cart_items": cart_items,
+        "total": total,
+    })
+    
+def place_order(request):
+    if request.method == "POST":
+        method = request.POST.get("payment_method")
+        address_id = request.POST.get("address")  # from checkout
+        address = Address.objects.get(id=address_id)
+
+        cart_items = Cart.objects.filter(user=request.user)
+        total = sum(item.product.price * item.quantity for item in cart_items)
+
+        # CREATE ORDER
+        order = Order.objects.create(
+            user=request.user,
+            address=address,
+            order_id=generate_order_id(),
+            total=total,
+            payment_method=method,
+            payment_status="PENDING" if method == "COD" else "INITIATED",
+            status="pending"
+        )
+
+        # CREATE ORDER ITEMS
+        for item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.price
+            )
+
+        # CLEAR CART
+        cart_items.delete()
+
+        if method == "COD":
+            return redirect("ordersuccess")
+
+        if method == "RAZORPAY":
+            request.session["razorpay_order_id"] = order.id
+            return redirect("razorpay_payment")
+
+    return redirect("checkout")
+    
+def ordersuccess(request):
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")
+
+    return render(request, "order_success.html", {
+        "orders": orders
+    })
+
+def razorpay_payment(request):
+    return render(request, "razorpay.html", {
+        "total": request.session.get("cart_total")
+    })
+    
+def payment_success(request):
+    payment_id = request.GET.get("pid")
+
+    return redirect("ordersuccess")
+
 def faq(request):
     return render(request,'faq.html')
 def privacy(request):

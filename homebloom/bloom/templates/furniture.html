@@ -266,7 +266,15 @@
             font-weight: 600;
             color: var(--text-dark);
             margin-bottom: 10px;
+            text-decoration:none;
         }
+            .product-name-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+
+
         
         .product-price {
             font-size: 1.3rem;
@@ -560,6 +568,7 @@
     border-radius: 6px;
     letter-spacing: 0.5px;
     transition: all 0.25s ease;
+    text-decoration:none;
 }
 
 .add-to-cart-btn:hover {
@@ -812,42 +821,64 @@
             </aside>
 
             <div class="products-section">
-                <div class="product-grid">
-                    {% for product in products %}
-                    <a href="{% url 'product_detail' product.id %}" class="product-card-link">
-                        <div class="product-card">
-                    <form method="POST"
-                        action="{% url 'toggle_wishlist' product.id %}"
-                        class="wishlist-form">
+    <div class="product-grid">
+
+        {% for product in products %}
+        <div class="product-card">
+
+            <!-- WISHLIST -->
+            <form method="POST"
+                  action="{% url 'toggle_wishlist' product.id %}"
+                  class="wishlist-form">
+                {% csrf_token %}
+                <button type="submit"
+                        class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">
+                    ♥
+                </button>
+            </form>
+
+            <!-- IMAGE (clickable) -->
+            <a href="{% url 'product_detail' product.id %}">
+                <img src="{{ product.image1.url }}"
+                     alt="{{ product.name }}"
+                     class="product-image">
+            </a>
+
+            <div class="product-info">
+                <!-- NAME (clickable) -->
+                <a href="{% url 'product_detail' product.id %}" class="product-name-link">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                </a>
+
+                <p class="product-price">₹{{ product.price }}</p>
+
+                {% if product.id in cart_product_ids %}
+                    <!-- GO TO CART -->
+                    <a href="{% url 'cart' %}" class="add-to-cart-btn">
+                        Go to Cart
+                    </a>
+                {% else %}
+                    <!-- ADD TO CART -->
+                    <form method="post" action="{% url 'cart' %}">
                         {% csrf_token %}
-                        <button type="submit"
-                            class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">
-                            ♥
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <button type="submit" class="add-to-cart-btn">
+                            Add to cart
                         </button>
                     </form>
-
-
-                            <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
-                            <div class="product-info">
-                                <div>
-                                    <h3 class="product-name">{{ product.name }}</h3>
-                                    <p class="product-price">₹{{ product.price }}</p>
-                                </div>
-                               <form method="post" action="{% url 'cart' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="product_id" value="{{ product.id }}">
-                    <button type="submit" class="add-to-cart-btn">
-                        Add to cart
-                    </button>
-                    </form>
-                            </div>
-                        </div>
-                    </a>
-                    {% empty %}
-                    <p style="grid-column:1/-1; text-align:center;">No furniture products available.</p>
-                    {% endfor %}
-                </div>
+                {% endif %}
             </div>
+
+        </div>
+        {% empty %}
+        <p style="grid-column:1/-1; text-align:center;">
+            No furniture products available.
+        </p>
+        {% endfor %}
+
+    </div>
+</div>
+
         </div>
     </section>
 

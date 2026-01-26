@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm,UserCreationForm
 from django import forms
-from .models import Product ,SubCategory, Category
+from .models import Product ,SubCategory,Address
 from django.contrib.auth import get_user_model
 
 
@@ -90,3 +90,8 @@ class SubCategoryForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subcategory name'}),
         }
+        
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        exclude = ["user"]

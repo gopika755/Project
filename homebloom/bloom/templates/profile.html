@@ -114,6 +114,39 @@
         .add-address-btn:hover {
             background: #6f5a41;
         }
+        .delete-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #b63a3a;
+    color: #fff;
+    border: none;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #922d2d;
+}
+.profile-image-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit-profile-btn {
+    margin-top: 14px;
+    padding: 8px 20px;
+    background: #8b7355;
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.edit-profile-btn:hover {
+    background: #6f5a41;
+}
+
     </style>
 </head>
 
@@ -130,35 +163,65 @@
 
             <!-- PROFILE HEADER -->
             <div class="profile-header">
-                <div class="profile-image">
-                    <img src="https://via.placeholder.com/150" alt="Profile Image">
+               <div class="profile-image-wrapper">
+
+                    <div class="profile-image">
+                        <img src="{{ profile.image.url }}" alt="Profile Image">
+                    </div>
+
+                    <a href="{% url 'edit_profile' %}" class="edit-profile-btn">
+                        EDIT PROFILE
+                    </a>
+
                 </div>
 
+
                 <div class="profile-info">
-                    <h2>John Doe</h2>
-                    <p>Email: johndoe@gmail.com</p>
-                    <p>Phone: +91 98765 43210</p>
-                </div>
+                    <h2>{{ user.get_full_name|default:user.username }}</h2>
+                    <p>Email: {{ user.email }}</p>
+
+                    </div>
             </div>
 
             <!-- ADDRESS -->
             <div class="address-section">
                 <h3>Saved Address</h3>
 
-                <div class="address-box">
-                    <p><strong>Full Name:</strong> John Doe</p>
-                    <p><strong>Email:</strong> johndoe@gmail.com</p>
-                    <p><strong>Phone:</strong> +91 98765 43210</p>
-                    <p><strong>Address:</strong>  
-                        12, Rose Garden Street,  
-                        Anna Nagar, Chennai,  
-                        Tamil Nadu – 600040
-                    </p>
-                </div>
+                {% if addresses %}
+    {% for address in addresses %}
+        <div class="address-box">
+            <p><strong>Full Name:</strong> {{ address.full_name }}</p>
+            <p><strong>Email:</strong> {{ address.email }}</p>
+            <p><strong>Phone:</strong> {{ address.phone }}</p>
+            <p><strong>Address:</strong>
+                {{ address.street }},
+                {{ address.city }},
+                {{ address.state }} – {{ address.pincode }}
+            </p>
 
-                <a href="{%url 'addaddress'%}" class="add-address-btn">
-                    ADD NEW ADDRESS
-                </a>
+            <a href="{% url 'edit_address' address.id %}" class="add-address-btn">
+                EDIT ADDRESS
+            </a>
+
+            <form method="post" action="{% url 'delete_address' address.id %}">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn">
+                    DELETE ADDRESS
+                </button>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No address added yet.</p>
+{% endif %}
+
+
+                
+                    <a href="{% url 'addaddress' %}" class="add-address-btn">
+                        ADD NEW ADDRESS
+                    </a>
+             
+
             </div>
 
         </div>

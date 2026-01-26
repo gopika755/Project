@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Address | Home Bloom</title>
-
+    <title>Edit Address | Home Bloom</title>
     <style>
         * {
             margin: 0;
@@ -16,7 +15,7 @@
             background: #e7d6c1;
         }
 
-        /* HEADER */
+        /* ===== HEADER ===== */
         .page-title-section {
             padding: 20px 0;
             text-align: center;
@@ -29,7 +28,7 @@
             letter-spacing: 3px;
         }
 
-        /* LAYOUT */
+        /* ===== LAYOUT ===== */
         .profile-wrapper {
             min-height: calc(100vh - 80px);
             margin-top: 30px;
@@ -45,7 +44,7 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
-        /* LEFT */
+        /* ===== LEFT ===== */
         .profile-left {
             width: 55%;
             padding: 60px;
@@ -56,42 +55,7 @@
             letter-spacing: 2px;
         }
 
-        /* PROFILE IMAGE */
-        .profile-image-section {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .profile-image-wrapper {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid #8b7355;
-            background: #000; /* blank look */
-        }
-
-        .profile-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .upload-btn {
-            display: inline-block;
-            padding: 8px 18px;
-            background: #8b7355;
-            color: #fff;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        /* FORM */
+        /* ===== FORM ===== */
         .profile-field {
             margin-bottom: 18px;
         }
@@ -102,7 +66,8 @@
             margin-bottom: 6px;
         }
 
-        .profile-field input {
+        .profile-field input,
+        .profile-field textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -123,7 +88,7 @@
             background: #6f5a41;
         }
 
-        /* RIGHT */
+        /* ===== RIGHT ===== */
         .profile-right {
             width: 45%;
             background: #8b7355;
@@ -142,43 +107,45 @@
             font-size: 15px;
             line-height: 1.6;
         }
+        .profile-image-section {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.profile-image-wrapper {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #8b7355;
+    background: #f5f5f5;
+}
+
+.profile-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
     </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <section class="page-title-section">
     <a href="/" class="page-title">HOME BLOOM</a>
 </section>
 
-<!-- CARD -->
 <div class="profile-wrapper">
     <div class="profile-card">
 
         <!-- LEFT -->
         <div class="profile-left">
-            <h2>Add Address</h2>
+            <h2>Edit Address</h2>
 
-            <form method="post" enctype="multipart/form-data">
+            <form method="post">
                 {% csrf_token %}
-
-                <!-- PROFILE IMAGE -->
-                <div class="profile-image-section">
-                    <div class="profile-image-wrapper">
-                        {% if show_profile_image and profile.image %}
-                            <img src="{{ profile.image.url }}" alt="Profile Image">
-                        {% endif %}
-                    </div>
-
-                    <label for="profileImage" class="upload-btn">Upload Photo</label>
-                    <input
-                        type="file"
-                        id="profileImage"
-                        name="profile_image"
-                        accept="image/*"
-                    >
-                </div>
 
                 <div class="profile-field">
                     <label>Full Name</label>
@@ -216,7 +183,7 @@
                 </div>
 
                 <button type="submit" class="save-btn">
-                    SAVE ADDRESS
+                    UPDATE ADDRESS
                 </button>
             </form>
         </div>
@@ -225,8 +192,7 @@
         <div class="profile-right">
             <h1>HOME BLOOM</h1>
             <p>
-                Save your address once and enjoy a smoother checkout experience.
-                Simple. Clean. Hassle-free.
+                Keep your delivery address up to date for a smoother experience.
             </p>
         </div>
 
@@ -235,4 +201,3 @@
 
 </body>
 </html>
-    

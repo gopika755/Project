@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Successful | Home Bloom</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Georgia", serif;
+}
+
+body{
+    min-height:100vh;
+    background:#e7d6c1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* OVERLAY */
+.success-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* CARD */
+.success-card{
+    background:#fff;
+    width:420px;
+    padding:45px 35px;
+    text-align:center;
+    border-radius:16px;
+    box-shadow:0 25px 60px rgba(0,0,0,0.25);
+    animation:popIn .45s ease forwards;
+}
+
+/* ICON */
+.success-icon{
+    width:90px;
+    height:90px;
+    margin:0 auto 22px;
+    border-radius:50%;
+    background:#2ecc71;
+    color:#fff;
+    font-size:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* TEXT */
+.success-card h1{
+    font-size:1.9rem;
+    color:#333;
+    margin-bottom:10px;
+}
+
+.success-card p{
+    font-size:0.95rem;
+    color:#666;
+    line-height:1.6;
+}
+
+/* BUTTON */
+.success-btn{
+    display:inline-block;
+    margin-top:26px;
+    padding:14px 32px;
+    background:#8b7355;
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    letter-spacing:1px;
+    border-radius:8px;
+    transition:.25s;
+}
+
+.success-btn:hover{
+    background:#6f5a41;
+}
+
+/* ANIMATION */
+@keyframes popIn{
+    0%{
+        opacity:0;
+        transform:scale(.85);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* MOBILE */
+@media(max-width:480px){
+    .success-card{
+        width:90%;
+        padding:35px 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="success-overlay">
+    <div class="success-card">
+
+        <div class="success-icon">✓</div>
+
+        <h1>Order Placed!</h1>
+
+        <p>
+            Your order has been placed successfully.<br>
+            Thank you for shopping with Home Bloom.
+        </p>
+
+        <a href="{% url 'home' %}" class="success-btn">
+            Continue Shopping
+        </a>
+
+    </div>
+</div>
+
+</body>
+</html>

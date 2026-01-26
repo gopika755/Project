@@ -436,171 +436,107 @@
 
     <!-- ORDERS WRAPPER -->
     <div class="orders-wrapper">
+<div class="orders-content">
 
-        <!-- ORDERS CONTENT -->
-        <div class="orders-content">
-            
-            <div class="orders-header">
-                <h2>My Orders</h2>
-            </div>
+    <div class="orders-header">
+        <h2>My Orders</h2>
+    </div>
 
-            <!-- ORDER 1 - DELIVERED (WITH REVIEW FORM) -->
-            <div class="order-card">
-                <div class="order-header">
-                    <div class="order-id-section">
-                        <div class="order-id">
-                            <i class="bi bi-bag"></i>
-                            CTH-89765
-                        </div>
-                    </div>
-                    <div class="order-status-info">
-                        <span class="order-status status-delivered">
-                            <i class="bi bi-check-circle-fill"></i> Delivered
-                        </span>
-                        <div class="estimated-date">Delivered on: 20 May 2024</div>
-                    </div>
-                </div>
+    {% for order in orders %}
+    <div class="order-card">
 
-                <div class="order-items">
-                    <div class="order-item">
-                        <img src="#"  class="item-image">
-                        <div class="item-details">
-                            <div class="item-name">Linear Brass Coffee Table</div>
-                            <div class="item-price">Rp 399.000</div>
-                        </div>
-                    </div>
-
-                    <div class="order-item">
-                        <img src="#" class="item-image">
-                        <div class="item-details">
-                            <div class="item-name">Flos Brass Table Lamp L</div>
-                            <div class="item-price">Rp 450.000</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="order-footer">
-                    <div class="order-total">
-                        Total: <span>Rp 849.000</span>
-                        <span class="item-count">(2 items)</span>
-                    </div>
-                    <a href="{%url 'detail'%}" class="details-btn">Details</a>
-                </div>
-
-                <!-- REVIEW SECTION -->
-                <div class="review-section">
-                    <div class="review-header">
-                        <h4><i class="bi bi-star"></i> Rate Your Purchase</h4>
-                        <span class="review-status pending">Pending Review</span>
-                    </div>
-
-                    <form action="#" method="POST">
-                        <div class="star-rating">
-                            <input type="radio" name="rating" id="star5" value="5">
-                            <label for="star5" class="bi bi-star-fill"></label>
-                            
-                            <input type="radio" name="rating" id="star4" value="4">
-                            <label for="star4" class="bi bi-star-fill"></label>
-                            
-                            <input type="radio" name="rating" id="star3" value="3">
-                            <label for="star3" class="bi bi-star-fill"></label>
-                            
-                            <input type="radio" name="rating" id="star2" value="2">
-                            <label for="star2" class="bi bi-star-fill"></label>
-                            
-                            <input type="radio" name="rating" id="star1" value="1">
-                            <label for="star1" class="bi bi-star-fill"></label>
-                        </div>
-
-                        <div class="review-text">
-                            <textarea name="review_text" placeholder="Share your experience with these products..."></textarea>
-                        </div>
-
-                        <div class="review-buttons">
-    <button type="button" class="submit-review-btn">
-        <i class="bi bi-send"></i> Submit Review
-    </button>
-    <button type="button" class="cancel-review-btn">Cancel</button>
-</div>
-
-                    </form>
+        <!-- HEADER -->
+        <div class="order-header">
+            <div class="order-id-section">
+                <div class="order-id">
+                    <i class="bi bi-bag"></i>
+                    {{ order.order_id }}
                 </div>
             </div>
 
-            <!-- ORDER 2 - DELIVERED (WITH SUBMITTED REVIEW) -->
-            <div class="order-card">
-                <div class="order-header">
-                    <div class="order-id-section">
-                        <div class="order-id">
-                            <i class="bi bi-bag"></i>
-                            CTH-81719
-                        </div>
-                    </div>
-                    <div class="order-status-info">
-                        <span class="order-status status-delivered">
-                            <i class="bi bi-check-circle-fill"></i> Delivered
-                        </span>
-                        <div class="estimated-date">Delivered on: 15 May 2024</div>
-                    </div>
-                </div>
-
-                <div class="order-items">
-                    <div class="order-item">
-                        <img src="#"  class="item-image">
-                        <div class="item-details">
-                            <div class="item-name">Monochrome Mosaic 4-Piece Bath Set</div>
-                            <div class="item-price">Rp 2.230.000</div>
-                        </div>
-                    </div>
-
-                    <div class="order-item">
-                        <img src="#"  class="item-image">
-                        <div class="item-details">
-                            <div class="item-name">Persian Vine Royale Table Lamp</div>
-                            <div class="item-price">Rp 150.000</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="order-footer">
-                    <div class="order-total">
-                        Total: <span>Rp 2.300.000</span>
-                        <span class="item-count">(2 items)</span>
-                    </div>
-                    <a href="{%url 'detail'%}" class="details-btn">Details</a>
-                </div>
-
-                <!-- SUBMITTED REVIEW -->
-                <div class="review-section">
-                    <div class="review-header">
-                        <h4><i class="bi bi-star-fill" style="color: #ffc107;"></i> Your Review</h4>
-                        <span class="review-status completed">
-                            <i class="bi bi-check-circle-fill"></i> Reviewed
-                        </span>
-                    </div>
-
-                    <div class="submitted-review">
-                        <div class="submitted-review-header">
-                            <div class="submitted-stars">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                            <span class="review-date">Reviewed on May 18, 2024</span>
-                        </div>
-                        <p class="submitted-text">
-                            Absolutely love these products! The bath set is elegant and the lamp is stunning. Quality exceeded my expectations. Highly recommend HOME BLOOM for premium home decor!
-                        </p>
-                    </div>
+            <div class="order-status-info">
+                <span class="order-status status-{{ order.status }}">
+                    {{ order.status|title }}
+                </span>
+                <div class="estimated-date">
+                    Ordered on {{ order.created_at|date:"d M Y" }}
                 </div>
             </div>
+        </div>
 
-            <!-- ORDER 3 - ON DELIVERY (NO REVIEW) -->
-            
+        <!-- ITEMS -->
+        <div class="order-items">
+            {% for item in order.items.all %}
+            <div class="order-item">
+                <img src="{{ item.product.image1.url }}" class="item-image">
+
+                <div class="item-details">
+                    <div class="item-name">{{ item.product.name }}</div>
+                    <div class="item-price">₹{{ item.price }}</div>
+                    <div>Qty: {{ item.quantity }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- FOOTER -->
+        <div class="order-footer">
+            <div class="order-total">
+                Total:
+                <span>₹{{ order.total }}</span>
+                <span class="item-count">
+                    ({{ order.items.count }} items)
+                </span>
+            </div>
+<a href="{% url 'detail' order.id %}" class="details-btn">
+    Details
+</a>
 
         </div>
+
+        <!-- REVIEW (ONLY IF DELIVERED) -->
+        {% if order.status == "delivered" %}
+        <div class="review-section">
+            <div class="review-header">
+                <h4><i class="bi bi-star"></i> Rate Your Purchase</h4>
+                <span class="review-status pending">Pending Review</span>
+            </div>
+
+            <form method="post" action="{% url 'submit_review' order.id %}">
+                {% csrf_token %}
+
+                <div class="star-rating">
+                    {% for i in "54321" %}
+                    <input type="radio" name="rating" id="star{{ i }}-{{ order.id }}" value="{{ i }}">
+                    <label for="star{{ i }}-{{ order.id }}" class="bi bi-star-fill"></label>
+                    {% endfor %}
+                </div>
+
+                <div class="review-text">
+                    <textarea name="review_text"
+                        placeholder="Share your experience..."></textarea>
+                </div>
+
+                <div class="review-buttons">
+                    <button type="submit" class="submit-review-btn">
+                        <i class="bi bi-send"></i> Submit Review
+                    </button>
+                    <button type="reset" class="cancel-review-btn">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+
+    </div>
+    {% empty %}
+    <p>No orders found.</p>
+    {% endfor %}
+
+</div>
+
+
 
     </div>
 

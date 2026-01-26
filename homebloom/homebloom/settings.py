@@ -183,7 +183,8 @@ EMAIL_HOST_USER = "homebloom07@gmail.com"
 EMAIL_HOST_PASSWORD = "fmwy lzjz ytyi jwhx"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
+TIME_ZONE = 'Asia/Kolkata'
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Address | Home Bloom</title>
+    <title>Edit Profile | Home Bloom</title>
 
     <style>
         * {
@@ -16,7 +16,6 @@
             background: #e7d6c1;
         }
 
-        /* HEADER */
         .page-title-section {
             padding: 20px 0;
             text-align: center;
@@ -29,7 +28,6 @@
             letter-spacing: 3px;
         }
 
-        /* LAYOUT */
         .profile-wrapper {
             min-height: calc(100vh - 80px);
             margin-top: 30px;
@@ -45,7 +43,6 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
-        /* LEFT */
         .profile-left {
             width: 55%;
             padding: 60px;
@@ -56,7 +53,6 @@
             letter-spacing: 2px;
         }
 
-        /* PROFILE IMAGE */
         .profile-image-section {
             text-align: center;
             margin-bottom: 35px;
@@ -69,7 +65,7 @@
             border-radius: 50%;
             overflow: hidden;
             border: 4px solid #8b7355;
-            background: #000; /* blank look */
+            background: #f5f5f5;
         }
 
         .profile-image-wrapper img {
@@ -91,7 +87,6 @@
             display: none;
         }
 
-        /* FORM */
         .profile-field {
             margin-bottom: 18px;
         }
@@ -123,7 +118,6 @@
             background: #6f5a41;
         }
 
-        /* RIGHT */
         .profile-right {
             width: 45%;
             background: #8b7355;
@@ -147,18 +141,16 @@
 
 <body>
 
-<!-- HEADER -->
 <section class="page-title-section">
     <a href="/" class="page-title">HOME BLOOM</a>
 </section>
 
-<!-- CARD -->
 <div class="profile-wrapper">
     <div class="profile-card">
 
         <!-- LEFT -->
         <div class="profile-left">
-            <h2>Add Address</h2>
+            <h2>Edit Profile</h2>
 
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -166,57 +158,32 @@
                 <!-- PROFILE IMAGE -->
                 <div class="profile-image-section">
                     <div class="profile-image-wrapper">
-                        {% if show_profile_image and profile.image %}
-                            <img src="{{ profile.image.url }}" alt="Profile Image">
-                        {% endif %}
+                        <img src="{{ profile.image.url }}" alt="Profile Image">
                     </div>
 
-                    <label for="profileImage" class="upload-btn">Upload Photo</label>
-                    <input
-                        type="file"
-                        id="profileImage"
-                        name="profile_image"
-                        accept="image/*"
-                    >
+                    <label for="profileImage" class="upload-btn">
+                        Upload Photo
+                    </label>
+                    <input type="file" id="profileImage" name="profile_image">
                 </div>
 
                 <div class="profile-field">
-                    <label>Full Name</label>
-                    {{ form.full_name }}
+                    <label>Name</label>
+                    <input type="text" name="name" value="{{ request.user.first_name }}">
                 </div>
 
                 <div class="profile-field">
                     <label>Email</label>
-                    {{ form.email }}
+                    <input type="email" name="email" value="{{ request.user.email }}">
                 </div>
 
                 <div class="profile-field">
                     <label>Phone</label>
-                    {{ form.phone }}
-                </div>
-
-                <div class="profile-field">
-                    <label>Street Address</label>
-                    {{ form.street }}
-                </div>
-
-                <div class="profile-field">
-                    <label>City</label>
-                    {{ form.city }}
-                </div>
-
-                <div class="profile-field">
-                    <label>State</label>
-                    {{ form.state }}
-                </div>
-
-                <div class="profile-field">
-                    <label>Pincode</label>
-                    {{ form.pincode }}
+                    <input type="text" name="phone" value="{{ profile.phone }}">
                 </div>
 
                 <button type="submit" class="save-btn">
-                    SAVE ADDRESS
+                    SAVE CHANGES
                 </button>
             </form>
         </div>
@@ -225,8 +192,7 @@
         <div class="profile-right">
             <h1>HOME BLOOM</h1>
             <p>
-                Save your address once and enjoy a smoother checkout experience.
-                Simple. Clean. Hassle-free.
+                Keep your profile updated for a smooth and personalized experience.
             </p>
         </div>
 
@@ -235,4 +201,3 @@
 
 </body>
 </html>
-    
