@@ -252,160 +252,72 @@
     </tr>
   </thead>
 
-  <tbody>
-    <tr>
-      <td>Modern Chair</td>
-      <td>#HB2041</td>
-      <td>Rahul</td>
-      <td>₹4,999</td>
-      <td>UPI</td>
-      <td>
-        <select>
-          <option>Order Placed</option>
-          <option>Processing</option>
-          <option>Shipped</option>
-          <option>Our for delivery</option>
-          <option>Delivered</option>
+ <tbody>
+{% for order in orders %}
+<tr>
+  <td>
+    {{ order.items.first.product.name }}
+  </td>
 
-        </select>
-      </td>
-      <td>
-        <details class="order-view">
-          <summary class="view-btn">View</summary>
+  <td>#HB{{ order.id }}</td>
 
-          <!-- DROPDOWN -->
-          <div class="order-details">
+  <td>{{ order.user.email }}</td>
 
-            <!-- PRODUCT PREVIEW -->
-            <div class="product-preview">
-              <img src="product.jpg" alt="Modern Chair">
-              <div>
-                <h4>Modern Chair</h4>
-                <p>Qty: 1</p>
-                <p>Price: ₹4,999</p>
-              </div>
-            </div>
+  <td>₹{{ order.total_price }}</td>
 
-            <hr>
+  <td>{{ order.payment_method }}</td>
 
-            <h4>Customer Details</h4>
-            <p><strong>Name:</strong> Rahul</p>
-            <p><strong>Email:</strong> rahul@gmail.com</p>
-            <p><strong>Address:</strong> Kochi, Kerala</p>
+<td>
+  <form method="post" action="{% url 'update_order_status' order.id %}">
+    {% csrf_token %}
+    <select name="status">
+      {% for status in status_choices %}
+        <option value="{{ status }}"
+          {% if order.status == status %}selected{% endif %}>
+          {{ status }}
+        </option>
+      {% endfor %}
+    </select>
+  </form>
+</td>
 
-            <hr>
 
-            <h4>Payment Info</h4>
-            <p><strong>Method:</strong> UPI</p>
-            <p><strong>Status:</strong> Paid</p>
+  <td>
+    <details class="order-view">
+      <summary>View</summary>
 
+      <div class="order-details">
+        {% for item in order.items.all %}
+        <div class="product-preview">
+          <img src="{{ item.product.image.url }}" alt="">
+          <div>
+            <h4>{{ item.product.name }}</h4>
+            <p>Qty: {{ item.quantity }}</p>
+            <p>Price: ₹{{ item.price }}</p>
           </div>
-        </details>
-      </td>
-    </tr>
-  </tbody>
-  <tbody>
-    <tr>
-      <td>Bed side table</td>
-      <td>#HB2041</td>
-      <td>Neha</td>
-      <td>₹2,999</td>
-      <td>UPI</td>
-      <td>
-        <select>
-          <option>Order Placed</option>
-          <option>Processing</option>
-          <option>Shipped</option>
-          <option>Out for delivery</option>
-          <option>Delivered</option>
-        </select>
-      </td>
-      <td>
-        <details class="order-view">
-          <summary class="view-btn">View</summary>
+        </div>
+        <hr>
+        {% endfor %}
 
-          <!-- DROPDOWN -->
-          <div class="order-details">
+        <h4>Customer Details</h4>
+        <p><strong>Email:</strong> {{ order.user.email }}</p>
 
-            <!-- PRODUCT PREVIEW -->
-            <div class="product-preview">
-              <img src="product.jpg" alt="Modern Chair">
-              <div>
-                <h4>Bed side table</h4>
-                <p>Qty: 1</p>
-                <p>Price: ₹2,999</p>
-              </div>
-            </div>
+        <hr>
 
-            <hr>
+        <h4>Payment Info</h4>
+        <p><strong>Method:</strong> {{ order.payment_method }}</p>
+        <p><strong>Status:</strong> {{ order.status }}</p>
+      </div>
+    </details>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="7">No orders yet.</td>
+</tr>
+{% endfor %}
+</tbody>
 
-            <h4>Customer Details</h4>
-            <p><strong>Name:</strong> Neha</p>
-            <p><strong>Email:</strong> Neha@gmail.com</p>
-            <p><strong>Address:</strong> Kannur, Kerala</p>
-
-            <hr>
-
-            <h4>Payment Info</h4>
-            <p><strong>Method:</strong> UPI</p>
-            <p><strong>Status:</strong> Paid</p>
-
-          </div>
-        </details>
-      </td>
-    </tr>
-  </tbody>
-  <tbody>
-    <tr>
-      <td>wall vase</td>
-      <td>#HB2089</td>
-      <td>Zain</td>
-      <td>₹1,800</td>
-      <td>UPI</td>
-      <td>
-        <select>
-          <option>Order Placed</option>
-          <option>Processing</option>
-          <option>Shipped</option>
-          <option>Out for delivery</option>
-          <option>Delivered</option>
-        </select>
-      </td>
-      <td>
-        <details class="order-view">
-          <summary class="view-btn">View</summary>
-
-          <!-- DROPDOWN -->
-          <div class="order-details">
-
-            <!-- PRODUCT PREVIEW -->
-            <div class="product-preview">
-              <img src="product.jpg" alt="Modern Chair">
-              <div>
-                <h4>Wall vase</h4>
-                <p>Qty: 2</p>
-                <p>Price: ₹3,600</p>
-              </div>
-            </div>
-
-            <hr>
-
-            <h4>Customer Details</h4>
-            <p><strong>Name:</strong>Zain</p>
-            <p><strong>Email:</strong> Zain@gmail.com</p>
-            <p><strong>Address:</strong> Kollam, Kerala</p>
-
-            <hr>
-
-            <h4>Payment Info</h4>
-            <p><strong>Method:</strong> UPI</p>
-            <p><strong>Status:</strong> Paid</p>
-
-          </div>
-        </details>
-      </td>
-    </tr>
-  </tbody>
 </table>
 
         </div>

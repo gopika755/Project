@@ -163,23 +163,6 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <!-- PROFILE IMAGE -->
-                <div class="profile-image-section">
-                    <div class="profile-image-wrapper">
-                        {% if show_profile_image and profile.image %}
-                            <img src="{{ profile.image.url }}" alt="Profile Image">
-                        {% endif %}
-                    </div>
-
-                    <label for="profileImage" class="upload-btn">Upload Photo</label>
-                    <input
-                        type="file"
-                        id="profileImage"
-                        name="profile_image"
-                        accept="image/*"
-                    >
-                </div>
-
                 <div class="profile-field">
                     <label>Full Name</label>
                     {{ form.full_name }}

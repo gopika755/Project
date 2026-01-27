@@ -852,12 +852,6 @@
 
                 <p class="product-price">₹{{ product.price }}</p>
 
-                {% if product.id in cart_product_ids %}
-                    <!-- GO TO CART -->
-                    <a href="{% url 'cart' %}" class="add-to-cart-btn">
-                        Go to Cart
-                    </a>
-                {% else %}
                     <!-- ADD TO CART -->
                     <form method="post" action="{% url 'cart' %}">
                         {% csrf_token %}
@@ -866,7 +860,6 @@
                             Add to cart
                         </button>
                     </form>
-                {% endif %}
             </div>
 
         </div>

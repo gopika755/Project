@@ -22,6 +22,7 @@ urlpatterns = [
     path("detail/<int:id>/", views.detail, name="detail"),
     path("invoice/<int:id>/",views.download_invoice,name="download_invoice"),
     path('adminorder',views.adminorder,name='adminorder'),
+    path("admin/orders/<int:order_id>/status/",views.update_order_status, name="update_order_status"),
     path('address/add/', views.addaddress, name='addaddress'),
     path("address/delete/<int:id>/", views.delete_address, name="delete_address"),
     path("address/edit/<int:id>/", views.editaddress, name="edit_address"),
@@ -34,7 +35,6 @@ urlpatterns = [
     path('parivacy',views.privacy,name='privacy'),
     path('aboutus',views.aboutus,name='aboutus'),
     path("product/<int:pk>/", views.product, name="product"),
-    path('adminpanel/',views.adminpanel,name='adminpanel'),
     path('admindashboard/',views.admindashboard,name='admindashboard'),
     path('adminproduct/',views.adminproduct,name='adminproduct'),
     path("productedit/<int:pk>/", views.productedit, name="productedit"),
@@ -55,8 +55,8 @@ urlpatterns = [
     path("product/<int:id>/", views.product_detail, name="product_detail"),
     path("search/", views.search, name="search"),
     path("pay/",views.payment_page, name="payment_page"),
-    path("razorpay/",views.razorpay_payment, name="razorpay_payment"),
     path("place-order/",views.place_order, name="place_order"),
+    path("payment-success/", views.payment_success, name="payment_success"),
 
     
 

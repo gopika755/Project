@@ -185,6 +185,8 @@ EMAIL_HOST_PASSWORD = "fmwy lzjz ytyi jwhx"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 TIME_ZONE = 'Asia/Kolkata'
 USE_TZ = True
+STRIPE_SECRET_KEY = "sk_test_51SuD71AKkZMrj1BJeGT6GusdejPQtKSfd6ubqm8Oxw8YfpriLfb2l4KElglkSIORxG0uLYXLNfcd1AQ1sZoujqsF00UlzuRei2"
+STRIPE_PUBLISHABLE_KEY = "pk_test_51SuD71AKkZMrj1BJpHVkpT0zfg5VfBi5OFWgFOire1BOafDJlUHbDXnevwts7TYvfhJFEnSnKkNRZdLU9laoc2q800nEXNbwVU"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/

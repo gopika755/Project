@@ -3,22 +3,24 @@ from django.contrib.auth import login,get_user_model,logout
 from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm,AddressForm
 from .models import PasswordResetOTP, Product, Category,SubCategory,Banner,Wishlist,Cart,Profile,Address,Order,OrderItem
 from django.core.mail import send_mail
-from django.db.models import Q
+from django.db.models import Q,Sum
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from decimal import Decimal, InvalidOperation
 import random
 from django.db.models.functions import Coalesce
-from django.utils.crypto import get_random_string
-from django.db import transaction
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
+from bloom.decorators import user_required,admin_required
+import stripe
+from django.conf import settings
+from django.shortcuts import redirect
+from django.views.decorators.http import require_POST
 
 
-
+stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
 
 @never_cache
@@ -310,13 +312,11 @@ def login_view(request):
 
     if request.method == "POST" and form.is_valid():
         user = form.get_user()
-        
-        if user.is_active:
-            login(request, user)
-            messages.success(request, f'Welcome back, {user.username}!')
-            return redirect("/")
-        else:
-            return render(request, "login.html", {"form": form})
+        login(request, user)
+
+        if user.is_staff:
+            return redirect("admindashboard")
+        return redirect("userhome")
 
     return render(request, "login.html", {"form": form})
 
@@ -421,7 +421,7 @@ def reset_password(request):
 def password_changed(request):
     return render(request, "password_changed.html")
 
-@login_required(login_url='login')
+@user_required
 def profile(request):
     profile, created = Profile.objects.get_or_create(
         user=request.user
@@ -435,17 +435,16 @@ def profile(request):
         "profile": profile,
         "addresses": addresses
     })
-@login_required
+    
+@user_required
 def editprofile(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
 
     if request.method == "POST":
-        # update user fields
         request.user.first_name = request.POST.get("name")
         request.user.email = request.POST.get("email")
         request.user.save()
 
-        # update profile fields
         profile.phone = request.POST.get("phone")
 
         if request.FILES.get("profile_image"):
@@ -459,7 +458,7 @@ def editprofile(request):
     })
 
     
-@login_required
+@user_required
 def editaddress(request, id):
     address = get_object_or_404(Address, id=id, user=request.user)
 
@@ -477,7 +476,7 @@ def editaddress(request, id):
     })
 
 
-@login_required(login_url='login')
+@user_required
 def order(request):
     orders = (
         Order.objects
@@ -489,12 +488,12 @@ def order(request):
 
 
 
-@login_required(login_url='login')
+@user_required
 def detail(request, id):
     order = get_object_or_404(Order, id=id, user=request.user)
     return render(request, "detail.html", {"order": order})
 
-@login_required
+@user_required
 def download_invoice(request, id):
     order = Order.objects.prefetch_related("items__product").get(
         id=id,
@@ -535,7 +534,7 @@ def download_invoice(request, id):
 
     return response
 
-@login_required
+@user_required
 def addaddress(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
 
@@ -556,7 +555,7 @@ def addaddress(request):
         "profile": profile
     })
     
-@login_required
+@user_required
 def delete_address(request, id):
     address = get_object_or_404(Address, id=id, user=request.user)
 
@@ -565,13 +564,13 @@ def delete_address(request, id):
         return redirect("profile")
 
 
-@login_required(login_url='login')
+@user_required
 def wishlist(request):
     wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
     return render(request, 'wishlist.html', {
         'wishlist_items': wishlist_items
     })
-@login_required
+@user_required
 def toggle_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
@@ -590,11 +589,19 @@ def toggle_wishlist(request, product_id):
         )
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
+@user_required
 def payment_page(request):
-    return render(request, "payment.html")
+    cart_items = Cart.objects.filter(user=request.user)
+    total = sum(item.product.price * item.quantity for item in cart_items)
+
+    return render(request, "payment.html", {
+        "cart_items": cart_items,
+        "total": total,
+    })
+
 
 @never_cache
-@login_required
+@user_required
 def cart(request):
     if request.method == "POST":
         product_id = request.POST.get("product_id")
@@ -621,17 +628,21 @@ def cart(request):
         "subtotal": subtotal,
     })
     
-@login_required(login_url='login')
+@user_required
 def remove_cart_item(request, item_id):
     cart_item = get_object_or_404(Cart, id=item_id, user=request.user)
     cart_item.delete()
     return redirect("cart")
 
 
-@login_required
+@user_required
 def checkout(request):
     addresses = Address.objects.filter(user=request.user)
     cart_items = Cart.objects.filter(user=request.user)
+
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty")
+        return redirect("cart")
 
     total = sum(item.product.price * item.quantity for item in cart_items)
 
@@ -642,96 +653,130 @@ def checkout(request):
             messages.error(request, "Please select an address")
             return redirect("checkout")
 
-        address = Address.objects.get(id=address_id, user=request.user)
+        request.session["address_id"] = address_id
 
-        if not cart_items.exists():
-            messages.error(request, "Cart is empty")
-            return redirect("cart")
-
-        with transaction.atomic():
-            order = Order.objects.create(
-                user=request.user,
-                address=address,
-                order_id=f"CTH-{get_random_string(8).upper()}",
-                total=total,
-                status="pending"
-            )
-
-            for item in cart_items:
-                OrderItem.objects.create(
-                    order=order,
-                    product=item.product,
-                    quantity=item.quantity,
-                    price=item.product.price
-                )
-
-            cart_items.delete()
-
-        return redirect("ordersuccess")
+        return redirect("payment_page")
 
     return render(request, "checkout.html", {
         "addresses": addresses,
         "cart_items": cart_items,
         "total": total,
     })
+
     
+@user_required
 def place_order(request):
-    if request.method == "POST":
-        method = request.POST.get("payment_method")
-        address_id = request.POST.get("address")  # from checkout
-        address = Address.objects.get(id=address_id)
+    if request.method != "POST":
+        return redirect("checkout")
 
-        cart_items = Cart.objects.filter(user=request.user)
-        total = sum(item.product.price * item.quantity for item in cart_items)
+    payment_method = request.POST.get("payment_method")
+    address_id = request.session.get("address_id")
 
-        # CREATE ORDER
-        order = Order.objects.create(
-            user=request.user,
-            address=address,
-            order_id=generate_order_id(),
-            total=total,
-            payment_method=method,
-            payment_status="PENDING" if method == "COD" else "INITIATED",
-            status="pending"
+    if not payment_method or not address_id:
+        return redirect("checkout")
+
+    cart_items = Cart.objects.filter(user=request.user)
+    if not cart_items.exists():
+        return redirect("cart")
+
+    address = Address.objects.get(id=address_id)
+
+    total = sum(item.product.price * item.quantity for item in cart_items)
+
+    order = Order.objects.create(
+        user=request.user,
+        address=address,
+        total=total,
+        payment_method=payment_method,
+        payment_status="PENDING",
+        status="pending"
+    )
+
+    for item in cart_items:
+        OrderItem.objects.create(
+            order=order,
+            product=item.product,
+            quantity=item.quantity,
+            price=item.product.price
         )
 
-        # CREATE ORDER ITEMS
-        for item in cart_items:
-            OrderItem.objects.create(
-                order=order,
-                product=item.product,
-                quantity=item.quantity,
-                price=item.product.price
-            )
-
-        # CLEAR CART
+    if payment_method == "COD":
         cart_items.delete()
+        request.session.pop("address_id", None)
+        return redirect("ordersuccess")
 
-        if method == "COD":
-            return redirect("ordersuccess")
+    if payment_method == "STRIPE":
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "inr",
+                        "product_data": {
+                            "name": f"Order #{order.id}",
+                        },
+                        "unit_amount": int(total * 100),
+                    },
+                    "quantity": 1,
+                }
+            ],
+            mode="payment",
+            success_url=request.build_absolute_uri(
+                "/payment-success/?order_id=" + str(order.id)
+            ),
+             cancel_url=request.build_absolute_uri(
+                f"/payment-failed/?order_id={order.id}"
+            ),
+        )
 
-        if method == "RAZORPAY":
-            request.session["razorpay_order_id"] = order.id
-            return redirect("razorpay_payment")
+        order.stripe_session_id = session.id
+        order.save()
+
+        return redirect(session.url)
 
     return redirect("checkout")
+
+
     
+@user_required
 def ordersuccess(request):
-    orders = Order.objects.filter(user=request.user).order_by("-created_at")
+    return render(request, "ordersuccess.html")
 
-    return render(request, "order_success.html", {
-        "orders": orders
-    })
 
-def razorpay_payment(request):
-    return render(request, "razorpay.html", {
-        "total": request.session.get("cart_total")
-    })
-    
+@user_required
 def payment_success(request):
-    payment_id = request.GET.get("pid")
+    order_id = request.GET.get("order_id")
+
+    if not order_id:
+        return redirect("home")
+
+    order = Order.objects.get(id=order_id, user=request.user)
+
+    order.payment_status = "PAID"
+    order.save()
+
+    Cart.objects.filter(user=request.user).delete()
+    request.session.pop("address_id", None)
 
     return redirect("ordersuccess")
+
+@user_required
+def payment_success(request):
+    order_id = request.GET.get("order_id")
+
+    if not order_id:
+        return redirect("home")
+
+    order = Order.objects.get(id=order_id, user=request.user)
+
+    order.payment_status = "PAID"
+    order.save()
+
+    Cart.objects.filter(user=request.user).delete()
+    request.session.pop("address_id", None)
+
+    return redirect("ordersuccess")
+
 
 def faq(request):
     return render(request,'faq.html')
@@ -742,7 +787,7 @@ def aboutus(request):
 
 
 @never_cache
-@login_required(login_url="login")
+@user_required
 def product(request, pk):
     product = get_object_or_404(Product, pk=pk, is_active=True)
 
@@ -756,42 +801,24 @@ def product(request, pk):
 
 
 @never_cache
-def adminpanel(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        try:
-            user = User.objects.get(username=username, is_staff=True)
-        except User.DoesNotExist:
-            messages.error(request, "Invalid admin credentials")
-            return render(request, "adminpanel.html")
-
-        if user.check_password(password):
-            login(
-                request,
-                user,
-                backend="django.contrib.auth.backends.ModelBackend"
-            )
-            return redirect("admindashboard")
-        else:
-            messages.error(request, "Invalid admin credentials")
-
-    return render(request, "adminpanel.html")
-
-
-@never_cache
-@login_required
+@admin_required
 def admindashboard(request):
+    total_orders = Order.objects.count()
     total_products = Product.objects.count()
+    total_customers = User.objects.filter(is_staff=False).count()
+    revenue = Order.objects.aggregate(total=Sum("total"))["total"] or 0
 
     context = {
+        "total_orders": total_orders,
         "total_products": total_products,
+        "total_customers": total_customers,
+        "revenue": revenue,
     }
 
     return render(request, "admindashboard.html", context)
 
 @never_cache
+@admin_required
 def adminproduct(request):
     query = request.GET.get('q', '')
     if query:
@@ -804,7 +831,8 @@ def adminproduct(request):
     })
     
     
-@never_cache    
+@never_cache
+@admin_required    
 def productedit(request, pk):
     product = get_object_or_404(Product, pk=pk)
     categories = Category.objects.all()
@@ -854,8 +882,7 @@ def product_toggle_status(request, id):
 
 
 @never_cache
-@login_required(login_url="login")
-
+@admin_required
 def admincustomer(request):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -866,8 +893,9 @@ def admincustomer(request):
         "customers": customers
     })
     
-@login_required(login_url="login")
+
 @never_cache
+@admin_required
 def toggle_customer_block(request, user_id):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -880,7 +908,7 @@ def toggle_customer_block(request, user_id):
     return redirect("admincustomer")
     
 @never_cache
-@login_required(login_url="login")
+@admin_required
 def delete_customer(request, user_id):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -892,7 +920,7 @@ def delete_customer(request, user_id):
     
     
 @never_cache
-@login_required(login_url="login")  
+@admin_required
 def admincategory(request):
     categories = Category.objects.all()
 
@@ -901,7 +929,7 @@ def admincategory(request):
     })
     
 @never_cache
-@login_required(login_url="login")   
+@admin_required
 def categoryedit(request, pk):
     category = get_object_or_404(Category, pk=pk)
     subcategories = SubCategory.objects.filter(category=category)
@@ -942,7 +970,7 @@ def categoryedit(request, pk):
     })
 
 @never_cache
-@login_required(login_url="login")
+@admin_required
 def categoryadd(request):
     if request.method == "POST" and "delete_category" in request.POST:
         cat_id = request.POST.get("delete_category")
@@ -970,7 +998,7 @@ def categoryadd(request):
     })
 
 @never_cache
-@login_required(login_url="login")
+@admin_required
 def categorydelete(request, pk):
     if request.method == "POST":
         category = get_object_or_404(Category, pk=pk)
@@ -994,10 +1022,43 @@ def couponedit(request):
     return render(request,'couponedit.html')
 
 @never_cache
+@admin_required
 def adminorder(request):
-    return render(request,'adminorder.html')
+    orders = (
+        Order.objects
+        .select_related("user")
+        .prefetch_related("items__product")
+        .order_by("-created_at")
+    )
+
+    STATUS_CHOICES = [
+        "Order Placed",
+        "Processing",
+        "Shipped",
+        "Out for delivery",
+        "Delivered",
+    ]
+
+    return render(
+        request,
+        "adminorder.html",
+        {
+            "orders": orders,
+            "status_choices": STATUS_CHOICES,
+        },
+    )
+
+
+@require_POST
+@admin_required
+def update_order_status(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order.status = request.POST.get("status")
+    order.save()
+    return redirect("adminorder")
 
 @never_cache
+@admin_required
 def add_product(request):
     categories = Category.objects.all()
 
@@ -1031,18 +1092,19 @@ def add_product(request):
     })
     
 
-@never_cache
+@admin_required
 def adminlogout(request):
     logout(request)
     return redirect("home")
 
 @never_cache
+
 def userlogout(request):
     logout(request)
     return redirect("login")
 
 @never_cache
-@login_required(login_url="adminpanel")
+@admin_required
 def banner_add(request):
     if request.method == "POST":
         if request.POST.get("delete_banner_id"):
