@@ -69,10 +69,7 @@ def furniture(request):
         
     cart_product_ids = []
     if request.user.is_authenticated:
-        cart_product_ids = list(
-            Cart.objects.filter(user=request.user)
-            .values_list("product_id", flat=True)
-        )
+        cart_product_ids = list(Cart.objects.filter(user=request.user).values_list("product_id", flat=True))
 
     return render(request, "furniture.html", {
         "banner": banner,
@@ -315,7 +312,7 @@ def login_view(request):
 
         if user.is_staff:
             return redirect("admindashboard")
-        return redirect("userhome")
+        return redirect("home")
 
     return render(request, "login.html", {"form": form})
 
@@ -644,7 +641,21 @@ def payment_page(request):
         "buy_now": False,
     })
 
+@user_required
+def payment_failed(request):
+    order_id = request.GET.get("order_id")
 
+    # OPTIONAL: mark order as failed
+    if order_id:
+        from .models import Order
+        try:
+            order = Order.objects.get(id=order_id, user=request.user)
+            order.payment_status = "FAILED"
+            order.save()
+        except Order.DoesNotExist:
+            pass
+
+    return render(request, "payment_failed.html")
 
 @never_cache
 @user_required

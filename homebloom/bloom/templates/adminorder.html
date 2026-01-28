@@ -290,7 +290,7 @@
       <div class="order-details">
         {% for item in order.items.all %}
         <div class="product-preview">
-          <img src="{{ item.product.image.url }}" alt="">
+          <img src="{{ item.product.image1.url }}" alt="">
           <div>
             <h4>{{ item.product.name }}</h4>
             <p>Qty: {{ item.quantity }}</p>
