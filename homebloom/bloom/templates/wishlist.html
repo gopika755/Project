@@ -199,7 +199,8 @@
                 <h3 class="product-name">{{ item.product.name }}</h3>
                 <div class="price">₹{{ item.product.price }}</div>
 
-                <a href="{% url 'product_detail' item.product.id %}"class="view-btn">Move to cart</a>
+                <a href="{% url 'move_to_cart' item.product.id %}" class="view-btn">Move to cart</a>
+
             </div>
 
         </div>

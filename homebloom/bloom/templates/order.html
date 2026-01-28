@@ -113,22 +113,41 @@
             gap: 8px;
         }
 
-        .order-status-info {
-            text-align: right;
-        }
-
         .order-status {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: capitalize;
+    display: inline-block;
+}
 
-        .status-shipping {
+/* status colors */
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-confirmed {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-shipped {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-delivered {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+status-shipping {
             background: #fff3cd;
             color: #856404;
         }
@@ -454,7 +473,7 @@
                 </div>
             </div>
 
-            <div class="order-status-info">
+                <div class="order-status-info">
                 <span class="order-status status-{{ order.status }}">
                     {{ order.status|title }}
                 </span>

@@ -8,13 +8,12 @@ from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.http import HttpResponseForbidden
 from decimal import Decimal, InvalidOperation
-import random
+import random,stripe
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from bloom.decorators import user_required,admin_required
-import stripe
 from django.conf import settings
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
@@ -581,23 +580,70 @@ def toggle_wishlist(request, product_id):
 
     if wishlist_item:
         wishlist_item.delete()
-    else:
-        # not in wishlist → add
+    else: 
         Wishlist.objects.create(
             user=request.user,
             product=product
         )
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
+
+@user_required
+def move_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, created = Cart.objects.get_or_create(
+        cart=cart,
+        product=product,
+        defaults={"quantity": 1}
+    )
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    Wishlist.objects.filter(user=request.user, product=product).delete()
+    return redirect("cart") 
+
+
 @user_required
 def payment_page(request):
+    buy_now_product_id = request.session.get("buy_now_product_id")
+
+    if buy_now_product_id:
+        product = get_object_or_404(Product, id=buy_now_product_id)
+
+        cart_items = [{
+            "product": product,
+            "quantity": 1,
+            "subtotal": product.offer_price or product.price,
+        }]
+
+        total = product.offer_price or product.price
+
+        return render(request, "payment.html", {
+            "cart_items": cart_items,
+            "total": total,
+            "buy_now": True,
+        })
+
     cart_items = Cart.objects.filter(user=request.user)
-    total = sum(item.product.price * item.quantity for item in cart_items)
+
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty")
+        return redirect("cart")
+
+    total = sum(
+        (item.product.offer_price or item.product.price) * item.quantity
+        for item in cart_items
+    )
 
     return render(request, "payment.html", {
         "cart_items": cart_items,
         "total": total,
+        "buy_now": False,
     })
+
 
 
 @never_cache
@@ -618,8 +664,6 @@ def cart(request):
 
         return redirect(request.META.get("HTTP_REFERER", "cart"))
 
-
-    # GET → show cart
     cart_items = Cart.objects.filter(user=request.user)
     subtotal = sum(item.subtotal for item in cart_items)
 
@@ -638,29 +682,63 @@ def remove_cart_item(request, item_id):
 @user_required
 def checkout(request):
     addresses = Address.objects.filter(user=request.user)
+    buy_now_product_id = request.session.get("buy_now_product_id")
+
+    if request.method == "POST" and request.POST.get("buy_now_product_id"):
+        request.session["buy_now_product_id"] = request.POST.get("buy_now_product_id")
+        return redirect("checkout")
+
+    if buy_now_product_id:
+        product = get_object_or_404(Product, id=buy_now_product_id)
+
+        cart_items = [{
+            "product": product,
+            "quantity": 1,
+            "subtotal": product.offer_price or product.price,
+        }]
+
+        total = product.offer_price or product.price
+
+        if request.method == "POST":
+            address_id = request.POST.get("address")
+            if not address_id:
+                messages.error(request, "Please select an address")
+                return redirect("checkout")
+
+            request.session["address_id"] = address_id
+            return redirect("payment_page")
+
+        return render(request, "checkout.html", {
+            "addresses": addresses,
+            "cart_items": cart_items,
+            "total": total,
+            "buy_now": True,
+        })
     cart_items = Cart.objects.filter(user=request.user)
 
     if not cart_items.exists():
         messages.error(request, "Your cart is empty")
         return redirect("cart")
 
-    total = sum(item.product.price * item.quantity for item in cart_items)
+    total = sum(
+        (item.product.offer_price or item.product.price) * item.quantity
+        for item in cart_items
+    )
 
     if request.method == "POST":
         address_id = request.POST.get("address")
-
         if not address_id:
             messages.error(request, "Please select an address")
             return redirect("checkout")
 
         request.session["address_id"] = address_id
-
         return redirect("payment_page")
 
     return render(request, "checkout.html", {
         "addresses": addresses,
         "cart_items": cart_items,
         "total": total,
+        "buy_now": False,
     })
 
     
@@ -671,38 +749,68 @@ def place_order(request):
 
     payment_method = request.POST.get("payment_method")
     address_id = request.session.get("address_id")
+    buy_now_product_id = request.session.get("buy_now_product_id")
 
     if not payment_method or not address_id:
         return redirect("checkout")
 
-    cart_items = Cart.objects.filter(user=request.user)
-    if not cart_items.exists():
-        return redirect("cart")
-
     address = Address.objects.get(id=address_id)
 
-    total = sum(item.product.price * item.quantity for item in cart_items)
+    if buy_now_product_id:
+        product = get_object_or_404(Product, id=buy_now_product_id)
+        price = product.offer_price or product.price
+        total = price
 
-    order = Order.objects.create(
-        user=request.user,
-        address=address,
-        total=total,
-        payment_method=payment_method,
-        payment_status="PENDING",
-        status="pending"
-    )
-
-    for item in cart_items:
-        OrderItem.objects.create(
-            order=order,
-            product=item.product,
-            quantity=item.quantity,
-            price=item.product.price
+        order = Order.objects.create(
+            user=request.user,
+            address=address,
+            total=total,
+            payment_method=payment_method,
+            payment_status="PENDING",
+            status="pending",
         )
 
-    if payment_method == "COD":
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=1,
+            price=price,
+        )
+        request.session.pop("buy_now_product_id", None)
+        request.session.pop("address_id", None)
+
+    else:
+        cart_items = Cart.objects.filter(user=request.user)
+
+        if not cart_items.exists():
+            return redirect("cart")
+
+        total = sum(
+            (item.product.offer_price or item.product.price) * item.quantity
+            for item in cart_items
+        )
+
+        order = Order.objects.create(
+            user=request.user,
+            address=address,
+            total=total,
+            payment_method=payment_method,
+            payment_status="PENDING",
+            status="pending",
+        )
+
+        for item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.offer_price or item.product.price,
+            )
+
         cart_items.delete()
         request.session.pop("address_id", None)
+
+    if payment_method == "COD":
         return redirect("ordersuccess")
 
     if payment_method == "STRIPE":
@@ -722,9 +830,9 @@ def place_order(request):
             ],
             mode="payment",
             success_url=request.build_absolute_uri(
-                "/payment-success/?order_id=" + str(order.id)
+                f"/payment-success/?order_id={order.id}"
             ),
-             cancel_url=request.build_absolute_uri(
+            cancel_url=request.build_absolute_uri(
                 f"/payment-failed/?order_id={order.id}"
             ),
         )
@@ -735,6 +843,18 @@ def place_order(request):
         return redirect(session.url)
 
     return redirect("checkout")
+
+@admin_required
+def update_order_status(request, order_id):
+    if request.method == "POST":
+        order = get_object_or_404(Order, id=order_id)
+        new_status = request.POST.get("status")
+
+        if new_status in dict(Order.STATUS_CHOICES):
+            order.status = new_status
+            order.save()
+
+    return redirect(request.META.get("HTTP_REFERER", "adminorder"))
 
 
     
@@ -760,22 +880,6 @@ def payment_success(request):
 
     return redirect("ordersuccess")
 
-@user_required
-def payment_success(request):
-    order_id = request.GET.get("order_id")
-
-    if not order_id:
-        return redirect("home")
-
-    order = Order.objects.get(id=order_id, user=request.user)
-
-    order.payment_status = "PAID"
-    order.save()
-
-    Cart.objects.filter(user=request.user).delete()
-    request.session.pop("address_id", None)
-
-    return redirect("ordersuccess")
 
 
 def faq(request):
@@ -791,13 +895,31 @@ def aboutus(request):
 def product(request, pk):
     product = get_object_or_404(Product, pk=pk, is_active=True)
 
-    related_products = Product.objects.filter(category=product.category,is_active=True).exclude(id=product.id)[:4]
+    related_products = Product.objects.filter(
+        category=product.category,
+        is_active=True
+    ).exclude(id=product.id)[:4]
+
+    cart_product_ids = []
+    wishlist_products = []
+
+    if request.user.is_authenticated:
+        cart_product_ids = list(
+            Cart.objects.filter(user=request.user)
+            .values_list("product_id", flat=True)
+        )
+
+        wishlist_products = list(
+            Wishlist.objects.filter(user=request.user)
+            .values_list("product_id", flat=True)
+        )
 
     return render(request, "product.html", {
         "product": product,
         "related_products": related_products,
+        "cart_product_ids": cart_product_ids,
+        "wishlist_products": wishlist_products,
     })
-
 
 
 @never_cache

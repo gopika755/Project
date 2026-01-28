@@ -257,30 +257,45 @@
         }
 
         .actions{
-            display:flex;
-            gap:15px;
-        }
-        .btn{
-            padding:14px;
-            border:none;
-            cursor:pointer;
-            font-size:14px;
-            letter-spacing:1px;
-            border-radius:6px;
-            text-transform:uppercase;
-        }
-        .cart-btn{
-            background:#3f3007ff;
-            color:#fff;
-            flex:1;
-        }
-        .buy-btn{
-            background:#8B6F47;
-            color:#fff;
-            flex:1;
-            text-decoration:none;
-            text-align:center;
-        }
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* ADD TO CART */
+.cart-btn{
+    background:#3f3007;
+    color:#fff;
+    height:48px;
+    min-width:200px;
+    font-size:14px;
+    font-weight:600;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* BUY NOW */
+.buy-btn{
+    background:#8B6F47;
+    color:#fff;
+    height:48px;
+    min-width:200px;
+    font-size:14px;
+    font-weight:600;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+}
+
+/* disabled state */
+.cart-btn:disabled{
+    background:#999;
+    cursor:not-allowed;
+}
 
         /* META */
         .meta{
@@ -513,6 +528,40 @@ margin:8px 0;}
     margin-left:12px;
     cursor: pointer;
     font: inherit;
+}
+/* WISHLIST HEART */
+.wishlist-form{
+    display:flex;
+    align-items:center;
+}
+
+.wishlist-btn{
+    height:48px;
+    width:48px;
+    border-radius:50%;
+    border:2px solid #8B6F47;
+    background:#fff;
+    color:#8B6F47;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:0.3s ease;
+}
+
+/* hover */
+.wishlist-btn:hover{
+    background:#8B6F47;
+    color:#fff;
+}
+
+/* active (already wishlisted) */
+.wishlist-btn.active{
+    background:#3f3007;
+    color:#fff;
+    border-color:#3f3007;
 }
 
 
@@ -772,15 +821,43 @@ margin:8px 0;}
 
             <p class="desc">{{ product.description }}</p>
 
-            <form method="post" action="#">
-                {% csrf_token %}
-                <input type="number" name="quantity" value="1" min="1" class="qty">
+           <div class="actions">
 
-                <div class="actions">
-                    <button class="btn cart-btn">Add to Cart</button>
-                    <a href="{% url 'checkout' %}" class="btn buy-btn">Buy Now</a>
-                </div>
-            </form>
+    {% if product.id in cart_product_ids %}
+        <button class="btn cart-btn" disabled>
+            Already in Cart
+        </button>
+    {% else %}
+        <form method="post" action="{% url 'cart' %}">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <button type="submit" class="btn cart-btn">
+                Add to Cart
+            </button>
+        </form>
+    {% endif %}
+
+    <!-- BUY NOW -->
+    <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <input type="hidden" name="buy_now_product_id" value="{{ product.id }}">
+        <button type="submit" class="btn buy-btn">Buy Now</button>
+    </form>
+
+    <!-- WISHLIST -->
+    <form method="POST"
+          action="{% url 'toggle_wishlist' product.id %}"
+          class="wishlist-form">
+        {% csrf_token %}
+        <button type="submit"
+                class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">
+            ♥
+        </button>
+    </form>
+
+</div>
+
+
 
             <div class="meta">
                 Category: {{ product.category.name }} <br>
