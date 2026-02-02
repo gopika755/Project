@@ -424,18 +424,15 @@ def password_changed(request):
 @login_required
 @user_passes_test(is_user)
 def profile(request):
-    profile= Profile.objects.get_or_create(
-        user=request.user
-    )
+    profile, _ = Profile.objects.get_or_create(user=request.user)
 
     addresses = Address.objects.filter(user=request.user).order_by('-id')
-
-
 
     return render(request, "profile.html", {
         "profile": profile,
         "addresses": addresses
     })
+
     
 @login_required
 @user_passes_test(is_user)
@@ -507,7 +504,9 @@ def download_invoice(request, id):
     )
 
     response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = f'attachment; filename="invoice_{order.order_id}.pdf"'
+    response["Content-Disposition"] = f'attachment; filename="invoice_{order.id}.pdf"'
+
+
 
     p = canvas.Canvas(response, pagesize=A4)
     y = 800
@@ -517,7 +516,6 @@ def download_invoice(request, id):
     y -= 40
 
     p.setFont("Helvetica", 10)
-    p.drawString(50, y, f"Order ID: {order.order_id}")
     y -= 20
     p.drawString(50, y, f"Date: {order.created_at.strftime('%d %b %Y')}")
     y -= 30

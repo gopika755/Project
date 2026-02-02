@@ -113,7 +113,7 @@ class Cart(models.Model):
     
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=15, blank=True, null=True)
     image = models.ImageField(upload_to="profiles/", default="profiles/default.jpg")
 
     def __str__(self):

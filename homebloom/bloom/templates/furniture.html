@@ -237,7 +237,8 @@
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 450px;
+            min-height: 450px;
+
             display: flex;
             flex-direction: column;
         }
@@ -684,7 +685,7 @@
                         </div>
                     </li>
                     
-                    <li><a href="{%url 'bath'%}">Accessoriesr</a>
+                    <li><a href="{%url 'bath'%}">Accessories</a>
                  <div class="dropdown-mega-menu">
                             <div class="mega-menu-content">
                                 <div class="mega-menu-column">
@@ -848,11 +849,16 @@
                 </a>
 
                 <p class="product-price">
-                    ₹{{ product.offer_price|default:product.price }}
-                    <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
+                    {% if product.offer_price %}
+                        ₹{{ product.offer_price }}
+                        <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
+                            ₹{{ product.price }}
+                        </span>
+                    {% else %}
                         ₹{{ product.price }}
-                    </span>
+                    {% endif %}
                 </p>
+
 
 
                     <!-- ADD TO CART -->
