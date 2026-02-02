@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ product.name }} | HOME BLOOM</title>
+    <title>{{ product.name }} | HOUSE BLOOM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap Icons -->
@@ -22,17 +22,18 @@
         body{background:var(--bg);color:var(--text);}
 
         /* ===== LOGO ===== */
-        .logo{
-            background:#fff;
-            padding:22px 0;
-            text-align:center;
-        }
-        .logo a{
-            font-size:50px;
-            color:var(--primary);
-            text-decoration:none;
-            letter-spacing:3px;
-        }
+       .logo-section {
+    padding: 15px 0 15px; 
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.logo {
+    max-width: 250px;    
+    width: 100%;
+    height: auto;
+}
 
         /* ===== COMBINED NAVIGATION BAR ===== */
         .combined-navbar {
@@ -569,10 +570,11 @@ margin:8px 0;}
 </head>
 <body>
 
-<!-- LOGO -->
-<div class="logo">
-    <a href="/">HOME BLOOM</a>
-</div>
+<section class="logo-section">
+    <a href="/">
+    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+    </a>
+</section>
 
 <!-- NAV -->
 <nav class="combined-navbar">
@@ -815,9 +817,9 @@ margin:8px 0;}
                     <span class="original">₹{{ product.price }}</span>
                 {% else %}
                     <span class="sale">₹{{ product.price }}</span>
-                    <span class="sale">%{{product.offer}}</span>
                 {% endif %}
             </div>
+
 
             <p class="desc">{{ product.description }}</p>
 

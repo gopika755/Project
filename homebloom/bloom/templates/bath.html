@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOME BLOOM - Bath-decor</title>
+    <title>HOUSE BLOOM - Bath-decor</title>
 
     <!-- Bootstrap 5 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
@@ -497,20 +497,6 @@
                 grid-template-columns: 1fr;
             }
         }
-        /* HEADER */
-        .logo {
-            background-color:#fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .logo-title {
-            font-size: 50px;
-            font-weight: 70;
-            text-decoration: none;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
         /* ===== SHOP LAYOUT ===== */
 .shop-layout {
     display: grid;
@@ -852,17 +838,28 @@ margin:8px 0;
     transform: translateY(0);
     box-shadow: none;
 }
+.logo-section {
+    padding: 15px 0 15px; 
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+}
 
+.logo {
+    max-width: 250px;    
+    width: 100%;
+    height: auto;
+}
     </style>
 </head>
 
 <body>
 
 <!-- ===== LOGO ===== -->
-<section class="logo">
-    <div class="container">
-        <a href="/" class="logo-title">HOME BLOOM</a>
-    </div>
+<section class="logo-section">
+    <a href="/">
+    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+    </a>
 </section>
 
 <!-- ===== NAVBAR ===== -->

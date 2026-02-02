@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Profile | Home Bloom</title>
+    <title>My Profile | HOUSE BLOOM</title>
 
     <style>
         * {
@@ -17,19 +17,19 @@
         }
 
         /* ===== PAGE TITLE ===== */
-        .page-title-section {
-            padding: 25px 0;
-            text-align: center;
-            margin-bottom:30px;
-        }
+        .logo-section {
+    padding: 15px 0 15px; 
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    margin-bottom:50px;
+}
 
-        .page-title {
-            font-size: 3rem;
-            font-weight: 70;
-            text-decoration: none;
-            color: #8b7355;
-            letter-spacing: 3px;
-        }
+.logo {
+    max-width: 250px;    
+    width: 100%;
+    height: auto;
+}
 
         /* ===== LAYOUT ===== */
         .profile-wrapper {
@@ -153,9 +153,11 @@
 <body>
 
     <!-- PAGE TITLE -->
-    <section class="page-title-section">
-        <a href="/" class="page-title">HOME BLOOM</a>
-    </section>
+ <section class="logo-section">
+    <a href="/">
+    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+    </a>
+</section>
     
     <!-- PROFILE OVERVIEW -->
     <div class="profile-wrapper">
@@ -179,6 +181,7 @@
                 <div class="profile-info">
                     <h2>{{ user.get_full_name|default:user.username }}</h2>
                     <p>Email: {{ user.email }}</p>
+                    <p>Phone: +91 98765 43210</p>
         
 
                     </div>

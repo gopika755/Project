@@ -136,7 +136,6 @@ class Address(models.Model):
 
 
 class Order(models.Model):
-
     STATUS_CHOICES = [
     ("pending", "Pending"),
     ("confirmed", "Confirmed"),
@@ -152,12 +151,8 @@ class Order(models.Model):
         ("STRIPE", "Stripe"),
     ]
     
-    payment_status = models.CharField(  
-        max_length=20,
-        default="PENDING"
-    )
-
-
+    payment_status = models.CharField(  max_length=20,default="PENDING")
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     address = models.ForeignKey("Address", on_delete=models.SET_NULL, null=True)

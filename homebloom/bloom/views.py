@@ -13,11 +13,15 @@ from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from bloom.decorators import user_required,admin_required
+from django.contrib.auth.decorators import login_required, user_passes_test 
 from django.conf import settings
 from django.shortcuts import redirect
-from django.views.decorators.http import require_POST
 
+def is_admin(user):
+    return user.is_staff
+
+def is_user(user):
+    return user.is_authenticated and not user.is_staff
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
@@ -417,9 +421,10 @@ def reset_password(request):
 def password_changed(request):
     return render(request, "password_changed.html")
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def profile(request):
-    profile, created = Profile.objects.get_or_create(
+    profile= Profile.objects.get_or_create(
         user=request.user
     )
 
@@ -432,7 +437,8 @@ def profile(request):
         "addresses": addresses
     })
     
-@user_required
+@login_required
+@user_passes_test(is_user)
 def editprofile(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
 
@@ -454,7 +460,8 @@ def editprofile(request):
     })
 
     
-@user_required
+@login_required
+@user_passes_test(is_user)
 def editaddress(request, id):
     address = get_object_or_404(Address, id=id, user=request.user)
 
@@ -472,7 +479,8 @@ def editaddress(request, id):
     })
 
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def order(request):
     orders = (
         Order.objects
@@ -484,12 +492,14 @@ def order(request):
 
 
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def detail(request, id):
     order = get_object_or_404(Order, id=id, user=request.user)
     return render(request, "detail.html", {"order": order})
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def download_invoice(request, id):
     order = Order.objects.prefetch_related("items__product").get(
         id=id,
@@ -530,7 +540,8 @@ def download_invoice(request, id):
 
     return response
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def addaddress(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
 
@@ -551,7 +562,8 @@ def addaddress(request):
         "profile": profile
     })
     
-@user_required
+@login_required
+@user_passes_test(is_user)
 def delete_address(request, id):
     address = get_object_or_404(Address, id=id, user=request.user)
 
@@ -560,13 +572,15 @@ def delete_address(request, id):
         return redirect("profile")
 
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def wishlist(request):
     wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
     return render(request, 'wishlist.html', {
         'wishlist_items': wishlist_items
     })
-@user_required
+@login_required
+@user_passes_test(is_user)
 def toggle_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
@@ -585,7 +599,8 @@ def toggle_wishlist(request, product_id):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def move_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
@@ -603,7 +618,8 @@ def move_to_cart(request, product_id):
     return redirect("cart") 
 
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def payment_page(request):
     buy_now_product_id = request.session.get("buy_now_product_id")
 
@@ -641,7 +657,8 @@ def payment_page(request):
         "buy_now": False,
     })
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def payment_failed(request):
     order_id = request.GET.get("order_id")
 
@@ -658,7 +675,8 @@ def payment_failed(request):
     return render(request, "payment_failed.html")
 
 @never_cache
-@user_required
+@login_required
+@user_passes_test(is_user)
 def cart(request):
     if request.method == "POST":
         product_id = request.POST.get("product_id")
@@ -683,14 +701,16 @@ def cart(request):
         "subtotal": subtotal,
     })
     
-@user_required
+@login_required
+@user_passes_test(is_user)
 def remove_cart_item(request, item_id):
     cart_item = get_object_or_404(Cart, id=item_id, user=request.user)
     cart_item.delete()
     return redirect("cart")
 
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def checkout(request):
     addresses = Address.objects.filter(user=request.user)
     buy_now_product_id = request.session.get("buy_now_product_id")
@@ -753,7 +773,8 @@ def checkout(request):
     })
 
     
-@user_required
+@login_required
+@user_passes_test(is_user)
 def place_order(request):
     if request.method != "POST":
         return redirect("checkout")
@@ -855,7 +876,8 @@ def place_order(request):
 
     return redirect("checkout")
 
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def update_order_status(request, order_id):
     if request.method == "POST":
         order = get_object_or_404(Order, id=order_id)
@@ -869,12 +891,14 @@ def update_order_status(request, order_id):
 
 
     
-@user_required
+@login_required
+@user_passes_test(is_user)
 def ordersuccess(request):
     return render(request, "ordersuccess.html")
 
 
-@user_required
+@login_required
+@user_passes_test(is_user)
 def payment_success(request):
     order_id = request.GET.get("order_id")
 
@@ -902,7 +926,6 @@ def aboutus(request):
 
 
 @never_cache
-@user_required
 def product(request, pk):
     product = get_object_or_404(Product, pk=pk, is_active=True)
 
@@ -933,8 +956,8 @@ def product(request, pk):
     })
 
 
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def admindashboard(request):
     total_orders = Order.objects.count()
     total_products = Product.objects.count()
@@ -950,8 +973,8 @@ def admindashboard(request):
 
     return render(request, "admindashboard.html", context)
 
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def adminproduct(request):
     query = request.GET.get('q', '')
     if query:
@@ -964,8 +987,8 @@ def adminproduct(request):
     })
     
     
-@never_cache
-@admin_required    
+@login_required
+@user_passes_test(is_admin)   
 def productedit(request, pk):
     product = get_object_or_404(Product, pk=pk)
     categories = Category.objects.all()
@@ -1013,9 +1036,8 @@ def product_toggle_status(request, id):
     product.save()
     return redirect('adminproduct')
 
-
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def admincustomer(request):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -1027,8 +1049,8 @@ def admincustomer(request):
     })
     
 
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def toggle_customer_block(request, user_id):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -1040,8 +1062,8 @@ def toggle_customer_block(request, user_id):
 
     return redirect("admincustomer")
     
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def delete_customer(request, user_id):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -1052,8 +1074,8 @@ def delete_customer(request, user_id):
         return redirect("admincustomer") 
     
     
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def admincategory(request):
     categories = Category.objects.all()
 
@@ -1061,8 +1083,8 @@ def admincategory(request):
         "categories": categories
     })
     
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def categoryedit(request, pk):
     category = get_object_or_404(Category, pk=pk)
     subcategories = SubCategory.objects.filter(category=category)
@@ -1102,8 +1124,8 @@ def categoryedit(request, pk):
         "subcategories": subcategories
     })
 
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def categoryadd(request):
     if request.method == "POST" and "delete_category" in request.POST:
         cat_id = request.POST.get("delete_category")
@@ -1130,15 +1152,13 @@ def categoryadd(request):
         "categories": categories
     })
 
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def categorydelete(request, pk):
     if request.method == "POST":
         category = get_object_or_404(Category, pk=pk)
 
-        # Optional safety check
         if category.subcategory_set.exists() or category.product_set.exists():
-            # You can add messages framework later
             return redirect("admincategory")
 
         category.delete()
@@ -1154,8 +1174,8 @@ def admincoupon(request):
 def couponedit(request):
     return render(request,'couponedit.html')
 
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def adminorder(request):
     orders = (
         Order.objects
@@ -1182,16 +1202,16 @@ def adminorder(request):
     )
 
 
-@require_POST
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     order.status = request.POST.get("status")
     order.save()
     return redirect("adminorder")
 
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def add_product(request):
     categories = Category.objects.all()
 
@@ -1206,9 +1226,9 @@ def add_product(request):
             category_id=selected_category_id,
             subcategory_id=request.POST.get("subcategory"),
             price=Decimal(request.POST.get("price")),
-            offer_price=request.POST.get("offer_price") or None,
+            offer_price=(Decimal(request.POST.get("offer_price"))if request.POST.get("offer_price")else None),
             quantity=int(request.POST.get("quantity")),
-            offer=request.POST.get("offer") or None,
+            offer=request.POST.get("offer") ,
             description=request.POST.get("description", ""),
             image1=request.FILES.get("image1"),
             image2=request.FILES.get("image2"),
@@ -1225,7 +1245,6 @@ def add_product(request):
     })
     
 
-@admin_required
 def adminlogout(request):
     logout(request)
     return redirect("home")
@@ -1236,8 +1255,8 @@ def userlogout(request):
     logout(request)
     return redirect("login")
 
-@never_cache
-@admin_required
+@login_required
+@user_passes_test(is_admin)
 def banner_add(request):
     if request.method == "POST":
         if request.POST.get("delete_banner_id"):

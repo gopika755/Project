@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders | HOME BLOOM</title>
+    <title>My Orders | HOUSE BLOOM</title>
     
     <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -29,19 +29,18 @@
             min-height: 100vh;
         }
 
-       .page-title-section {
-            background-color:#fff;
-            padding: 25px 0;
-            text-align: center;
-        }
-        .page-title {
-            font-size: 50px;
-            font-weight: 70;
-            text-decoration: none;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
+      .logo-section {
+    padding: 15px 0 15px; 
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.logo {
+    max-width: 250px;    
+    width: 100%;
+    height: auto;
+}
 
         /* MAIN LAYOUT */
         .orders-wrapper {
@@ -449,9 +448,11 @@ status-shipping {
 <body>
 
     <!-- HEADER -->
-    <section class="page-title-section">
-        <a href="/" class="page-title">HOME BLOOM</a>
-    </section>
+    <section class="logo-section">
+    <a href="/">
+    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+    </a>
+</section>
 
     <!-- ORDERS WRAPPER -->
     <div class="orders-wrapper">
