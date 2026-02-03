@@ -200,7 +200,10 @@
                 <h3 class="product-name">{{ item.product.name }}</h3>
                 <div class="price">₹{{ item.product.price }}</div>
 
-                <a href="{% url 'move_to_cart' item.product.id %}" class="view-btn">Move to cart</a>
+               <a href="{% url 'move_to_cart' item.id %} "class="view-btn4">
+    Move to Cart
+</a>
+
 
             </div>
 

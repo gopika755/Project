@@ -110,6 +110,8 @@ class Cart(models.Model):
     @property
     def subtotal(self):
         return (self.product.offer_price or self.product.price) * self.quantity
+  
+  
     
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

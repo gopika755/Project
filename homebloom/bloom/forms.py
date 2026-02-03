@@ -94,4 +94,12 @@ class SubCategoryForm(forms.ModelForm):
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        exclude = ["user"]
+        fields = [
+            'full_name',
+            'email',
+            'phone',
+            'street',
+            'city',
+            'state',
+            'pincode',
+        ]

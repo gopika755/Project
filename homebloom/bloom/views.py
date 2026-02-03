@@ -599,21 +599,25 @@ def toggle_wishlist(request, product_id):
 
 @login_required
 @user_passes_test(is_user)
-def move_to_cart(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+def move_to_cart(request, wishlist_id):
+    wishlist_item = get_object_or_404(
+        Wishlist,
+        id=wishlist_id,
+        user=request.user
+    )
 
-    cart, created = Cart.objects.get_or_create(user=request.user)
     cart_item, created = Cart.objects.get_or_create(
-        cart=cart,
-        product=product,
-        defaults={"quantity": 1}
+        user=request.user,
+        product=wishlist_item.product,
+        defaults={'quantity': 1}
     )
 
     if not created:
         cart_item.quantity += 1
         cart_item.save()
-    Wishlist.objects.filter(user=request.user, product=product).delete()
-    return redirect("cart") 
+
+    wishlist_item.delete()
+    return redirect('wishlist')
 
 
 @login_required
@@ -713,9 +717,21 @@ def checkout(request):
     addresses = Address.objects.filter(user=request.user)
     buy_now_product_id = request.session.get("buy_now_product_id")
 
-    if request.method == "POST" and request.POST.get("buy_now_product_id"):
-        request.session["buy_now_product_id"] = request.POST.get("buy_now_product_id")
-        return redirect("checkout")
+    if request.method == "POST" and request.POST.get("add_address"):
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            messages.success(request, "Address added successfully")
+
+            # optional: auto-select new address
+            request.session["address_id"] = address.id
+
+            return redirect("checkout")
+    else:
+        form = AddressForm()
+
 
     if buy_now_product_id:
         product = get_object_or_404(Product, id=buy_now_product_id)
@@ -728,13 +744,8 @@ def checkout(request):
 
         total = product.offer_price or product.price
 
-        if request.method == "POST":
-            address_id = request.POST.get("address")
-            if not address_id:
-                messages.error(request, "Please select an address")
-                return redirect("checkout")
-
-            request.session["address_id"] = address_id
+        if request.method == "POST" and request.POST.get("address"):
+            request.session["address_id"] = request.POST.get("address")
             return redirect("payment_page")
 
         return render(request, "checkout.html", {
@@ -742,7 +753,9 @@ def checkout(request):
             "cart_items": cart_items,
             "total": total,
             "buy_now": True,
+            "form": form,
         })
+
     cart_items = Cart.objects.filter(user=request.user)
 
     if not cart_items.exists():
@@ -754,13 +767,8 @@ def checkout(request):
         for item in cart_items
     )
 
-    if request.method == "POST":
-        address_id = request.POST.get("address")
-        if not address_id:
-            messages.error(request, "Please select an address")
-            return redirect("checkout")
-
-        request.session["address_id"] = address_id
+    if request.method == "POST" and request.POST.get("address"):
+        request.session["address_id"] = request.POST.get("address")
         return redirect("payment_page")
 
     return render(request, "checkout.html", {
@@ -768,7 +776,9 @@ def checkout(request):
         "cart_items": cart_items,
         "total": total,
         "buy_now": False,
+        "form": form,
     })
+
 
     
 @login_required
