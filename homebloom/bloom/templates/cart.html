@@ -89,7 +89,7 @@
 
         .product-info {
             display:flex;
-            gap:15px;
+            gap:13px;
             align-items:center;
         }
 
@@ -182,8 +182,132 @@
     width: 100%;
     height: auto;
 }
+
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 4px;
+    margin-left:1px;
+    
+}
+
+.qty-btn:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.qty-value {
+    min-width: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
     </style>
 </head>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* ========= QUANTITY UPDATE ========= */
+    document.querySelectorAll(".qty-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+
+            const cartItem = this.closest(".cart-item");
+            if (!cartItem) return;
+
+            const cartId = cartItem.dataset.cartId;
+            const action = this.dataset.action;
+
+            fetch("{% url 'update_cart_quantity' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `cart_id=${cartId}&action=${action}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    cartItem.querySelector(".qty-value").innerText = data.quantity;
+                    cartItem.querySelector(".subtotal").innerText = "₹" + data.subtotal;
+                }
+            });
+        });
+    });
+
+    /* ========= REMOVE ITEM ========= */
+    document.querySelectorAll(".remove-cart").forEach(btn => {
+        btn.addEventListener("click", function () {
+
+            const cartItem = this.closest(".cart-item");
+            if (!cartItem) return;
+
+            const cartId = this.dataset.cartId;
+
+            fetch("{% url 'remove_cart_item_ajax' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `cart_id=${cartId}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    cartItem.remove();
+
+                    const itemsRow = document.querySelector(".summary-row span:last-child");
+                    const totalRow = document.querySelector(".summary-row.total span:last-child");
+
+                    if (itemsRow) itemsRow.innerText = data.total_items;
+                    if (totalRow) totalRow.innerText = "₹" + data.subtotal;
+                }
+            });
+        });
+    });
+
+    /* ========= ADD TO CART ========= */
+    document.querySelectorAll(".add-to-cart").forEach(btn => {
+        btn.addEventListener("click", function () {
+
+            console.log("ADD TO CART CLICKED", this.dataset.productId);
+
+            const productId = this.dataset.productId;
+
+            fetch("{% url 'add_to_cart_ajax' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `product_id=${productId}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log("SERVER RESPONSE:", data);
+                if (data.status === "success") {
+                    alert("Added to cart ✅");
+                }
+            });
+        });
+    });
+
+});
+</script>
+
+
 <body>
 
 <section class="logo-section">
@@ -206,11 +330,18 @@
         </div>
 
         {% for item in cart_items %}
-        <div class="cart-item">
+        <div class="cart-item" data-cart-id="{{ item.id }}">
+
 
             <form method="post" action="{% url 'remove_cart_item' item.id %}">
                 {% csrf_token %}
-                <button class="remove-btn"><i class="bi bi-x"></i></button>
+                <button 
+                type="button"
+                class="remove-btn remove-cart"
+                data-cart-id="{{ item.id }}">
+                <i class="bi bi-x"></i>
+            </button>
+
             </form>
 
             <div class="product-info">
@@ -219,7 +350,15 @@
             </div>
 
             <div class="price">₹{{ item.product.offer_price|default:item.product.price }}</div>
-            <div>{{ item.quantity }}</div>
+
+            <div class="qty-box">
+                <button class="qty-btn minus" data-action="decrease">−</button>
+                <span class="qty-value">{{ item.quantity }}</span>
+                <button class="qty-btn plus" data-action="increase">+</button>
+            </div>
+
+
+
             <div class="subtotal">₹{{ item.subtotal }}</div>
 
         </div>

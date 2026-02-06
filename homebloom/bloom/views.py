@@ -6,37 +6,46 @@ from django.core.mail import send_mail
 from django.db.models import Q,Sum
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden,JsonResponse
 from decimal import Decimal, InvalidOperation
 import random,stripe
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from django.contrib.auth.decorators import login_required, user_passes_test 
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.shortcuts import redirect
-
-def is_admin(user):
-    return user.is_staff
-
-def is_user(user):
-    return user.is_authenticated and not user.is_staff
+from django.views.decorators.http import require_POST
+from django.contrib.admin.views.decorators import staff_member_required
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
 
+from django.views.decorators.cache import never_cache
+from django.db.models import Sum
+from .models import Cart, Banner, Product
+
+
 @never_cache
 def home(request):
-    banners = Banner.objects.filter(page='home',is_active=True)
-    whats_new_products = Product.objects.filter(is_new=True,is_active=True).order_by("-created_at")[:6]
-    best_sellers = Product.objects.filter(is_best_seller=True,is_active=True).order_by("-created_at")[:8]
+    banners = Banner.objects.filter(page='home', is_active=True)
+    whats_new_products = Product.objects.filter(is_new=True, is_active=True).order_by("-created_at")[:6]
+    best_sellers = Product.objects.filter(is_best_seller=True, is_active=True).order_by("-created_at")[:8]
+
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+    else:
+        cart_count = 0
 
     return render(request, "home.html", {
         "banners": banners,
         "whats_new_products": whats_new_products,
         "best_sellers": best_sellers,
+        "cart_count": cart_count, 
     })
+
     
     
 @never_cache
@@ -75,6 +84,12 @@ def furniture(request):
     if request.user.is_authenticated:
         cart_product_ids = list(Cart.objects.filter(user=request.user).values_list("product_id", flat=True))
 
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+    else:
+        cart_count = 0
+        
     return render(request, "furniture.html", {
         "banner": banner,
         "products": products,
@@ -82,18 +97,15 @@ def furniture(request):
         "min_price": min_price,
         "max_price": max_price,
         "wishlist_products": wishlist_products,
-        "cart_product_ids":cart_product_ids
+        "cart_product_ids":cart_product_ids,
+        "cart_count": cart_count,
     })
 
     
 @never_cache
 def walldecor(request):
     banner = Banner.objects.filter(page="walldecor", is_active=True).first()
-
-    products = Product.objects.filter(
-        category__name__iexact="Wall Decor",
-        is_active=True
-    )
+    products = Product.objects.filter(category__name__iexact="Wall Decor",is_active=True)
 
     sub_id = request.GET.get("sub_id")
     if sub_id:
@@ -125,7 +137,13 @@ def walldecor(request):
     wishlist_products = []
     if request.user.is_authenticated:
         wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True))
-
+    
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+    else:
+        cart_count = 0
+    
     return render(request, "walldecor.html", {
         "banner": banner,
         "products": products,
@@ -133,6 +151,7 @@ def walldecor(request):
         "max_price": max_price,
         "selected_sub_id": sub_id,
         "wishlist_products":wishlist_products,
+        "cart_count": cart_count,
     })
 
     
@@ -180,6 +199,12 @@ def kitchen(request):
     wishlist_products = []
     if request.user.is_authenticated:
         wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True))
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+    else:
+        cart_count = 0
+    
         
     return render(request, "kitchen.html", {
         "banner": banner,
@@ -188,6 +213,7 @@ def kitchen(request):
         "max_price": max_price,
         "selected_sub_id": sub_id,
         "wishlist_products":wishlist_products,
+        "cart_count": cart_count,
     })
     
 @never_cache
@@ -233,6 +259,12 @@ def lighting(request):
     wishlist_products = []
     if request.user.is_authenticated:
         wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True))
+    
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+    else:
+        cart_count = 0
         
     return render(request, "lighting.html", {
         "banner": banner,
@@ -241,6 +273,7 @@ def lighting(request):
         "max_price": max_price,
         "selected_sub_id": sub_id,
         "wishlist_products":wishlist_products,
+        "cart_count": cart_count,
     })
 @never_cache
 def bath(request):
@@ -282,6 +315,13 @@ def bath(request):
     wishlist_products = []
     if request.user.is_authenticated:
         wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True)) 
+    
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+    else:
+        cart_count = 0
+    
         
     return render(request, "bath.html", {
         "banner": banner,
@@ -290,6 +330,7 @@ def bath(request):
         "max_price": max_price,
         "selected_sub_id": sub_id,
         "wishlist_products":wishlist_products,
+        "cart_count": cart_count,
     })
     
     
@@ -422,7 +463,6 @@ def password_changed(request):
     return render(request, "password_changed.html")
 
 @login_required
-@user_passes_test(is_user)
 def profile(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
 
@@ -435,7 +475,6 @@ def profile(request):
 
     
 @login_required
-@user_passes_test(is_user)
 def editprofile(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
 
@@ -458,7 +497,6 @@ def editprofile(request):
 
     
 @login_required
-@user_passes_test(is_user)
 def editaddress(request, id):
     address = get_object_or_404(Address, id=id, user=request.user)
 
@@ -477,7 +515,6 @@ def editaddress(request, id):
 
 
 @login_required
-@user_passes_test(is_user)
 def order(request):
     orders = (
         Order.objects
@@ -490,13 +527,13 @@ def order(request):
 
 
 @login_required
-@user_passes_test(is_user)
+@staff_member_required
 def detail(request, id):
     order = get_object_or_404(Order, id=id, user=request.user)
     return render(request, "detail.html", {"order": order})
 
 @login_required
-@user_passes_test(is_user)
+@staff_member_required(login_url="home")
 def download_invoice(request, id):
     order = Order.objects.prefetch_related("items__product").get(
         id=id,
@@ -538,8 +575,8 @@ def download_invoice(request, id):
 
     return response
 
-@login_required
-@user_passes_test(is_user)
+@never_cache
+@staff_member_required(login_url='home')
 def addaddress(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
 
@@ -560,8 +597,8 @@ def addaddress(request):
         "profile": profile
     })
     
-@login_required
-@user_passes_test(is_user)
+@never_cache
+@staff_member_required(login_url='home')
 def delete_address(request, id):
     address = get_object_or_404(Address, id=id, user=request.user)
 
@@ -571,14 +608,14 @@ def delete_address(request, id):
 
 
 @login_required
-@user_passes_test(is_user)
 def wishlist(request):
     wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
     return render(request, 'wishlist.html', {
         'wishlist_items': wishlist_items
     })
 @login_required
-@user_passes_test(is_user)
+@login_required
+@require_POST
 def toggle_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
@@ -589,16 +626,13 @@ def toggle_wishlist(request, product_id):
 
     if wishlist_item:
         wishlist_item.delete()
-    else: 
-        Wishlist.objects.create(
-            user=request.user,
-            product=product
-        )
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+        return JsonResponse({"status": "removed"})
+    else:
+        Wishlist.objects.create(user=request.user, product=product)
+        return JsonResponse({"status": "added"})
 
 
 @login_required
-@user_passes_test(is_user)
 def move_to_cart(request, wishlist_id):
     wishlist_item = get_object_or_404(
         Wishlist,
@@ -621,7 +655,6 @@ def move_to_cart(request, wishlist_id):
 
 
 @login_required
-@user_passes_test(is_user)
 def payment_page(request):
     buy_now_product_id = request.session.get("buy_now_product_id")
 
@@ -660,11 +693,9 @@ def payment_page(request):
     })
 
 @login_required
-@user_passes_test(is_user)
 def payment_failed(request):
     order_id = request.GET.get("order_id")
 
-    # OPTIONAL: mark order as failed
     if order_id:
         from .models import Order
         try:
@@ -678,7 +709,6 @@ def payment_failed(request):
 
 @never_cache
 @login_required
-@user_passes_test(is_user)
 def cart(request):
     if request.method == "POST":
         product_id = request.POST.get("product_id")
@@ -704,18 +734,82 @@ def cart(request):
     })
     
 @login_required
-@user_passes_test(is_user)
 def remove_cart_item(request, item_id):
     cart_item = get_object_or_404(Cart, id=item_id, user=request.user)
     cart_item.delete()
     return redirect("cart")
 
+@require_POST
+def update_cart_quantity(request):
+    cart_id = request.POST.get("cart_id")
+    action = request.POST.get("action")
+
+    cart_item = get_object_or_404(
+        Cart,
+        id=cart_id,
+        user=request.user
+    )
+
+    if action == "increase":
+        cart_item.quantity += 1
+
+    elif action == "decrease" and cart_item.quantity > 1:
+        cart_item.quantity -= 1
+
+    cart_item.save()
+
+    return JsonResponse({
+        "status": "success",
+        "quantity": cart_item.quantity,
+        "subtotal": float(cart_item.subtotal)
+    })
+
+@require_POST
+def remove_cart_item_ajax(request):
+    cart_id = request.POST.get("cart_id")
+
+    cart_item = get_object_or_404(
+        Cart,
+        id=cart_id,
+        user=request.user
+    )
+
+    cart_item.delete()
+
+    total_items = Cart.objects.filter(user=request.user).count()
+    subtotal = sum(
+        item.subtotal for item in Cart.objects.filter(user=request.user)
+    )
+
+    return JsonResponse({
+        "status": "success",
+        "total_items": total_items,
+        "subtotal": float(subtotal)
+    })
 
 @login_required
-@user_passes_test(is_user)
+@require_POST
+def add_to_cart_ajax(request):
+    print("ADD TO CART VIEW HIT", request.POST)
+
+    product_id = request.POST.get("product_id")
+    product = get_object_or_404(Product, id=product_id)
+
+    cart_item, created = Cart.objects.get_or_create(
+        user=request.user,
+        product=product
+    )
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    return JsonResponse({"status": "success"})
+
+@login_required
 def checkout(request):
     addresses = Address.objects.filter(user=request.user)
-    buy_now_product_id = request.session.get("buy_now_product_id")
+    form = AddressForm()
 
     if request.method == "POST" and request.POST.get("add_address"):
         form = AddressForm(request.POST)
@@ -724,13 +818,13 @@ def checkout(request):
             address.user = request.user
             address.save()
             messages.success(request, "Address added successfully")
-
-            # optional: auto-select new address
-            request.session["address_id"] = address.id
-
             return redirect("checkout")
-    else:
-        form = AddressForm()
+
+    if request.method == "POST" and request.POST.get("buy_now_product_id"):
+        request.session["buy_now_product_id"] = request.POST.get("buy_now_product_id")
+        return redirect("checkout")
+
+    buy_now_product_id = request.session.get("buy_now_product_id")
 
 
     if buy_now_product_id:
@@ -782,7 +876,6 @@ def checkout(request):
 
     
 @login_required
-@user_passes_test(is_user)
 def place_order(request):
     if request.method != "POST":
         return redirect("checkout")
@@ -884,8 +977,8 @@ def place_order(request):
 
     return redirect("checkout")
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def update_order_status(request, order_id):
     if request.method == "POST":
         order = get_object_or_404(Order, id=order_id)
@@ -900,13 +993,11 @@ def update_order_status(request, order_id):
 
     
 @login_required
-@user_passes_test(is_user)
 def ordersuccess(request):
     return render(request, "ordersuccess.html")
 
 
 @login_required
-@user_passes_test(is_user)
 def payment_success(request):
     order_id = request.GET.get("order_id")
 
@@ -964,8 +1055,8 @@ def product(request, pk):
     })
 
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def admindashboard(request):
     total_orders = Order.objects.count()
     total_products = Product.objects.count()
@@ -981,8 +1072,8 @@ def admindashboard(request):
 
     return render(request, "admindashboard.html", context)
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def adminproduct(request):
     query = request.GET.get('q', '')
     if query:
@@ -995,8 +1086,8 @@ def adminproduct(request):
     })
     
     
-@login_required
-@user_passes_test(is_admin)   
+@never_cache
+@staff_member_required(login_url='home')   
 def productedit(request, pk):
     product = get_object_or_404(Product, pk=pk)
     categories = Category.objects.all()
@@ -1044,8 +1135,8 @@ def product_toggle_status(request, id):
     product.save()
     return redirect('adminproduct')
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def admincustomer(request):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -1057,8 +1148,8 @@ def admincustomer(request):
     })
     
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def toggle_customer_block(request, user_id):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -1070,8 +1161,8 @@ def toggle_customer_block(request, user_id):
 
     return redirect("admincustomer")
     
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def delete_customer(request, user_id):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
@@ -1081,9 +1172,8 @@ def delete_customer(request, user_id):
         user.delete()
         return redirect("admincustomer") 
     
-    
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def admincategory(request):
     categories = Category.objects.all()
 
@@ -1091,9 +1181,9 @@ def admincategory(request):
         "categories": categories
     })
     
-@login_required
-@user_passes_test(is_admin)
-def categoryedit(request, pk):
+@never_cache
+@staff_member_required(login_url='home')
+def categoryedit(request, pk):   
     category = get_object_or_404(Category, pk=pk)
     subcategories = SubCategory.objects.filter(category=category)
 
@@ -1132,8 +1222,8 @@ def categoryedit(request, pk):
         "subcategories": subcategories
     })
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def categoryadd(request):
     if request.method == "POST" and "delete_category" in request.POST:
         cat_id = request.POST.get("delete_category")
@@ -1160,8 +1250,8 @@ def categoryadd(request):
         "categories": categories
     })
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def categorydelete(request, pk):
     if request.method == "POST":
         category = get_object_or_404(Category, pk=pk)
@@ -1182,8 +1272,8 @@ def admincoupon(request):
 def couponedit(request):
     return render(request,'couponedit.html')
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def adminorder(request):
     orders = (
         Order.objects
@@ -1210,16 +1300,16 @@ def adminorder(request):
     )
 
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     order.status = request.POST.get("status")
     order.save()
     return redirect("adminorder")
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def add_product(request):
     categories = Category.objects.all()
 
@@ -1263,8 +1353,8 @@ def userlogout(request):
     logout(request)
     return redirect("login")
 
-@login_required
-@user_passes_test(is_admin)
+@never_cache
+@staff_member_required(login_url='home')
 def banner_add(request):
     if request.method == "POST":
         if request.POST.get("delete_banner_id"):
@@ -1310,7 +1400,26 @@ def search(request):
         "query": query
     })
 
+def search_suggestions(request):
+    query = request.GET.get("q", "").strip()
 
+    data = []
+
+    if query:
+        products = Product.objects.filter(
+            is_active=True
+        ).filter(
+            Q(name__icontains=query) |
+            Q(subcategory__name__icontains=query)
+        )[:5]
+
+        for p in products:
+            data.append({
+                "id": p.id,
+                "name": p.name
+            })
+
+    return JsonResponse({"products": data})
     
     
     

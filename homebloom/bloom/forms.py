@@ -82,6 +82,7 @@ class ProductForm(forms.ModelForm):
             'offer': forms.NumberInput(attrs={'placeholder': 'Discount %'}),
             'description': forms.Textarea(attrs={'placeholder': 'Description', 'rows': 3}),
         }
+        
 class SubCategoryForm(forms.ModelForm):
     class Meta:
         model = SubCategory
@@ -90,6 +91,7 @@ class SubCategoryForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subcategory name'}),
         }
+        
         
 class AddressForm(forms.ModelForm):
     class Meta:
