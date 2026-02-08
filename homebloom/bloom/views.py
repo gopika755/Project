@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import login,get_user_model,logout
 from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm,AddressForm
-from .models import PasswordResetOTP, Product, Category,SubCategory,Banner,Wishlist,Cart,Profile,Address,Order,OrderItem
+from .models import PasswordResetOTP, Product, Category,SubCategory,Banner,Wishlist,Cart,Profile,Address,Order,OrderItem,Notification,Review
 from django.core.mail import send_mail
-from django.db.models import Q,Sum
+from django.db.models import Q,Sum,Avg
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.http import HttpResponseForbidden,JsonResponse
@@ -30,22 +30,28 @@ from .models import Cart, Banner, Product
 @never_cache
 def home(request):
     banners = Banner.objects.filter(page='home', is_active=True)
-    whats_new_products = Product.objects.filter(is_new=True, is_active=True).order_by("-created_at")[:6]
-    best_sellers = Product.objects.filter(is_best_seller=True, is_active=True).order_by("-created_at")[:8]
+    whats_new_products = Product.objects.filter(is_new=True,is_active=True).order_by("-created_at")[:6]
+    best_sellers = Product.objects.filter(is_best_seller=True,is_active=True).order_by("-created_at")[:8]
 
     if request.user.is_authenticated:
         cart_count = Cart.objects.filter(user=request.user)\
             .aggregate(total=Sum("quantity"))["total"] or 0
+
+        notification_count = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).count()
     else:
         cart_count = 0
+        notification_count = 0
 
     return render(request, "home.html", {
         "banners": banners,
         "whats_new_products": whats_new_products,
         "best_sellers": best_sellers,
-        "cart_count": cart_count, 
+        "cart_count": cart_count,
+        "notification_count": notification_count,
     })
-
     
     
 @never_cache
@@ -89,7 +95,19 @@ def furniture(request):
             .aggregate(total=Sum("quantity"))["total"] or 0
     else:
         cart_count = 0
-        
+    
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+
+        notification_count = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).count()
+    else:
+        cart_count = 0
+        notification_count = 0
+       
     return render(request, "furniture.html", {
         "banner": banner,
         "products": products,
@@ -99,6 +117,7 @@ def furniture(request):
         "wishlist_products": wishlist_products,
         "cart_product_ids":cart_product_ids,
         "cart_count": cart_count,
+        "notification_count": notification_count,
     })
 
     
@@ -144,6 +163,18 @@ def walldecor(request):
     else:
         cart_count = 0
     
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+
+        notification_count = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).count()
+    else:
+        cart_count = 0
+        notification_count = 0
+    
     return render(request, "walldecor.html", {
         "banner": banner,
         "products": products,
@@ -152,6 +183,7 @@ def walldecor(request):
         "selected_sub_id": sub_id,
         "wishlist_products":wishlist_products,
         "cart_count": cart_count,
+        "notification_count": notification_count,
     })
 
     
@@ -205,6 +237,17 @@ def kitchen(request):
     else:
         cart_count = 0
     
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+
+        notification_count = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).count()
+    else:
+        cart_count = 0
+        notification_count = 0
         
     return render(request, "kitchen.html", {
         "banner": banner,
@@ -214,6 +257,7 @@ def kitchen(request):
         "selected_sub_id": sub_id,
         "wishlist_products":wishlist_products,
         "cart_count": cart_count,
+        "notification_count": notification_count,
     })
     
 @never_cache
@@ -265,7 +309,19 @@ def lighting(request):
             .aggregate(total=Sum("quantity"))["total"] or 0
     else:
         cart_count = 0
-        
+    
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+
+        notification_count = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).count()
+    else:
+        cart_count = 0
+        notification_count = 0
+            
     return render(request, "lighting.html", {
         "banner": banner,
         "products": products,
@@ -274,6 +330,7 @@ def lighting(request):
         "selected_sub_id": sub_id,
         "wishlist_products":wishlist_products,
         "cart_count": cart_count,
+        "notification_count": notification_count,
     })
 @never_cache
 def bath(request):
@@ -322,6 +379,17 @@ def bath(request):
     else:
         cart_count = 0
     
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user)\
+            .aggregate(total=Sum("quantity"))["total"] or 0
+
+        notification_count = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).count()
+    else:
+        cart_count = 0
+        notification_count = 0
         
     return render(request, "bath.html", {
         "banner": banner,
@@ -331,6 +399,7 @@ def bath(request):
         "selected_sub_id": sub_id,
         "wishlist_products":wishlist_products,
         "cart_count": cart_count,
+        "notification_count": notification_count,
     })
     
     
@@ -1028,32 +1097,37 @@ def aboutus(request):
 def product(request, pk):
     product = get_object_or_404(Product, pk=pk, is_active=True)
 
-    related_products = Product.objects.filter(
-        category=product.category,
-        is_active=True
-    ).exclude(id=product.id)[:4]
-
+    related_products = Product.objects.filter(category=product.category,is_active=True).exclude(id=product.id)[:4]
     cart_product_ids = []
     wishlist_products = []
 
     if request.user.is_authenticated:
-        cart_product_ids = list(
-            Cart.objects.filter(user=request.user)
-            .values_list("product_id", flat=True)
-        )
+        cart_product_ids = list(Cart.objects.filter(user=request.user).values_list("product_id", flat=True))
 
-        wishlist_products = list(
-            Wishlist.objects.filter(user=request.user)
-            .values_list("product_id", flat=True)
-        )
+        wishlist_products = list(Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True))
 
+    reviews = Review.objects.filter(product=product)
+
+    avg_rating = reviews.aggregate(
+        Avg("rating")
+    )["rating__avg"]
+
+    user_review = None
+    if request.user.is_authenticated:
+        user_review = Review.objects.filter(
+            product=product,
+            user=request.user
+        ).first()
+        
     return render(request, "product.html", {
         "product": product,
         "related_products": related_products,
         "cart_product_ids": cart_product_ids,
         "wishlist_products": wishlist_products,
+        "reviews": reviews,
+        "avg_rating": avg_rating,
+        "user_review": user_review,
     })
-
 
 @never_cache
 @staff_member_required(login_url='home')
@@ -1422,13 +1496,76 @@ def search_suggestions(request):
     return JsonResponse({"products": data})
     
     
+@login_required
+def notifications(request):
+    notes = Notification.objects.filter(
+        user=request.user
+    ).order_by("-created_at")
+
+    return render(request, "notifications.html", {
+        "notifications": notes
+    })    
+    
+@login_required
+def mark_read(request, id):
+    note = Notification.objects.get(
+        id=id,
+        user=request.user
+    )
+    note.is_read = True
+    note.save()
+
+    return redirect("notifications")
+    
+@login_required
+def add_review(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    rating = request.POST.get("rating")
+    comment = request.POST.get("comment")
+
+    Review.objects.update_or_create(
+        user=request.user,
+        product=product,
+        defaults={
+            "rating": rating,
+            "comment": comment,
+        }
+    )
+
+    return redirect("product_detail", id=product.id)
     
     
+@login_required
+def delete_review(request, id):
+    review = get_object_or_404(
+        Review,
+        id=id,
+        user=request.user
+    )
+    review.delete()
+
+    return redirect(request.META.get("HTTP_REFERER", "/"))
     
+@staff_member_required
+def adminnotifications(request):
+    notifications = Notification.objects.all().order_by("-created_at")
+
+    return render(
+        request,
+        "adminnotifications.html",
+        {"notifications": notifications}
+    )
     
-    
-    
-    
+@login_required
+def delete_notification(request, id):
+    notification = get_object_or_404(
+        Notification,
+        id=id,
+        user=request.user
+    )
+    notification.delete()
+    return redirect("notifications")
     
     
     

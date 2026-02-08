@@ -64,6 +64,16 @@ urlpatterns = [
     path("place-order/",views.place_order, name="place_order"),
     path("payment-success/", views.payment_success, name="payment_success"),
     path("payment-failed/",views.payment_failed,name='payment_failed'),
+    path("notifications/", views.notifications, name="notifications"),
+    path("notification/read/<int:id>/",views.mark_read,name="mark_read"),
+    path("review/<int:product_id>/", views.add_review, name="add_review"),
+    path("review/delete/<int:id>/", views.delete_review, name="delete_review"),
+    path("adminnotifications/",views.adminnotifications,name="adminnotifications"),
+    path("notification/delete/<int:id>/",views.delete_notification,name="delete_notification"),
+
+
+
+
 
     
 

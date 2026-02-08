@@ -171,11 +171,29 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"
 
-class Coupon(models.Model):
-    code = models.CharField(max_length=50, unique=True)
-    discount_percent = models.PositiveIntegerField() 
-    active = models.BooleanField(default=True)
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.code
-        
+        return self.title
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    
+    rating = models.IntegerField()  # 1–5 stars
+    comment = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("user", "product")
+
+    def __str__(self):
+        return f"{self.product} - {self.rating}"
+
