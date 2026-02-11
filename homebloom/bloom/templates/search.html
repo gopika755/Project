@@ -9,80 +9,90 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <style>
-        :root{
-            --primary:#8B6F47;
-            --secondary:#8b7355;
-            --accent:#3f3007;
-            --bg:#e4d1bb;
-            --white:#fff;
+        /* ===== GLOBAL STYLES ===== */
+        :root {
+            --primary-color:#8B6F47;
+            --secondary-color: #8b7355;
+            --accent-color: #3f3007ff;
+            --text-dark: #333;
+            --text-light: #ffffffff;
+            --bg-light: #dbc7adff;
         }
 
-        *{margin:0;padding:0;box-sizing:border-box;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        body{
-            font-family:'Georgia', serif;
-            background:var(--bg);
-            color:#333;
+        body {
+            font-family: 'Georgia', serif;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
         /* ================= LOGO ================= */
         .logo-section {
-    padding: 15px 0 15px; 
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
-}
+            padding: 15px 0 15px; 
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+        }
 
-.logo {
-    max-width: 250px;    
-    width: 100%;
-    height: auto;
-}
+        .logo {
+            max-width: 250px;    
+            width: 100%;
+            height: auto;
+        }
 
-        /* ================= NAVBAR ================= */
-        .combined-navbar{
-            background:var(--primary);
-            padding:20px 0;
-            position:sticky;
+        /* ===== COMBINED NAVIGATION BAR ===== */
+        .combined-navbar {
+            background-color: var(--primary-color);
+            padding: 15px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            top:0;
-            z-index:999;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
         }
 
-        .navbar-content{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:25px;
+        /* Category Links */
+        .category-nav-items {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        
+        .category-nav-items a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        
+        .category-nav-items a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
         }
 
-        .category-nav-items,
-        .icon-nav-items{
-            list-style:none;
-            display:flex;
-            align-items:center;
-            gap:35px;
-        }
-
-        .category-nav-items{
-            flex:1;
-            justify-content:center;
-        }
-
-        .category-nav-items a,
-        .icon-nav-items a{
-            color:#fff;
-            text-decoration:none;
-            font-size:15px;
-            letter-spacing:1px;
-            text-transform:uppercase;
-        }
-
-        .category-nav-items a:hover,
-        .icon-nav-items a:hover{
-            color:var(--accent);
-        }
-.category-nav-items li {
+        .category-nav-items li {
             position: relative;
         }
         
@@ -102,7 +112,7 @@
             transform: translateY(-10px);
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
-        
+
         .category-nav-items li:hover .dropdown-mega-menu {
             display: block;
             opacity: 1;
@@ -149,207 +159,347 @@
             color: var(--accent-color);
             padding-left: 5px;
         }
+
+        /* Icon Links */
+        .icon-nav-items {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .icon-nav-items a {
+            color: #fff;
+            font-size: 1.4rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .icon-nav-items a:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
         /* ================= ACCOUNT MENU ================= */
-        .account-dropdown{position:relative;}
-
-        .account-menu{
-            position:absolute;
-            top:120%;
-            right:0;
-            background:var(--primary);
-            min-width:180px;
-            border-radius:10px;
-            padding:5px 0;
-            opacity:0;
-            visibility:hidden;
-            transform:translateY(10px);
-            transition:.3s;
-            z-index:1000;
+        .account-dropdown {
+            position: relative;
+            list-style: none;
         }
 
-        .account-dropdown:hover .account-menu{
-            opacity:1;
-            visibility:visible;
-            transform:translateY(0);
+        .account-menu {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: #8B6F47;
+            min-width: 180px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 13px;
+            padding: 5px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 9999;
         }
 
-        .account-menu li{list-style:none;}
+        .account-dropdown:hover .account-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .account-menu li {
+            list-style: none;
+        }
 
         .account-menu a,
-        .logout-btn{
-            display:block;
-            padding:8px 12px;
-            color:#fff;
-            text-decoration:none;
-            background:none;
-            border:none;
-            width:100%;
-            text-align:left;
-            cursor:pointer;
+        .logout-btn {
+            background: none;
+            border: none;
+            display: block;
+            padding: 8px 15px;
+            color: white;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font: inherit;
+            text-decoration: none;
         }
 
         .account-menu a:hover,
-        .logout-btn:hover{
-            background:rgba(255,255,255,.15);
+        .logout-btn:hover {
+            background: rgba(255,255,255,.15);
+        }
+
+        .account-menu .divider {
+            height: 1px;
+            background: rgba(255,255,255,0.3);
+            margin: 8px 0;
         }
 
         /* ================= SEARCH ================= */
-        .nav-search{
-            display:flex;
-            align-items:center;
+        .nav-search {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
 
-        #search-toggle{display:none;}
-
-        .search-icon{
-            color:#fff;
-            cursor:pointer;
+        #search-toggle {
+            display: none;
         }
 
-        .search-form{
-            width:0;
-            overflow:hidden;
-            transition:.3s;
-            margin-left:8px;
+        .search-icon {
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
         }
 
-        .search-form input{
-            width:180px;
-            padding:6px 10px;
-            border-radius:4px;
-            border:none;
+        .search-dropdown {
+            position: absolute;
+            top: 40px;
+            width: 180px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 999;
         }
 
-        #search-toggle:checked ~ .search-form{
-            width:180px;
+        .search-form {
+            width: 0;
+            overflow: hidden;
+            transition: width 0.3s ease;
+            margin-left: 8px;
+        }
+
+        .search-form input {
+            width: 180px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: none;
+        }
+
+        #search-toggle:checked ~ .search-form {
+            width: 180px;
+        }
+
+        /* ================= CART ================= */
+        .cart-wrapper {
+            position: relative;
+        }
+
+        .cart-icon {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: #ffff;
+            color: #8B6F47;
+            font-size: 11px;
+            padding: 3px 6px;
+            border-radius: 50%;
+            font-weight: bold;
         }
 
         /* ================= PAGE TITLE ================= */
-        .page-title-section{
-            text-align:center;
-            margin:40px 0;
+        .page-title-section {
+            text-align: center;
+            margin: 40px 0;
         }
 
-        .page-title{
-            font-size:2rem;
-            letter-spacing:3px;
-            text-transform:uppercase;
-            color:#302402;
+        .page-title {
+            font-size: 2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #302402;
         }
 
         /* ================= PRODUCTS ================= */
-        .product-grid{
-            display:grid;
-            grid-template-columns:repeat(4,1fr);
-            gap:30px;
-            margin-bottom:80px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .product-card{
-    background:#fff;
-    border-radius:14px;
-    overflow:hidden;
-    box-shadow:0 8px 25px rgba(0,0,0,.12);
-    display:flex;
-    flex-direction:column;
-    height:460px;
-    transition:.3s;
-}
-
-        .product-card:hover{
-            transform:translateY(-5px);
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
         }
 
-        .product-image{
-    width:100%;
-    height:260px;
-    object-fit:cover;        /* crop nicely */
-    object-position:center; /* center focus */
-    background:#f5f5f5;      /* fallback */
-}
+        .product-card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
 
+        .product-card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,.12);
+            display: flex;
+            flex-direction: column;
+            height: 460px;
+            transition: .3s;
+            cursor: pointer;
+        }
 
-        .product-info{
-    padding:22px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    flex-grow:1;
-}
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
 
+        .product-image {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            object-position: center;
+            background: #f5f5f5;
+        }
 
-        .product-name{
-            font-size:1.1rem;
-            font-weight:600;
+        .product-info {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
             margin-bottom: 10px;
         }
 
-        .product-price{
-            font-size:1.3rem;
-            font-weight:700;
-            color:var(--accent);
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
         }
 
-        .view-btn{
-            margin-top:10px;
-            padding:8px;
-            text-align:center;
-            background:var(--primary);
-            color:#fff;
-            text-decoration:none;
-            border-radius:4px;
+        /* ===== FOOTER SECTION ===== */
+        .footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        .view-btn:hover{background:var(--accent);}
-
-        /* ================= FOOTER ================= */
-        .footer{
-            background:var(--primary);
-            color:#fff;
-            padding:50px 0 20px;
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
-        .footer-content{
-            display:grid;
-            grid-template-columns:repeat(3,1fr);
-            gap:40px;
+        @media (max-width: 992px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        .footer a{color:#ddd;text-decoration:none;}
-        .footer a:hover{color:var(--accent);}
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .category-nav-items {
+                justify-content: center;
+                gap: 12px;
+            }
+            
+            .icon-nav-items {
+                justify-content: center;
+            }
+            
+            .dropdown-mega-menu {
+                min-width: 90vw;
+                left: 5vw;
+                transform: none;
+            }
+            
+            .mega-menu-content {
+                gap: 20px;
+            }
 
-        .footer-bottom{
-            text-align:center;
-            margin-top:30px;
-            border-top:1px solid rgba(255,255,255,.2);
-            padding-top:15px;
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
         }
 
-        @media(max-width:992px){
-            .product-grid{grid-template-columns:repeat(2,1fr);}
-        }
+        @media (max-width: 576px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
 
-        @media(max-width:576px){
-            .product-grid{grid-template-columns:1fr;}
+            .category-nav-items {
+                gap: 15px;
+            }
+            
+            .category-nav-items a {
+                font-size: 0.85rem;
+            }
+            
+            .dropdown-mega-menu {
+                padding: 20px;
+            }
         }
-        .container{
-    max-width:1200px;
-    margin:0 auto;
-    padding:0 20px;   /* THIS creates gap from edges */
-}
-.product-card-link{
-    display: block;
-    text-decoration: none;
-    color: inherit;
-}
-
-.product-card{
-    cursor: pointer;
-}
-.product-card:hover{
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-}
     </style>
 </head>
 
@@ -358,178 +508,173 @@
 <!-- LOGO -->
 <section class="logo-section">
     <a href="/">
-    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+        <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
     </a>
 </section>
 
 <!-- NAVBAR -->
 <nav class="combined-navbar">
-        <div class="container">
-            <div class="navbar-content">
+    <div class="container">
+        <div class="navbar-content">
+
+            <ul class="category-nav-items">
+                <li>
+                    <a href="{% url 'furniture' %}">Furniture</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Seating</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=35">Chairs</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=36">Sofa</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=3">Stools</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Tables</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=8">Console Table</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Shelves</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
                 
-                <!-- Category Links (Left/Center) -->
-                <ul class="category-nav-items">
-
-                    <li>
-                        <a href="{%url 'furniture'%}">Furniture</a>
-                        <!-- Furniture Mega Menu -->
-                        <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Seating</h4>
-                                    <ul>
-                                        <li><a href="#">Chairs</a></li>
-                                        <li><a href="#sofa">Sofa</a></li>
-                                        <li><a href="#stools">Stools</a></li>
-                                        <li><a href="#all-seating">All Seating</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Tables</h4>
-                                    <ul>
-                                        <li><a href="#coffee-table">Coffee Table</a></li>
-                                        <li><a href="#side-table">Side & Nesting Table</a></li>
-                                        <li><a href="#console-table">Console Table</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Shelves</h4>
-                                    <ul>
-                                        <li><a href="#wall-mounted">Wall Mounted</a></li>
-                                        <li><a href="#floating-shelves">Floating Shelves</a></li>
-                                        <li><a href="#corner-shelves">Corner Shelves</a></li>
-                                        <li><a href="#ladder-shelves">Ladder Shelves</a></li>
-                                    </ul>
-                                </div>
+                <li>
+                    <a href="{% url 'walldecor' %}">Wall Decor</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Wall Decor</h4>
+                                <ul>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=16">Paintings</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
+                                </ul>
                             </div>
                         </div>
-                    </li>
-                    
-                    <li>
-                        <a href="{% url 'walldecor'%}">Wall Decor</a>
-                        <!-- Wall Decor Mega Menu -->
-                        <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Wall Decor</h4>
-                                    <ul>
-                                        <li><a href="#wall-vase">Wall Vase</a></li>
-                                        <li><a href="#mirrors">Mirrors</a></li>
-                                        <li><a href="#painting">Painting</a></li>
-                                        <li><a href="#wall-plates">Wall Plates & Accents</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    
-                    <li>
-                        <a href="{%url 'kitchen'%}">Kitchen & Dining</a>
-                        <!-- Kitchen & Dining Mega Menu -->
-                        <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Dinnerware</h4>
-                                    <ul>
-                                        <li><a href="#tableware">Tableware</a></li>
-                                        <li><a href="#tea-coffee">Tea & Coffee</a></li>
-                                        <li><a href="#table-accessories">Table Accessories</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Serveware</h4>
-                                    <ul>
-                                        <li><a href="#serving-bowls">Serving Bowls</a></li>
-                                        <li><a href="#serving-trays">Serving Trays</a></li>
-                                        <li><a href="#platters-stands">Platters & Stands</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    
-                    <li>
-                        <a href="{% url 'lighting'%}">Lighting</a>
-                        <!-- Lighting Mega Menu -->
-                        <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Lighting</h4>
-                                    <ul>
-                                        <li><a href="#table-lamps">Table Lamps</a></li>
-                                        <li><a href="#floor-lamps">Floor Lamps</a></li>
-                                        <li><a href="#chandelier-pendants">Chandelier & Pendants</a></li>
-                                        <li><a href="#lamps">Lamps</a></li>
-                                        <li><a href="#wall-lamps">Wall Lamps</a></li>
-                                        <li><a href="#all-lamps">All Lamps</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    
-                    <li><a href="{%url 'bath'%}">Accessoriesr</a>
-                 <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Accessories</h4>
-                                    <ul>
-                                        <li><a href="#bath-sets">Vase</a></li>
-                                        <li><a href="#towel-holder">Candle Holders</a></li>
-                                        <li><a href="#toothbrush-holder">Planters &Pots</a></li>
-                                        <li><a href="#organizers">Decor objects & Sculptures</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                    </div>
+                </li>
                 
-                <!-- Icon Links (Right) -->
-                <ul class="icon-nav-items">
-                     <li class="account-dropdown">
-    <a href="#" title="Account">
-        <i class="bi bi-person"></i>
-    </a>
+                <li>
+                    <a href="{% url 'kitchen' %}">Kitchen & Dining</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Dinnerware</h4>
+                                <ul>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Serveware</h4>
+                                <ul>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
 
-     <ul class="account-menu">
-    {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}">Profile</a></li>
-        <li><a href="{% url 'order' %}">My Orders</a></li>
-        <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-        <li class="divider"></li>
+                <li>
+                    <a href="{% url 'lighting' %}">Lighting</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Lighting</h4>
+                                <ul>
+                                    <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                
+                <li>
+                    <a href="{% url 'bath' %}">Accessories</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Accessories</h4>
+                                <ul>
+                                    <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=33">Decor objects & Sculptures</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
 
-        <li>
-            <form method="post" action="{% url 'userlogout' %}">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">
-                    Logout
-                </button>
-            </form>
-        </li>
-    {% else %}
-        <li><a href="{% url 'login' %}">Login</a></li>
-    {% endif %}
-</ul>
-</li>
-                       <li class="nav-search">
-  <input type="checkbox" id="search-toggle">
+            <ul class="icon-nav-items">
+                <li class="account-dropdown">
+                    <a href="#" title="Account">
+                        <i class="bi bi-person"></i>
+                    </a>
+                    <ul class="account-menu">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'profile' %}">Profile</a></li>
+                            <li><a href="{% url 'order' %}">My Orders</a></li>
+                            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                            <li><a href="{% url 'notifications' %}">Notifications</a></li>
+                            <li class="divider"></li>
+                            <li>
+                                <form method="post" action="{% url 'userlogout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-btn">Logout</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                
+                <li class="nav-search">
+                    <input type="checkbox" id="search-toggle">
+                    <label for="search-toggle" class="search-icon" title="Search">
+                        <i class="bi bi-search"></i>
+                    </label>
+                    <form action="{% url 'search' %}" method="get" autocomplete="off" class="search-form">
+                        <input type="text" name="q" placeholder="Search..." />
+                        <div id="search-results" class="search-dropdown"></div>
+                    </form>
+                </li>
+                
+                <li class="cart-wrapper">
+                    <a href="{% url 'cart' %}" class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        {% if cart_count > 0 %}
+                            <span class="cart-badge">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
 
-  <label for="search-toggle" class="search-icon" title="Search">
-    <i class="bi bi-search"></i>
-  </label>
-
-<form action="{% url 'search' %}" method="get" class="search-form">
-    <input type="text" name="q" placeholder="Search..." />
-</form>
-</li>
-
-
-                    <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
-                </ul>
-            </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
 <!-- TITLE -->
 <section class="page-title-section">
@@ -539,66 +684,70 @@
 <!-- PRODUCTS -->
 <section class="container">
     <div class="product-grid">
-
-         {% for product in products %}
-
-<a href="{% url 'product_detail' product.id %}" class="product-card-link">
-
-    <div class="product-card">
-
-        <img src="{{ product.image1.url }}"
-             alt="{{ product.name }}"
-             class="product-image">
-
-        <div class="product-info">
-            <div>
-                <h3 class="product-name">{{ product.name }}</h3>
-
-                {% if product.offer_price %}
-                    <p class="product-price">
-                        ₹{{ product.offer_price }}
-                        <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
-                            ₹{{ product.price }}
-                        </span>
-                    </p>
-                {% else %}
-                    <p class="product-price">₹{{ product.price }}</p>
-                {% endif %}
-            </div>
-        </div>
-
-    </div>
-
-</a>
-
-{% empty %}
-<p style="grid-column:1/-1; text-align:center;">
-    No furniture products available.
-</p>
-{% endfor %}
-
+        {% for product in products %}
+            <a href="{% url 'product_detail' product.id %}" class="product-card-link">
+                <div class="product-card">
+                    <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
+                    <div class="product-info">
+                        <div>
+                            <h3 class="product-name">{{ product.name }}</h3>
+                            {% if product.offer_price %}
+                                <p class="product-price">
+                                    ₹{{ product.offer_price }}
+                                    <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
+                                        ₹{{ product.price }}
+                                    </span>
+                                </p>
+                            {% else %}
+                                <p class="product-price">₹{{ product.price }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% empty %}
+            <p style="grid-column:1/-1; text-align:center;">
+                No products found for your search.
+            </p>
+        {% endfor %}
     </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-    <div class="container footer-content">
-        <div>
-            <h4>Contact</h4>
-            <p>info@homebloom.com</p>
+    <div class="container">
+        <div class="footer-content">
+            <!-- Contact Information -->
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City, DC 12345</p>
+                <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
+                <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="{% url 'aboutus' %}">About Us</a>
+                <a href="{% url 'faq' %}">FAQ</a>
+                <a href="{% url 'privacy' %}">Privacy Policy</a>
+            </div>
+            
+            <!-- Social Media -->
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
+                    <a href="#" title="Pinterest"><i class="bi bi-pinterest"></i></a>
+                </div>
+            </div>
         </div>
-        <div>
-            <h4>Quick Links</h4>
-            <a href="{% url 'aboutus' %}">About</a>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 HOME BLOOM. All Rights Reserved. | Designed with <i class="bi bi-heart-fill" style="color: #d4af37;"></i></p>
         </div>
-        <div>
-            <h4>Social</h4>
-            <a href="#">Instagram</a>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        © 2025 HOME BLOOM
     </div>
 </footer>
 

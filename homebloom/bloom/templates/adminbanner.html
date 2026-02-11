@@ -166,6 +166,24 @@
                 display:none;
             }
         }
+        .logout-pill{
+    width:100%;
+    padding:14px 18px;
+    background:#2b2205;          /* dark brown */
+    color:#fff;
+    border:none;
+    border-radius:14px;          /* pill shape */
+    font-size:1rem;
+    font-weight:500;
+    text-align:left;
+    cursor:pointer;
+    transition:0.3s ease;
+    font-family:'Poppins', sans-serif;
+}
+
+.logout-pill:hover{
+    background:#8B6F47;          /* hover brown */
+}
     </style>
 </head>
 <body>
@@ -175,11 +193,25 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <h2 class="brand">HOME BLOOM</h2>
-        <nav>
-            <a href="{% url 'admindashboard' %}">Dashboard</a>
-            <a href="{% url 'adminproduct' %}">Products</a>
-            <a href="{% url 'admincategory' %}">Categories</a>
-            <a href="{% url 'banner_add' %}" class="active">Banners</a>
+              <nav>
+            <a href="{% url 'admindashboard' %}"class="active">Dashboard</a>
+           <a href="{% url 'adminproduct' %}" >Products</a>
+            <a href="{% url 'adminorder' %}">Orders</a>
+             <a href="{%url 'admincustomer'%}">Customers</a>
+            <a href="{%url 'admincategory'%}">Categories</a>
+            <a href="{%url 'admincoupon'%}">Coupons</a>
+            <a href="{% url 'banner_add'%}">Banner</a>
+            <a href="{%url 'addproduct'%}">Add Product</a>
+            <a href="{% url 'adminnotifications' %}">Notifications</a>
+
+        <form method="post" action="{% url 'adminlogout' %}" class="logout-form">
+    {% csrf_token %}
+    <button type="submit" class="logout-pill">
+        Logout
+    </button>
+</form>
+    
+
         </nav>
     </aside>
 

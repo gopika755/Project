@@ -90,6 +90,24 @@ body{
     color:#777;
     margin-top:8px;
 }
+.logout-pill{
+    width:100%;
+    padding:14px 18px;
+    background:#2b2205;          /* dark brown */
+    color:#fff;
+    border:none;
+    border-radius:14px;          /* pill shape */
+    font-size:1rem;
+    font-weight:500;
+    text-align:left;
+    cursor:pointer;
+    transition:0.3s ease;
+    font-family:'Poppins', sans-serif;
+}
+
+.logout-pill:hover{
+    background:#8B6F47;          /* hover brown */
+}
 </style>
 </head>
 
@@ -101,33 +119,26 @@ body{
 <aside class="sidebar">
 <h2 class="brand">HOME BLOOM</h2>
 
-<nav>
-<a href="{% url 'admindashboard' %}">Dashboard</a>
-<a href="{% url 'adminproduct' %}">Products</a>
-<a href="{% url 'adminorder' %}">Orders</a>
-<a href="{% url 'adminnotifications' %}" class="active">Notifications</a>
-<a href="{% url 'admincustomer' %}">Customers</a>
-<a href="{% url 'admincategory' %}">Categories</a>
-<a href="{% url 'admincoupon' %}">Coupons</a>
-<a href="{% url 'banner_add' %}">Banner</a>
-<a href="{% url 'addproduct' %}">Add Product</a>
+      <nav>
+            <a href="{% url 'admindashboard' %}"class="active">Dashboard</a>
+           <a href="{% url 'adminproduct' %}" >Products</a>
+            <a href="{% url 'adminorder' %}">Orders</a>
+             <a href="{%url 'admincustomer'%}">Customers</a>
+            <a href="{%url 'admincategory'%}">Categories</a>
+            <a href="{%url 'admincoupon'%}">Coupons</a>
+            <a href="{% url 'banner_add'%}">Banner</a>
+            <a href="{%url 'addproduct'%}">Add Product</a>
+            <a href="{% url 'adminnotifications' %}">Notifications</a>
 
-<form method="post" action="{% url 'adminlogout' %}" style="margin-top:20px;">
-{% csrf_token %}
-<button style="
-width:100%;
-padding:14px;
-background:#2b2205;
-color:#fff;
-border:none;
-border-radius:14px;
-cursor:pointer;
-">
-Logout
-</button>
+        <form method="post" action="{% url 'adminlogout' %}" class="logout-form">
+    {% csrf_token %}
+    <button type="submit" class="logout-pill">
+        Logout
+    </button>
 </form>
+    
 
-</nav>
+        </nav>
 </aside>
 
 <!-- MAIN CONTENT -->

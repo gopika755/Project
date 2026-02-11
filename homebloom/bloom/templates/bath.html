@@ -367,10 +367,7 @@
             color: var(--text-dark);
             margin-bottom: 10px;
         }
-            .product-name-link {
-        text-decoration: none;
-        color: inherit;
-    }
+        
         .product-price {
             font-size: 1.3rem;
             font-weight: 700;
@@ -713,27 +710,7 @@ margin:8px 0;
   color: white;
   font-size: 20px;
 }
-.search-dropdown{
-    position:absolute;
-    top:40px;
-    width:180px;
-    background:#fff;
-    border-radius:6px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
-    display:none;
-    z-index:999;
-}
 
-.search-dropdown a{
-    display:block;
-    padding:8px 12px;
-    text-decoration:none;
-    color:#333;
-}
-
-.search-dropdown a:hover{
-    background:#eee;
-}
 .nav-search {
   display: flex;
   align-items: center;
@@ -873,127 +850,8 @@ margin:8px 0;
     width: 100%;
     height: auto;
 }
-/* ===== TOAST MESSAGE ===== */
-.toast {
-    position: fixed;
-    top: 100px;
-    right: -350px; /* hidden */
-    background: #a05e24;
-    color: #fff;
-    padding: 14px 20px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    z-index: 99999;
-    transition: right 0.4s ease;
-}
-
-.toast.show {
-    right: 30px; /* visible */
-}
-.cart-wrapper {
-    position: relative;
-}
-
-.cart-icon {
-    position: relative;
-    display: inline-block;
-}
-
-.cart-badge {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: #ffff;
-    color:#8B6F47;
-    font-size: 11px;
-    padding: 3px 6px;
-    border-radius: 50%;
-    font-weight: bold;
-}
     </style>
 </head>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    // ===== TOAST FUNCTION =====
-    function showToast(message) {
-        const toast = document.getElementById("toast");
-        const toastText = document.getElementById("toast-text");
-
-        toastText.innerText = message;
-        toast.classList.add("show");
-
-        setTimeout(() => {
-            toast.classList.remove("show");
-        }, 2000);
-    }
-
-    // ===== ADD TO CART AJAX =====
-    document.querySelectorAll(".add-to-cart").forEach(btn => {
-        btn.addEventListener("click", function () {
-
-            const productId = this.dataset.productId;
-
-            fetch("{% url 'add_to_cart_ajax' %}", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": "{{ csrf_token }}",
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: `product_id=${productId}`
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === "success") {
-                    showToast("Added to cart");
-                }
-            });
-
-        });
-    });
-
-    const input = document.querySelector(".search-form input");
-const resultBox = document.getElementById("search-results");
-
-input.addEventListener("keyup", function(){
-
-    const query = this.value.trim();
-
-    if(query.length === 0){
-        resultBox.style.display = "none";
-        return;
-    }
-
-    fetch(`/search-suggestions/?q=${query}`)
-    .then(res => res.json())
-    .then(data => {
-
-        resultBox.innerHTML = "";
-
-        if(data.products.length === 0){
-            resultBox.innerHTML = "<p>No results found</p>";
-            resultBox.style.display = "block";
-            return;
-        }
-
-        data.products.forEach(product => {
-            resultBox.innerHTML += `
-                <a href="/product/${product.id}/">
-                    ${product.name}
-                </a>
-            `;
-        });
-
-        resultBox.style.display = "block";
-    });
-
-});
-
-
-});
-</script>
 
 <body>
 
@@ -1151,22 +1009,11 @@ input.addEventListener("keyup", function(){
     <i class="bi bi-search"></i>
   </label>
 
-<form action="{% url 'search' %}" method="get" autocomplete="off" class="search-form">
-
+<form action="{% url 'search' %}" method="get" class="search-form">
     <input type="text" name="q" placeholder="Search..." />
-    <div id="search-results" class="search-dropdown"></div>
-
 </form>
 </li>
-                <li class="cart-wrapper">
-    <a href="{% url 'cart' %}" class="cart-icon">
-        <i class="bi bi-cart3"></i>
-
-        {% if cart_count > 0 %}
-            <span class="cart-badge">{{ cart_count }}</span>
-        {% endif %}
-    </a>
-</li>
+                <li><a href="{%url 'cart'%}"><i class="bi bi-cart3"></i></a></li>
             </ul>
 
         </div>
@@ -1267,67 +1114,60 @@ input.addEventListener("keyup", function(){
         <div class="product-area">
     <div class="product-grid">
 
-          {% for product in products %}
-        <div class="product-card">
+         {% for product in products %}
 
-            <!-- WISHLIST -->
-            <form method="POST"
-                  action="{% url 'toggle_wishlist' product.id %}"
-                  class="wishlist-form">
-                {% csrf_token %}
-                <button type="submit"
-                        class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">
-                    ♥
-                </button>
-            </form>
+<a href="{% url 'product_detail' product.id %}" class="product-card-link">
 
-            <!-- IMAGE (clickable) -->
-            <a href="{% url 'product_detail' product.id %}">
-                <img src="{{ product.image1.url }}"
-                     alt="{{ product.name }}"
-                     class="product-image">
-            </a>
+    <div class="product-card">
+        <!-- WISHLIST BUTTON (EXACT LIKE FURNITURE) -->
+                <form method="POST"
+                      action="{% url 'toggle_wishlist' product.id %}"
+                      class="wishlist-form">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">
+                        ♥
+                    </button>
+                </form>
+        <img src="{{ product.image1.url }}"
+             alt="{{ product.name }}"
+             class="product-image">
 
-            <div class="product-info">
-                <!-- NAME (clickable) -->
-                <a href="{% url 'product_detail' product.id %}" class="product-name-link">
-                    <h3 class="product-name">{{ product.name }}</h3>
-                </a>
+        <div class="product-info">
+            <div>
+                <h3 class="product-name">{{ product.name }}</h3>
 
-                <p class="product-price">
-                    {% if product.offer_price %}
+                {% if product.offer_price %}
+                    <p class="product-price">
                         ₹{{ product.offer_price }}
                         <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
                             ₹{{ product.price }}
                         </span>
-                    {% else %}
-                        ₹{{ product.price }}
-                    {% endif %}
-                </p>
-
-
-
-                    <!-- ADD TO CART -->
-        <form method="post" action="{% url 'cart' %}">
-                        {% csrf_token %}
-             <input type="hidden" name="product_id" value="{{ product.id }}">
-            <button 
-                type="button"
-                class="add-to-cart-btn add-to-cart"
-                data-product-id="{{ product.id }}">
-                Add to cart
-            </button>
-
-
-        </form>
+                    </p>
+                {% else %}
+                    <p class="product-price">₹{{ product.price }}</p>
+                {% endif %}
             </div>
+                    <form method="post" action="{% url 'cart' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="add-to-cart-btn">
+                        Add to cart
+                    </button>
+                    </form>
 
         </div>
-        {% empty %}
-        <p style="grid-column:1/-1; text-align:center;">
-            No furniture products available.
-        </p>
-        {% endfor %}
+
+    </div>
+
+</a>
+
+{% empty %}
+<p style="grid-column:1/-1; text-align:center;">
+    No furniture products available.
+</p>
+{% endfor %}
+
     </div>
 </div>
 
@@ -1373,10 +1213,6 @@ input.addEventListener("keyup", function(){
             </div>
         </div>
     </footer>
-<!-- Toast Notification -->
-<div id="toast" class="toast">
-    <span id="toast-text">Added to bag</span>
-</div>
 
 </body>
 </html>

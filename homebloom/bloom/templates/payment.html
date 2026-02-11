@@ -163,6 +163,73 @@ body{
 </label>
 
 </div>
+<!-- APPLY COUPON -->
+<div class="box">
+<h2>Apply Coupon</h2>
+
+<form method="post" action="{% url 'apply_coupon' %}">
+    {% csrf_token %}
+    
+    <input type="text" name="coupon_code"
+        placeholder="Enter coupon code"
+        style="padding:10px;width:70%;border:1px solid #ccc;border-radius:6px;">
+
+    <button type="submit"
+        style="padding:10px 20px;background:#8B6F47;color:#fff;border:none;border-radius:6px;">
+        Apply
+    </button>
+</form>
+
+{% if discount %}
+<p style="color:green;margin-top:10px;">
+Coupon applied — Saved ₹{{ discount }}
+</p>
+{% endif %}
+
+</div>
+<!-- AVAILABLE COUPONS -->
+<div class="box">
+<h2>Available Coupons</h2>
+
+{% if coupons %}
+    {% for c in coupons %}
+    <div style="border:1px dashed #8B6F47;
+                padding:12px;
+                margin-bottom:10px;
+                border-radius:6px;">
+
+        <strong>{{ c.code }}</strong><br>
+
+        {% if c.discount_type == "percentage" %}
+            {{ c.discount_value }}% OFF
+        {% else %}
+            ₹{{ c.discount_value }} OFF
+        {% endif %}
+
+        <br>
+        Min Order ₹{{ c.min_order }}
+
+        <form method="post" action="{% url 'apply_coupon' %}"
+              style="margin-top:8px;">
+            {% csrf_token %}
+            <input type="hidden" name="coupon_code" value="{{ c.code }}">
+            <button type="submit"
+                style="padding:6px 12px;
+                       background:#8B6F47;
+                       color:#fff;
+                       border:none;
+                       border-radius:6px;">
+                Apply
+            </button>
+        </form>
+
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No coupons available.</p>
+{% endif %}
+
+</div>
 
 <!-- ORDER SUMMARY -->
 <div class="box">

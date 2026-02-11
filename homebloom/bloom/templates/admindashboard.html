@@ -299,7 +299,7 @@ body{
         Logout
     </button>
 </form>
-
+    
 
         </nav>
     </aside>
@@ -359,31 +359,14 @@ body{
             <div class="grid"></div>
 
             <div class="bars">
-                <div class="bar">
-                    <span style="height:65%"></span>
-                    <label>Jan</label>
-                </div>
-                <div class="bar">
-                    <span style="height:80%"></span>
-                    <label>Feb</label>
-                </div>
-                <div class="bar">
-                    <span style="height:55%"></span>
-                    <label>Mar</label>
-                </div>
-                <div class="bar">
-                    <span style="height:90%"></span>
-                    <label>Apr</label>
-                </div>
-                <div class="bar">
-                    <span style="height:70%"></span>
-                    <label>May</label>
-                </div>
-                <div class="bar">
-                    <span style="height:85%"></span>
-                    <label>Jun</label>
-                </div>
-            </div>
+{% for m in monthly_sales %}
+<div class="bar">
+    <span style="height:{{ m.total }}%"></span>
+    <label>{{ m.month }}</label>
+</div>
+{% endfor %}
+</div>
+
         </div>
 
     </div>

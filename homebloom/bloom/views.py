@@ -1,16 +1,17 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import login,get_user_model,logout
 from .forms import SignupForm, LoginForm,ForgotPasswordForm, OTPVerifyForm, ResetPasswordForm,AddressForm
-from .models import PasswordResetOTP, Product, Category,SubCategory,Banner,Wishlist,Cart,Profile,Address,Order,OrderItem,Notification,Review
+from .models import PasswordResetOTP, Product, Category,SubCategory,Banner,Wishlist,Cart,Profile,Address,Order,OrderItem,Notification,Review,Coupon
 from django.core.mail import send_mail
 from django.db.models import Q,Sum,Avg
+from datetime import date
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
-from django.http import HttpResponseForbidden,JsonResponse
+from django.http import HttpResponseForbidden
 from decimal import Decimal, InvalidOperation
 import random,stripe
-from django.db.models.functions import Coalesce
-from django.http import HttpResponse
+from django.db.models.functions import Coalesce,ExtractMonth
+from django.http import HttpResponse,JsonResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from django.contrib.auth.decorators import login_required
@@ -22,12 +23,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
 
-from django.views.decorators.cache import never_cache
-from django.db.models import Sum
-from .models import Cart, Banner, Product
 
-
-@never_cache
 def home(request):
     banners = Banner.objects.filter(page='home', is_active=True)
     whats_new_products = Product.objects.filter(is_new=True,is_active=True).order_by("-created_at")[:6]
@@ -596,13 +592,12 @@ def order(request):
 
 
 @login_required
-@staff_member_required
 def detail(request, id):
     order = get_object_or_404(Order, id=id, user=request.user)
     return render(request, "detail.html", {"order": order})
 
+
 @login_required
-@staff_member_required(login_url="home")
 def download_invoice(request, id):
     order = Order.objects.prefetch_related("items__product").get(
         id=id,
@@ -682,7 +677,7 @@ def wishlist(request):
     return render(request, 'wishlist.html', {
         'wishlist_items': wishlist_items
     })
-@login_required
+
 @login_required
 @require_POST
 def toggle_wishlist(request, product_id):
@@ -695,11 +690,12 @@ def toggle_wishlist(request, product_id):
 
     if wishlist_item:
         wishlist_item.delete()
-        return JsonResponse({"status": "removed"})
     else:
-        Wishlist.objects.create(user=request.user, product=product)
-        return JsonResponse({"status": "added"})
-
+         Wishlist.objects.create(
+            user=request.user,
+            product=product
+        )
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required
 def move_to_cart(request, wishlist_id):
@@ -724,42 +720,65 @@ def move_to_cart(request, wishlist_id):
 
 
 @login_required
+@never_cache
 def payment_page(request):
     buy_now_product_id = request.session.get("buy_now_product_id")
+    discount = request.session.get("discount", 0)
 
+    # ACTIVE COUPONS
+    today = date.today()
+    coupons = Coupon.objects.filter(
+        is_active=True,
+        start_date__lte=today,
+        end_date__gte=today
+    )
+
+    # BUY NOW
     if buy_now_product_id:
         product = get_object_or_404(Product, id=buy_now_product_id)
+
+        price = product.offer_price or product.price
+        total = price - discount
+        total = max(total, 0)
 
         cart_items = [{
             "product": product,
             "quantity": 1,
-            "subtotal": product.offer_price or product.price,
+            "subtotal": price,
         }]
-
-        total = product.offer_price or product.price
 
         return render(request, "payment.html", {
             "cart_items": cart_items,
             "total": total,
+            "discount": discount,
+            "coupons": coupons,
             "buy_now": True,
         })
 
+    # NORMAL CART
     cart_items = Cart.objects.filter(user=request.user)
 
     if not cart_items.exists():
-        messages.error(request, "Your cart is empty")
+        messages.error(request, "Cart empty")
         return redirect("cart")
 
-    total = sum(
+    subtotal = sum(
         (item.product.offer_price or item.product.price) * item.quantity
         for item in cart_items
     )
 
+    total = subtotal - discount
+    total = max(total, 0)
+
     return render(request, "payment.html", {
         "cart_items": cart_items,
         "total": total,
+        "discount": discount,
+        "coupons": coupons,
         "buy_now": False,
     })
+
+
 
 @login_required
 def payment_failed(request):
@@ -1132,19 +1151,31 @@ def product(request, pk):
 @never_cache
 @staff_member_required(login_url='home')
 def admindashboard(request):
+
     total_orders = Order.objects.count()
     total_products = Product.objects.count()
     total_customers = User.objects.filter(is_staff=False).count()
     revenue = Order.objects.aggregate(total=Sum("total"))["total"] or 0
+
+    # Monthly sales report
+    monthly_sales = (
+        Order.objects
+        .annotate(month=ExtractMonth("created_at"))
+        .values("month")
+        .annotate(total=Sum("total"))
+        .order_by("month")
+    )
 
     context = {
         "total_orders": total_orders,
         "total_products": total_products,
         "total_customers": total_customers,
         "revenue": revenue,
+        "monthly_sales": monthly_sales,
     }
 
     return render(request, "admindashboard.html", context)
+
 
 @never_cache
 @staff_member_required(login_url='home')
@@ -1340,11 +1371,56 @@ def categorydelete(request, pk):
 
 @never_cache
 def admincoupon(request):
-    return render(request,'admincoupon.html')
 
-@never_cache
-def couponedit(request):
-    return render(request,'couponedit.html')
+    if request.method == "POST":
+        code = request.POST.get("code")
+        dtype = request.POST.get("type")
+        value = request.POST.get("value")
+        min_order = request.POST.get("min-order")
+        start = request.POST.get("start-date")
+        end = request.POST.get("end-date")
+        max_discount = request.POST.get("max-discount")
+
+        Coupon.objects.create(
+            code=code.upper(),
+            discount_type=dtype,
+            discount_value=value,
+            min_order=min_order,
+            start_date=start,
+            end_date=end,
+            max_discount=max_discount
+        )
+
+        messages.success(request,"Coupon added")
+
+    coupons = Coupon.objects.all().order_by("-id")
+
+    return render(request,"admincoupon.html",{
+        "coupons":coupons
+    })
+
+def couponedit(request, id):
+    coupon = get_object_or_404(Coupon, id=id)
+
+    if request.method == "POST":
+        coupon.code = request.POST.get("code")
+        coupon.discount_type = request.POST.get("type")
+        coupon.discount_value = request.POST.get("value")
+        coupon.min_order = request.POST.get("min-order")
+        coupon.start_date = request.POST.get("start-date")
+        coupon.end_date = request.POST.get("end-date")
+        coupon.max_discount = request.POST.get("max-discount")
+        coupon.save()
+
+        return redirect("admincoupon")
+
+    return render(request, "couponedit.html", {"coupon": coupon})
+
+def coupondelete(request, id):
+    coupon = get_object_or_404(Coupon, id=id)
+    coupon.delete()
+    return redirect("admincoupon")
+
 
 @never_cache
 @staff_member_required(login_url='home')
@@ -1474,28 +1550,7 @@ def search(request):
         "query": query
     })
 
-def search_suggestions(request):
-    query = request.GET.get("q", "").strip()
-
-    data = []
-
-    if query:
-        products = Product.objects.filter(
-            is_active=True
-        ).filter(
-            Q(name__icontains=query) |
-            Q(subcategory__name__icontains=query)
-        )[:5]
-
-        for p in products:
-            data.append({
-                "id": p.id,
-                "name": p.name
-            })
-
-    return JsonResponse({"products": data})
-    
-    
+        
 @login_required
 def notifications(request):
     notes = Notification.objects.filter(
@@ -1568,6 +1623,39 @@ def delete_notification(request, id):
     return redirect("notifications")
     
     
+def apply_coupon(request):
+
+    code = request.POST.get("coupon_code").upper()
+    total = request.session.get("total")
+
+    try:
+        coupon = Coupon.objects.get(code=code, is_active=True)
+
+        today = date.today()
+
+        if not (coupon.start_date <= today <= coupon.end_date):
+            messages.error(request,"Coupon expired")
+            return redirect("payment")
+
+        if total < float(coupon.min_order):
+            messages.error(request,"Minimum order not met")
+            return redirect("payment")
+
+        if coupon.discount_type == "percentage":
+            discount = (total * float(coupon.discount_value)) / 100
+            if coupon.max_discount:
+                discount = min(discount, float(coupon.max_discount))
+        else:
+            discount = float(coupon.discount_value)
+
+        request.session["discount"] = discount
+
+        messages.success(request,"Coupon applied")
+
+    except Coupon.DoesNotExist:
+        messages.error(request,"Invalid coupon")
+
+    return redirect("payment")    
     
     
     

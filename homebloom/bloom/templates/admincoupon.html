@@ -191,6 +191,24 @@ th{
         display:none;
     }
 }
+.logout-pill{
+    width:100%;
+    padding:14px 18px;
+    background:#2b2205;       
+    color:#fff;
+    border:none;
+    border-radius:14px;      
+    font-size:1rem;
+    font-weight:500;
+    text-align:left;
+    cursor:pointer;
+    transition:0.3s ease;
+    font-family:'Poppins', sans-serif;
+}
+
+.logout-pill:hover{
+    background:#8B6F47;      
+}
 </style>
 </head>
 <body>
@@ -200,15 +218,25 @@ th{
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <h2 class="brand">HOUSE BLOOM</h2>
-        <nav>
-            <a href="{% url 'admindashboard' %}">Dashboard</a>
-            <a href="{%url 'adminproduct'%}">Products</a>
+            <nav>
+            <a href="{% url 'admindashboard' %}"class="active">Dashboard</a>
+           <a href="{% url 'adminproduct' %}" >Products</a>
             <a href="{% url 'adminorder' %}">Orders</a>
              <a href="{%url 'admincustomer'%}">Customers</a>
             <a href="{%url 'admincategory'%}">Categories</a>
-            <a href="{%url 'admincoupon'%}"class="active">Coupons</a>
+            <a href="{%url 'admincoupon'%}">Coupons</a>
+            <a href="{% url 'banner_add'%}">Banner</a>
             <a href="{%url 'addproduct'%}">Add Product</a>
-            <a href="/" class="logout">Logout</a>
+            <a href="{% url 'adminnotifications' %}">Notifications</a>
+
+        <form method="post" action="{% url 'adminlogout' %}" class="logout-form">
+    {% csrf_token %}
+    <button type="submit" class="logout-pill">
+        Logout
+    </button>
+</form>
+    
+
         </nav>
     </aside>
 
@@ -223,7 +251,9 @@ th{
         <!-- CREATE COUPON FORM -->
         <div class="form-wrapper">
             <h2>Create New Coupon</h2>
-            <form>
+            <form method="post">
+                {% csrf_token %}
+
                 <div class="form-group">
                     <label for="code">Coupon Code</label>
                     <input type="text" id="code" name="code" 
@@ -278,46 +308,24 @@ th{
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>WELCOME10</td>
-                        <td>Percentage</td>
-                        <td>10%</td>
-                        <td>500</td>
-                        <td>2025-12-01</td>
-                        <td>2025-12-31</td>
-                        <td>200</td>
-                        <td class="actions">
-                            <a href="{%url 'couponedit'%}" class="edit">Edit</a>
-                            <a href="#" class="delete">Remove</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>FLAT100</td>
-                        <td>Flat</td>
-                        <td>₹100</td>
-                        <td>1000</td>
-                        <td>2025-12-01</td>
-                        <td>2025-12-31</td>
-                        <td>100</td>
-                        <td class="actions">
-                            <a href="{%url 'couponedit'%}" class="edit">Edit</a>
-                            <a href="#" class="delete">Remove</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>NEWYEAR20</td>
-                        <td>Percentage</td>
-                        <td>20%</td>
-                        <td>1500</td>
-                        <td>2025-12-25</td>
-                        <td>2026-01-05</td>
-                        <td>500</td>
-                        <td class="actions">
-                             <a href="{%url 'couponedit'%}" class="edit">Edit</a>
-                            <a href="#" class="delete">Remove</a>
-                        </td>
-                    </tr>
-                </tbody>
+{% for coupon in coupons %}
+<tr>
+    <td>{{ coupon.code }}</td>
+    <td>{{ coupon.discount_type }}</td>
+    <td>{{ coupon.discount_value }}</td>
+    <td>{{ coupon.min_order }}</td>
+    <td>{{ coupon.start_date }}</td>
+    <td>{{ coupon.end_date }}</td>
+    <td>{{ coupon.max_discount }}</td>
+
+    <td class="actions">
+        <a href="{% url 'couponedit' coupon.id %}" class="edit">Edit</a>
+        <a href="{% url 'coupondelete' coupon.id %}" class="delete">Remove</a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+
             </table>
         </div>
 
