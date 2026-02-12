@@ -722,24 +722,23 @@ def move_to_cart(request, wishlist_id):
 @login_required
 @never_cache
 def payment_page(request):
-    buy_now_product_id = request.session.get("buy_now_product_id")
-    discount = request.session.get("discount", 0)
 
-    # ACTIVE COUPONS
+    buy_now_product_id = request.session.get("buy_now_product_id")
+    discount = Decimal(str(request.session.get("discount", 0)))
+
     today = date.today()
     coupons = Coupon.objects.filter(
         is_active=True,
         start_date__lte=today,
         end_date__gte=today
-    )
+    ).order_by("-id")
 
-    # BUY NOW
     if buy_now_product_id:
         product = get_object_or_404(Product, id=buy_now_product_id)
 
         price = product.offer_price or product.price
-        total = price - discount
-        total = max(total, 0)
+        subtotal = price
+        total = max(subtotal - discount, 0)
 
         cart_items = [{
             "product": product,
@@ -749,17 +748,17 @@ def payment_page(request):
 
         return render(request, "payment.html", {
             "cart_items": cart_items,
+            "subtotal": subtotal,
             "total": total,
             "discount": discount,
             "coupons": coupons,
             "buy_now": True,
         })
 
-    # NORMAL CART
     cart_items = Cart.objects.filter(user=request.user)
 
     if not cart_items.exists():
-        messages.error(request, "Cart empty")
+        messages.error(request, "Your cart is empty")
         return redirect("cart")
 
     subtotal = sum(
@@ -767,17 +766,16 @@ def payment_page(request):
         for item in cart_items
     )
 
-    total = subtotal - discount
-    total = max(total, 0)
+    total = max(subtotal - discount, 0)
 
     return render(request, "payment.html", {
         "cart_items": cart_items,
+        "subtotal": subtotal,
         "total": total,
         "discount": discount,
         "coupons": coupons,
         "buy_now": False,
     })
-
 
 
 @login_required
@@ -906,8 +904,9 @@ def checkout(request):
             address.user = request.user
             address.save()
             messages.success(request, "Address added successfully")
+            request.session["address_id"] = address.id
             return redirect("checkout")
-
+    
     if request.method == "POST" and request.POST.get("buy_now_product_id"):
         request.session["buy_now_product_id"] = request.POST.get("buy_now_product_id")
         return redirect("checkout")
@@ -971,6 +970,7 @@ def place_order(request):
     payment_method = request.POST.get("payment_method")
     address_id = request.session.get("address_id")
     buy_now_product_id = request.session.get("buy_now_product_id")
+    discount = Decimal(str(request.session.get("discount", 0)))
 
     if not payment_method or not address_id:
         return redirect("checkout")
@@ -980,15 +980,21 @@ def place_order(request):
     if buy_now_product_id:
         product = get_object_or_404(Product, id=buy_now_product_id)
         price = product.offer_price or product.price
-        total = price
+        total = Decimal(price) - discount
+        total = max(total, 0)
+        coupon_code = request.session.get("coupon_code")
+        discount = request.session.get("discount", 0)
 
         order = Order.objects.create(
-            user=request.user,
+            user=request.user,  
             address=address,
             total=total,
             payment_method=payment_method,
             payment_status="PENDING",
             status="pending",
+            coupon_code=coupon_code,
+            discount_amount=discount,    
+            
         )
 
         OrderItem.objects.create(
@@ -997,8 +1003,8 @@ def place_order(request):
             quantity=1,
             price=price,
         )
+
         request.session.pop("buy_now_product_id", None)
-        request.session.pop("address_id", None)
 
     else:
         cart_items = Cart.objects.filter(user=request.user)
@@ -1006,10 +1012,14 @@ def place_order(request):
         if not cart_items.exists():
             return redirect("cart")
 
-        total = sum(
-            (item.product.offer_price or item.product.price) * item.quantity
+        subtotal = sum(
+            (item.product.offer_price or item.product.price)
+            * item.quantity
             for item in cart_items
         )
+
+        total = Decimal(subtotal) - discount
+        total = max(total, 0)
 
         order = Order.objects.create(
             user=request.user,
@@ -1029,7 +1039,9 @@ def place_order(request):
             )
 
         cart_items.delete()
-        request.session.pop("address_id", None)
+
+    request.session.pop("address_id", None)
+    request.session.pop("discount", None)
 
     if payment_method == "COD":
         return redirect("ordersuccess")
@@ -1624,38 +1636,18 @@ def delete_notification(request, id):
     
     
 def apply_coupon(request):
+    if request.method == "POST":
+        code = request.POST.get("coupon_code")
 
-    code = request.POST.get("coupon_code").upper()
-    total = request.session.get("total")
+        coupon = Coupon.objects.filter(code=code).first()
 
-    try:
-        coupon = Coupon.objects.get(code=code, is_active=True)
-
-        today = date.today()
-
-        if not (coupon.start_date <= today <= coupon.end_date):
-            messages.error(request,"Coupon expired")
-            return redirect("payment")
-
-        if total < float(coupon.min_order):
-            messages.error(request,"Minimum order not met")
-            return redirect("payment")
-
-        if coupon.discount_type == "percentage":
-            discount = (total * float(coupon.discount_value)) / 100
-            if coupon.max_discount:
-                discount = min(discount, float(coupon.max_discount))
+        if coupon:
+            request.session["discount"] = str(coupon.discount_value)
+            messages.success(request, "Coupon applied")
         else:
-            discount = float(coupon.discount_value)
+            messages.error(request, "Invalid coupon")
 
-        request.session["discount"] = discount
+    return redirect("payment_page")
 
-        messages.success(request,"Coupon applied")
-
-    except Coupon.DoesNotExist:
-        messages.error(request,"Invalid coupon")
-
-    return redirect("payment")    
-    
     
     

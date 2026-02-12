@@ -16,75 +16,73 @@
 }
 
 body{
-    background:#e4d1bbff;
+    background:#e4d1bb;
 }
 
-.logo-section {
-    padding: 15px 0 15px; 
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
-    margin-bottom:50px;
+/* HEADER */
+.logo-section{
+    padding:15px 0;
+    display:flex;
+    justify-content:center;
+    background:#fff;
+    margin-bottom:40px;
 }
 
-.logo {
-    max-width: 250px;    
-    width: 100%;
-    height: auto;
+.logo{
+    max-width:220px;
 }
+
 /* LAYOUT */
 .payment-container{
-    max-width:900px;
+    max-width:950px;
     margin:auto;
     padding:0 20px 60px;
 }
 
-/* BOX */
+/* CARD */
 .box{
     background:#fff;
-    padding:30px;
-    border-radius:8px;
-    box-shadow:0 2px 10px rgba(0,0,0,.1);
+    padding:28px;
+    border-radius:10px;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
     margin-bottom:25px;
 }
 
 .box h2{
-    font-size:1.3rem;
-    color:#8b7355;
-    margin-bottom:20px;
-    text-transform:uppercase;
+    color:#6b4f2c;
+    margin-bottom:18px;
 }
 
-/* PAYMENT OPTIONS */
+/* PAYMENT OPTION */
 .payment-option{
-    border:2px solid #ddd;
-    border-radius:6px;
+    border:2px solid #eee;
+    border-radius:8px;
     padding:18px;
-    margin-bottom:15px;
+    margin-bottom:12px;
     display:flex;
     gap:12px;
-    align-items:flex-start;
+    transition:.2s;
 }
 
-.payment-option input{
-    margin-top:4px;
+.payment-option:hover{
+    border-color:#8B6F47;
 }
 
-.payment-title{
-    font-weight:700;
-    color:#333;
+/* COUPON */
+.coupon-card{
+    border:1px dashed #8B6F47;
+    padding:14px;
+    margin-bottom:12px;
+    border-radius:8px;
+    background:#faf7f2;
 }
 
-.payment-desc{
-    font-size:14px;
-    color:#555;
-}
-
-/* ORDER SUMMARY */
+/* SUMMARY */
 .summary-row{
     display:flex;
     justify-content:space-between;
-    margin-bottom:10px;
+    margin-bottom:12px;
+    font-size:15px;
 }
 
 .total{
@@ -94,155 +92,102 @@ body{
 
 /* BUTTON */
 .place-order{
-    display:inline-block;
     width:100%;
-    padding:14px;
+    padding:16px;
     background:#8B6F47;
     color:#fff;
-    text-decoration:none;
-    border-radius:6px;
-    font-size:16px;
-    font-weight:700;
-    text-align:center;
     border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
     cursor:pointer;
-}
-.place-order i{
-    margin-right:6px;
+    transition:.3s;
 }
 
-/* DISABLED */
-.disabled{
-    opacity:.5;
+.place-order:hover{
+    background:#6b5234;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <section class="logo-section">
-    <a href="/">
-    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
-    </a>
+<a href="/">
+<img src="/media/logo1.png" class="logo">
+</a>
 </section>
-
-<form method="post" action="{% url 'place_order' %}">
-{% csrf_token %}
 
 <div class="payment-container">
 
-<!-- PAYMENT METHODS -->
-<div class="box">
-<h2>Select Payment Method</h2>
-
-<label class="payment-option">
-    <input type="radio" name="payment_method" value="COD" required>
-    <div>
-        <div class="payment-title">
-            <i class="bi bi-cash-coin"></i> Cash on Delivery
-        </div>
-        <div class="payment-desc">
-            Pay with cash when your order is delivered.
-        </div>
-    </div>
-</label>
-
-<label class="payment-option">
-    <input type="radio" name="payment_method" value="STRIPE" required>
-
-    <div>
-        <div class="payment-title">
-            <i class="bi bi-credit-card"></i> Online Payment (Stripe)
-
-        </div>
-        <div class="payment-desc">
-            Pay using UPI, Debit/Credit Card, Netbanking.
-        </div>
-    </div>
-</label>
-
-</div>
-<!-- APPLY COUPON -->
-<div class="box">
-<h2>Apply Coupon</h2>
-
-<form method="post" action="{% url 'apply_coupon' %}">
-    {% csrf_token %}
-    
-    <input type="text" name="coupon_code"
-        placeholder="Enter coupon code"
-        style="padding:10px;width:70%;border:1px solid #ccc;border-radius:6px;">
-
-    <button type="submit"
-        style="padding:10px 20px;background:#8B6F47;color:#fff;border:none;border-radius:6px;">
-        Apply
-    </button>
-</form>
-
-{% if discount %}
-<p style="color:green;margin-top:10px;">
-Coupon applied — Saved ₹{{ discount }}
-</p>
-{% endif %}
-
-</div>
-<!-- AVAILABLE COUPONS -->
+<!-- COUPONS -->
 <div class="box">
 <h2>Available Coupons</h2>
 
 {% if coupons %}
-    {% for c in coupons %}
-    <div style="border:1px dashed #8B6F47;
-                padding:12px;
-                margin-bottom:10px;
-                border-radius:6px;">
+{% for c in coupons %}
+<div class="coupon-card">
 
-        <strong>{{ c.code }}</strong><br>
+<strong>{{ c.code }}</strong><br>
 
-        {% if c.discount_type == "percentage" %}
-            {{ c.discount_value }}% OFF
-        {% else %}
-            ₹{{ c.discount_value }} OFF
-        {% endif %}
-
-        <br>
-        Min Order ₹{{ c.min_order }}
-
-        <form method="post" action="{% url 'apply_coupon' %}"
-              style="margin-top:8px;">
-            {% csrf_token %}
-            <input type="hidden" name="coupon_code" value="{{ c.code }}">
-            <button type="submit"
-                style="padding:6px 12px;
-                       background:#8B6F47;
-                       color:#fff;
-                       border:none;
-                       border-radius:6px;">
-                Apply
-            </button>
-        </form>
-
-    </div>
-    {% endfor %}
+{% if c.discount_type == "percentage" %}
+{{ c.discount_value }}% OFF
 {% else %}
-    <p>No coupons available.</p>
+₹{{ c.discount_value }} OFF
 {% endif %}
+
+<br>
+Min order ₹{{ c.min_order }}
+
+<form method="post" action="{% url 'apply_coupon' %}" style="margin-top:8px;">
+{% csrf_token %}
+<input type="hidden" name="coupon_code" value="{{ c.code }}">
+<button style="padding:6px 12px;background:#8B6F47;color:#fff;border:none;border-radius:6px;">
+Apply
+</button>
+</form>
+
+</div>
+{% endfor %}
+{% else %}
+<p>No coupons available.</p>
+{% endif %}
+</div>
+
+<!-- MAIN ORDER FORM -->
+<form method="post" action="{% url 'place_order' %}">
+{% csrf_token %}
+
+<div class="box">
+<h2>Select Payment Method</h2>
+
+<label class="payment-option">
+<input type="radio" name="payment_method" value="COD" required>
+<div>
+<strong>Cash on Delivery</strong><br>
+Pay when delivered
+</div>
+</label>
+
+<label class="payment-option">
+<input type="radio" name="payment_method" value="STRIPE" required>
+<div>
+<strong>Online Payment</strong><br>
+UPI / Card / Netbanking
+</div>
+</label>
 
 </div>
 
-<!-- ORDER SUMMARY -->
 <div class="box">
 <h2>Order Summary</h2>
 
 {% for item in cart_items %}
 <div class="summary-row" style="align-items:center; gap:12px;">
-    
-    <img 
-        src="{{ item.product.image1.url }}" 
-        alt="{{ item.product.name }}"
-        style="width:70px;height:70px;object-fit:cover;border-radius:6px;"
-    >
+
+    <img src="{{ item.product.image1.url }}"
+         alt="{{ item.product.name }}"
+         style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
 
     <div style="flex:1;">
         <strong>{{ item.product.name }}</strong><br>
@@ -256,33 +201,35 @@ Coupon applied — Saved ₹{{ discount }}
 </div>
 {% endfor %}
 
+
 <hr style="margin:15px 0;">
 
 <div class="summary-row">
-    <span>Subtotal</span>
-    <span>₹{{ total }}</span>
+<span>Subtotal</span>
+<span>₹{{ subtotal }}</span>
 </div>
 
-<div class="summary-row total">
-    <span>Total Payable</span>
-    <span>₹{{ total }}</span>
-
-    {% if buy_now %}
-<p style="margin-bottom:10px;color:#8B6F47;font-weight:600;">
-</p>
+{% if discount %}
+<div class="summary-row">
+<span>Discount</span>
+<span>- ₹{{ discount }}</span>
+</div>
 {% endif %}
 
+<div class="summary-row total">
+<span>Total Payable</span>
+<span>₹{{ total }}</span>
 </div>
 
 </div>
-
 
 <button type="submit" class="place-order">
-    <i class="bi bi-bag-check"></i> Place Order
+Place Order
 </button>
 
-</div>
 </form>
+
+</div>
 
 </body>
 </html>

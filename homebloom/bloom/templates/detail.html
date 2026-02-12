@@ -146,6 +146,17 @@
         </div>
 
         <hr>
+        {% if order.coupon_code %}
+<div class="row">
+    <span>Coupon Applied</span>
+    <strong>{{ order.coupon_code }}</strong>
+</div>
+
+<div class="row">
+    <span>Discount</span>
+    <strong>- ₹ {{ order.discount_amount }}</strong>
+</div>
+{% endif %}
 
         {% for item in order.items.all %}
         <div class="row">

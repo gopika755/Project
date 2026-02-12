@@ -51,8 +51,8 @@ urlpatterns = [
     path("categoryedit/<int:pk>/", views.categoryedit, name="categoryedit"),
     path("categoryadd/", views.categoryadd, name="categoryadd"),
     path('admincoupon/',views.admincoupon,name='admincoupon'),
-    path('couponedit/',views.couponedit,name='couponedit'),
-    path("coupondelete/<int:id>/", views.coupondelete, name="coupondelete"),
+    path('couponedit/<int:id>/', views.couponedit, name='couponedit'),
+    path('coupondelete/<int:id>/', views.coupondelete, name='coupondelete'),
     path("add_product/", views.add_product, name="addproduct"),
     path("categorydelete/<int:pk>/", views.categorydelete, name="categorydelete"),
     path("logout/", views.userlogout, name="userlogout"),
@@ -71,6 +71,7 @@ urlpatterns = [
     path("adminnotifications/",views.adminnotifications,name="adminnotifications"),
     path("notification/delete/<int:id>/",views.delete_notification,name="delete_notification"),
     path("apply-coupon/", views.apply_coupon, name="apply_coupon"),
+
 
 
 
