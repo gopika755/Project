@@ -19,6 +19,19 @@ body{
     background:#e4d1bbff;
 }
 
+.logo-section{
+    padding:15px 0;
+    display:flex;
+    justify-content:center;
+    background:#fff;
+    margin-bottom:50px;
+}
+
+.logo{
+    max-width:250px;
+    width:100%;
+}
+
 .checkout-container{
     max-width:1200px;
     margin:auto;
@@ -72,6 +85,7 @@ body{
     height:90px;
     object-fit:cover;
     border-radius:6px;
+    flex-shrink:0;
 }
 
 .place-order{
@@ -83,19 +97,6 @@ body{
     font-size:16px;
     border-radius:5px;
     cursor:pointer;
-}
-
-.logo-section{
-    padding:15px 0;
-    display:flex;
-    justify-content:center;
-    background:#fff;
-    margin-bottom:50px;
-}
-
-.logo{
-    max-width:250px;
-    width:100%;
 }
 
 /* dropdown */
@@ -117,6 +118,25 @@ body{
     background:#8b7355;
     color:#fff;
     border:none;
+    cursor:pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 900px) {
+    .checkout-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .logo { max-width: 160px; }
+    .logo-section { margin-bottom: 30px; }
+    .checkout-container { padding: 0 14px 40px; gap: 0; }
+    .box { padding: 20px 16px; }
+    .box h2 { font-size: 1.1rem; }
+    .order-item img { width: 70px; height: 70px; }
+    .place-order { font-size: 14px; }
 }
 </style>
 </head>
@@ -129,7 +149,6 @@ body{
 
 <div class="checkout-container">
 
-
 <div>
 
 <div class="box">
@@ -141,41 +160,34 @@ body{
             {% csrf_token %}
             <input type="hidden" name="add_address" value="1">
 
-           <div class="profile-field">
-    <label>Full Name</label>
-    {{ form.full_name }}
-</div>
-
-<div class="profile-field">
-    <label>Email</label>
-    {{ form.email }}
-</div>
-
-<div class="profile-field">
-    <label>Phone</label>
-    {{ form.phone }}
-</div>
-
-<div class="profile-field">
-    <label>Street</label>
-    {{ form.street }}
-</div>
-
-<div class="profile-field">
-    <label>City</label>
-    {{ form.city }}
-</div>
-
-<div class="profile-field">
-    <label>State</label>
-    {{ form.state }}
-</div>
-
-<div class="profile-field">
-    <label>Pincode</label>
-    {{ form.pincode }}
-</div>
-
+            <div class="profile-field">
+                <label>Full Name</label>
+                {{ form.full_name }}
+            </div>
+            <div class="profile-field">
+                <label>Email</label>
+                {{ form.email }}
+            </div>
+            <div class="profile-field">
+                <label>Phone</label>
+                {{ form.phone }}
+            </div>
+            <div class="profile-field">
+                <label>Street</label>
+                {{ form.street }}
+            </div>
+            <div class="profile-field">
+                <label>City</label>
+                {{ form.city }}
+            </div>
+            <div class="profile-field">
+                <label>State</label>
+                {{ form.state }}
+            </div>
+            <div class="profile-field">
+                <label>Pincode</label>
+                {{ form.pincode }}
+            </div>
 
             <button type="submit" class="save-btn">SAVE ADDRESS</button>
         </form>
@@ -186,49 +198,47 @@ body{
 {% csrf_token %}
 
 <div class="box">
-<h2>Select Delivery Address</h2>
+    <h2>Select Delivery Address</h2>
 
-{% for address in addresses %}
-<div class="address-item">
-    <div class="address-header">
-        <input type="radio" name="address" value="{{ address.id }}" required>
-        <span class="address-name">{{ address.full_name }}</span>
+    {% for address in addresses %}
+    <div class="address-item">
+        <div class="address-header">
+            <input type="radio" name="address" value="{{ address.id }}" required>
+            <span class="address-name">{{ address.full_name }}</span>
+        </div>
+        <div class="address-text">
+            {{ address.street }}, {{ address.city }},
+            {{ address.state }} – {{ address.pincode }}<br>
+            Phone: {{ address.phone }}
+        </div>
     </div>
-    <div class="address-text">
-        {{ address.street }}, {{ address.city }},
-        {{ address.state }} – {{ address.pincode }}<br>
-        Phone: {{ address.phone }}
-    </div>
-</div>
-{% endfor %}
+    {% endfor %}
 </div>
 
 </div>
 
 <div class="box">
-<h2>Order Summary</h2>
+    <h2>Order Summary</h2>
 
-{% for item in cart_items %}
-<div class="order-item">
-    <img src="{{ item.product.image1.url }}">
-    <div>
-        <h4>{{ item.product.name }}</h4>
-        ₹{{ item.product.price }}<br>
-        Qty: {{ item.quantity }}
+    {% for item in cart_items %}
+    <div class="order-item">
+        <img src="{{ item.product.image1.url }}">
+        <div>
+            <h4>{{ item.product.name }}</h4>
+            ₹{{ item.product.price }}<br>
+            Qty: {{ item.quantity }}
+        </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}
 
-<div style="display:flex;justify-content:space-between;font-weight:700;">
-    <span>Total</span>
-    <span>₹{{ total }}</span>
-</div>
+    <div style="display:flex;justify-content:space-between;font-weight:700;margin-bottom:20px;">
+        <span>Total</span>
+        <span>₹{{ total }}</span>
+    </div>
 
-
-<button type="submit" class="place-order">
-    <i class="bi bi-bag-check"></i> Proceed to Payment
-</button>
-
+    <button type="submit" class="place-order">
+        <i class="bi bi-bag-check"></i> Proceed to Payment
+    </button>
 </div>
 </form>
 

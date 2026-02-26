@@ -4,946 +4,618 @@
     <meta charset="UTF-8">
     <title>{{ product.name }} | HOUSE BLOOM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <style>
-        :root{
-            --primary:#8B6F47;
-            --accent:#3f3007;
-            --bg:#e4d1bb;
-            --white:#fff;
-            --text:#333;
+        :root {
+            --primary: #8B6F47;
+            --accent: #3f3007;
+            --bg: #e4d1bb;
+            --white: #fff;
+            --text: #333;
         }
 
-        *{margin:0;padding:0;box-sizing:border-box;font-family:"Georgia",serif;}
-
-        body{background:var(--bg);color:var(--text);}
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Georgia", serif; }
+        body { background: var(--bg); color: var(--text); }
 
         /* ===== LOGO ===== */
-       .logo-section {
-    padding: 15px 0 15px; 
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
-}
+        .logo-section { padding: 12px 0; display: flex; justify-content: center; background-color: #fff; }
+        .logo { max-width: 200px; width: 100%; height: auto; }
 
-.logo {
-    max-width: 250px;    
-    width: 100%;
-    height: auto;
-}
-
-            /* ===== COMBINED NAVIGATION BAR ===== */
+        /* ===== NAVBAR ===== */
         .combined-navbar {
-        background-color: #8B6F47;
-        padding: 20px 0;   /* change from 20px to 15px */
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        position: sticky;
-        top: 0;
-        z-index: 999;
-        transition: all 0.3s ease;
-    }
-        
-        .navbar-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap:20px;
+            background-color: var(--primary); padding: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky; top: 0; z-index: 999;
         }
-        
-        /* Category Links */
+        .navbar-inner {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 20px; max-width: 1200px; margin: 0 auto;
+        }
         .category-nav-items {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            flex-wrap: wrap;
-            flex: 1;
-            margin-left:60px;
+            display: flex; align-items: center; gap: 30px;
+            list-style: none; margin: 0; padding: 0; flex: 1;
         }
-        
         .category-nav-items a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: color 0.3s ease, transform 0.3s ease;
-            display: inline-block;
+            color: #fff; text-decoration: none; font-size: 14px; font-weight: 500;
+            letter-spacing: 1px; text-transform: uppercase;
+            transition: color 0.3s, transform 0.3s; display: inline-block; white-space: nowrap;
         }
-        
-        .category-nav-items a:hover {
-            color: #3f3007ff;
-            transform: translateY(-2px);
-        }
-        
-        
-        /* Icon Links */
-.icon-nav-items {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 25px;
-    list-style: none;
-    margin: 0;       /* ← remove the margin-right: 55px */
-    padding: 0;
-    margin-right:170px;
-}
+        .category-nav-items a:hover { color: var(--accent); transform: translateY(-2px); }
 
-.icon-nav-items a {
-    color: #fff;
-    font-size: 1.4rem;
-    transition: color 0.3s ease, transform 0.3s ease;
-    text-decoration: none;
-}
+        .icon-nav-items { display: flex; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        .icon-nav-items a { color: #fff; font-size: 1.3rem; text-decoration: none; transition: color 0.3s, transform 0.3s; }
+        .icon-nav-items a:hover { color: var(--accent); transform: scale(1.1); }
 
-.icon-nav-items a:hover {
-    color: var(--accent);
-    transform: scale(1.1);
-}
-        /* ===== DROPDOWN MEGA MENU ===== */
-        .category-nav-items li {
-            position: relative;
+        #hamburger-toggle { display: none; }
+        .hamburger-btn {
+            display: none; background: none; border: none; color: #fff;
+            font-size: 1.6rem; cursor: pointer; padding: 4px 8px; line-height: 1;
         }
-        
+
+        /* ===== MEGA DROPDOWN ===== */
+        .category-nav-items li { position: relative; }
         .dropdown-mega-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            padding: 20px 30px;
-            margin-top: 1px;
-            border-radius: 8px;
-            min-width: 280px;
-            display: none;
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            position: absolute; top: 100%; left: 0; background: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); padding: 20px 30px;
+            margin-top: 1px; border-radius: 8px; min-width: 280px; display: none; z-index: 1000;
         }
-        
-        .category-nav-items li:hover .dropdown-mega-menu {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .mega-menu-content {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-        
+        .category-nav-items li:hover .dropdown-mega-menu { display: block; }
+        .mega-menu-content { display: flex; flex-direction: column; gap: 20px; }
         .mega-menu-column h4 {
-            color: #8B6F47;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #3f3007ff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: var(--primary); font-size: 0.95rem; font-weight: 700;
+            margin-bottom: 10px; padding-bottom: 6px;
+            border-bottom: 2px solid var(--accent); text-transform: uppercase; letter-spacing: 1px;
         }
-        
-        .mega-menu-column ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        .mega-menu-column ul { list-style: none; padding: 0; margin: 0; }
+        .mega-menu-column ul li { margin-bottom: 7px; }
+        .mega-menu-column ul li a { color: var(--text); text-decoration: none; font-size: 0.875rem; transition: color 0.3s, padding-left 0.3s; display: block; }
+        .mega-menu-column ul li a:hover { color: var(--accent); padding-left: 5px; }
+
+        /* ===== MOBILE DRAWER ===== */
+        .mobile-nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1200; }
+        .mobile-drawer {
+            position: fixed; top: 0; left: -100%; width: 85%; max-width: 320px;
+            height: 100%; background: #fff; z-index: 1300;
+            overflow-y: auto; transition: left 0.3s ease; display: flex; flex-direction: column;
         }
-        
-        .mega-menu-column ul li {
-            margin-bottom: 8px;
+        #hamburger-toggle:checked ~ .mobile-nav-overlay { display: block; }
+        #hamburger-toggle:checked ~ .mobile-drawer { left: 0; }
+        .mobile-drawer-header { background: var(--primary); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .mobile-drawer-header span { color: #fff; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; }
+        .mobile-close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; }
+        .mobile-nav-list { list-style: none; padding: 0; margin: 0; flex: 1; }
+        .mobile-nav-list > li { border-bottom: 1px solid #f0e8df; }
+        .mobile-sub-toggle { display: none; }
+        .mobile-nav-link {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 20px; color: var(--text); font-size: 0.95rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+            background: none; border: none; width: 100%; text-align: left;
         }
-        
-        .mega-menu-column ul li a {
-            color: #333;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease, padding-left 0.3s ease;
-            display: block;
-            text-transform: capitalize;
+        .mobile-sub-nav { max-height: 0; overflow: hidden; background: #faf7f3; transition: max-height 0.3s ease; }
+        .mobile-sub-toggle:checked ~ .mobile-sub-nav { max-height: 600px; }
+        .mobile-sub-toggle:checked ~ .mobile-nav-link .bi-chevron-down { transform: rotate(180deg); }
+        .mobile-nav-link .bi-chevron-down { transition: transform 0.3s; }
+        .mobile-sub-nav a { display: block; padding: 10px 36px; color: #555; font-size: 0.875rem; text-decoration: none; transition: color 0.2s, background 0.2s; }
+        .mobile-sub-nav a:hover { color: var(--primary); background: #f0e8df; }
+        .mobile-sub-heading { padding: 10px 20px 4px; font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+        .mobile-bottom-links { padding: 16px 20px; border-top: 1px solid #f0e8df; }
+        .mobile-bottom-links a { display: flex; align-items: center; gap: 10px; padding: 10px 0; color: #555; text-decoration: none; font-size: 0.9rem; }
+        .mobile-bottom-links a i { font-size: 1.1rem; color: var(--primary); }
+
+        /* ===== ACCOUNT DROPDOWN ===== */
+        .account-dropdown { position: relative; list-style: none; }
+        .account-menu {
+            position: absolute; top: 120%; right: 0; background: var(--primary); min-width: 180px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 14px; padding: 5px 0;
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s; z-index: 9999;
         }
-        
-        .mega-menu-column ul li a:hover {
-            color: #3f3007ff;
-            padding-left: 5px;
-        }
+        .account-dropdown:hover .account-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .account-menu li { list-style: none; }
+        .account-menu a { display: block; padding: 8px 14px; color: white; text-decoration: none; font-size: 14px; }
+        .account-menu a:hover { background: rgba(255,255,255,0.15); }
+        .account-menu .divider { height: 1px; background: rgba(255,255,255,0.2); margin: 6px 0; }
+        .logout-btn { background: none; border: none; padding: 8px 14px; color: white; cursor: pointer; font: inherit; width: 100%; text-align: left; }
+
+        /* ===== SEARCH ===== */
+        .nav-search { position: relative; display: flex; align-items: center; }
+        #search-toggle { display: none; }
+        .search-icon { color: white; cursor: pointer; font-size: 18px; }
+        .search-form { width: 0; overflow: hidden; transition: width 0.3s; margin-left: 8px; }
+        .search-form input { width: 160px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
+        #search-toggle:checked ~ .search-form { width: 160px; }
 
         /* ===== PRODUCT SECTION ===== */
-        .product-wrapper{
-            max-width:1400px;
-            margin:60px auto;
-            padding:0 20px;
+        .product-wrapper { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+        .product-main {
+            background: #fff; padding: 40px; border-radius: 10px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 50px;
         }
 
-        .product-main{
-            background:#fff;
-            padding:40px;
-            border-radius:10px;
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:50px;
+        /* ===== IMAGE GALLERY (CSS-only) ===== */
+        .image-box input[type="radio"] { display: none; }
+        .main-images {
+            position: relative; width: 100%; height: 460px;
+            background: #f5f5f5; border-radius: 10px; overflow: hidden;
+        }
+        .main-img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: contain; opacity: 0; transition: opacity 0.4s ease;
+        }
+        #img1:checked ~ .main-images .img1 { opacity: 1; }
+        #img2:checked ~ .main-images .img2 { opacity: 1; }
+        #img3:checked ~ .main-images .img3 { opacity: 1; }
+        #img4:checked ~ .main-images .img4 { opacity: 1; }
+        .thumbs { display: flex; gap: 10px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+        .thumbs label img {
+            width: 74px; height: 74px; object-fit: cover; border-radius: 6px;
+            border: 2px solid #ddd; cursor: pointer; transition: border-color 0.3s; display: block;
+        }
+        .thumbs label:hover img { border-color: var(--primary); }
+        #img1:checked ~ .thumbs label[for="img1"] img,
+        #img2:checked ~ .thumbs label[for="img2"] img,
+        #img3:checked ~ .thumbs label[for="img3"] img,
+        #img4:checked ~ .thumbs label[for="img4"] img { border-color: var(--accent); }
+
+        /* ===== PRODUCT INFO ===== */
+        .breadcrumb { font-size: 13px; color: #777; margin-bottom: 10px; }
+        .product-info h1 { font-size: 1.9rem; margin-bottom: 14px; text-transform: uppercase; line-height: 1.2; }
+        .price-box { display: flex; gap: 14px; align-items: center; margin: 18px 0; }
+        .sale { font-size: 1.9rem; font-weight: 700; color: var(--accent); }
+        .original { text-decoration: line-through; color: #999; font-size: 1.1rem; }
+
+        /* ===================================================
+           READ MORE — CSS only
+           Uses a hidden checkbox to toggle the description.
+        =================================================== */
+        #desc-toggle { display: none; }
+
+        .desc-wrapper {
+            position: relative;
+            margin-bottom: 24px;
         }
 
-        /* IMAGES */
-        .image-box{
-            background:#f5f5f5;
-            border-radius:10px;
-            padding:20px;
-        }
-        .main-img{
-            width:100%;
-            height:480px;
-            object-fit:contain;
+        .desc {
+            line-height: 1.8;
+            font-size: 15px;
+            color: #555;
+            /* Clamp to ~4 lines: line-height 1.8 × font 15px × 4 ≈ 108px */
+            max-height: 6em;      /* 4 visible lines */
+            overflow: hidden;
+            transition: max-height 0.4s ease;
         }
 
-        .thumbs{
-            display:flex;
-            gap:12px;
-            justify-content:center;
-            margin-top:15px;
-        }
-        .thumbs img{
-            width:80px;
-            height:80px;
-            object-fit:cover;
-            border-radius:6px;
-            border:2px solid #ddd;
+        /* Fade-out gradient at bottom when collapsed */
+        .desc-fade {
+            position: absolute;
+            bottom: 28px; /* sits just above the button */
+            left: 0; right: 0;
+            height: 48px;
+            background: linear-gradient(to bottom, transparent, #fff);
+            pointer-events: none;
+            transition: opacity 0.3s;
         }
 
-        /* INFO */
-        .product-info h1{
-            font-size:2.2rem;
-            margin-bottom:15px;
-            text-transform:uppercase;
+        /* Read More / Less toggle button */
+        .read-more-label {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            user-select: none;
         }
+        .read-more-label:hover { color: var(--accent); }
 
-        .breadcrumb{
-            font-size:13px;
-            color:#777;
-            margin-bottom:10px;
+        /* When checked: expand desc, hide fade, swap label text */
+        #desc-toggle:checked ~ .desc-wrapper .desc { max-height: 1000px; }
+        #desc-toggle:checked ~ .desc-wrapper .desc-fade { opacity: 0; }
+
+        /* Show "Read More" when unchecked, "Read Less" when checked */
+        .read-more-label .lbl-more { display: inline; }
+        .read-more-label .lbl-less { display: none; }
+        #desc-toggle:checked ~ .desc-wrapper .read-more-label .lbl-more { display: none; }
+        #desc-toggle:checked ~ .desc-wrapper .read-more-label .lbl-less { display: inline; }
+        /* ================================================= */
+
+        .actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .cart-btn {
+            background: var(--accent); color: #fff; height: 48px; min-width: 160px;
+            font-size: 14px; font-weight: 600; border-radius: 6px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: background 0.25s;
         }
-
-        .price-box{
-            display:flex;
-            gap:15px;
-            align-items:center;
-            margin:20px 0;
+        .cart-btn:hover { background: #2a1f05; }
+        .cart-btn:disabled { background: #999; cursor: not-allowed; }
+        .buy-btn {
+            background: var(--primary); color: #fff; height: 48px; min-width: 160px;
+            font-size: 14px; font-weight: 600; border-radius: 6px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: background 0.25s;
         }
-        .sale{
-            font-size:2rem;
-            font-weight:700;
-            color:#3f3007ff;
+        .buy-btn:hover { background: #6b5030; color: #fff; }
+        .wishlist-form { display: flex; align-items: center; }
+        .wishlist-btn {
+            height: 48px; width: 48px; border-radius: 50%; border: 2px solid var(--primary);
+            background: #fff; color: var(--primary); font-size: 22px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s;
         }
-        .original{
-            text-decoration:line-through;
-            color:#999;
+        .wishlist-btn:hover { background: var(--primary); color: #fff; }
+        .wishlist-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .meta { margin-top: 28px; font-size: 14px; color: #666; line-height: 1.9; }
+
+        /* ===== REVIEWS ===== */
+        .reviews-section { margin-top: 70px; }
+        .review-title { text-align: center; color: var(--primary); margin-bottom: 20px; letter-spacing: 2px; font-size: 1.5rem; }
+        .avg-rating { text-align: center; font-size: 17px; margin-bottom: 28px; }
+        .review-form { background: #fff; padding: 24px; border-radius: 10px; margin-bottom: 36px; }
+        .review-form select, .review-form textarea {
+            width: 100%; padding: 10px; margin-bottom: 14px;
+            border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 14px;
         }
-
-        .desc{
-            line-height:1.7;
-            font-size:15px;
-            margin-bottom:25px;
+        .review-form button {
+            background: var(--accent); color: #fff; padding: 10px 22px;
+            border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600;
         }
-
-        .qty{
-            width:90px;
-            padding:8px;
-            margin-bottom:25px;
+        .review-card {
+            background: #fff; border-radius: 14px; padding: 20px 26px; margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.07); border-left: 6px solid var(--primary); transition: all 0.3s;
         }
-
-        .actions{
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-/* ADD TO CART */
-.cart-btn{
-    background:#3f3007;
-    color:#fff;
-    height:48px;
-    min-width:200px;
-    font-size:14px;
-    font-weight:600;
-    border-radius:6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-/* BUY NOW */
-.buy-btn{
-    background:#8B6F47;
-    color:#fff;
-    height:48px;
-    min-width:200px;
-    font-size:14px;
-    font-weight:600;
-    border-radius:6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-decoration:none;
-}
-
-/* disabled state */
-.cart-btn:disabled{
-    background:#999;
-    cursor:not-allowed;
-}
-
-        /* META */
-        .meta{
-            margin-top:30px;
-            font-size:14px;
-            color:#666;
-        }
+        .review-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.13); }
+        .review-card p { color: #444; line-height: 1.6; margin: 8px 0; }
+        .review-card small { color: #777; font-size: 13px; }
+        .review-card a { color: var(--primary); font-size: 13px; margin-left: 12px; text-decoration: none; font-weight: 600; }
+        .review-card a:hover { color: var(--accent); text-decoration: underline; }
 
         /* ===== RELATED ===== */
-        .related{
-            margin-top:90px;
+        .related { margin-top: 80px; }
+        .related h2 { text-align: center; margin-bottom: 36px; letter-spacing: 2px; color: var(--primary); font-size: 1.5rem; }
+        .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .card {
+            background: #fff; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08); text-align: center; padding-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .related h2{
-            text-align:center;
-            margin-bottom:40px;
-            letter-spacing:2px;
-            color:#8B6F47;
+        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.13); }
+        .card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .card h3 { font-size: 14px; margin: 14px 10px 6px; }
+        .card p { font-weight: 700; color: var(--accent); font-size: 15px; }
+        .card a {
+            display: inline-block; margin-top: 12px; padding: 8px 20px;
+            background: var(--primary); color: #fff; text-decoration: none;
+            border-radius: 4px; font-size: 13px; transition: background 0.25s;
         }
+        .card a:hover { background: var(--accent); }
 
-        .related-grid{
-            display:grid;
-            grid-template-columns:repeat(4,1fr);
-            gap:30px;
-        }
+        /* ===== FOOTER ===== */
+        .footer { background: var(--primary); color: #ddd; padding-top: 50px; margin-top: 80px; }
+        .footer-container { max-width: 1200px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap; padding: 0 20px 40px; }
+        .footer-section { flex: 1 1 200px; margin: 15px; }
+        .footer-section h3, .footer-section h4 { color: #fff; margin-bottom: 14px; }
+        .footer-section p { font-size: 14px; line-height: 1.6; }
+        .footer-section a { display: block; color: #bbb; text-decoration: none; margin-bottom: 8px; font-size: 14px; }
+        .footer-section a:hover { color: #fff; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); text-align: center; padding: 15px; font-size: 13px; color: #aaa; }
 
-        .card{
-            background:#fff;
-            border-radius:10px;
-            overflow:hidden;
-            box-shadow:0 6px 20px rgba(0,0,0,.1);
-            text-align:center;
-            padding-bottom:20px;
-        }
-        .card img{
-            width:100%;
-            height:220px;
-            object-fit:cover;
-        }
-        .card h3{
-            font-size:15px;
-            margin:15px 10px;
-        }
-        .card p{
-            font-weight:700;
-            color:var(--accent);
-        }
-        .card a{
-            display:inline-block;
-            margin-top:10px;
-            padding:8px 20px;
-            background:var(--primary);
-            color:#fff;
-            text-decoration:none;
-            border-radius:4px;
-            font-size:13px;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1100px) {
+            .related-grid { grid-template-columns: repeat(3, 1fr); }
+            .category-nav-items { gap: 20px; }
+            .category-nav-items a { font-size: 13px; }
         }
 
-        /* FOOTER */
-        footer{
-            background:var(--primary);
-            color:#fff;
-            text-align:center;
-            padding:30px;
-            margin-top:80px;
+        @media (max-width: 991px) {
+            .category-nav-items { display: none; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+            .product-main { grid-template-columns: 1fr; gap: 30px; padding: 24px; }
+            .main-images { height: 360px; }
+            .related-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+            .product-info h1 { font-size: 1.5rem; }
         }
 
-        @media(max-width:992px){
-            .product-main{grid-template-columns:1fr;}
-            .related-grid{grid-template-columns:repeat(2,1fr);}
+        @media (max-width: 768px) {
+            .product-wrapper { margin: 30px auto; }
+            .product-main { padding: 18px; }
+            .main-images { height: 300px; }
+            .thumbs label img { width: 60px; height: 60px; }
+            .actions { gap: 10px; }
+            .cart-btn, .buy-btn { min-width: 130px; font-size: 13px; }
+            .product-info h1 { font-size: 1.3rem; }
+            .sale { font-size: 1.5rem; }
+            .review-form { padding: 18px; }
         }
-        @media(max-width:576px){
-            .related-grid{grid-template-columns:1fr;}
+
+        @media (max-width: 576px) {
+            .logo { max-width: 160px; }
+            .product-main { padding: 14px; gap: 20px; }
+            .main-images { height: 260px; }
+            .thumbs label img { width: 54px; height: 54px; }
+            .actions { flex-direction: column; align-items: stretch; }
+            .cart-btn, .buy-btn { min-width: unset; width: 100%; }
+            .wishlist-form { justify-content: center; }
+            .related-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .card img { height: 150px; }
+            .footer-section { flex: 1 1 100%; margin: 10px 0; }
+            .icon-nav-items { gap: 14px; }
+            .icon-nav-items a { font-size: 1.2rem; }
+            .search-form input { width: 120px; }
         }
-        /* hide radio buttons */
-.image-box input[type="radio"]{
-    display:none;
-}
 
-/* main image container */
-.main-images{
-    position:relative;
-    width:100%;
-    height:480px;
-    background:#f5f5f5;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-/* all images hidden */
-.main-img{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    opacity:0;
-    transition:opacity 0.4s ease;
-}
-
-/* show selected image */
-#img1:checked ~ .main-images .img1{opacity:1;}
-#img2:checked ~ .main-images .img2{opacity:1;}
-#img3:checked ~ .main-images .img3{opacity:1;}
-#img4:checked ~ .main-images .img4{opacity:1;}
-
-/* thumbnails */
-.thumbs{
-    display:flex;
-    gap:12px;
-    justify-content:center;
-    margin-top:15px;
-}
-
-.thumbs img{
-    width:80px;
-    height:80px;
-    object-fit:cover;
-    border-radius:6px;
-    cursor:pointer;
-    border:2px solid #ddd;
-    transition:0.3s;
-}
-
-.thumbs img:hover{
-    border-color:#8B6F47;
-}
-
-        .account-dropdown {
-    position: relative;
-    list-style: none;
-}
-
-.account-menu {
-    position: absolute;
-    top: 120%;
-    right: 0;
-    background: #8B6F47;
-    min-width: 180px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    border-radius: 14px;
-    padding: 5px 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-    z-index: 9999;
-}
-
-.account-dropdown:hover .account-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.account-menu li {
-    list-style: none;
-}
-
-.account-menu a {
-    display: block;
-    padding: 5px 10px;
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.account-menu a:hover {
-    background: #f5f5f5;
-}
-
-.account-menu .divider {
-    height: 1px;
-    background: #e5e5e5;
-    margin: 8px 0;
-}
-
-.logout-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    color: white;
-    margin-left: 12px;
-    cursor: pointer;
-    font: inherit;
-}
-.view-btn{
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 14px;
-    background: #8B6F47;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.view-btn:hover{
-    background: #3f3007;
-}
-.nav-search {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-#search-toggle {
-  display: none;
-}
-
-.search-icon {
-    color:white;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.search-form {
-  width: 0;
-  overflow: hidden;
-  transition: width 0.3s ease;
-  margin-left: 8px;
-}
-
-.search-form input {
-  width: 180px;
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Slide open */
-#search-toggle:checked ~ .search-form {
-  width: 180px;
-}
-.logout-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    color:white;
-    margin-left:12px;
-    cursor: pointer;
-    font: inherit;
-}
-/* WISHLIST HEART */
-.wishlist-form{
-    display:flex;
-    align-items:center;
-}
-
-.wishlist-btn{
-    height:48px;
-    width:48px;
-    border-radius:50%;
-    border:2px solid #8B6F47;
-    background:#fff;
-    color:#8B6F47;
-    font-size:22px;
-    font-weight:bold;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:0.3s ease;
-}
-
-/* hover */
-.wishlist-btn:hover{
-    background:#8B6F47;
-    color:#fff;
-}
-
-/* active (already wishlisted) */
-.wishlist-btn.active{
-    background:#3f3007;
-    color:#fff;
-    border-color:#3f3007;
-}
-/* REVIEW SECTION */
-
-.reviews-section{
-margin-top:80px;
-}
-
-.review-title{
-text-align:center;
-color:#8B6F47;
-margin-bottom:25px;
-letter-spacing:2px;
-}
-
-.avg-rating{
-text-align:center;
-font-size:18px;
-margin-bottom:30px;
-}
-
-.review-form{
-background:#fff;
-padding:25px;
-border-radius:10px;
-margin-bottom:40px;
-}
-
-.review-form select,
-.review-form textarea{
-width:100%;
-padding:10px;
-margin-bottom:15px;
-border:1px solid #ddd;
-border-radius:6px;
-}
-
-.review-form button{
-background:#3f3007;
-color:#fff;
-padding:10px 20px;
-border:none;
-border-radius:6px;
-}
-
-.review-card{
-    background:#fff;
-    border-radius:14px;
-    padding:22px 28px;
-    margin-bottom:22px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.08);
-    border-left:6px solid #8B6F47;
-    transition:all .3s ease;
-}
-.review-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 30px rgba(0,0,0,0.15);
-}    
-.review-rating{
-    color:#ffc107;
-    font-weight:600;
-    margin:6px 0 10px;
-}
-.review-card p{
-    color:#444;
-    line-height:1.6;
-    margin-bottom:10px;
-}
-.review-card small{
-    color:#777;
-    font-size:13px;
-}
-.review-card a{
-    color:#8B6F47;
-    font-size:13px;
-    margin-left:12px;
-    text-decoration:none;
-    font-weight:600;
-}
-.review-card a:hover{
-    color:#3f3007;
-    text-decoration:underline;
-}
-/* ===== FOOTER SECTION ===== */
-               .footer {
-    background: #8B6F47;
-    color: #ddd;
-    padding-top: 50px;
-    font-family: 'Georgia', serif;
-    margin-top:50px;
-}
-
-.footer-container {
-    max-width: 1200px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 0 20px 40px;
-}
-
-.footer-section {
-    flex: 1 1 250px;
-    margin: 15px;
-}
-
-.footer-section h3,
-.footer-section h4 {
-    color: #fff;
-    margin-bottom: 15px;
-}
-
-.footer-section p {
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.footer-section a {
-    display: block;
-    color: #bbb;
-    text-decoration: none;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-.footer-section a:hover {
-    color: #fff;
-}
-
-.footer-bottom {
-    border-top: 1px solid #333;
-    text-align: center;
-    padding: 15px;
-    font-size: 13px;
-    color: #aaa;
-}
+        @media (max-width: 380px) {
+            .related-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
-
-
-
 <body>
 
+<!-- LOGO -->
 <section class="logo-section">
-    <a href="/">
-    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
-    </a>
+    <a href="/"><img src="/media/logo1.png" alt="House Bloom Logo" class="logo"></a>
 </section>
 
-<!-- NAV -->
+<!-- HAMBURGER CHECKBOX -->
+<input type="checkbox" id="hamburger-toggle">
+
+<!-- NAVBAR -->
 <nav class="combined-navbar">
-    <div class="container">
-        <div class="navbar-content">
+    <div class="navbar-inner">
+        <label for="hamburger-toggle" class="hamburger-btn" aria-label="Open menu">
+            <i class="bi bi-list"></i>
+        </label>
 
-            <ul class="category-nav-items">
-                <li>
-                    <a href="{% url 'furniture' %}">Furniture</a>
-                    <div class="dropdown-mega-menu">
-                        <div class="mega-menu-content">
-                            <div class="mega-menu-column">
-                                <h4>Seating</h4>
-                                <ul>
-                                    <li><a href="{% url 'furniture' %}?sub_id=35">Chairs</a></li>
-                                    <li><a href="{% url 'furniture' %}?sub_id=36">Sofa</a></li>
-                                    <li><a href="{% url 'furniture' %}?sub_id=3">Stools</a></li>
-                                </ul>
-                            </div>
-                            <div class="mega-menu-column">
-                                <h4>Tables</h4>
-                                <ul>
-                                    <li><a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a></li>
-                                    <li><a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a></li>
-                                    <li><a href="{% url 'furniture' %}?sub_id=8">Console Table</a></li>
-                                </ul>
-                            </div>
-                            <div class="mega-menu-column">
-                                <h4>Shelves</h4>
-                                <ul>
-                                    <li><a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a></li>
-                                    <li><a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a></li>
-                                    <li><a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a></li>
-                                    <li><a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a></li>
-                                </ul>
-                            </div>
+        <ul class="category-nav-items">
+            <li>
+                <a href="{% url 'furniture' %}">Furniture</a>
+                <div class="dropdown-mega-menu">
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-column">
+                            <h4>Seating</h4>
+                            <ul>
+                                <li><a href="{% url 'furniture' %}?sub_id=35">Chairs</a></li>
+                                <li><a href="{% url 'furniture' %}?sub_id=36">Sofa</a></li>
+                                <li><a href="{% url 'furniture' %}?sub_id=3">Stools</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4>Tables</h4>
+                            <ul>
+                                <li><a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a></li>
+                                <li><a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a></li>
+                                <li><a href="{% url 'furniture' %}?sub_id=8">Console Table</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4>Shelves</h4>
+                            <ul>
+                                <li><a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a></li>
+                                <li><a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a></li>
+                                <li><a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a></li>
+                                <li><a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a></li>
+                            </ul>
                         </div>
                     </div>
-                </li>
-
-                <li>
-                    <a href="{% url 'walldecor' %}">Wall Decor</a>
-                    <div class="dropdown-mega-menu">
-                        <div class="mega-menu-content">
-                            <div class="mega-menu-column">
-                                <h4>Wall Decor</h4>
-                                <ul>
-                                    <li><a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a></li>
-                                    <li><a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a></li>
-                                    <li><a href="{% url 'walldecor' %}?sub_id=16">Paintings</a></li>
-                                    <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
-                                </ul>
-                            </div>
+                </div>
+            </li>
+            <li>
+                <a href="{% url 'walldecor' %}">Wall Decor</a>
+                <div class="dropdown-mega-menu">
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-column">
+                            <h4>Wall Decor</h4>
+                            <ul>
+                                <li><a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a></li>
+                                <li><a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a></li>
+                                <li><a href="{% url 'walldecor' %}?sub_id=16">Paintings</a></li>
+                                <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
+                            </ul>
                         </div>
                     </div>
-                </li>
-
-                <li>
-                    <a href="{% url 'kitchen' %}">Kitchen & Dining</a>
-                    <div class="dropdown-mega-menu">
-                        <div class="mega-menu-content">
-                            <div class="mega-menu-column">
-                                <h4>Dinnerware</h4>
-                                <ul>
-                                    <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
-                                    <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
-                                    <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
-                                </ul>
-                            </div>
-                            <div class="mega-menu-column">
-                                <h4>Serveware</h4>
-                                <ul>
-                                    <li><a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a></li>
-                                    <li><a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a></li>
-                                    <li><a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a></li>
-                                </ul>
-                            </div>
+                </div>
+            </li>
+            <li>
+                <a href="{% url 'kitchen' %}">Kitchen & Dining</a>
+                <div class="dropdown-mega-menu">
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-column">
+                            <h4>Dinnerware</h4>
+                            <ul>
+                                <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
+                                <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
+                                <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4>Serveware</h4>
+                            <ul>
+                                <li><a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a></li>
+                                <li><a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a></li>
+                                <li><a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a></li>
+                            </ul>
                         </div>
                     </div>
-                </li>
-
-                <li>
-                    <a href="{% url 'lighting' %}">Lighting</a>
-                    <div class="dropdown-mega-menu">
-                        <div class="mega-menu-content">
-                            <div class="mega-menu-column">
-                                <h4>Lighting</h4>
-                                <ul>
-                                    <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
-                                    <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
-                                    <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
-                                    <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
-                                </ul>
-                            </div>
+                </div>
+            </li>
+            <li>
+                <a href="{% url 'lighting' %}">Lighting</a>
+                <div class="dropdown-mega-menu">
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-column">
+                            <h4>Lighting</h4>
+                            <ul>
+                                <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
+                                <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
+                                <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
+                                <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
+                            </ul>
                         </div>
                     </div>
-                </li>
-
-                <li>
-                    <a href="{% url 'bath' %}">Accessories</a>
-                    <div class="dropdown-mega-menu">
-                        <div class="mega-menu-content">
-                            <div class="mega-menu-column">
-                                <h4>Accessories</h4>
-                                <ul>
-                                    <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
-                                    <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
-                                    <li><a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a></li>
-                                    <li><a href="{% url 'bath' %}?sub_id=33">Decor objects & Sculptures</a></li>
-                                </ul>
-                            </div>
+                </div>
+            </li>
+            <li>
+                <a href="{% url 'bath' %}">Accessories</a>
+                <div class="dropdown-mega-menu">
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-column">
+                            <h4>Accessories</h4>
+                            <ul>
+                                <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
+                                <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
+                                <li><a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a></li>
+                                <li><a href="{% url 'bath' %}?sub_id=33">Decor Objects & Sculptures</a></li>
+                            </ul>
                         </div>
                     </div>
-                </li>
-            </ul>
+                </div>
+            </li>
+        </ul>
 
-            <ul class="icon-nav-items">
-
-                <!-- ACCOUNT -->
-                <li class="account-dropdown">
-                    <a href="#" title="Account">
-                        <i class="bi bi-person"></i>
-                    </a>
-                    <ul class="account-menu">
-                        {% if user.is_authenticated %}
-                            <li><a href="{% url 'profile' %}">Profile</a></li>
-                            <li><a href="{% url 'order' %}">My Orders</a></li>
-                            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-                            <li><a href="{% url 'notifications' %}">Notifications</a></li>
-                            <li class="divider"></li>
-                            <li>
-                                <form method="post" action="{% url 'userlogout' %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="logout-btn">Logout</button>
-                                </form>
-                            </li>
-                        {% else %}
-                            <li><a href="{% url 'login' %}">Login</a></li>
-                        {% endif %}
-                    </ul>
-                </li>
-
-                <!-- SEARCH -->
-                <li class="nav-search">
-                    <input type="checkbox" id="search-toggle">
-                    <label for="search-toggle" class="search-icon" title="Search">
-                        <i class="bi bi-search"></i>
-                    </label>
-                    <form action="{% url 'search' %}" method="get" class="search-form">
-                        <input type="text" name="q" placeholder="Search..." />
-                    </form>
-                </li>
-
-                <!-- CART -->
-                <li>
-                    <a href="{% url 'cart' %}" title="Cart">
-                        <i class="bi bi-cart3"></i>
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
+        <ul class="icon-nav-items">
+            <li class="account-dropdown">
+                <a href="#" title="Account"><i class="bi bi-person"></i></a>
+                <ul class="account-menu">
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                        <li><a href="{% url 'order' %}">My Orders</a></li>
+                        <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                        <li><a href="{% url 'notifications' %}">Notifications</a></li>
+                        <li class="divider"></li>
+                        <li>
+                            <form method="post" action="{% url 'userlogout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </li>
+            <li class="nav-search">
+                <input type="checkbox" id="search-toggle">
+                <label for="search-toggle" class="search-icon" title="Search">
+                    <i class="bi bi-search"></i>
+                </label>
+                <form action="{% url 'search' %}" method="get" class="search-form">
+                    <input type="text" name="q" placeholder="Search..." />
+                </form>
+            </li>
+            <li><a href="{% url 'cart' %}" title="Cart"><i class="bi bi-cart3"></i></a></li>
+        </ul>
     </div>
 </nav>
-                
 
-<!-- PRODUCT -->
+<!-- MOBILE DRAWER -->
+<label for="hamburger-toggle" class="mobile-nav-overlay"></label>
+<div class="mobile-drawer">
+    <div class="mobile-drawer-header">
+        <span>HOUSE BLOOM</span>
+        <label for="hamburger-toggle" class="mobile-close-btn"><i class="bi bi-x"></i></label>
+    </div>
+    <ul class="mobile-nav-list">
+        <li>
+            <input type="checkbox" id="sub-furniture-toggle" class="mobile-sub-toggle">
+            <label for="sub-furniture-toggle" class="mobile-nav-link">Furniture <i class="bi bi-chevron-down"></i></label>
+            <div class="mobile-sub-nav">
+                <div class="mobile-sub-heading">Seating</div>
+                <a href="{% url 'furniture' %}?sub_id=35">Chairs</a>
+                <a href="{% url 'furniture' %}?sub_id=36">Sofa</a>
+                <a href="{% url 'furniture' %}?sub_id=3">Stools</a>
+                <div class="mobile-sub-heading">Tables</div>
+                <a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a>
+                <a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a>
+                <a href="{% url 'furniture' %}?sub_id=8">Console Table</a>
+                <div class="mobile-sub-heading">Shelves</div>
+                <a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a>
+                <a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a>
+                <a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a>
+                <a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a>
+            </div>
+        </li>
+        <li>
+            <input type="checkbox" id="sub-walldecor-toggle" class="mobile-sub-toggle">
+            <label for="sub-walldecor-toggle" class="mobile-nav-link">Wall Decor <i class="bi bi-chevron-down"></i></label>
+            <div class="mobile-sub-nav">
+                <a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a>
+                <a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a>
+                <a href="{% url 'walldecor' %}?sub_id=16">Paintings</a>
+                <a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a>
+            </div>
+        </li>
+        <li>
+            <input type="checkbox" id="sub-kitchen-toggle" class="mobile-sub-toggle">
+            <label for="sub-kitchen-toggle" class="mobile-nav-link">Kitchen & Dining <i class="bi bi-chevron-down"></i></label>
+            <div class="mobile-sub-nav">
+                <div class="mobile-sub-heading">Dinnerware</div>
+                <a href="{% url 'kitchen' %}?sub_id=18">Tableware</a>
+                <a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a>
+                <a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a>
+                <div class="mobile-sub-heading">Serveware</div>
+                <a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a>
+                <a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a>
+                <a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a>
+            </div>
+        </li>
+        <li>
+            <input type="checkbox" id="sub-lighting-toggle" class="mobile-sub-toggle">
+            <label for="sub-lighting-toggle" class="mobile-nav-link">Lighting <i class="bi bi-chevron-down"></i></label>
+            <div class="mobile-sub-nav">
+                <a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a>
+                <a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a>
+                <a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a>
+                <a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a>
+            </div>
+        </li>
+        <li>
+            <input type="checkbox" id="sub-accessories-toggle" class="mobile-sub-toggle">
+            <label for="sub-accessories-toggle" class="mobile-nav-link">Accessories <i class="bi bi-chevron-down"></i></label>
+            <div class="mobile-sub-nav">
+                <a href="{% url 'bath' %}?sub_id=30">Vase</a>
+                <a href="{% url 'bath' %}?sub_id=31">Candle Holders</a>
+                <a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a>
+                <a href="{% url 'bath' %}?sub_id=33">Decor Objects & Sculptures</a>
+            </div>
+        </li>
+    </ul>
+    <div class="mobile-bottom-links">
+        {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}"><i class="bi bi-person"></i> Profile</a>
+            <a href="{% url 'order' %}"><i class="bi bi-box"></i> My Orders</a>
+            <a href="{% url 'wishlist' %}"><i class="bi bi-heart"></i> Wishlist</a>
+        {% else %}
+            <a href="{% url 'login' %}"><i class="bi bi-person"></i> Login</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- ===== PRODUCT ===== -->
 <section class="product-wrapper">
     <div class="product-main">
 
-   <div class="image-box">
+        <!-- IMAGE GALLERY -->
+        <div class="image-box">
+            <input type="radio" name="img" id="img1" checked>
+            {% if product.image2 %}<input type="radio" name="img" id="img2">{% endif %}
+            {% if product.image3 %}<input type="radio" name="img" id="img3">{% endif %}
+            {% if product.image4 %}<input type="radio" name="img" id="img4">{% endif %}
 
-    <!-- RADIO CONTROLS -->
-    <input type="radio" name="img" id="img1" checked>
-    {% if product.image2 %}<input type="radio" name="img" id="img2">{% endif %}
-    {% if product.image3 %}<input type="radio" name="img" id="img3">{% endif %}
-    {% if product.image4 %}<input type="radio" name="img" id="img4">{% endif %}
+            <div class="main-images">
+                <img src="{{ product.image1.url }}" class="main-img img1" alt="{{ product.name }}">
+                {% if product.image2 %}<img src="{{ product.image2.url }}" class="main-img img2" alt="{{ product.name }}">{% endif %}
+                {% if product.image3 %}<img src="{{ product.image3.url }}" class="main-img img3" alt="{{ product.name }}">{% endif %}
+                {% if product.image4 %}<img src="{{ product.image4.url }}" class="main-img img4" alt="{{ product.name }}">{% endif %}
+            </div>
 
-    <!-- MAIN IMAGES -->
-    <div class="main-images">
-        <img src="{{ product.image1.url }}" class="main-img img1">
-
-        {% if product.image2 %}
-            <img src="{{ product.image2.url }}" class="main-img img2">
-        {% endif %}
-
-        {% if product.image3 %}
-            <img src="{{ product.image3.url }}" class="main-img img3">
-        {% endif %}
-
-        {% if product.image4 %}
-            <img src="{{ product.image4.url }}" class="main-img img4">
-        {% endif %}
-    </div>
-
-    <!-- THUMBNAILS -->
-    <div class="thumbs">
-        <label for="img1">
-            <img src="{{ product.image1.url }}">
-        </label>
-
-        {% if product.image2 %}
-        <label for="img2">
-            <img src="{{ product.image2.url }}">
-        </label>
-        {% endif %}
-
-        {% if product.image3 %}
-        <label for="img3">
-            <img src="{{ product.image3.url }}">
-        </label>
-        {% endif %}
-
-        {% if product.image4 %}
-        <label for="img4">
-            <img src="{{ product.image4.url }}">
-        </label>
-        {% endif %}
-    </div>
-
-</div>
-
+            <div class="thumbs">
+                <label for="img1"><img src="{{ product.image1.url }}" alt="thumb 1"></label>
+                {% if product.image2 %}<label for="img2"><img src="{{ product.image2.url }}" alt="thumb 2"></label>{% endif %}
+                {% if product.image3 %}<label for="img3"><img src="{{ product.image3.url }}" alt="thumb 3"></label>{% endif %}
+                {% if product.image4 %}<label for="img4"><img src="{{ product.image4.url }}" alt="thumb 4"></label>{% endif %}
+            </div>
+        </div>
 
         <!-- INFO -->
         <div class="product-info">
@@ -962,133 +634,95 @@ border-radius:6px;
                 {% endif %}
             </div>
 
+            <!--
+                READ MORE — CSS only
+                The checkbox (#desc-toggle) must be a SIBLING before .desc-wrapper
+                so the :checked ~ selector can reach .desc and .desc-fade inside it.
+            -->
+            <input type="checkbox" id="desc-toggle">
+            <div class="desc-wrapper">
+                <p class="desc">{{ product.description }}</p>
+                <div class="desc-fade"></div>
+                <label for="desc-toggle" class="read-more-label">
+                    <span class="lbl-more">Read More ▾</span>
+                    <span class="lbl-less">Read Less ▴</span>
+                </label>
+            </div>
 
-            <p class="desc">{{ product.description }}</p>
+            <div class="actions">
+                {% if product.id in cart_product_ids %}
+                    <button class="cart-btn" disabled>Already in Cart</button>
+                {% else %}
+                    <button type="button" class="cart-btn add-to-cart" data-product-id="{{ product.id }}">
+                        Add to Cart
+                    </button>
+                {% endif %}
 
-           <div class="actions">
+                <form method="post" action="{% url 'checkout' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="buy_now_product_id" value="{{ product.id }}">
+                    <button type="submit" class="buy-btn">Buy Now</button>
+                </form>
 
-    {% if product.id in cart_product_ids %}
-        <button class="btn cart-btn" disabled>
-            Already in Cart
-        </button>
-    {% else %}
-        <button
-    type="button"
-    class="btn cart-btn add-to-cart"
-    data-product-id="{{ product.id }}">
-    Add to Cart
-</button>
-
-    {% endif %}
-
-    <!-- BUY NOW -->
-    <form method="post" action="{% url 'checkout' %}">
-        {% csrf_token %}
-        <input type="hidden" name="buy_now_product_id" value="{{ product.id }}">
-        <button type="submit" class="btn buy-btn">Buy Now</button>
-    </form>
-
-    <!-- WISHLIST -->
-    <form method="POST"
-          action="{% url 'toggle_wishlist' product.id %}"
-          class="wishlist-form">
-        {% csrf_token %}
-        <button type="submit"
-                class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">
-            ♥
-        </button>
-    </form>
-
-</div>
-
-
+                <form method="POST" action="{% url 'toggle_wishlist' product.id %}" class="wishlist-form">
+                    {% csrf_token %}
+                    <button type="submit" class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">♥</button>
+                </form>
+            </div>
 
             <div class="meta">
-                Category: {{ product.category.name }} <br>
+                Category: {{ product.category.name }}<br>
                 Subcategory: {{ product.subcategory.name }}
             </div>
         </div>
     </div>
 
-                <!-- REVIEW SECTION -->
-            <section class="reviews-section">
+    <!-- REVIEWS -->
+    <section class="reviews-section">
+        <h2 class="review-title">Customer Reviews</h2>
+        <div class="avg-rating">⭐ Average Rating: <strong>{{ avg_rating|default:"No ratings yet" }}</strong></div>
 
-            <h2 class="review-title">Customer Reviews</h2>
-
-            <div class="avg-rating">
-            ⭐ Average Rating:
-            <strong>{{ avg_rating|default:"No ratings yet" }}</strong>
-            </div>
-
-            {% if user.is_authenticated %}
-            <div class="review-form">
-
+        {% if user.is_authenticated %}
+        <div class="review-form">
             <form method="post" action="{% url 'add_review' product.id %}">
-{% csrf_token %}
+                {% csrf_token %}
+                <select name="rating" required>
+                    <option value="">Rating</option>
+                    <option value="5" {% if user_review.rating == 5 %}selected{% endif %}>⭐⭐⭐⭐⭐</option>
+                    <option value="4" {% if user_review.rating == 4 %}selected{% endif %}>⭐⭐⭐⭐</option>
+                    <option value="3" {% if user_review.rating == 3 %}selected{% endif %}>⭐⭐⭐</option>
+                    <option value="2" {% if user_review.rating == 2 %}selected{% endif %}>⭐⭐</option>
+                    <option value="1" {% if user_review.rating == 1 %}selected{% endif %}>⭐</option>
+                </select>
+                <textarea name="comment" rows="4" placeholder="Write your review...">{{ user_review.comment }}</textarea>
+                <button type="submit">{% if user_review %}Update Review{% else %}Submit Review{% endif %}</button>
+            </form>
+        </div>
+        {% endif %}
 
-<select name="rating" required>
-<option value="">Rating</option>
-<option value="5" {% if user_review.rating == 5 %}selected{% endif %}>⭐⭐⭐⭐⭐</option>
-<option value="4" {% if user_review.rating == 4 %}selected{% endif %}>⭐⭐⭐⭐</option>
-<option value="3" {% if user_review.rating == 3 %}selected{% endif %}>⭐⭐⭐</option>
-<option value="2" {% if user_review.rating == 2 %}selected{% endif %}>⭐⭐</option>
-<option value="1" {% if user_review.rating == 1 %}selected{% endif %}>⭐</option>
-</select>
-
-<textarea name="comment">
-{{ user_review.comment }}
-</textarea>
-
-<button type="submit">
-{% if user_review %}
-Update Review
-{% else %}
-Submit Review
-{% endif %}
-</button>
-
-</form>
-
-            </div>
-            {% endif %}
-
-
-            <div class="review-list">
+        <div class="review-list">
             {% for review in reviews %}
             <div class="review-card">
-
-            <strong>{{ review.user.username }}</strong>
-            ⭐ {{ review.rating }}/5
-
-            <p>{{ review.comment }}</p>
-
-                        <small>{{ review.created_at|date:"d M Y" }}</small>
-            {% if review.user == request.user %}
-
-            <a href="{% url 'delete_review' review.id %}">
-            Delete
-            </a>
-            {% endif %}
-
-
+                <strong>{{ review.user.username }}</strong> ⭐ {{ review.rating }}/5
+                <p>{{ review.comment }}</p>
+                <small>{{ review.created_at|date:"d M Y" }}</small>
+                {% if review.user == request.user %}
+                    <a href="{% url 'delete_review' review.id %}">Delete</a>
+                {% endif %}
             </div>
             {% empty %}
-            <p>No reviews yet.</p>
+            <p style="text-align:center;color:#888;padding:20px 0;">No reviews yet.</p>
             {% endfor %}
-            </div>
-
-            </section>
-
-
+        </div>
+    </section>
 
     <!-- RELATED -->
     <div class="related">
         <h2>You May Also Like</h2>
-
         <div class="related-grid">
             {% for p in related_products %}
             <div class="card">
-                <img src="{{ p.image1.url }}">
+                <img src="{{ p.image1.url }}" alt="{{ p.name }}">
                 <h3>{{ p.name }}</h3>
                 <p>₹{{ p.price }}</p>
                 <a href="{% url 'product_detail' p.id %}">View</a>
@@ -1098,40 +732,30 @@ Submit Review
     </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-container">
-        
-        <!-- Brand / About -->
         <div class="footer-section">
             <h3>HOUSE BLOOM</h3>
-            <p>
-                Premium home decor crafted to elevate your space.
-                Quality design, timeless style.
-            </p>
+            <p>Premium home decor crafted to elevate your space. Quality design, timeless style.</p>
         </div>
-
-        <!-- Contact -->
         <div class="footer-section">
             <h4>Contact</h4>
             <p>123 Decor Street, Design City</p>
             <p>+1 (555) 123-4567</p>
             <p>info@homebloom.com</p>
         </div>
-
-        <!-- Quick Links -->
         <div class="footer-section">
             <h4>Quick Links</h4>
             <a href="{% url 'aboutus' %}">About Us</a>
             <a href="{% url 'faq' %}">FAQ</a>
             <a href="{% url 'privacy' %}">Privacy Policy</a>
         </div>
-
     </div>
-
     <div class="footer-bottom">
         <p>© 2025 HOUSE BLOOM • All Rights Reserved</p>
     </div>
 </footer>
-    
+
 </body>
 </html>

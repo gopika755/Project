@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>My Profile | HOUSE BLOOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
         * {
@@ -16,20 +17,20 @@
             background: #e7d6c1;
         }
 
-        /* ===== PAGE TITLE ===== */
+        /* ===== LOGO ===== */
         .logo-section {
-    padding: 15px 0 15px; 
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
-    margin-bottom:50px;
-}
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+            margin-bottom: 50px;
+        }
 
-.logo {
-    max-width: 250px;    
-    width: 100%;
-    height: auto;
-}
+        .logo {
+            max-width: 250px;
+            width: 100%;
+            height: auto;
+        }
 
         /* ===== LAYOUT ===== */
         .profile-wrapper {
@@ -37,10 +38,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 0 16px 60px;
         }
 
         .profile-card {
-            width: 900px;
+            width: 100%;
+            max-width: 900px;
             background: #fff;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             padding: 60px;
@@ -61,6 +64,7 @@
             border-radius: 50%;
             overflow: hidden;
             border: 4px solid #8b7355;
+            flex-shrink: 0;
         }
 
         .profile-image img {
@@ -77,7 +81,7 @@
             font-size: 14px;
             margin-bottom: 6px;
         }
-        
+
         /* ===== ADDRESS SECTION ===== */
         .address-section {
             margin-top: 40px;
@@ -100,7 +104,7 @@
             margin-bottom: 8px;
         }
 
-        /* ===== BUTTON ===== */
+        /* ===== BUTTONS ===== */
         .add-address-btn {
             display: inline-block;
             padding: 12px 28px;
@@ -114,77 +118,112 @@
         .add-address-btn:hover {
             background: #6f5a41;
         }
+
         .delete-btn {
-    margin-top: 15px;
-    padding: 10px 20px;
-    background: #b63a3a;
-    color: #fff;
-    border: none;
-    letter-spacing: 1px;
-    cursor: pointer;
-}
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #b63a3a;
+            color: #fff;
+            border: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
 
-.delete-btn:hover {
-    background: #922d2d;
-}
-.profile-image-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        .delete-btn:hover {
+            background: #922d2d;
+        }
 
-.edit-profile-btn {
-    margin-top: 14px;
-    padding: 8px 20px;
-    background: #8b7355;
-    color: #fff;
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: 1px;
-}
+        .profile-image-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
 
-.edit-profile-btn:hover {
-    background: #6f5a41;
-}
+        .edit-profile-btn {
+            margin-top: 14px;
+            padding: 8px 20px;
+            background: #8b7355;
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
 
+        .edit-profile-btn:hover {
+            background: #6f5a41;
+        }
+
+        /* ===== RESPONSIVE ===== */
+
+        @media (max-width: 768px) {
+            .logo-section { margin-bottom: 30px; }
+            .logo { max-width: 180px; }
+
+            .profile-card { padding: 30px 24px; }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .profile-image {
+                width: 110px;
+                height: 110px;
+            }
+
+            .address-box { padding: 18px; }
+
+            .add-address-btn,
+            .delete-btn {
+                display: block;
+                width: 100%;
+                text-align: center;
+                letter-spacing: 1px;
+            }
+
+            .delete-btn { margin-top: 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .profile-card { padding: 20px 16px; }
+            .profile-image { width: 90px; height: 90px; }
+            .profile-info h2 { font-size: 1.1rem; }
+            .address-section h3 { font-size: 1rem; }
+            .add-address-btn { font-size: 13px; padding: 11px 20px; }
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- PAGE TITLE -->
- <section class="logo-section">
-    <a href="/">
-    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
-    </a>
-</section>
-    
-    <!-- PROFILE OVERVIEW -->
+    <!-- LOGO -->
+    <section class="logo-section">
+        <a href="/">
+            <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+        </a>
+    </section>
+
+    <!-- PROFILE -->
     <div class="profile-wrapper">
         <div class="profile-card">
 
-            <!-- PROFILE HEADER -->
+            <!-- HEADER -->
             <div class="profile-header">
-               <div class="profile-image-wrapper">
-
+                <div class="profile-image-wrapper">
                     <div class="profile-image">
                         <img src="{{ profile.image.url }}" alt="Profile Image">
                     </div>
-
-                    <a href="{% url 'edit_profile' %}" class="edit-profile-btn">
-                        EDIT PROFILE
-                    </a>
-
+                    <a href="{% url 'edit_profile' %}" class="edit-profile-btn">EDIT PROFILE</a>
                 </div>
-
 
                 <div class="profile-info">
                     <h2>{{ user.get_full_name|default:user.username }}</h2>
                     <p>Email: {{ user.email }}</p>
                     <p>Phone: +91 98765 43210</p>
-        
-
-                    </div>
+                </div>
             </div>
 
             <!-- ADDRESS -->
@@ -192,40 +231,30 @@
                 <h3>Saved Address</h3>
 
                 {% if addresses %}
-    {% for address in addresses %}
-        <div class="address-box">
-            <p><strong>Full Name:</strong> {{ address.full_name }}</p>
-            <p><strong>Email:</strong> {{ address.email }}</p>
-            <p><strong>Phone:</strong> {{ address.phone }}</p>
-            <p><strong>Address:</strong>
-                {{ address.street }},
-                {{ address.city }},
-                {{ address.state }} – {{ address.pincode }}
-            </p>
+                    {% for address in addresses %}
+                        <div class="address-box">
+                            <p><strong>Full Name:</strong> {{ address.full_name }}</p>
+                            <p><strong>Email:</strong> {{ address.email }}</p>
+                            <p><strong>Phone:</strong> {{ address.phone }}</p>
+                            <p><strong>Address:</strong>
+                                {{ address.street }},
+                                {{ address.city }},
+                                {{ address.state }} – {{ address.pincode }}
+                            </p>
 
-            <a href="{% url 'edit_address' address.id %}" class="add-address-btn">
-                EDIT ADDRESS
-            </a>
+                            <a href="{% url 'edit_address' address.id %}" class="add-address-btn">EDIT ADDRESS</a>
 
-            <form method="post" action="{% url 'delete_address' address.id %}">
-                {% csrf_token %}
-                <button type="submit" class="delete-btn">
-                    DELETE ADDRESS
-                </button>
-            </form>
-        </div>
-    {% endfor %}
-{% else %}
-    <p>No address added yet.</p>
-{% endif %}
+                            <form method="post" action="{% url 'delete_address' address.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-btn">DELETE ADDRESS</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No address added yet.</p>
+                {% endif %}
 
-
-                
-                    <a href="{% url 'addaddress' %}" class="add-address-btn">
-                        ADD NEW ADDRESS
-                    </a>
-             
-
+                <a href="{% url 'addaddress' %}" class="add-address-btn">ADD NEW ADDRESS</a>
             </div>
 
         </div>

@@ -6,13 +6,12 @@
     <title>HOUSE BLOOM - Furniture</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
     
     <style>
         /* ===== GLOBAL STYLES ===== */
         :root {
-            --primary-color:#8B6F47;
+            --primary-color: #8B6F47;
             --secondary-color: #8b7355;
             --accent-color: #3f3007ff;
             --text-dark: #333;
@@ -20,11 +19,7 @@
             --bg-light: #dbc7adff;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Georgia', serif;
@@ -32,81 +27,88 @@
             line-height: 1.6;
             background-color: #e4d1bbff;
         }
-        /* ===== COMBINED NAVIGATION BAR ===== */
+
+        /* ===== LOGO SECTION ===== */
+        .logo-section {
+            padding: 12px 0;
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+        }
+        .logo { max-width: 200px; width: 100%; height: auto; }
+
+        /* ===== NAVBAR ===== */
         .combined-navbar {
             background-color: var(--primary-color);
-            padding: 15px 0;
+            padding: 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             position: sticky;
             top: 0;
             z-index: 999;
-            transition: all 0.3s ease;
         }
-        
-        .navbar-content {
+
+        .navbar-inner {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
+            padding: 14px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
-        /* Category Links */
+
+        /* Desktop category nav */
         .category-nav-items {
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 40px;
+            gap: 30px;
             list-style: none;
             margin: 0;
             padding: 0;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             flex: 1;
         }
-        
         .category-nav-items a {
             color: #fff;
             text-decoration: none;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             letter-spacing: 1px;
             text-transform: uppercase;
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: color 0.3s, transform 0.3s;
             display: inline-block;
+            white-space: nowrap;
         }
-        
-        .category-nav-items a:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-        
-        /* Icon Links */
+        .category-nav-items a:hover { color: var(--accent-color); transform: translateY(-2px); }
+
+        /* Icon nav */
         .icon-nav-items {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
             list-style: none;
             margin: 0;
             padding: 0;
         }
-        
-        .icon-nav-items a {
+        .icon-nav-items a { color: #fff; font-size: 1.3rem; text-decoration: none; transition: color 0.3s, transform 0.3s; }
+        .icon-nav-items a:hover { color: var(--accent-color); transform: scale(1.1); }
+
+        /* ===== HAMBURGER (CSS only) ===== */
+        #hamburger-toggle { display: none; }
+
+        .hamburger-btn {
+            display: none;
+            background: none;
+            border: none;
             color: #fff;
-            font-size: 1.4rem;
-            transition: color 0.3s ease, transform 0.3s ease;
-            text-decoration: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            line-height: 1;
+            /* make label behave like a button */
         }
-        
-        .icon-nav-items a:hover {
-            color: var(--accent-color);
-            transform: scale(1.1);
-        }
-        
-        /* ===== DROPDOWN MEGA MENU ===== */
-        .category-nav-items li {
-            position: relative;
-        }
-        
+
+        /* ===== MEGA DROPDOWN ===== */
+        .category-nav-items li { position: relative; }
         .dropdown-mega-menu {
             position: absolute;
             top: 100%;
@@ -123,77 +125,160 @@
             transform: translateY(-10px);
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
-        
-        .category-nav-items li:hover .dropdown-mega-menu {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .mega-menu-content {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-        
+        .category-nav-items li:hover .dropdown-mega-menu { display: block; opacity: 1; transform: translateY(0); }
+        .mega-menu-content { display: flex; flex-direction: column; gap: 20px; }
         .mega-menu-column h4 {
             color: var(--primary-color);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
             border-bottom: 2px solid var(--accent-color);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
-        .mega-menu-column ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .mega-menu-column ul li {
-            margin-bottom: 8px;
-        }
-        
+        .mega-menu-column ul { list-style: none; padding: 0; margin: 0; }
+        .mega-menu-column ul li { margin-bottom: 7px; }
         .mega-menu-column ul li a {
             color: var(--text-dark);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease, padding-left 0.3s ease;
+            font-size: 0.875rem;
+            transition: color 0.3s, padding-left 0.3s;
             display: block;
-            text-transform: capitalize;
         }
-        
-        .mega-menu-column ul li a:hover {
-            color: var(--accent-color);
-            padding-left: 5px;
+        .mega-menu-column ul li a:hover { color: var(--accent-color); padding-left: 5px; }
+
+        /* ===== MOBILE DRAWER NAV (CSS only) ===== */
+
+        /* Overlay: sibling after the checkbox */
+        .mobile-nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1200;
         }
-        
-        /* ===== PAGE TITLE SECTION ===== */
-        .page-title-section {
-            padding: 5px 0;
-            text-align: center;
-            margin-top:40px;
-            margin-bottom:40px;
+
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 85%;
+            max-width: 320px;
+            height: 100%;
+            background: #fff;
+            z-index: 1300;
+            overflow-y: auto;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
-        
-        .page-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #302402ff;
+
+        /* When hamburger checkbox is checked → show drawer & overlay */
+        #hamburger-toggle:checked ~ .mobile-nav-overlay { display: block; }
+        #hamburger-toggle:checked ~ .mobile-drawer { left: 0; }
+
+        /* Prevent body scroll when drawer open — achieved via overflow on a wrapper if needed;
+           pure CSS body scroll lock isn't fully possible, but the overlay blocks interaction */
+
+        .mobile-drawer-header {
+            background: var(--primary-color);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mobile-drawer-header span { color: #fff; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; }
+
+        /* Close button inside drawer = label for hamburger-toggle */
+        .mobile-close-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-nav-list { list-style: none; padding: 0; margin: 0; flex: 1; }
+        .mobile-nav-list > li { border-bottom: 1px solid #f0e8df; }
+
+        /* ===== MOBILE SUBNAV ACCORDION (CSS only) ===== */
+        .mobile-sub-toggle { display: none; }
+
+        .mobile-nav-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 1px;
+            text-decoration: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
         }
 
-        /* CATEGORY BANNER */
-        .category-banner {
-            margin-bottom: 40px;
+        .mobile-sub-nav {
+            max-height: 0;
+            overflow: hidden;
+            background: #faf7f3;
+            transition: max-height 0.3s ease;
         }
 
+        /* When the sub-toggle checkbox is checked, expand the sub-nav */
+        .mobile-sub-toggle:checked ~ .mobile-sub-nav { max-height: 600px; }
+
+        /* Rotate chevron when open */
+        .mobile-sub-toggle:checked ~ .mobile-nav-link .bi-chevron-down {
+            transform: rotate(180deg);
+        }
+        .mobile-nav-link .bi-chevron-down { transition: transform 0.3s; }
+
+        .mobile-sub-nav a {
+            display: block;
+            padding: 10px 36px;
+            color: #555;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: color 0.2s, background 0.2s;
+        }
+        .mobile-sub-nav a:hover { color: var(--primary-color); background: #f0e8df; }
+        .mobile-sub-heading {
+            padding: 10px 20px 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mobile-bottom-links { padding: 16px 20px; border-top: 1px solid #f0e8df; }
+        .mobile-bottom-links a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .mobile-bottom-links a i { font-size: 1.1rem; color: var(--primary-color); }
+
+        /* ===== PAGE TITLE ===== */
+        .page-title-section { padding: 5px 0; text-align: center; margin: 30px 0; }
+        .page-title { font-size: 1.8rem; font-weight: 700; color: #302402ff; text-transform: uppercase; letter-spacing: 3px; }
+
+        /* ===== CATEGORY BANNER ===== */
+        .category-banner { margin-bottom: 30px; }
         .banner-image {
-            height: 280px;
+            height: 240px;
             border-radius: 12px;
             background-size: cover;
             background-position: center;
@@ -203,433 +288,292 @@
             position: relative;
             overflow: hidden;
         }
+        .banner-image::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.35); }
+        .banner-image h2 { position: relative; color: #fff; font-size: 2rem; letter-spacing: 3px; text-transform: uppercase; z-index: 1; }
 
-        .banner-image::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.35);
-        }
-
-        .banner-image h2 {
-            position: relative;
-            color: #fff;
-            font-size: 2.5rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            z-index: 1;
-        }
-
-        /* ===== PRODUCTS SECTION ===== */
-        .products-section {
-            padding: 10px 0 80px;
-        }
-        
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-        }
-        
-        .product-card {
-            background: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            min-height: 450px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
-        .product-card:hover .wishlist-form {
-    opacity: 1;       
-}
-        .product-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-        
-        .product-info {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .product-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-            text-decoration:none;
-        }
-            .product-name-link {
-        text-decoration: none;
-        color: inherit;
-    }
-
-
-
-        
-        .product-price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-        
-        /* ===== FOOTER SECTION ===== */
-       .footer {
-    background: #8B6F47;
-    color: #ddd;
-    padding-top: 50px;
-    font-family: 'Georgia', serif;
-}
-
-.footer-container {
-    max-width: 1200px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 0 20px 40px;
-}
-
-.footer-section {
-    flex: 1 1 250px;
-    margin: 15px;
-}
-
-.footer-section h3,
-.footer-section h4 {
-    color: #fff;
-    margin-bottom: 15px;
-}
-
-.footer-section p {
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.footer-section a {
-    display: block;
-    color: #bbb;
-    text-decoration: none;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-.footer-section a:hover {
-    color: #fff;
-}
-
-.footer-bottom {
-    border-top: 1px solid #333;
-    text-align: center;
-    padding: 15px;
-    font-size: 13px;
-    color: #aaa;
-}
-        
-        /* ===================== SHOP LAYOUT ===================== */
+        /* ===== SHOP LAYOUT ===== */
         .shop-layout {
             display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 40px;
-            padding: 40px 0;
+            grid-template-columns: 260px 1fr;
+            gap: 30px;
+            padding: 30px 0 60px;
+            align-items: start;
         }
 
+        /* ===== FILTER SIDEBAR ===== */
         .filter-sidebar {
             background: #fff;
             padding: 20px;
-            border-radius: 6px;
+            border-radius: 8px;
             position: sticky;
-            top: 100px;
+            top: 80px;
             height: fit-content;
-            margin-top:10px;
         }
-
-        .filter-header {
-            font-weight: 600;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .filter-block {
-            border-bottom: 1px solid #e5e5e5;
-            padding: 15px 0;
-        }
-
+        .filter-header { font-weight: 600; margin-bottom: 16px; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .filter-block { border-bottom: 1px solid #e5e5e5; padding: 14px 0; }
         .filter-title {
             display: flex;
             justify-content: space-between;
             cursor: pointer;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 1px;
         }
-
-        /* UPDATED PRICE FILTER CSS - Ensures Visibility */
         .filter-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             margin-top: 10px;
         }
+        .filter-block input[type="checkbox"]:checked ~ .filter-content { max-height: 600px; overflow: visible; }
+        .filter-link { display: block; padding: 4px 0; text-decoration: none; color: #555; font-size: 13.5px; transition: color 0.3s; }
+        .filter-link:hover, .filter-link.active { color: var(--primary-color); font-weight: bold; }
+        .price-input-box { width: 100%; padding: 8px; border: 1px solid #ccc; background: #fff; border-radius: 4px; font-size: 13px; }
+        .price-apply-btn { width: 100%; background: var(--primary-color); color: #fff; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .price-apply-btn:hover { background: var(--accent-color); }
 
-        .filter-block input[type="checkbox"]:checked ~ .filter-content {
-            max-height: 600px; /* Increased to fit form */
-            overflow: visible;
+        /* ===== MOBILE FILTER DRAWER (CSS only) ===== */
+        #filter-toggle { display: none; }
+
+        .mobile-filter-btn {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
         }
-        .filter-link {
-                display: block;
-                padding: 5px 0;
-                text-decoration: none;
-                color: #555;
-                font-size: 14px;
-                transition: color 0.3s ease;
-            }
-            .filter-link:hover {
-                color: #8B6F47;
-            }
-            .filter-link.active {
-                font-weight: bold;
-                color: #8B6F47;
-            }
-        .price-input-box {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
+
+        .filter-drawer-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1100;
+        }
+        .filter-drawer {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
             background: #fff;
-            border-radius: 4px;
-            font-size: 14px;
+            border-radius: 16px 16px 0 0;
+            padding: 24px 20px;
+            z-index: 1200;
+            max-height: 80vh;
+            overflow-y: auto;
+            transition: bottom 0.35s ease;
         }
 
-            .price-apply-btn {
-                width: 100%;
-                background: #8B6F47;
-                color: #fff;
-                border: none;
-                padding: 10px;
-                border-radius: 4px;
-                font-weight: bold;
-                cursor: pointer;
-                margin-top: 5px;
-            }
+        /* When filter-toggle is checked → show overlay and slide drawer up */
+        #filter-toggle:checked ~ .filter-drawer-overlay { display: block; }
+        #filter-toggle:checked ~ .filter-drawer { bottom: 0; }
 
-
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 992px) {
-            .shop-layout { grid-template-columns: 1fr; }
-            .product-grid { grid-template-columns: repeat(2, 1fr); }
-            .filter-sidebar { position: static; }
-        }
-        @media (max-width: 576px) {
-            .product-grid { grid-template-columns: 1fr; }
+        .filter-drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .filter-drawer-header h3 { font-size: 1.1rem; font-weight: 700; }
+        .filter-drawer-close {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #555;
+            display: flex;
+            align-items: center;
         }
 
-        .account-dropdown {
-    position: relative;
-    list-style: none;
-}
+        /* ===== PRODUCTS SECTION ===== */
+        .products-section { padding: 10px 0; }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(0,0,0,0.13); }
+        .product-card:hover .wishlist-form { opacity: 1; }
 
-.account-menu {
-    position: absolute;
-    top: 120%;
-    right: 0;
-    background: #8B6F47;
-    min-width: 180px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    border-radius: 14px;
-    padding: 5px 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-    z-index: 9999;
-}
+        .product-image { width: 100%; height: 330px; object-fit: cover; display: block; }
+        .product-info { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+        .product-name { font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; }
+        .product-name-link { text-decoration: none; color: inherit; }
+        .product-price { font-size: 1.2rem; font-weight: 700; color: var(--accent-color); }
 
-.account-dropdown:hover .account-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
+        /* Wishlist */
+        .wishlist-form { position: absolute; top: 10px; left: 10px; z-index: 10; opacity: 0; transition: opacity 0.3s; }
+        .wishlist-btn {
+            width: 34px; height: 34px; border-radius: 50%; background: white; border: 1px solid #ddd;
+            font-size: 18px; cursor: pointer; color: white; text-shadow: 0 0 1px #000;
+            display: flex; align-items: center; justify-content: center; transition: all 0.25s;
+        }
+        .wishlist-btn.active { background: #6b4f1d; color: white; border-color: #6b4f1d; }
 
-.account-menu li {
-    list-style: none;
-}
+        /* Add to cart */
+        .add-to-cart-btn {
+            background: var(--primary-color); color: #fff; border: none; padding: 8px 14px;
+            font-size: 13px; font-weight: 600; border-radius: 6px; letter-spacing: 0.5px;
+            transition: all 0.25s; text-decoration: none; cursor: pointer; display: inline-block;
+        }
+        .add-to-cart-btn:hover { background: var(--accent-color); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.13); }
 
-.account-menu a {
-    display: block;
-    padding: 5px 10px;
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-}
+        /* ===== ACCOUNT DROPDOWN ===== */
+        .account-dropdown { position: relative; list-style: none; }
+        .account-menu {
+            position: absolute; top: 120%; right: 0; background: #8B6F47; min-width: 180px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 14px; padding: 5px 0;
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s; z-index: 9999;
+        }
+        .account-dropdown:hover .account-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .account-menu li { list-style: none; }
+        .account-menu a { display: block; padding: 8px 14px; color: white; text-decoration: none; font-size: 14px; }
+        .account-menu a:hover { background: rgba(255,255,255,0.15); }
+        .account-menu .divider { height: 1px; background: rgba(255,255,255,0.2); margin: 6px 0; }
+        .logout-btn { background: none; border: none; padding: 8px 14px; color: white; cursor: pointer; font: inherit; width: 100%; text-align: left; }
 
-.account-menu a:hover {
-    background: #f5f5f5;
-}
-
-.account-menu .divider {
-    height: 1px;
-    background: #e5e5e5;
-    margin: 8px 0;
-}
-
-.logout-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    color: white;
-    margin-left: 12px;
-    cursor: pointer;
-    font: inherit;
-}
-
+        /* ===== SEARCH ===== */
         .nav-search { position: relative; display: flex; align-items: center; }
         #search-toggle { display: none; }
-        .search-icon { color:white; cursor: pointer; font-size: 18px; }
-        .search-form { width: 0; overflow: hidden; transition: width 0.3s ease; margin-left: 8px; }
-        .search-form input { width: 180px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; }
-        #search-toggle:checked ~ .search-form { width: 180px; }
-        .product-card-link { display: block; text-decoration: none; color: inherit; }
+        .search-icon { color: white; cursor: pointer; font-size: 18px; }
+        .search-form { width: 0; overflow: hidden; transition: width 0.3s; margin-left: 8px; }
+        .search-form input { width: 160px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
+        #search-toggle:checked ~ .search-form { width: 160px; }
 
+        /* ===== FOOTER ===== */
+        .footer { background: #8B6F47; color: #ddd; padding-top: 50px; font-family: 'Georgia', serif; }
+        .footer-container { max-width: 1200px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap; padding: 0 20px 40px; }
+        .footer-section { flex: 1 1 200px; margin: 15px; }
+        .footer-section h3, .footer-section h4 { color: #fff; margin-bottom: 14px; }
+        .footer-section p { font-size: 14px; line-height: 1.6; }
+        .footer-section a { display: block; color: #bbb; text-decoration: none; margin-bottom: 8px; font-size: 14px; }
+        .footer-section a:hover { color: #fff; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); text-align: center; padding: 15px; font-size: 13px; color: #aaa; }
 
-/* position: left side */
-.wishlist-form {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    z-index: 10;
-    opacity: 0;              /* ✅ hidden by default */
-    transition: opacity 0.3s ease;  /* ✅ smooth fade */
-}
+        /* ================================================================
+           RESPONSIVE BREAKPOINTS
+        ================================================================ */
 
-/* DEFAULT: white heart */
-.wishlist-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: white;
-    border: 1px solid #ddd;
-    font-size: 20px;
-    cursor: pointer;
-    color: white;                 /* white heart */
-    text-shadow: 0 0 1px #000;    /* visibility */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.25s ease;
-}
+        @media (max-width: 1200px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .category-nav-items { gap: 20px; }
+            .category-nav-items a { font-size: 13px; }
+        }
 
-/* ACTIVE: added to wishlist */
-.wishlist-btn.active {
-    background: #6b4f1d;  /* your light brown */
-    color: white;
-    border-color: #6b4f1d;
-}
+        @media (max-width: 991px) {
+            .category-nav-items { display: none; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
 
-/* ADD TO CART – HOME BLOOM STYLE */
-.add-to-cart-btn {
-    background: #8B6F47;          /* primary theme color */
-    color: #fff;
-    border: none;
-    padding: 8px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 6px;
-    letter-spacing: 0.5px;
-    transition: all 0.25s ease;
-    text-decoration:none;
-}
+            .shop-layout { grid-template-columns: 1fr; gap: 0; padding-top: 10px; }
+            .filter-sidebar { display: none; }
+            .mobile-filter-btn { display: flex; }
 
-.add-to-cart-btn:hover {
-    background: #3f3007;          /* darker accent */
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-}
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
 
-.add-to-cart-btn:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-.logo-section {
-    padding: 15px 0 15px; 
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
-}
+            .banner-image { height: 200px; }
+            .banner-image h2 { font-size: 1.6rem; }
+        }
 
-.logo {
-    max-width: 250px;    
-    width: 100%;
-    height: auto;
-}
+        @media (max-width: 576px) {
+            .logo { max-width: 160px; }
+            .page-title { font-size: 1.3rem; letter-spacing: 2px; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .product-image { height: 160px; }
+            .product-info { padding: 12px; }
+            .product-name { font-size: 0.875rem; }
+            .product-price { font-size: 1rem; }
+            .add-to-cart-btn { font-size: 11px; padding: 7px 10px; }
+            .banner-image { height: 160px; border-radius: 8px; }
+            .banner-image h2 { font-size: 1.2rem; letter-spacing: 2px; }
+            .footer-section { flex: 1 1 100%; margin: 10px 0; }
+            .icon-nav-items { gap: 14px; }
+            .icon-nav-items a { font-size: 1.2rem; }
+            .search-form input { width: 130px; }
+        }
+
+        @media (max-width: 380px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .product-image { height: 220px; }
+        }
+
+        @media (hover: none) {
+            .wishlist-form { opacity: 1; }
+        }
     </style>
 </head>
 <body>
-    
- <section class="logo-section">
-    <a href="/">
-    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
-    </a>
-</section>
 
-   <nav class="combined-navbar">
-    <div class="container">
-        <div class="navbar-content">
+    <!-- LOGO -->
+    <section class="logo-section">
+        <a href="/">
+            <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+        </a>
+    </section>
 
-             <ul class="category-nav-items">
+    <!-- ===== HAMBURGER CHECKBOX — must be BEFORE overlay and drawer ===== -->
+    <input type="checkbox" id="hamburger-toggle">
 
-<li>
-    <a href="{% url 'furniture' %}">Furniture</a>
-    <div class="dropdown-mega-menu">
-        <div class="mega-menu-content">
-            <div class="mega-menu-column">
-                <h4>Seating</h4>
-                <ul>
-                    <li><a href="{% url 'furniture' %}?sub_id=35">Chairs</a></li>
-                    <li><a href="{% url 'furniture' %}?sub_id=36">Sofa</a></li>
-                    <li><a href="{% url 'furniture' %}?sub_id=3">Stools</a></li>
-                </ul>
-            </div>
-            <div class="mega-menu-column">
-                <h4>Tables</h4>
-                <ul>
-                    <li><a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a></li>
-                    <li><a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a></li>
-                    <li><a href="{% url 'furniture' %}?sub_id=8">Console Table</a></li>
-                </ul>
-            </div>
-            <div class="mega-menu-column">
-                <h4>Shelves</h4>
-                <ul>
-                    <li><a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a></li>
-                    <li><a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a></li>
-                    <li><a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a></li>
-                    <li><a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</li>
-                    <li>
-                    <a href="{%url 'walldecor'%}">Wall Decor</a>
+    <!-- NAVBAR -->
+    <nav class="combined-navbar">
+        <div class="navbar-inner">
+
+            <!-- Hamburger label (mobile) -->
+            <label for="hamburger-toggle" class="hamburger-btn" aria-label="Open menu">
+                <i class="bi bi-list"></i>
+            </label>
+
+            <!-- Desktop Category Links -->
+            <ul class="category-nav-items">
+                <li>
+                    <a href="{% url 'furniture' %}">Furniture</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Seating</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=35">Chairs</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=36">Sofa</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=3">Stools</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Tables</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=8">Console Table</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Shelves</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="{% url 'walldecor' %}">Wall Decor</a>
                     <div class="dropdown-mega-menu">
                         <div class="mega-menu-content">
                             <div class="mega-menu-column">
@@ -639,113 +583,273 @@
                                     <li><a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a></li>
                                     <li><a href="{% url 'walldecor' %}?sub_id=16">Paintings</a></li>
                                     <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
-
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </li>
-                    
-                    <li><a href="{%url 'kitchen'%}">Kitchen & Dining</a><div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Dinnerware</h4>
-                                    <ul>
-                                        <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
-                                        <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
-                                        <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Serveware</h4>
-                                    <ul>
-                                        <li><a href="{%url 'kitchen'%}?sub_id=21">Serving Bowls</a></li>
-                                        <li><a href="{%url 'kitchen'%}?sub_id=22">Serving Trays</a></li>
-                                        <li><a href="{%url 'kitchen'%}?sub_id=23">Platters & Stands</a></li>
-                                    </ul>
-                                </div>
+                <li>
+                    <a href="{% url 'kitchen' %}">Kitchen & Dining</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Dinnerware</h4>
+                                <ul>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Serveware</h4>
+                                <ul>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a></li>
+                                </ul>
                             </div>
                         </div>
-                    </li>
-
-                   <li><a href="{%url 'lighting'%}">Lighting</a>
-                <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Lighting</h4>
-                                    <ul>
-                                        <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
-                                        <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
-                                        <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
-                                        <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
-                                    </ul>
-                                </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="{% url 'lighting' %}">Lighting</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Lighting</h4>
+                                <ul>
+                                    <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
+                                </ul>
                             </div>
                         </div>
-                    </li>
-                    
-                    <li><a href="{%url 'bath'%}">Accessories</a>
-                 <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Accessories</h4>
-                                    <ul>
-                                        <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
-                                        <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
-                                        <li><a href="{% url 'bath' %}?sub_id=32">Planters &Pots</a></li>
-                                        <li><a href="{% url 'bath' %}?sub_id=33">Decor objects & Sculptures</a></li>
-                                    </ul>
-                                </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="{% url 'bath' %}">Accessories</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Accessories</h4>
+                                <ul>
+                                    <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=33">Decor Objects & Sculptures</a></li>
+                                </ul>
                             </div>
                         </div>
-                    </li>
-
-                </ul>
-
-            <ul class="icon-nav-items">
-<li class="account-dropdown">
-    <a href="#" title="Account">
-        <i class="bi bi-person"></i>
-    </a>
-
-    <ul class="account-menu">
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'profile' %}">Profile</a></li>
-            <li><a href="{% url 'order' %}">My Orders</a></li>
-            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-            <li><a href="{% url 'notifications' %}">Notifications</a></li>
-            <li class="divider"></li>
-            <li>
-                <form method="post" action="{% url 'userlogout' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="logout-btn">
-                        Logout
-                    </button>
-                </form>
-            </li>
-        {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
-        {% endif %}
-    </ul>
-</li>
-
-                       <li class="nav-search">
-  <input type="checkbox" id="search-toggle">
-
-  <label for="search-toggle" class="search-icon" title="Search">
-    <i class="bi bi-search"></i>
-  </label>
-
-<form action="{% url 'search' %}" method="get" class="search-form">
-    <input type="text" name="q" placeholder="Search..." />
-</form>
-</li>              <li><a href="{%url 'cart'%}"><i class="bi bi-cart3"></i></a></li>
+                    </div>
+                </li>
             </ul>
 
+            <!-- Icon Nav (always visible) -->
+            <ul class="icon-nav-items">
+                <li class="account-dropdown">
+                    <a href="#" title="Account"><i class="bi bi-person"></i></a>
+                    <ul class="account-menu">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'profile' %}">Profile</a></li>
+                            <li><a href="{% url 'order' %}">My Orders</a></li>
+                            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                            <li><a href="{% url 'notifications' %}">Notifications</a></li>
+                            <li class="divider"></li>
+                            <li>
+                                <form method="post" action="{% url 'userlogout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-btn">Logout</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li class="nav-search">
+                    <input type="checkbox" id="search-toggle">
+                    <label for="search-toggle" class="search-icon" title="Search">
+                        <i class="bi bi-search"></i>
+                    </label>
+                    <form action="{% url 'search' %}" method="get" class="search-form">
+                        <input type="text" name="q" placeholder="Search..." />
+                    </form>
+                </li>
+                <li><a href="{% url 'cart' %}"><i class="bi bi-cart3"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE DRAWER NAVIGATION ===== -->
+    <!-- Overlay: clicking it unchecks hamburger-toggle (closes drawer) -->
+    <label for="hamburger-toggle" class="mobile-nav-overlay"></label>
+
+    <div class="mobile-drawer">
+        <div class="mobile-drawer-header">
+            <span>HOUSE BLOOM</span>
+            <!-- Close button = label for hamburger-toggle -->
+            <label for="hamburger-toggle" class="mobile-close-btn"><i class="bi bi-x"></i></label>
+        </div>
+        <ul class="mobile-nav-list">
+
+            <!-- Furniture -->
+            <li>
+                <input type="checkbox" id="sub-furniture-toggle" class="mobile-sub-toggle">
+                <label for="sub-furniture-toggle" class="mobile-nav-link">
+                    Furniture <i class="bi bi-chevron-down"></i>
+                </label>
+                <div class="mobile-sub-nav">
+                    <div class="mobile-sub-heading">Seating</div>
+                    <a href="{% url 'furniture' %}?sub_id=35">Chairs</a>
+                    <a href="{% url 'furniture' %}?sub_id=36">Sofa</a>
+                    <a href="{% url 'furniture' %}?sub_id=3">Stools</a>
+                    <div class="mobile-sub-heading">Tables</div>
+                    <a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a>
+                    <a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a>
+                    <a href="{% url 'furniture' %}?sub_id=8">Console Table</a>
+                    <div class="mobile-sub-heading">Shelves</div>
+                    <a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a>
+                    <a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a>
+                    <a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a>
+                    <a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a>
+                </div>
+            </li>
+
+            <!-- Wall Decor -->
+            <li>
+                <input type="checkbox" id="sub-walldecor-toggle" class="mobile-sub-toggle">
+                <label for="sub-walldecor-toggle" class="mobile-nav-link">
+                    Wall Decor <i class="bi bi-chevron-down"></i>
+                </label>
+                <div class="mobile-sub-nav">
+                    <a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a>
+                    <a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a>
+                    <a href="{% url 'walldecor' %}?sub_id=16">Paintings</a>
+                    <a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a>
+                </div>
+            </li>
+
+            <!-- Kitchen -->
+            <li>
+                <input type="checkbox" id="sub-kitchen-toggle" class="mobile-sub-toggle">
+                <label for="sub-kitchen-toggle" class="mobile-nav-link">
+                    Kitchen & Dining <i class="bi bi-chevron-down"></i>
+                </label>
+                <div class="mobile-sub-nav">
+                    <div class="mobile-sub-heading">Dinnerware</div>
+                    <a href="{% url 'kitchen' %}?sub_id=18">Tableware</a>
+                    <a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a>
+                    <a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a>
+                    <div class="mobile-sub-heading">Serveware</div>
+                    <a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a>
+                    <a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a>
+                    <a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a>
+                </div>
+            </li>
+
+            <!-- Lighting -->
+            <li>
+                <input type="checkbox" id="sub-lighting-toggle" class="mobile-sub-toggle">
+                <label for="sub-lighting-toggle" class="mobile-nav-link">
+                    Lighting <i class="bi bi-chevron-down"></i>
+                </label>
+                <div class="mobile-sub-nav">
+                    <a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a>
+                    <a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a>
+                    <a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a>
+                    <a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a>
+                </div>
+            </li>
+
+            <!-- Accessories -->
+            <li>
+                <input type="checkbox" id="sub-accessories-toggle" class="mobile-sub-toggle">
+                <label for="sub-accessories-toggle" class="mobile-nav-link">
+                    Accessories <i class="bi bi-chevron-down"></i>
+                </label>
+                <div class="mobile-sub-nav">
+                    <a href="{% url 'bath' %}?sub_id=30">Vase</a>
+                    <a href="{% url 'bath' %}?sub_id=31">Candle Holders</a>
+                    <a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a>
+                    <a href="{% url 'bath' %}?sub_id=33">Decor Objects & Sculptures</a>
+                </div>
+            </li>
+
+        </ul>
+        <div class="mobile-bottom-links">
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}"><i class="bi bi-person"></i> Profile</a>
+                <a href="{% url 'order' %}"><i class="bi bi-box"></i> My Orders</a>
+                <a href="{% url 'wishlist' %}"><i class="bi bi-heart"></i> Wishlist</a>
+            {% else %}
+                <a href="{% url 'login' %}"><i class="bi bi-person"></i> Login</a>
+            {% endif %}
         </div>
     </div>
-</nav>
-    
+
+    <!-- ===== FILTER TOGGLE CHECKBOX — must be BEFORE overlay and drawer ===== -->
+    <input type="checkbox" id="filter-toggle">
+
+    <!-- Filter overlay: clicking it unchecks filter-toggle -->
+    <label for="filter-toggle" class="filter-drawer-overlay"></label>
+
+    <!-- ===== MOBILE FILTER DRAWER ===== -->
+    <div class="filter-drawer">
+        <div class="filter-drawer-header">
+            <h3>Filter Products</h3>
+            <!-- Close = label for filter-toggle -->
+            <label for="filter-toggle" class="filter-drawer-close"><i class="bi bi-x"></i></label>
+        </div>
+
+        <!-- Category filter -->
+        <div class="filter-block">
+            <input type="checkbox" id="cat-toggle-mobile" hidden>
+            <label for="cat-toggle-mobile" class="filter-title">
+                CATEGORY <i class="bi bi-chevron-down"></i>
+            </label>
+            <div class="filter-content">
+                <a href="{% url 'furniture' %}?sub_id=35" class="filter-link">Chairs</a>
+                <a href="{% url 'furniture' %}?sub_id=36" class="filter-link">Sofa</a>
+                <a href="{% url 'furniture' %}?sub_id=3" class="filter-link">Stools</a>
+                <a href="{% url 'furniture' %}?sub_id=6" class="filter-link">Coffee Table</a>
+                <a href="{% url 'furniture' %}?sub_id=7" class="filter-link">Side & Nesting Table</a>
+                <a href="{% url 'furniture' %}?sub_id=8" class="filter-link">Console Table</a>
+                <a href="{% url 'furniture' %}?sub_id=10" class="filter-link">Wall Mounted</a>
+                <a href="{% url 'furniture' %}?sub_id=11" class="filter-link">Floating Shelves</a>
+                <a href="{% url 'furniture' %}?sub_id=12" class="filter-link">Corner Shelves</a>
+                <a href="{% url 'furniture' %}?sub_id=13" class="filter-link">Ladder Shelves</a>
+            </div>
+        </div>
+
+        <!-- Price filter -->
+        <div class="filter-block">
+            <input type="checkbox" id="price-toggle-mobile" hidden>
+            <label for="price-toggle-mobile" class="filter-title">
+                PRICE <i class="bi bi-chevron-down"></i>
+            </label>
+            <div class="filter-content">
+                <form method="get" action="">
+                    {% if selected_sub_id %}<input type="hidden" name="sub_id" value="{{ selected_sub_id }}">{% endif %}
+                    <div style="margin-bottom:10px;">
+                        <label style="font-size:11px;color:#666;">Min Price</label>
+                        <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
+                    </div>
+                    <div style="margin-bottom:15px;">
+                        <label style="font-size:11px;color:#666;">Max Price</label>
+                        <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
+                    </div>
+                    <button type="submit" class="price-apply-btn">APPLY FILTER</button>
+                    <a href="{% url 'furniture' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}"
+                       style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#8B6F47;text-decoration:none;">
+                        Clear Filter
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE TITLE -->
     <section class="page-title-section">
         <div class="container">
             <h1 class="page-title">Furniture</h1>
@@ -762,162 +866,135 @@
     </section>
     {% endif %}
 
+    <!-- MAIN SHOP LAYOUT -->
     <section class="shop-section">
-        <div class="container shop-layout">
-            <aside class="filter-sidebar">
-                <div class="filter-header">Filter</div>
+        <div class="container">
 
-                <div class="filter-block">
-                    <input type="checkbox" id="cat-toggle" hidden >
-                    <label for="cat-toggle" class="filter-title">
-                        CATEGORY <i class="bi bi-chevron-down"></i>
-                    </label>
-                    <div class="filter-content">
-                        <a href="{% url 'furniture' %}?sub_id=35" class="filter-link">Chairs</a>
-                        <a href="{% url 'furniture' %}?sub_id=36" class="filter-link">Sofa</a>
-                        <a href="{% url 'furniture' %}?sub_id=3" class="filter-link">Stools</a>
-                        <a href="{% url 'furniture' %}?sub_id=6" class="filter-link">Coffee Table</a>
-                        <a href="{% url 'furniture' %}?sub_id=7" class="filter-link">Side & Nesting Table</a>
-                        <a href="{% url 'furniture' %}?sub_id=8" class="filter-link">Console Table</a>
-                        <a href="{% url 'furniture' %}?sub_id=10" class="filter-link">Wall Mounted</a>
-                        <a href="{% url 'furniture' %}?sub_id=11" class="filter-link">Floating Shelves</a>
-                        <a href="{% url 'furniture' %}?sub_id=12" class="filter-link">Corner Shelves</a>
-                        <a href="{% url 'furniture' %}?sub_id=13" class="filter-link">Ladder Shelves</a>
+            <!-- Mobile Filter Button — label for filter-toggle -->
+            <label for="filter-toggle" class="mobile-filter-btn">
+                <i class="bi bi-sliders"></i> Filter & Sort
+            </label>
+
+            <div class="shop-layout">
+
+                <!-- Desktop Sidebar -->
+                <aside class="filter-sidebar">
+                    <div class="filter-header">Filter</div>
+
+                    <div class="filter-block">
+                        <input type="checkbox" id="cat-toggle" hidden>
+                        <label for="cat-toggle" class="filter-title">
+                            CATEGORY <i class="bi bi-chevron-down"></i>
+                        </label>
+                        <div class="filter-content">
+                            <a href="{% url 'furniture' %}?sub_id=35" class="filter-link">Chairs</a>
+                            <a href="{% url 'furniture' %}?sub_id=36" class="filter-link">Sofa</a>
+                            <a href="{% url 'furniture' %}?sub_id=3" class="filter-link">Stools</a>
+                            <a href="{% url 'furniture' %}?sub_id=6" class="filter-link">Coffee Table</a>
+                            <a href="{% url 'furniture' %}?sub_id=7" class="filter-link">Side & Nesting Table</a>
+                            <a href="{% url 'furniture' %}?sub_id=8" class="filter-link">Console Table</a>
+                            <a href="{% url 'furniture' %}?sub_id=10" class="filter-link">Wall Mounted</a>
+                            <a href="{% url 'furniture' %}?sub_id=11" class="filter-link">Floating Shelves</a>
+                            <a href="{% url 'furniture' %}?sub_id=12" class="filter-link">Corner Shelves</a>
+                            <a href="{% url 'furniture' %}?sub_id=13" class="filter-link">Ladder Shelves</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="filter-block">
-                    <input type="checkbox" id="price-toggle" hidden >
-                    <label for="price-toggle" class="filter-title">
-                        PRICE <i class="bi bi-chevron-down"></i>
-                    </label>
-                    <div class="filter-content">
-                        <form method="get" action="">
-                            {% if selected_sub_id %}
-                                <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
-                            {% endif %}
+                    <div class="filter-block">
+                        <input type="checkbox" id="price-toggle" hidden>
+                        <label for="price-toggle" class="filter-title">
+                            PRICE <i class="bi bi-chevron-down"></i>
+                        </label>
+                        <div class="filter-content">
+                            <form method="get" action="">
+                                {% if selected_sub_id %}<input type="hidden" name="sub_id" value="{{ selected_sub_id }}">{% endif %}
+                                <div style="margin-bottom:10px;">
+                                    <label style="font-size:11px;color:#666;">Min Price</label>
+                                    <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
+                                </div>
+                                <div style="margin-bottom:15px;">
+                                    <label style="font-size:11px;color:#666;">Max Price</label>
+                                    <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
+                                </div>
+                                <button type="submit" class="price-apply-btn">APPLY FILTER</button>
+                                <a href="{% url 'furniture' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}"
+                                   style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#8B6F47;text-decoration:none;">
+                                    Clear Filter
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </aside>
 
-                            <div style="margin-bottom: 10px;">
-                                <label style="font-size: 11px; color: #666;">Min Price</label>
-                                <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
-                            </div>
+                <!-- Products -->
+                <div class="products-section">
+                    <div class="product-grid">
+                        {% for product in products %}
+                        <div class="product-card">
+                            <form method="POST" action="{% url 'toggle_wishlist' product.id %}" class="wishlist-form">
+                                {% csrf_token %}
+                                <button type="submit" class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">♥</button>
+                            </form>
 
-                            <div style="margin-bottom: 15px;">
-                                <label style="font-size: 11px; color: #666;">Max Price</label>
-                                <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
-                            </div>
-
-                            <button type="submit" class="price-apply-btn">APPLY FILTER</button>
-                            
-                            <a href="{% url 'furniture' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}" 
-                               style="display: block; text-align: center; margin-top: 10px; font-size: 13px; color: #8B6F47; text-decoration: none;">
-                               Clear Filter
+                            <a href="{% url 'product_detail' product.id %}">
+                                <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
                             </a>
-                        </form>
+
+                            <div class="product-info">
+                                <a href="{% url 'product_detail' product.id %}" class="product-name-link">
+                                    <h3 class="product-name">{{ product.name }}</h3>
+                                </a>
+                                <p class="product-price">
+                                    {% if product.offer_price %}
+                                        ₹{{ product.offer_price }}
+                                        <span style="text-decoration:line-through;color:#999;font-size:0.85rem;">₹{{ product.price }}</span>
+                                    {% else %}
+                                        ₹{{ product.price }}
+                                    {% endif %}
+                                </p>
+                                <form method="post" action="{% url 'cart' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <button type="submit" class="add-to-cart-btn">Add to cart</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p style="grid-column:1/-1;text-align:center;padding:40px 0;color:#888;">
+                            No furniture products available.
+                        </p>
+                        {% endfor %}
                     </div>
                 </div>
-            </aside>
 
-            <div class="products-section">
-    <div class="product-grid">
-
-        {% for product in products %}
-        <div class="product-card">
-
-            <!-- WISHLIST -->
-            <form method="POST"
-                  action="{% url 'toggle_wishlist' product.id %}"
-                  class="wishlist-form">
-                {% csrf_token %}
-                <button type="submit"
-                        class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">
-                    ♥
-                </button>
-            </form>
-
-            <!-- IMAGE (clickable) -->
-            <a href="{% url 'product_detail' product.id %}">
-                <img src="{{ product.image1.url }}"
-                     alt="{{ product.name }}"
-                     class="product-image">
-            </a>
-
-            <div class="product-info">
-                <!-- NAME (clickable) -->
-                <a href="{% url 'product_detail' product.id %}" class="product-name-link">
-                    <h3 class="product-name">{{ product.name }}</h3>
-                </a>
-
-                <p class="product-price">
-                    {% if product.offer_price %}
-                        ₹{{ product.offer_price }}
-                        <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
-                            ₹{{ product.price }}
-                        </span>
-                    {% else %}
-                        ₹{{ product.price }}
-                    {% endif %}
-                </p>
-
-
-
-                    <!-- ADD TO CART -->
-                    <form method="post" action="{% url 'cart' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="product_id" value="{{ product.id }}">
-                        <button type="submit" class="add-to-cart-btn">
-                            Add to cart
-                        </button>
-                    </form>
             </div>
-
-        </div>
-        {% empty %}
-        <p style="grid-column:1/-1; text-align:center;">
-            No furniture products available.
-        </p>
-        {% endfor %}
-
-    </div>
-</div>
-
         </div>
     </section>
 
-<footer class="footer">
-    <div class="footer-container">
-        
-        <!-- Brand / About -->
-        <div class="footer-section">
-            <h3>HOUSE BLOOM</h3>
-            <p>
-                Premium home decor crafted to elevate your space.
-                Quality design, timeless style.
-            </p>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>HOUSE BLOOM</h3>
+                <p>Premium home decor crafted to elevate your space. Quality design, timeless style.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>123 Decor Street, Design City</p>
+                <p>+1 (555) 123-4567</p>
+                <p>info@homebloom.com</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="{% url 'aboutus' %}">About Us</a>
+                <a href="{% url 'faq' %}">FAQ</a>
+                <a href="{% url 'privacy' %}">Privacy Policy</a>
+            </div>
         </div>
-
-        <!-- Contact -->
-        <div class="footer-section">
-            <h4>Contact</h4>
-            <p>123 Decor Street, Design City</p>
-            <p>+1 (555) 123-4567</p>
-            <p>info@homebloom.com</p>
+        <div class="footer-bottom">
+            <p>© 2025 HOUSE BLOOM • All Rights Reserved</p>
         </div>
+    </footer>
 
-        <!-- Quick Links -->
-        <div class="footer-section">
-            <h4>Quick Links</h4>
-            <a href="{% url 'aboutus' %}">About Us</a>
-            <a href="{% url 'faq' %}">FAQ</a>
-            <a href="{% url 'privacy' %}">Privacy Policy</a>
-        </div>
-
-    </div>
-
-    <div class="footer-bottom">
-        <p>© 2025 HOUSE BLOOM • All Rights Reserved</p>
-    </div>
-</footer>
-    
 </body>
 </html>
