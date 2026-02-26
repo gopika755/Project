@@ -129,10 +129,9 @@ body{
 
 <div class="checkout-container">
 
-<!-- ================= LEFT ================= -->
+
 <div>
 
-<!-- ===== ADD ADDRESS (SEPARATE FORM – IMPORTANT) ===== -->
 <div class="box">
     <input type="checkbox" id="toggle-address" class="toggle-checkbox">
     <label for="toggle-address" class="add-address-btn">+ Add New Address</label>
@@ -183,7 +182,6 @@ body{
     </div>
 </div>
 
-<!-- ===== CHECKOUT FORM ===== -->
 <form method="post" action="{% url 'checkout' %}">
 {% csrf_token %}
 
@@ -207,7 +205,6 @@ body{
 
 </div>
 
-<!-- ================= RIGHT ================= -->
 <div class="box">
 <h2>Order Summary</h2>
 

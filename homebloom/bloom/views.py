@@ -11,19 +11,19 @@ from django.http import HttpResponseForbidden
 from decimal import Decimal, InvalidOperation
 import random,stripe
 from django.db.models.functions import Coalesce,ExtractMonth
-from django.http import HttpResponse,JsonResponse
+from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.cache import add_never_cache_headers
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
 
-
+#CATEGORY
 def home(request):
     banners = Banner.objects.filter(page='home', is_active=True)
     whats_new_products = Product.objects.filter(is_new=True,is_active=True).order_by("-created_at")[:6]
@@ -33,10 +33,7 @@ def home(request):
         cart_count = Cart.objects.filter(user=request.user)\
             .aggregate(total=Sum("quantity"))["total"] or 0
 
-        notification_count = Notification.objects.filter(
-            user=request.user,
-            is_read=False
-        ).count()
+        notification_count = Notification.objects.filter(user=request.user,is_read=False).count()
     else:
         cart_count = 0
         notification_count = 0
@@ -96,10 +93,7 @@ def furniture(request):
         cart_count = Cart.objects.filter(user=request.user)\
             .aggregate(total=Sum("quantity"))["total"] or 0
 
-        notification_count = Notification.objects.filter(
-            user=request.user,
-            is_read=False
-        ).count()
+        notification_count = Notification.objects.filter(user=request.user,is_read=False).count()
     else:
         cart_count = 0
         notification_count = 0
@@ -163,10 +157,7 @@ def walldecor(request):
         cart_count = Cart.objects.filter(user=request.user)\
             .aggregate(total=Sum("quantity"))["total"] or 0
 
-        notification_count = Notification.objects.filter(
-            user=request.user,
-            is_read=False
-        ).count()
+        notification_count = Notification.objects.filter(user=request.user,is_read=False).count()
     else:
         cart_count = 0
         notification_count = 0
@@ -185,14 +176,8 @@ def walldecor(request):
     
 @never_cache
 def kitchen(request):
-    
-
     banner = Banner.objects.filter(page="kitchen", is_active=True).first()
-
-    products = Product.objects.filter(
-        category__name__iexact="Kitchen & Dining",
-        is_active=True
-    )
+    products = Product.objects.filter(category__name__iexact="Kitchen & Dining",is_active=True)
 
     sub_id = request.GET.get("sub_id")
     if sub_id:
@@ -237,10 +222,7 @@ def kitchen(request):
         cart_count = Cart.objects.filter(user=request.user)\
             .aggregate(total=Sum("quantity"))["total"] or 0
 
-        notification_count = Notification.objects.filter(
-            user=request.user,
-            is_read=False
-        ).count()
+        notification_count = Notification.objects.filter(user=request.user,is_read=False).count()
     else:
         cart_count = 0
         notification_count = 0
@@ -259,12 +241,7 @@ def kitchen(request):
 @never_cache
 def lighting(request):
     banner = Banner.objects.filter(page="lighting", is_active=True).first()
-
-    products = Product.objects.filter(
-        category__name__iexact="Lighting",
-        is_active=True
-    )
-
+    products = Product.objects.filter(category__name__iexact="Lighting",is_active=True)
     sub_id = request.GET.get("sub_id")
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
@@ -328,12 +305,11 @@ def lighting(request):
         "cart_count": cart_count,
         "notification_count": notification_count,
     })
+    
 @never_cache
 def bath(request):
     banner = Banner.objects.filter(page="bath", is_active=True).first()
-
     products = Product.objects.filter(category__name__iexact="Accessories",is_active=True)
-
     sub_id = request.GET.get("sub_id")
     if sub_id:
         products = products.filter(subcategory_id=sub_id)
@@ -379,10 +355,7 @@ def bath(request):
         cart_count = Cart.objects.filter(user=request.user)\
             .aggregate(total=Sum("quantity"))["total"] or 0
 
-        notification_count = Notification.objects.filter(
-            user=request.user,
-            is_read=False
-        ).count()
+        notification_count = Notification.objects.filter(user=request.user,is_read=False).count()
     else:
         cart_count = 0
         notification_count = 0
@@ -398,7 +371,7 @@ def bath(request):
         "notification_count": notification_count,
     })
     
-    
+#USER AUTH    
 @never_cache
 def signup_view(request):
     if request.user.is_authenticated:
@@ -511,7 +484,6 @@ def reset_password(request):
     user = User.objects.filter(id=user_id).first()
     if not user:
         return redirect("forgot")
-
     if request.method == "POST":
         form = ResetPasswordForm(request.POST, user=user)
         if form.is_valid():
@@ -527,6 +499,7 @@ def reset_password(request):
 def password_changed(request):
     return render(request, "password_changed.html")
 
+#PROFILE
 @login_required
 def profile(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
@@ -578,7 +551,37 @@ def editaddress(request, id):
         "address": address
     })
 
+@never_cache
+@login_required
+def addaddress(request):
+    profile, _ = Profile.objects.get_or_create(user=request.user)
 
+    if request.method == "POST":
+        form = AddressForm(request.POST)
+
+
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            return redirect("profile")
+    else:
+        form = AddressForm()
+
+    return render(request, "addaddress.html", {
+        "form": form,
+        "profile": profile
+    })
+
+@never_cache
+def delete_address(request, id):
+    address = get_object_or_404(Address, id=id, user=request.user)
+
+    if request.method == "POST":
+        address.delete()
+        return redirect("profile")
+
+#ORDER
 @login_required
 def order(request):
     orders = (
@@ -639,38 +642,11 @@ def download_invoice(request, id):
 
     return response
 
-@never_cache
-@staff_member_required(login_url='home')
-def addaddress(request):
-    profile, _ = Profile.objects.get_or_create(user=request.user)
 
-    if request.method == "POST":
-        form = AddressForm(request.POST)
-
-
-        if form.is_valid():
-            address = form.save(commit=False)
-            address.user = request.user
-            address.save()
-            return redirect("profile")
-    else:
-        form = AddressForm()
-
-    return render(request, "addaddress.html", {
-        "form": form,
-        "profile": profile
-    })
     
-@never_cache
-@staff_member_required(login_url='home')
-def delete_address(request, id):
-    address = get_object_or_404(Address, id=id, user=request.user)
-
-    if request.method == "POST":
-        address.delete()
-        return redirect("profile")
 
 
+#WISHLIST
 @login_required
 def wishlist(request):
     wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
@@ -718,7 +694,7 @@ def move_to_cart(request, wishlist_id):
     wishlist_item.delete()
     return redirect('wishlist')
 
-
+#PAYMENT
 @login_required
 @never_cache
 def payment_page(request):
@@ -777,33 +753,52 @@ def payment_page(request):
         "buy_now": False,
     })
 
+@never_cache
+@login_required
+def payment_success(request):
+    order_id = request.GET.get("order_id")
+
+    if not order_id:
+        return redirect("home")
+
+    try:
+        order = Order.objects.get(id=order_id, user=request.user)
+    except Order.DoesNotExist:
+        return redirect("home")  # order was deleted (failed), don't proceed
+
+    order.payment_status = "PAID"
+    order.save()
+
+    Cart.objects.filter(user=request.user).delete()
+    request.session.pop("address_id", None)
+    request.session.pop("discount", None)
+    request.session.pop("coupon_code", None)
+
+    return redirect("ordersuccess")
 
 @login_required
 def payment_failed(request):
     order_id = request.GET.get("order_id")
 
     if order_id:
-        from .models import Order
         try:
             order = Order.objects.get(id=order_id, user=request.user)
-            order.payment_status = "FAILED"
-            order.save()
+            order.delete()
         except Order.DoesNotExist:
             pass
 
-    return render(request, "payment_failed.html")
+    response = render(request, "payment_failed.html")
+    add_never_cache_headers(response)
+    return response
 
+#CART
 @never_cache
 @login_required
 def cart(request):
     if request.method == "POST":
         product_id = request.POST.get("product_id")
         product = get_object_or_404(Product, id=product_id)
-
-        cart_item, created = Cart.objects.get_or_create(
-            user=request.user,
-            product=product
-        )
+        cart_item, created = Cart.objects.get_or_create(user=request.user,product=product)
 
         if not created:
             cart_item.quantity += 1
@@ -813,11 +808,34 @@ def cart(request):
 
     cart_items = Cart.objects.filter(user=request.user)
     subtotal = sum(item.subtotal for item in cart_items)
+    total_items = sum(item.quantity for item in cart_items)
+
 
     return render(request, "cart.html", {
         "cart_items": cart_items,
         "subtotal": subtotal,
+        "total_items":total_items,
     })
+
+@login_required
+def update_cart_quantity(request, item_id):
+    item = get_object_or_404(Cart, id=item_id, user=request.user)
+
+    if request.method == "POST":
+        action = request.POST.get("action")
+
+        if action == "increase":
+            item.quantity += 1
+
+        elif action == "decrease":
+            item.quantity -= 1
+            if item.quantity <= 0:
+                item.delete()
+                return redirect("cart")
+
+        item.save()
+
+    return redirect("cart")
     
 @login_required
 def remove_cart_item(request, item_id):
@@ -825,73 +843,9 @@ def remove_cart_item(request, item_id):
     cart_item.delete()
     return redirect("cart")
 
-@require_POST
-def update_cart_quantity(request):
-    cart_id = request.POST.get("cart_id")
-    action = request.POST.get("action")
 
-    cart_item = get_object_or_404(
-        Cart,
-        id=cart_id,
-        user=request.user
-    )
 
-    if action == "increase":
-        cart_item.quantity += 1
-
-    elif action == "decrease" and cart_item.quantity > 1:
-        cart_item.quantity -= 1
-
-    cart_item.save()
-
-    return JsonResponse({
-        "status": "success",
-        "quantity": cart_item.quantity,
-        "subtotal": float(cart_item.subtotal)
-    })
-
-@require_POST
-def remove_cart_item_ajax(request):
-    cart_id = request.POST.get("cart_id")
-
-    cart_item = get_object_or_404(
-        Cart,
-        id=cart_id,
-        user=request.user
-    )
-
-    cart_item.delete()
-
-    total_items = Cart.objects.filter(user=request.user).count()
-    subtotal = sum(
-        item.subtotal for item in Cart.objects.filter(user=request.user)
-    )
-
-    return JsonResponse({
-        "status": "success",
-        "total_items": total_items,
-        "subtotal": float(subtotal)
-    })
-
-@login_required
-@require_POST
-def add_to_cart_ajax(request):
-    print("ADD TO CART VIEW HIT", request.POST)
-
-    product_id = request.POST.get("product_id")
-    product = get_object_or_404(Product, id=product_id)
-
-    cart_item, created = Cart.objects.get_or_create(
-        user=request.user,
-        product=product
-    )
-
-    if not created:
-        cart_item.quantity += 1
-        cart_item.save()
-
-    return JsonResponse({"status": "success"})
-
+#CHECKOUT
 @login_required
 def checkout(request):
     addresses = Address.objects.filter(user=request.user)
@@ -961,7 +915,7 @@ def checkout(request):
     })
 
 
-    
+   
 @login_required
 def place_order(request):
     if request.method != "POST":
@@ -980,21 +934,18 @@ def place_order(request):
     if buy_now_product_id:
         product = get_object_or_404(Product, id=buy_now_product_id)
         price = product.offer_price or product.price
-        total = Decimal(price) - discount
-        total = max(total, 0)
+        total = max(Decimal(str(price)) - discount, 0)
         coupon_code = request.session.get("coupon_code")
-        discount = request.session.get("discount", 0)
 
         order = Order.objects.create(
-            user=request.user,  
+            user=request.user,
             address=address,
             total=total,
             payment_method=payment_method,
             payment_status="PENDING",
             status="pending",
             coupon_code=coupon_code,
-            discount_amount=discount,    
-            
+            discount_amount=discount,
         )
 
         OrderItem.objects.create(
@@ -1013,13 +964,10 @@ def place_order(request):
             return redirect("cart")
 
         subtotal = sum(
-            (item.product.offer_price or item.product.price)
-            * item.quantity
+            (item.product.offer_price or item.product.price) * item.quantity
             for item in cart_items
         )
-
-        total = Decimal(subtotal) - discount
-        total = max(total, 0)
+        total = max(Decimal(str(subtotal)) - discount, 0)
 
         order = Order.objects.create(
             user=request.user,
@@ -1038,7 +986,9 @@ def place_order(request):
                 price=item.product.offer_price or item.product.price,
             )
 
-        cart_items.delete()
+        # ✅ Only delete cart for COD — Stripe will delete on success
+        if payment_method == "COD":
+            cart_items.delete()
 
     request.session.pop("address_id", None)
     request.session.pop("discount", None)
@@ -1097,25 +1047,6 @@ def ordersuccess(request):
     return render(request, "ordersuccess.html")
 
 
-@login_required
-def payment_success(request):
-    order_id = request.GET.get("order_id")
-
-    if not order_id:
-        return redirect("home")
-
-    order = Order.objects.get(id=order_id, user=request.user)
-
-    order.payment_status = "PAID"
-    order.save()
-
-    Cart.objects.filter(user=request.user).delete()
-    request.session.pop("address_id", None)
-
-    return redirect("ordersuccess")
-
-
-
 def faq(request):
     return render(request,'faq.html')
 def privacy(request):
@@ -1160,6 +1091,7 @@ def product(request, pk):
         "user_review": user_review,
     })
 
+#ADMIN
 @never_cache
 @staff_member_required(login_url='home')
 def admindashboard(request):
@@ -1169,7 +1101,6 @@ def admindashboard(request):
     total_customers = User.objects.filter(is_staff=False).count()
     revenue = Order.objects.aggregate(total=Sum("total"))["total"] or 0
 
-    # Monthly sales report
     monthly_sales = (
         Order.objects
         .annotate(month=ExtractMonth("created_at"))
@@ -1252,6 +1183,7 @@ def product_toggle_status(request, id):
     product.save()
     return redirect('adminproduct')
 
+
 @never_cache
 @staff_member_required(login_url='home')
 def admincustomer(request):
@@ -1289,6 +1221,7 @@ def delete_customer(request, user_id):
         user.delete()
         return redirect("admincustomer") 
     
+    
 @never_cache
 @staff_member_required(login_url='home')
 def admincategory(request):
@@ -1297,6 +1230,7 @@ def admincategory(request):
     return render(request, "admincategory.html", {
         "categories": categories
     })
+    
     
 @never_cache
 @staff_member_required(login_url='home')
@@ -1544,24 +1478,87 @@ def product_detail(request, id):
         "product": product
     })  
     
+
 def search(request):
     query = request.GET.get("q", "").strip()
+    sub_id = request.GET.get("sub_id")
+    cat_id = request.GET.get("cat_id")
+    min_price = request.GET.get("min_price")
+    max_price = request.GET.get("max_price")
 
     products = Product.objects.none()
+    query_is_subcategory = False
+    matched_category = None
 
     if query:
+        from .models import SubCategory, Category
+
+        # Check if query matches a subcategory
+        matched_sub = SubCategory.objects.filter(name__icontains=query).first()
+        if matched_sub and not sub_id and not cat_id:
+            sub_id = str(matched_sub.id)
+            query_is_subcategory = True
+
+        # Check if query matches a category
+        if not query_is_subcategory:
+            matched_category = Category.objects.filter(name__icontains=query).first()
+            if matched_category and not cat_id:
+                cat_id = str(matched_category.id)
+
         products = Product.objects.filter(
             is_active=True
         ).filter(
             Q(name__icontains=query) |
-            Q(subcategory__name__icontains=query)
+            Q(subcategory__name__icontains=query) |
+            Q(subcategory__category__name__icontains=query)
         ).distinct()
+
+        if sub_id:
+            products = products.filter(subcategory__id=sub_id)
+        elif cat_id:
+            products = products.filter(subcategory__category__id=cat_id)
+
+        if min_price:
+            products = products.filter(
+                Q(offer_price__isnull=False, offer_price__gte=min_price) |
+                Q(offer_price__isnull=True, price__gte=min_price)
+            )
+        if max_price:
+            products = products.filter(
+                Q(offer_price__isnull=False, offer_price__lte=max_price) |
+                Q(offer_price__isnull=True, price__lte=max_price)
+            )
+
+    selected_category_name = None
+    selected_category_obj = None
+
+    if sub_id:
+        try:
+            from .models import SubCategory
+            sub = SubCategory.objects.get(id=sub_id)
+            selected_category_name = sub.name
+            selected_category_obj = sub.category  # parent category
+        except SubCategory.DoesNotExist:
+            pass
+    elif cat_id:
+        try:
+            from .models import Category
+            selected_category_obj = Category.objects.prefetch_related('subcategory_set').get(id=cat_id)
+            selected_category_name = selected_category_obj.name
+        except Category.DoesNotExist:
+            pass
 
     return render(request, "search.html", {
         "products": products,
-        "query": query
+        "query": query,
+        "selected_sub_id": sub_id,
+        "selected_cat_id": cat_id,
+        "min_price": min_price,
+        "max_price": max_price,
+        "selected_category_name": selected_category_name,
+        "selected_category_obj": selected_category_obj,
+        "query_is_subcategory": query_is_subcategory,
     })
-
         
 @login_required
 def notifications(request):

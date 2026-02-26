@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOUSE BLOOM | Search</title>
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <style>
@@ -29,6 +28,7 @@
             font-family: 'Georgia', serif;
             color: var(--text-dark);
             line-height: 1.6;
+            background-color: #e4d1bbff;
         }
 
         /* ================= LOGO ================= */
@@ -63,7 +63,6 @@
             gap: 20px;
         }
 
-        /* Category Links */
         .category-nav-items {
             display: flex;
             justify-content: center;
@@ -160,7 +159,6 @@
             padding-left: 5px;
         }
 
-        /* Icon Links */
         .icon-nav-items {
             display: flex;
             justify-content: flex-end;
@@ -196,7 +194,7 @@
             background: #8B6F47;
             min-width: 180px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-radius: 13px;
+            border-radius: 14px;
             padding: 5px 0;
             opacity: 0;
             visibility: hidden;
@@ -215,29 +213,32 @@
             list-style: none;
         }
 
-        .account-menu a,
-        .logout-btn {
-            background: none;
-            border: none;
+        .account-menu a {
             display: block;
-            padding: 8px 15px;
+            padding: 5px 10px;
             color: white;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-            font: inherit;
             text-decoration: none;
+            font-size: 14px;
         }
 
-        .account-menu a:hover,
-        .logout-btn:hover {
-            background: rgba(255,255,255,.15);
+        .account-menu a:hover {
+            background: #f5f5f5;
         }
 
         .account-menu .divider {
             height: 1px;
-            background: rgba(255,255,255,0.3);
+            background: #e5e5e5;
             margin: 8px 0;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            color: white;
+            margin-left: 12px;
+            cursor: pointer;
+            font: inherit;
         }
 
         /* ================= SEARCH ================= */
@@ -311,28 +312,158 @@
         /* ================= PAGE TITLE ================= */
         .page-title-section {
             text-align: center;
-            margin: 40px 0;
+            margin: 40px 0 20px;
         }
 
-        .page-title {
+        .search-results-heading {
             font-size: 2rem;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: #302402;
         }
 
-        /* ================= PRODUCTS ================= */
+        /* ================= LAYOUT WITH SIDEBAR ================= */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
+        .search-layout {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-bottom: 80px;
+        }
+
+        /* ================= FILTER SIDEBAR ================= */
+        .filter-sidebar {
+            width: 230px;
+            flex-shrink: 0;
+            background: #fff;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 80px;
+        }
+
+        .filter-header {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #302402;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e4d1bb;
+        }
+
+        .filter-block {
+            margin-bottom: 20px;
+        }
+
+        .filter-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #302402;
+            cursor: pointer;
+            padding: 8px 0;
+            border-bottom: 1px solid #e4d1bb;
+            margin-bottom: 10px;
+        }
+
+        .filter-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Parent category link */
+        .filter-parent {
+            display: block;
+            text-decoration: none;
+            color: #555;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 0;
+            border-bottom: 1px solid #f0e8df;
+            transition: color 0.2s;
+        }
+
+        .filter-parent:hover {
+            color: #8B6F47;
+        }
+
+        .filter-parent.active {
+            color: #8B6F47;
+        }
+
+        /* Child subcategory link */
+        .filter-child {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 13px;
+            padding: 5px 0 5px 14px;
+            transition: color 0.2s, padding-left 0.2s;
+        }
+
+        .filter-child:hover {
+            color: #8B6F47;
+            padding-left: 18px;
+        }
+
+        .filter-child.active {
+            color: #8B6F47;
+            font-weight: 600;
+        }
+
+        .price-input-box {
+            width: 100%;
+            padding: 7px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            margin-top: 4px;
+        }
+
+        .price-input-box:focus {
+            border-color: #8B6F47;
+        }
+
+        .price-apply-btn {
+            width: 100%;
+            background: #8B6F47;
+            color: #fff;
+            border: none;
+            padding: 9px;
+            border-radius: 6px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .price-apply-btn:hover {
+            background: #3f3007;
+        }
+
+        /* ================= PRODUCTS ================= */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin-bottom: 80px;
+            flex: 1;
         }
 
         .product-card-link {
@@ -388,65 +519,75 @@
 
         /* ===== FOOTER SECTION ===== */
         .footer {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 50px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-        
-        .footer-section h4 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-        }
-        
-        .footer-section p,
-        .footer-section a {
+            background: #8B6F47;
             color: #ddd;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        .footer-section a:hover {
-            color: var(--accent-color);
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .social-icons a {
-            color: #fff;
-            transition: color 0.3s ease;
-        }
-        
-        .social-icons a:hover {
-            color: var(--accent-color);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 50px;
+            font-family: 'Georgia', serif;
+            margin-top: 50px;
         }
 
-        /* Responsive Design */
+        .footer-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 20px 40px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+            margin: 15px;
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #bbb;
+            text-decoration: none;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            text-align: center;
+            padding: 15px;
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        /* ================= RESPONSIVE ================= */
         @media (max-width: 1200px) {
             .product-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 992px) {
+            .search-layout {
+                flex-direction: column;
+            }
+
+            .filter-sidebar {
+                width: 100%;
+                position: static;
+            }
+
             .product-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -475,11 +616,6 @@
             
             .mega-menu-content {
                 gap: 20px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 30px;
             }
         }
 
@@ -678,76 +814,143 @@
 
 <!-- TITLE -->
 <section class="page-title-section">
-    <h1 class="page-title">Search results for "{{ query }}"</h1>
+    <h2 class="search-results-heading">
+        {% if selected_category_name %}
+            {{ selected_category_name }}
+            <span style="color: #aaa; font-weight: 400;">in results for "{{ query }}"</span>
+        {% else %}
+            Search results for "{{ query }}"
+        {% endif %}
+    </h2>
 </section>
 
-<!-- PRODUCTS -->
+<!-- MAIN CONTENT -->
 <section class="container">
-    <div class="product-grid">
-        {% for product in products %}
-            <a href="{% url 'product_detail' product.id %}" class="product-card-link">
-                <div class="product-card">
-                    <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
-                    <div class="product-info">
-                        <div>
-                            <h3 class="product-name">{{ product.name }}</h3>
-                            {% if product.offer_price %}
-                                <p class="product-price">
-                                    ₹{{ product.offer_price }}
-                                    <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
-                                        ₹{{ product.price }}
-                                    </span>
-                                </p>
-                            {% else %}
-                                <p class="product-price">₹{{ product.price }}</p>
-                            {% endif %}
+    <div class="search-layout">
+
+        <!-- FILTER SIDEBAR -->
+   <aside class="filter-sidebar">
+    <div class="filter-header">Filter</div>
+
+    <!-- CATEGORY + SUBCATEGORY FILTER -->
+    {% if not query_is_subcategory and not selected_sub_id %}
+        {% if selected_category_obj %}
+        <div class="filter-block">
+            <input type="checkbox" id="cat-toggle" hidden checked>
+            <label for="cat-toggle" class="filter-title">
+                CATEGORY <i class="bi bi-chevron-down"></i>
+            </label>
+            <div class="filter-content">
+                <!-- Only the matched/selected category -->
+                <a href="{% url 'search' %}?q={{ query }}&cat_id={{ selected_category_obj.id }}"
+                   class="filter-parent active">
+                    {{ selected_category_obj.name }}
+                </a>
+                <!-- Its subcategories -->
+                {% for sub in selected_category_obj.subcategory_set.all %}
+                    <a href="{% url 'search' %}?q={{ query }}&sub_id={{ sub.id }}"
+                       class="filter-child {% if selected_sub_id == sub.id|stringformat:'s' %}active{% endif %}">
+                        {{ sub.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+    <!-- PRICE FILTER -->
+    {% if query_is_subcategory or selected_sub_id or selected_cat_id %}
+    <div class="filter-block">
+        <input type="checkbox" id="price-toggle" hidden checked>
+        <label for="price-toggle" class="filter-title">
+            PRICE <i class="bi bi-chevron-down"></i>
+        </label>
+        <div class="filter-content">
+            <form method="get" action="{% url 'search' %}">
+                <input type="hidden" name="q" value="{{ query }}">
+                {% if selected_sub_id %}
+                    <input type="hidden" name="sub_id" value="{{ selected_sub_id }}">
+                {% elif selected_cat_id %}
+                    <input type="hidden" name="cat_id" value="{{ selected_cat_id }}">
+                {% endif %}
+
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 11px; color: #666;">Min Price</label>
+                    <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 11px; color: #666;">Max Price</label>
+                    <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
+                </div>
+
+                <button type="submit" class="price-apply-btn">APPLY FILTER</button>
+
+                <a href="{% url 'search' %}?q={{ query }}"
+                   style="display: block; text-align: center; margin-top: 10px; font-size: 13px; color: #8B6F47; text-decoration: none;">
+                    Clear All Filters
+                </a>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+</aside>
+        <!-- PRODUCTS GRID -->
+        <div class="product-grid">
+            {% for product in products %}
+                <a href="{% url 'product_detail' product.id %}" class="product-card-link">
+                    <div class="product-card">
+                        <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
+                        <div class="product-info">
+                            <div>
+                                <h3 class="product-name">{{ product.name }}</h3>
+                                {% if product.offer_price %}
+                                    <p class="product-price">
+                                        ₹{{ product.offer_price }}
+                                        <span style="text-decoration:line-through; color:#999; font-size:0.9rem;">
+                                            ₹{{ product.price }}
+                                        </span>
+                                    </p>
+                                {% else %}
+                                    <p class="product-price">₹{{ product.price }}</p>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        {% empty %}
-            <p style="grid-column:1/-1; text-align:center;">
-                No products found for your search.
-            </p>
-        {% endfor %}
+                </a>
+            {% empty %}
+                <p style="grid-column:1/-1; text-align:center;">
+                    No products found for your search.
+                </p>
+            {% endfor %}
+        </div>
+
     </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <!-- Contact Information -->
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City, DC 12345</p>
-                <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
-                <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
-            </div>
-            
-            <!-- Quick Links -->
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <a href="{% url 'aboutus' %}">About Us</a>
-                <a href="{% url 'faq' %}">FAQ</a>
-                <a href="{% url 'privacy' %}">Privacy Policy</a>
-            </div>
-            
-            <!-- Social Media -->
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <div class="social-icons">
-                    <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
-                    <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
-                    <a href="#" title="Pinterest"><i class="bi bi-pinterest"></i></a>
-                </div>
-            </div>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>HOUSE BLOOM</h3>
+            <p>Premium home decor crafted to elevate your space. Quality design, timeless style.</p>
         </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 HOME BLOOM. All Rights Reserved. | Designed with <i class="bi bi-heart-fill" style="color: #d4af37;"></i></p>
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p>123 Decor Street, Design City</p>
+            <p>+1 (555) 123-4567</p>
+            <p>info@homebloom.com</p>
         </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <a href="{% url 'aboutus' %}">About Us</a>
+            <a href="{% url 'faq' %}">FAQ</a>
+            <a href="{% url 'privacy' %}">Privacy Policy</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 HOUSE BLOOM • All Rights Reserved</p>
     </div>
 </footer>
 

@@ -238,7 +238,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             min-height: 450px;
-
+            position: relative;
             display: flex;
             flex-direction: column;
         }
@@ -247,7 +247,9 @@
             transform: translateY(-5px);
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
         }
-        
+        .product-card:hover .wishlist-form {
+    opacity: 1;       
+}
         .product-image {
             width: 100%;
             height: 250px;
@@ -284,57 +286,57 @@
         }
         
         /* ===== FOOTER SECTION ===== */
-        .footer {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 50px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-        
-        .footer-section h4 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-        }
-        
-        .footer-section p,
-        .footer-section a {
-            color: #ddd;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        .footer-section a:hover {
-            color: var(--accent-color);
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .social-icons a {
-            color: #fff;
-            transition: color 0.3s ease;
-        }
-        
-        .social-icons a:hover {
-            color: var(--accent-color);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
+       .footer {
+    background: #8B6F47;
+    color: #ddd;
+    padding-top: 50px;
+    font-family: 'Georgia', serif;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 20px 40px;
+}
+
+.footer-section {
+    flex: 1 1 250px;
+    margin: 15px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-section a {
+    display: block;
+    color: #bbb;
+    text-decoration: none;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.footer-section a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    text-align: center;
+    padding: 15px;
+    font-size: 13px;
+    color: #aaa;
+}
         
         /* ===================== SHOP LAYOUT ===================== */
         .shop-layout {
@@ -439,18 +441,11 @@
             .product-grid { grid-template-columns: 1fr; }
         }
 
-        .account-dropdown { position:relative; list-style:none; }
-        .account-menu {
-            position:absolute; top:120%; right:0; background:#8B6F47; min-width:180px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.15); border-radius:13px; padding:5px 0;
-            opacity:0; visibility:hidden; transform:translateY(10px); transition:all 0.3s ease; z-index:9999;
-        }
         .account-dropdown {
     position: relative;
     list-style: none;
 }
 
-/* dropdown box */
 .account-menu {
     position: absolute;
     top: 120%;
@@ -460,11 +455,6 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     border-radius: 14px;
     padding: 5px 0;
-
-    /* IMPORTANT */
-    list-style: none;
-    margin: 0;
-
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
@@ -472,7 +462,6 @@
     z-index: 9999;
 }
 
-/* show on hover */
 .account-dropdown:hover .account-menu {
     opacity: 1;
     visibility: visible;
@@ -485,21 +474,30 @@
 
 .account-menu a {
     display: block;
-    padding: 8px 15px;
+    padding: 5px 10px;
     color: white;
     text-decoration: none;
     font-size: 14px;
 }
 
 .account-menu a:hover {
-    background: rgba(255,255,255,0.1);
+    background: #f5f5f5;
 }
 
-/* divider */
 .account-menu .divider {
     height: 1px;
-    background: rgba(255,255,255,0.3);
+    background: #e5e5e5;
     margin: 8px 0;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    color: white;
+    margin-left: 12px;
+    cursor: pointer;
+    font: inherit;
 }
 
         .nav-search { position: relative; display: flex; align-items: center; }
@@ -508,7 +506,6 @@
         .search-form { width: 0; overflow: hidden; transition: width 0.3s ease; margin-left: 8px; }
         .search-form input { width: 180px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; }
         #search-toggle:checked ~ .search-form { width: 180px; }
-        .logout-btn { background: none; border: none; padding: 8px 15px; color:white; width: 100%; text-align: left; cursor: pointer; font: inherit; }
         .product-card-link { display: block; text-decoration: none; color: inherit; }
 
 
@@ -518,6 +515,8 @@
     top: 12px;
     left: 12px;
     z-index: 10;
+    opacity: 0;              /* ✅ hidden by default */
+    transition: opacity 0.3s ease;  /* ✅ smooth fade */
 }
 
 /* DEFAULT: white heart */
@@ -704,32 +703,32 @@
                 </ul>
 
             <ul class="icon-nav-items">
-                 <li class="account-dropdown">
+<li class="account-dropdown">
     <a href="#" title="Account">
         <i class="bi bi-person"></i>
     </a>
 
-     <ul class="account-menu">
-    {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}">Profile</a></li>
-        <li><a href="{% url 'order' %}">My Orders</a></li>
-        <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-        <li><a href="{% url 'notifications' %}">Notifications</a></li>
-        <li class="divider"></li>
-
-        <li>
-            <form method="post" action="{% url 'userlogout' %}">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">
-                    Logout
-                </button>
-            </form>
-        </li>
-    {% else %}
-        <li><a href="{% url 'login' %}">Login</a></li>
-    {% endif %}
-</ul>
+    <ul class="account-menu">
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'order' %}">My Orders</a></li>
+            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+            <li><a href="{% url 'notifications' %}">Notifications</a></li>
+            <li class="divider"></li>
+            <li>
+                <form method="post" action="{% url 'userlogout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">
+                        Logout
+                    </button>
+                </form>
+            </li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+    </ul>
 </li>
+
                        <li class="nav-search">
   <input type="checkbox" id="search-toggle">
 
@@ -886,41 +885,39 @@
     </section>
 
 <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <!-- Contact Information -->
-                <div class="footer-section">
-                    <h4>Contact Us</h4>
-                    <p><i class="bi bi-geo-alt"></i> 123 Decor Street, Design City, DC 12345</p>
-                    <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
-                    <p><i class="bi bi-envelope"></i> info@homebloom.com</p>
-                </div>
-                
-                <!-- Quick Links -->
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <a href="{%url 'aboutus'%}">About Us</a>
-                    <a href="{%url 'faq'%}">FAQ</a>
-                    <a href="{%url 'privacy'%}">Privacy Policy</a>
-                </div>
-                
-                <!-- Social Media -->
-                <div class="footer-section">
-                    <h4>Follow Us</h4>
-                    <div class="social-icons">
-                        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="#" title="Pinterest"><i class="bi bi-pinterest"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 HOME BLOOM. All Rights Reserved. | Designed with <i class="bi bi-heart-fill" style="color: #d4af37;"></i></p>
-            </div>
+    <div class="footer-container">
+        
+        <!-- Brand / About -->
+        <div class="footer-section">
+            <h3>HOUSE BLOOM</h3>
+            <p>
+                Premium home decor crafted to elevate your space.
+                Quality design, timeless style.
+            </p>
         </div>
-    </footer>
+
+        <!-- Contact -->
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p>123 Decor Street, Design City</p>
+            <p>+1 (555) 123-4567</p>
+            <p>info@homebloom.com</p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <a href="{% url 'aboutus' %}">About Us</a>
+            <a href="{% url 'faq' %}">FAQ</a>
+            <a href="{% url 'privacy' %}">Privacy Policy</a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 HOUSE BLOOM • All Rights Reserved</p>
+    </div>
+</footer>
     
 </body>
 </html>

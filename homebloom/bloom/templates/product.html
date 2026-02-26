@@ -35,16 +35,16 @@
     height: auto;
 }
 
-        /* ===== COMBINED NAVIGATION BAR ===== */
+            /* ===== COMBINED NAVIGATION BAR ===== */
         .combined-navbar {
-            background-color: #8B6F47;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            transition: all 0.3s ease;
-        }
+        background-color: #8B6F47;
+        padding: 20px 0;   /* change from 20px to 15px */
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        transition: all 0.3s ease;
+    }
         
         .navbar-content {
             display: flex;
@@ -64,6 +64,7 @@
             padding: 0;
             flex-wrap: wrap;
             flex: 1;
+            margin-left:60px;
         }
         
         .category-nav-items a {
@@ -84,27 +85,28 @@
         
         
         /* Icon Links */
-        .icon-nav-items {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 25px;
-            list-style: none;
-            margin-right: 55px;
-            padding: 0;
-        }
-        
-        .icon-nav-items a {
-            color: #fff;
-            font-size: 1.4rem;
-            transition: color 0.3s ease, transform 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .icon-nav-items a:hover {
-            color: var(--accent-color);
-            transform: scale(1.1);
-        }
+.icon-nav-items {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 25px;
+    list-style: none;
+    margin: 0;       /* ← remove the margin-right: 55px */
+    padding: 0;
+    margin-right:170px;
+}
+
+.icon-nav-items a {
+    color: #fff;
+    font-size: 1.4rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+}
+
+.icon-nav-items a:hover {
+    color: var(--accent);
+    transform: scale(1.1);
+}
         /* ===== DROPDOWN MEGA MENU ===== */
         .category-nav-items li {
             position: relative;
@@ -157,7 +159,7 @@
         }
         
         .mega-menu-column ul li {
-            margin-bottom: 14px;
+            margin-bottom: 8px;
         }
         
         .mega-menu-column ul li a {
@@ -424,55 +426,64 @@
     border-color:#8B6F47;
 }
 
-.account-dropdown{
-position:relative;
-list-style:none;
+        .account-dropdown {
+    position: relative;
+    list-style: none;
 }
 
-/* menu */
-.account-menu{
-position:absolute;
-top:120%;
-right:0;
-background:#8B6F47;
-min-width:180px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-border-radius:13px;
-padding:5px 0;
-opacity:0;
-visibility:hidden;
-transform:translateY(10px);
-transition:all 0.3s ease;
-z-index:9999;
+.account-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background: #8B6F47;
+    min-width: 180px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 14px;
+    padding: 5px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 9999;
 }
 
-/* show on hover */
-.account-dropdown:hover .account-menu{
-opacity:1;
-visibility:visible;
-transform:translateY(0);
+.account-dropdown:hover .account-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
-.account-menu li{
-list-style:none;
+.account-menu li {
+    list-style: none;
 }
 
-.account-menu a{
-display:block;
-padding:5px 10px;
-color:whtie;
-text-decoration:none;
-font-size:14px;
+.account-menu a {
+    display: block;
+    padding: 5px 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
 }
 
-.account-menu a:hover{
-background:#f5f5f5;
+.account-menu a:hover {
+    background: #f5f5f5;
 }
 
-.account-menu .divider{
-height:1px;
-background:#e5e5e5;
-margin:8px 0;}
+.account-menu .divider {
+    height: 1px;
+    background: #e5e5e5;
+    margin: 8px 0;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    color: white;
+    margin-left: 12px;
+    cursor: pointer;
+    font: inherit;
+}
 .view-btn{
     display: inline-block;
     margin-top: 10px;
@@ -645,57 +656,63 @@ border-radius:6px;
     color:#3f3007;
     text-decoration:underline;
 }
+/* ===== FOOTER SECTION ===== */
+               .footer {
+    background: #8B6F47;
+    color: #ddd;
+    padding-top: 50px;
+    font-family: 'Georgia', serif;
+    margin-top:50px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 20px 40px;
+}
+
+.footer-section {
+    flex: 1 1 250px;
+    margin: 15px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-section a {
+    display: block;
+    color: #bbb;
+    text-decoration: none;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.footer-section a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    text-align: center;
+    padding: 15px;
+    font-size: 13px;
+    color: #aaa;
+}
     </style>
 </head>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    function showToast(message) {
-        let toast = document.createElement("div");
-        toast.innerText = message;
-        toast.style.position = "fixed";
-        toast.style.top = "100px";
-        toast.style.right = "30px";
-        toast.style.background = "#3f3007";
-        toast.style.color = "#fff";
-        toast.style.padding = "14px 20px";
-        toast.style.borderRadius = "10px";
-        toast.style.fontWeight = "600";
-        toast.style.zIndex = "99999";
-        toast.style.boxShadow = "0 10px 25px rgba(0,0,0,0.25)";
-        document.body.appendChild(toast);
 
-        setTimeout(() => toast.remove(), 2000);
-    }
-
-    const btn = document.querySelector(".add-to-cart");
-    if (!btn) return;
-
-    btn.addEventListener("click", function (e) {
-        e.preventDefault();
-
-        const productId = this.dataset.productId;
-
-        fetch("{% url 'add_to_cart_ajax' %}", {
-            method: "POST",
-            headers: {
-                "X-CSRFToken": "{{ csrf_token }}",
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: `product_id=${productId}`
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === "success") {
-                showToast("Added to cart");
-                btn.innerText = "Already in Cart";
-                btn.disabled = true;
-            }
-        });
-    });
-
-});
-</script>
 
 <body>
 
@@ -710,10 +727,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="container">
         <div class="navbar-content">
 
-            <!-- CATEGORY NAV -->
             <ul class="category-nav-items">
-
-                <!-- Furniture -->
                 <li>
                     <a href="{% url 'furniture' %}">Furniture</a>
                     <div class="dropdown-mega-menu">
@@ -747,7 +761,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </li>
 
-                <!-- Wall Decor -->
                 <li>
                     <a href="{% url 'walldecor' %}">Wall Decor</a>
                     <div class="dropdown-mega-menu">
@@ -765,114 +778,114 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </li>
 
-                <!-- Kitchen -->
                 <li>
                     <a href="{% url 'kitchen' %}">Kitchen & Dining</a>
                     <div class="dropdown-mega-menu">
                         <div class="mega-menu-content">
                             <div class="mega-menu-column">
-                            <h4>Dinnerware</h4>
-                                    <ul>
-                                        <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
-                                        <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
-                                        <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu-column">
-                                    <h4>Serveware</h4>
-                                    <ul>
-                                        <li><a href="{%url 'kitchen'%}?sub_id=21">Serving Bowls</a></li>
-                                        <li><a href="{%url 'kitchen'%}?sub_id=22">Serving Trays</a></li>
-                                        <li><a href="{%url 'kitchen'%}?sub_id=23">Platters & Stands</a></li>
-                                    </ul>
+                                <h4>Dinnerware</h4>
+                                <ul>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Serveware</h4>
+                                <ul>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </li>
 
-                <!-- Lighting -->
                 <li>
                     <a href="{% url 'lighting' %}">Lighting</a>
                     <div class="dropdown-mega-menu">
                         <div class="mega-menu-content">
                             <div class="mega-menu-column">
                                 <h4>Lighting</h4>
-                                    <ul>
-                                        <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
-                                        <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
-                                        <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
-                                        <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
-                                    </ul>
+                                <ul>
+                                    <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </li>
 
-                <!-- Accessories -->
-                <li><a href="{%url 'bath'%}">Accessoriesr</a>
-                 <div class="dropdown-mega-menu">
-                            <div class="mega-menu-content">
-                                <div class="mega-menu-column">
-                                    <h4>Accessories</h4>
-                                    <ul>
-                                        <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
-                                        <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
-                                        <li><a href="{% url 'bath' %}?sub_id=32">Planters &Pots</a></li>
-                                        <li><a href="{% url 'bath' %}?sub_id=33">Decor objects & Sculptures</a></li>
-                                    </ul>
-                                </div>
+                <li>
+                    <a href="{% url 'bath' %}">Accessories</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Accessories</h4>
+                                <ul>
+                                    <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=33">Decor objects & Sculptures</a></li>
+                                </ul>
                             </div>
                         </div>
-                    </li>
+                    </div>
+                </li>
             </ul>
 
-            <!-- RIGHT ICONS -->
             <ul class="icon-nav-items">
-                     <li class="account-dropdown">
-    <a href="#" title="Account">
-        <i class="bi bi-person"></i>
-    </a>
 
-     <ul class="account-menu">
-    {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}">Profile</a></li>
-        <li><a href="{% url 'order' %}">My Orders</a></li>
-        <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-        <li class="divider"></li>
+                <!-- ACCOUNT -->
+                <li class="account-dropdown">
+                    <a href="#" title="Account">
+                        <i class="bi bi-person"></i>
+                    </a>
+                    <ul class="account-menu">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'profile' %}">Profile</a></li>
+                            <li><a href="{% url 'order' %}">My Orders</a></li>
+                            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                            <li><a href="{% url 'notifications' %}">Notifications</a></li>
+                            <li class="divider"></li>
+                            <li>
+                                <form method="post" action="{% url 'userlogout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-btn">Logout</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
 
-        <li>
-            <form method="post" action="{% url 'userlogout' %}">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">
-                    Logout
-                </button>
-            </form>
-        </li>
-    {% else %}
-        <li><a href="{% url 'login' %}">Login</a></li>
-    {% endif %}
-</ul>
-</li>
-                       <li class="nav-search">
-  <input type="checkbox" id="search-toggle">
+                <!-- SEARCH -->
+                <li class="nav-search">
+                    <input type="checkbox" id="search-toggle">
+                    <label for="search-toggle" class="search-icon" title="Search">
+                        <i class="bi bi-search"></i>
+                    </label>
+                    <form action="{% url 'search' %}" method="get" class="search-form">
+                        <input type="text" name="q" placeholder="Search..." />
+                    </form>
+                </li>
 
-  <label for="search-toggle" class="search-icon" title="Search">
-    <i class="bi bi-search"></i>
-  </label>
+                <!-- CART -->
+                <li>
+                    <a href="{% url 'cart' %}" title="Cart">
+                        <i class="bi bi-cart3"></i>
+                    </a>
+                </li>
 
-<form action="{% url 'search' %}" method="get" class="search-form">
-    <input type="text" name="q" placeholder="Search..." />
-</form>
-</li>
-
-
-                    <li><a href="{%url 'cart'%}" title="Cart"><i class="bi bi-cart3"></i></a></li>
-                </ul>
+            </ul>
 
         </div>
     </div>
 </nav>
-
                 
 
 <!-- PRODUCT -->
@@ -1085,9 +1098,40 @@ Submit Review
     </div>
 </section>
 
-<footer>
-    © 2025 HOME BLOOM
-</footer>
+<footer class="footer">
+    <div class="footer-container">
+        
+        <!-- Brand / About -->
+        <div class="footer-section">
+            <h3>HOUSE BLOOM</h3>
+            <p>
+                Premium home decor crafted to elevate your space.
+                Quality design, timeless style.
+            </p>
+        </div>
 
+        <!-- Contact -->
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p>123 Decor Street, Design City</p>
+            <p>+1 (555) 123-4567</p>
+            <p>info@homebloom.com</p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <a href="{% url 'aboutus' %}">About Us</a>
+            <a href="{% url 'faq' %}">FAQ</a>
+            <a href="{% url 'privacy' %}">Privacy Policy</a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 HOUSE BLOOM • All Rights Reserved</p>
+    </div>
+</footer>
+    
 </body>
 </html>

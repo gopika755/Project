@@ -120,7 +120,6 @@ body{
 
 <div class="payment-container">
 
-<!-- COUPONS -->
 <div class="box">
 <h2>Available Coupons</h2>
 
@@ -154,7 +153,6 @@ Apply
 {% endif %}
 </div>
 
-<!-- MAIN ORDER FORM -->
 <form method="post" action="{% url 'place_order' %}">
 {% csrf_token %}
 

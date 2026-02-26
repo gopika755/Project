@@ -3,47 +3,71 @@ from bloom import views
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
+    #CATEGORY
     path('',views.home,name='home'),
     path('furniture',views.furniture,name='furniture'),
     path('walldecor',views.walldecor,name='walldecor'),
     path('kitchen/',views.kitchen,name='kitchen'),
     path('lighting',views.lighting,name='lighting'),
     path('bath',views.bath,name='bath'),
+    
+    
+    #AUTHENTICATION
     path('login/',views.login_view,name='login'),
     path('signup',views.signup_view,name='signup'),
     path('forgot',views.forgot,name='forgot'),
     path("verify-otp/", views.verify_otp, name="verify_otp"),
     path("reset-password/", views.reset_password, name="reset_password"),
     path("password-changed/", views.password_changed, name="password_changed"),
+    
+    
+    #PROFILE
     path('profile/',views.profile,name='profile'),
     path("profile/edit/", views.editprofile, name="edit_profile"),
+    path("addaddress/", views.addaddress, name="addaddress"),
+    path("address/delete/<int:id>/", views.delete_address, name="delete_address"),
+    path("address/edit/<int:id>/", views.editaddress, name="edit_address"),
+    
+    
+    #ORDER
     path('order',views.order,name='order'),
     path("order-success/", views.ordersuccess, name="ordersuccess"),
     path("admin/order/<int:order_id>/status/",views.update_order_status,name="update_order_status"),
     path("detail/<int:id>/", views.detail, name="detail"),
     path("invoice/<int:id>/",views.download_invoice,name="download_invoice"),
-    path('adminorder',views.adminorder,name='adminorder'),
     path("orders/<int:order_id>/status/",views.update_order_status, name="update_order_status"),
-    path('address/add/', views.addaddress, name='addaddress'),
-    path("address/delete/<int:id>/", views.delete_address, name="delete_address"),
-    path("address/edit/<int:id>/", views.editaddress, name="edit_address"),
+    
+    
+    #CART
+    path("cart/", views.cart, name="cart"),
+    path("cart/remove/<int:item_id>/", views.remove_cart_item, name="remove_cart_item"),
+    path("update-cart/<int:item_id>/",views.update_cart_quantity,name="update_cart_quantity"),
+    
+    #WISHLIST
     path('wishlist',views.wishlist,name='wishlist'),
     path('wishlist/toggle/<int:product_id>/', views.toggle_wishlist, name='toggle_wishlist'),
     path('wishlist/move-to-cart/<int:wishlist_id>/', views.move_to_cart, name='move_to_cart'),
-    path("cart/", views.cart, name="cart"),
-    path("cart/remove/<int:item_id>/", views.remove_cart_item, name="remove_cart_item"),
-    path("cart/update-quantity/",views.update_cart_quantity,name="update_cart_quantity"),
-    path("cart/remove/",views.remove_cart_item_ajax,name="remove_cart_item_ajax"),
-    path("cart/add/",views.add_to_cart_ajax,name="add_to_cart_ajax"),
+    
+    
+    #ADMIN
+    #--ORDER--#
+    path('adminorder',views.adminorder,name='adminorder'),
+    
+    
+    #--PRODUCT--#
+    path('adminproduct/',views.adminproduct,name='adminproduct'),
+    path("productedit/<int:pk>/", views.productedit, name="productedit"),
+    path('product/toggle/<int:id>/', views.product_toggle_status, name='product_toggle'),
+    
+    
+    
     path('checkout',views.checkout,name='checkout'),
     path('faq',views.faq,name='faq'),
     path('parivacy',views.privacy,name='privacy'),
     path('aboutus',views.aboutus,name='aboutus'),
     path("product/<int:pk>/", views.product, name="product"),
     path('admindashboard/',views.admindashboard,name='admindashboard'),
-    path('adminproduct/',views.adminproduct,name='adminproduct'),
-    path("productedit/<int:pk>/", views.productedit, name="productedit"),
-    path('product/toggle/<int:id>/', views.product_toggle_status, name='product_toggle'),
+    
     path('admincutomer/',views.admincustomer,name='admincustomer'),
     path("dashboard/customers/delete/<int:user_id>/", views.delete_customer, name="delete_customer"),  
     path("customer/block/<int:user_id>/", views.toggle_customer_block, name="toggle_customer_block"), 
@@ -71,17 +95,5 @@ urlpatterns = [
     path("adminnotifications/",views.adminnotifications,name="adminnotifications"),
     path("notification/delete/<int:id>/",views.delete_notification,name="delete_notification"),
     path("apply-coupon/", views.apply_coupon, name="apply_coupon"),
-
-
-
-
-
-
-
-    
-
-
-
-
 
 ]
