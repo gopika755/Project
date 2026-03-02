@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-q$w86i8qdmceeosii3a&pt0=z!wg0rilhgfuvah3=1dm#$#%6t'
-
+SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -83,12 +83,14 @@ WSGI_APPLICATION = 'homebloom.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
@@ -119,8 +121,8 @@ AUTHENTICATION_BACKENDS = (
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': '326012555796-89p3kl8433t5mu2rs5hv98q7fhtavdd8.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id': config('GOOGLE_CLIENT_ID'),
+            'secret': config('GOOGLE_CLIENT_SECRET'),
             'key': ''
         },
         'SCOPE': [
@@ -179,15 +181,14 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = "homebloom07@gmail.com"
-EMAIL_HOST_PASSWORD = "fmwy lzjz ytyi jwhx"
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 TIME_ZONE = 'Asia/Kolkata'
 USE_TZ = True
-STRIPE_SECRET_KEY = "sk_test_51SuD71AKkZMrj1BJeGT6GusdejPQtKSfd6ubqm8Oxw8YfpriLfb2l4KElglkSIORxG0uLYXLNfcd1AQ1sZoujqsF00UlzuRei2"
-STRIPE_PUBLISHABLE_KEY = "pk_test_51SuD71AKkZMrj1BJpHVkpT0zfg5VfBi5OFWgFOire1BOafDJlUHbDXnevwts7TYvfhJFEnSnKkNRZdLU9laoc2q800nEXNbwVU"
-
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 

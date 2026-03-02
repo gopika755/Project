@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+env/
+venv/
+
+# Environment variables
+.env
+
+# SQLite (if exists)
+db.sqlite3
+
+# Media files
+media/
+
+# Static files (if collected)
+staticfiles/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store

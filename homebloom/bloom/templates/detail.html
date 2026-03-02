@@ -2,181 +2,341 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Details | HOUSE BLOOM</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <style>
-        body{
-            background:#e4d1bbff;
-            font-family: Georgia, serif;
+        /* ===== GLOBAL ===== */
+        :root {
+            --primary: #8B6F47;
+            --accent: #3f3007;
+            --bg: #e4d1bbff;
         }
-        .container{
-            max-width:1200px;
-            margin:40px auto;
-            background:#fff;
-            padding:30px;
-            border-radius:8px;
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            font-family: 'Georgia', serif;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
         }
-        .back{
-            display:inline-block;
-            margin-bottom:20px;
-            text-decoration:none;
-            font-weight:600;
-            color:#3f3007ff;
+
+        /* ===== PAGE WRAPPER ===== */
+        .page-wrapper {
+            max-width: 860px;
+            margin: 40px auto;
+            padding: 0 16px 60px;
         }
-        .header{
-            display:flex;
-            justify-content:space-between;
-            border-bottom:2px solid #eee;
-            padding-bottom:20px;
+
+        /* ===== BACK LINK ===== */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 15px;
+            transition: color 0.2s;
         }
-        .status{
-            padding:8px 20px;
-            border-radius:20px;
-            font-weight:600;
-            text-transform:uppercase;
+        .back-link:hover { color: var(--primary); }
+        .back-link i { font-size: 1rem; }
+
+        /* ===== CARD ===== */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-bottom: 20px;
         }
-        .status.pending{background:#fff3cd;}
-        .status.delivered{background:#d1e7dd;}
-        .items{
-            margin-top:30px;
+
+        .card-body { padding: 28px; }
+
+        /* ===== ORDER HEADER ===== */
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            flex-wrap: wrap;
         }
-        .item{
-            display:flex;
-            gap:20px;
-            border-bottom:1px solid #eee;
-            padding:20px 0;
+
+        .order-id {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .item img{
-            width:120px;
-            height:120px;
-            object-fit:cover;
-            border-radius:8px;
+        .order-id i { color: var(--primary); }
+
+        .order-date {
+            font-size: 13px;
+            color: #777;
+            margin-top: 6px;
         }
-        .price{
-            font-weight:700;
+
+        .status-badge {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            white-space: nowrap;
         }
-        .summary{
-            margin-top:30px;
-            background:#f9f9f9;
-            padding:20px;
-            border-radius:8px;
+        .status-badge.pending   { background: #fff3cd; color: #856404; }
+        .status-badge.confirmed { background: #cce5ff; color: #004085; }
+        .status-badge.shipped   { background: #d4edda; color: #155724; }
+        .status-badge.delivered { background: #d1e7dd; color: #0f5132; }
+        .status-badge.cancelled { background: #f8d7da; color: #721c24; }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 20px 28px 14px;
+            border-bottom: 1px solid #f0e8df;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .row{
-            display:flex;
-            justify-content:space-between;
-            padding:8px 0;
+
+        /* ===== ORDER ITEMS ===== */
+        .item {
+            display: flex;
+            gap: 20px;
+            padding: 20px 28px;
+            border-bottom: 1px solid #f5f0ea;
+            align-items: flex-start;
+            transition: background 0.2s;
         }
-        .total{
-            font-size:1.3rem;
-            font-weight:700;
+        .item:last-child { border-bottom: none; }
+        .item:hover { background: #fdfaf7; }
+
+        .item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+            border: 1px solid #eee;
         }
-        .download{
-            display:inline-block;
-            margin-top:20px;
-            padding:12px 20px;
-            background:#8b7355;
-            color:#fff;
-            text-decoration:none;
-            border-radius:6px;
-            font-weight:600;
+
+        .item-details { flex: 1; min-width: 0; }
+
+        .item-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .item-meta {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 6px;
+        }
+
+        .item-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* ===== INVOICE SUMMARY ===== */
+        .invoice-body { padding: 20px 28px; }
+
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f0ea;
+            font-size: 14px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .invoice-row:last-child { border-bottom: none; }
+        .invoice-row span { color: #555; }
+        .invoice-row strong { color: #333; text-align: right; }
+
+        .invoice-row.discount strong { color: #2d7a2d; }
+
+        .invoice-divider {
+            border: none;
+            border-top: 2px solid #f0e8df;
+            margin: 8px 0;
+        }
+
+        .invoice-row.total {
+            padding-top: 16px;
+            margin-top: 4px;
+        }
+        .invoice-row.total span,
+        .invoice-row.total strong {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* ===== DOWNLOAD BUTTON ===== */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 28px 28px;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.25s, transform 0.2s;
+        }
+        .download-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .download-btn i { font-size: 1rem; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .page-wrapper { margin: 20px auto; }
+            .card-body { padding: 20px 16px; }
+            .section-title { padding: 16px 16px 12px; }
+            .item { padding: 16px; gap: 14px; }
+            .item img { width: 80px; height: 80px; }
+            .item-name { font-size: 0.9rem; }
+            .item-price { font-size: 1rem; }
+            .invoice-body { padding: 14px 16px; }
+            .download-btn { margin: 0 16px 20px; width: calc(100% - 32px); justify-content: center; }
+            .order-id { font-size: 1.1rem; }
+            .invoice-row { font-size: 13px; }
+            .invoice-row.total span,
+            .invoice-row.total strong { font-size: 1.1rem; }
+        }
+
+        @media (max-width: 400px) {
+            .item { flex-direction: column; align-items: flex-start; }
+            .item img { width: 100%; height: 200px; border-radius: 8px; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="page-wrapper">
 
     <!-- BACK -->
-    <a href="{% url 'order' %}" class="back">
+    <a href="{% url 'order' %}" class="back-link">
         <i class="bi bi-arrow-left"></i> Back to Orders
     </a>
 
     <!-- ORDER HEADER -->
-    <div class="header">
-        <div>
-            <h2>
-                <i class="bi bi-bag-check"></i>
-                {{ order.order_id }}
-            </h2>
-            <p>Placed on {{ order.created_at|date:"d M Y, h:i A" }}</p>
+    <div class="card">
+        <div class="card-body">
+            <div class="order-header">
+                <div>
+                    <div class="order-id">
+                        <i class="bi bi-bag-check"></i>
+                        {{ order.order_id }}
+                    </div>
+                    <p class="order-date">Placed on {{ order.created_at|date:"d M Y, h:i A" }}</p>
+                </div>
+                <span class="status-badge {{ order.status }}">{{ order.status|title }}</span>
+            </div>
         </div>
-
-        <span class="status {{ order.status }}">
-            {{ order.status|title }}
-        </span>
     </div>
 
-    <!-- ITEMS -->
-    <div class="items">
-        <h3><i class="bi bi-box-seam"></i> Items</h3>
+    <!-- ORDER ITEMS -->
+    <div class="card">
+        <div class="section-title">
+            <i class="bi bi-box-seam"></i> Items
+        </div>
 
         {% for item in order.items.all %}
         <div class="item">
             <img src="{{ item.product.image1.url }}" alt="{{ item.product.name }}">
-            <div>
-                <h4>{{ item.product.name }}</h4>
-                <p>Quantity: {{ item.quantity }}</p>
-                <p class="price">₹ {{ item.price }}</p>
+            <div class="item-details">
+                <h4 class="item-name">{{ item.product.name }}</h4>
+                <p class="item-meta">Quantity: {{ item.quantity }}</p>
+                <p class="item-price">₹ {{ item.price }}</p>
             </div>
         </div>
         {% empty %}
-        <p>No items found.</p>
+        <div style="padding:24px;text-align:center;color:#888;">No items found.</div>
         {% endfor %}
     </div>
 
-    <!-- INVOICE -->
-    <div class="summary">
-        <h3><i class="bi bi-receipt"></i> Invoice</h3>
-
-        <div class="row">
-            <span>Order Date</span>
-            <strong>{{ order.created_at|date:"d M Y, h:i A" }}</strong>
+    <!-- INVOICE SUMMARY -->
+    <div class="card">
+        <div class="section-title">
+            <i class="bi bi-receipt"></i> Invoice Summary
         </div>
 
-        <div class="row">
-            <span>Payment Method</span>
-            <strong>{{ order.payment_method|upper }}</strong>
+        <div class="invoice-body">
+
+            <div class="invoice-row">
+                <span>Order Date</span>
+                <strong>{{ order.created_at|date:"d M Y, h:i A" }}</strong>
+            </div>
+
+            <div class="invoice-row">
+                <span>Payment Method</span>
+                <strong>{{ order.payment_method|upper }}</strong>
+            </div>
+
+            <div class="invoice-row">
+                <span>Status</span>
+                <strong>{{ order.status|title }}</strong>
+            </div>
+
+            <hr class="invoice-divider">
+
+            {% if order.coupon_code %}
+            <div class="invoice-row">
+                <span>Coupon Applied</span>
+                <strong>{{ order.coupon_code }}</strong>
+            </div>
+            <div class="invoice-row discount">
+                <span>Discount</span>
+                <strong>− ₹ {{ order.discount_amount }}</strong>
+            </div>
+            {% endif %}
+
+            {% for item in order.items.all %}
+            <div class="invoice-row">
+                <span>{{ item.product.name }} × {{ item.quantity }}</span>
+                <strong>₹ {{ item.price }}</strong>
+            </div>
+            {% endfor %}
+
+            <hr class="invoice-divider">
+
+            <div class="invoice-row total">
+                <span>Total</span>
+                <strong>₹ {{ order.total }}</strong>
+            </div>
+
         </div>
 
-        <div class="row">
-            <span>Status</span>
-            <strong>{{ order.status|title }}</strong>
-        </div>
-
-        <hr>
-        {% if order.coupon_code %}
-<div class="row">
-    <span>Coupon Applied</span>
-    <strong>{{ order.coupon_code }}</strong>
-</div>
-
-<div class="row">
-    <span>Discount</span>
-    <strong>- ₹ {{ order.discount_amount }}</strong>
-</div>
-{% endif %}
-
-        {% for item in order.items.all %}
-        <div class="row">
-            <span>{{ item.product.name }} × {{ item.quantity }}</span>
-            <strong>₹ {{ item.price }}</strong>
-        </div>
-        {% endfor %}
-
-        <hr>
-
-        <div class="row total">
-            <span>Total</span>
-            <span>₹ {{ order.total }}</span>
-        </div>
+        <!-- DOWNLOAD -->
+        <a href="{% url 'download_invoice' order.id %}" class="download-btn">
+            <i class="bi bi-download"></i> Download Invoice
+        </a>
     </div>
-
-    <!-- DOWNLOAD -->
-    <a href="{% url 'download_invoice' order.id %}" class="download">
-        <i class="bi bi-download"></i> Download Invoice
-    </a>
 
 </div>
 
