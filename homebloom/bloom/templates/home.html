@@ -603,7 +603,7 @@
                         {% endif %}
 
                         <div class="col-md-4 col-6 d-flex mb-3 mb-md-0">
-                            <a href="{% url 'product_detail' product.id %}" class="card-link w-100">
+                            <a href="{% url 'product_detail' product.id product.slug %}" class="card-link">
                                 <div class="product-card w-100">
                                     <div class="product-image-wrapper">
                                         <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
@@ -641,14 +641,14 @@
         <div class="container">
             <h2 class="section-title">Best Sellers</h2>
             <div class="product-grid">
-                {% for product in best_sellers %}
-                    <a href="{% url 'product_detail' product.id %}" class="card-link">
-                        <div class="product-card">
-                            <div class="product-image-wrapper">
-                                <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
-                            </div>
-                            <div class="product-info">
-                                <h3 class="product-name">{{ product.name }}</h3>
+               {% for product in best_sellers %}
+<a href="{% url 'product_detail' product.id product.slug %}" class="card-link">
+    <div class="product-card">
+        <div class="product-image-wrapper">
+            <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
+        </div>
+        <div class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
                                 {% if product.offer_price %}
                                     <p class="product-price">₹{{ product.offer_price }}<span class="old-price">₹{{ product.price }}</span></p>
                                 {% else %}

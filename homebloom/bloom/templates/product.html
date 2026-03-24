@@ -682,23 +682,6 @@
         <h2 class="review-title">Customer Reviews</h2>
         <div class="avg-rating">⭐ Average Rating: <strong>{{ avg_rating|default:"No ratings yet" }}</strong></div>
 
-        {% if user.is_authenticated %}
-        <div class="review-form">
-            <form method="post" action="{% url 'add_review' product.id %}">
-                {% csrf_token %}
-                <select name="rating" required>
-                    <option value="">Rating</option>
-                    <option value="5" {% if user_review.rating == 5 %}selected{% endif %}>⭐⭐⭐⭐⭐</option>
-                    <option value="4" {% if user_review.rating == 4 %}selected{% endif %}>⭐⭐⭐⭐</option>
-                    <option value="3" {% if user_review.rating == 3 %}selected{% endif %}>⭐⭐⭐</option>
-                    <option value="2" {% if user_review.rating == 2 %}selected{% endif %}>⭐⭐</option>
-                    <option value="1" {% if user_review.rating == 1 %}selected{% endif %}>⭐</option>
-                </select>
-                <textarea name="comment" rows="4" placeholder="Write your review...">{{ user_review.comment }}</textarea>
-                <button type="submit">{% if user_review %}Update Review{% else %}Submit Review{% endif %}</button>
-            </form>
-        </div>
-        {% endif %}
 
         <div class="review-list">
             {% for review in reviews %}
@@ -719,16 +702,16 @@
     <!-- RELATED -->
     <div class="related">
         <h2>You May Also Like</h2>
-        <div class="related-grid">
-            {% for p in related_products %}
-            <div class="card">
-                <img src="{{ p.image1.url }}" alt="{{ p.name }}">
-                <h3>{{ p.name }}</h3>
-                <p>₹{{ p.price }}</p>
-                <a href="{% url 'product_detail' p.id %}">View</a>
-            </div>
-            {% endfor %}
-        </div>
+       <div class="related-grid">
+    {% for p in related_products %}
+    <div class="card">
+        <img src="{{ p.image1.url }}" alt="{{ p.name }}">
+        <h3>{{ p.name }}</h3>
+        <p>₹{{ p.price }}</p>
+        <a href="{% url 'product_detail' p.id p.slug %}">View</a>
+    </div>
+    {% endfor %}
+</div>
     </div>
 </section>
 

@@ -1026,17 +1026,17 @@ def place_order(request):
         return redirect(session.url)
 
     return redirect("checkout")
-
 @never_cache
 @staff_member_required(login_url='home')
 def update_order_status(request, order_id):
+
+    order = get_object_or_404(Order, id=order_id)
+
     if request.method == "POST":
-        order = get_object_or_404(Order, id=order_id)
         new_status = request.POST.get("status")
 
-        if new_status in dict(Order.STATUS_CHOICES):
-            order.status = new_status
-            order.save()
+        order.status = new_status
+        order.save()
 
     return redirect(request.META.get("HTTP_REFERER", "adminorder"))
 
@@ -1472,12 +1472,27 @@ def banner_add(request):
     })
     
 @never_cache
-def product_detail(request, id):
-    product = get_object_or_404(Product, id=id, is_active=True)
+def product_detail(request, id, slug):
+
+    product = get_object_or_404(Product, id=id, slug=slug, is_active=True)
+
+    related_products = Product.objects.filter(
+        category=product.category,
+        is_active=True
+    ).exclude(id=product.id)[:4]
+
+    # get reviews for this product
+    reviews = Review.objects.filter(product=product).select_related("user")
+
+    # calculate average rating
+    avg_rating = reviews.aggregate(avg=Avg("rating"))["avg"]
+
     return render(request, "product.html", {
-        "product": product
-    })  
-    
+        "product": product,
+        "related_products": related_products,
+        "reviews": reviews,
+        "avg_rating": round(avg_rating, 1) if avg_rating else None
+    })
 
 def search(request):
     query = request.GET.get("q", "").strip()
@@ -1610,6 +1625,31 @@ def delete_review(request, id):
     review.delete()
 
     return redirect(request.META.get("HTTP_REFERER", "/"))
+
+@login_required
+def submit_review(request, order_id):
+
+    if request.method == "POST":
+
+        product_id = request.POST.get("product_id")
+        rating = request.POST.get("rating")
+        comment = request.POST.get("review_text")
+
+        if not rating:
+            return redirect("order")  # prevent crash
+
+        product = Product.objects.get(id=product_id)
+
+        Review.objects.update_or_create(
+            user=request.user,
+            product=product,
+            defaults={
+                "rating": rating,
+                "comment": comment
+            }
+        )
+
+    return redirect("order")
     
 @staff_member_required
 def adminnotifications(request):

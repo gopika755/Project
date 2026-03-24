@@ -36,24 +36,36 @@ class SubCategory(models.Model):
     def __str__(self):
         return f"{self.category.name} - {self.name}"
     
+from django.utils.text import slugify
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, blank=True)
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     subcategory = models.ForeignKey(SubCategory,on_delete=models.SET_NULL,null=True,blank=True)
+
     price = models.DecimalField(max_digits=10, decimal_places=2)
     offer_price = models.DecimalField(max_digits=10, decimal_places=0, null=True, blank=True)
     quantity = models.IntegerField()
     offer = models.IntegerField(null=True, blank=True)
+
     description = models.TextField(blank=True,null=True)
-    
+
     image1 = models.ImageField(upload_to="products/")
     image2 = models.ImageField(upload_to="products/", null=True, blank=True)
     image3 = models.ImageField(upload_to="products/", null=True, blank=True)
     image4 = models.ImageField(upload_to="products/", null=True, blank=True)
+
     is_new = models.BooleanField(default=False)
     is_best_seller = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

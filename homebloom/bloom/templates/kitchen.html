@@ -828,14 +828,14 @@
                             <button type="submit" class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">♥</button>
                         </form>
 
-                        <a href="{% url 'product_detail' product.id %}">
-                            <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
-                        </a>
+                        <a href="{% url 'product_detail' product.id product.slug %}">
+                        <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
+                    </a>
 
-                        <div class="product-info">
-                            <a href="{% url 'product_detail' product.id %}" class="product-name-link">
-                                <h3 class="product-name">{{ product.name }}</h3>
-                            </a>
+                    <div class="product-info">
+                        <a href="{% url 'product_detail' product.id product.slug %}" class="product-name-link">
+                            <h3 class="product-name">{{ product.name }}</h3>
+                        </a>
                             <p class="product-price">
                                 {% if product.offer_price %}
                                     ₹{{ product.offer_price }}
