@@ -14,11 +14,6 @@ venv/
 # SQLite (if exists)
 db.sqlite3
 
-# Media files
-media/
-
-# Static files (if collected)
-staticfiles/
 
 # VS Code
 .vscode/
