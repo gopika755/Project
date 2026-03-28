@@ -25,15 +25,37 @@ User = get_user_model()
 
 #CATEGORY
 def home(request):
-    banners = Banner.objects.filter(page='home', is_active=True)
-    whats_new_products = Product.objects.filter(is_new=True,is_active=True).order_by("-created_at")[:6]
-    best_sellers = Product.objects.filter(is_best_seller=True,is_active=True).order_by("-created_at")[:8]
+    banners_qs = Banner.objects.filter(page='home', is_active=True)
+
+    # 🔥 Override DB images with your static ones
+    static_images = [
+        "banners/1.png",
+        "banners/2.png",
+        "banners/3.png",
+        "banners/4.png",
+    ]
+
+    banners = []
+    for i, banner in enumerate(banners_qs):
+        if i < len(static_images):
+            banner.image = static_images[i]
+        banners.append(banner)
+
+    whats_new_products = Product.objects.filter(
+        is_new=True, is_active=True
+    ).order_by("-created_at")[:6]
+
+    best_sellers = Product.objects.filter(
+        is_best_seller=True, is_active=True
+    ).order_by("-created_at")[:8]
 
     if request.user.is_authenticated:
         cart_count = Cart.objects.filter(user=request.user)\
             .aggregate(total=Sum("quantity"))["total"] or 0
 
-        notification_count = Notification.objects.filter(user=request.user,is_read=False).count()
+        notification_count = Notification.objects.filter(
+            user=request.user, is_read=False
+        ).count()
     else:
         cart_count = 0
         notification_count = 0

@@ -571,7 +571,6 @@
             </div>
             <div class="carousel-inner">
                 {% for banner in banners %}
-                <p>{{ banner.image }}</p>
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <img src="{% static 'images/' %}{{ banner.image }}" alt="{{ banner.title }}">
                         <div class="carousel-overlay">
