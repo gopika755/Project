@@ -308,7 +308,7 @@ def lighting(request):
     
 @never_cache
 def bath(request):
-    banner = Banner.objects.filter(page="bath", is_active=True).first()
+    banner = Banner.objects.filter(page="bath", is_active=True)
     products = Product.objects.filter(category__name__iexact="Accessories",is_active=True)
     sub_id = request.GET.get("sub_id")
     if sub_id:
