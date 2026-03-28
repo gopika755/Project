@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 {% load socialaccount %}
 <html lang="en">
@@ -189,7 +190,7 @@ body{
 
 <section class="logo-section">
     <a href="/">
-    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+    <img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo">
     </a>
 </section>
 <div class="auth-wrapper">

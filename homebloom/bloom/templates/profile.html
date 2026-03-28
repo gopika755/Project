@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -202,7 +203,7 @@
     <!-- LOGO -->
     <section class="logo-section">
         <a href="/">
-            <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+            <img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo">
         </a>
     </section>
 
@@ -214,7 +215,7 @@
             <div class="profile-header">
                 <div class="profile-image-wrapper">
                     <div class="profile-image">
-                        <img src="{{ profile.image.url }}" alt="Profile Image">
+                        <img src="{% static 'images/' %}{{ profile.image }}" alt="Profile Image">
                     </div>
                     <a href="{% url 'edit_profile' %}" class="edit-profile-btn">EDIT PROFILE</a>
                 </div>

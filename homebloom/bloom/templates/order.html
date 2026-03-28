@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -531,7 +532,7 @@ status-shipping {
     <!-- HEADER -->
     <section class="logo-section">
     <a href="/">
-    <img src="/media/logo1.png" alt="House Bloom Logo" class="logo">
+    <img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo">
     </a>
 </section>
 
@@ -570,7 +571,7 @@ status-shipping {
 {% for item in order.items.all %}
 
 <div class="order-item">
-    <img src="{{ item.product.image1.url }}" class="item-image">
+    <img src="{% static 'images/' %}{{ item.product.image1 }}" class="item-image">
 
     <div class="item-details">
         <div class="item-name">{{ item.product.name }}</div>

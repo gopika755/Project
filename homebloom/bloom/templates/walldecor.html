@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -466,7 +467,7 @@
 
 <!-- LOGO -->
 <section class="logo-section">
-    <a href="/"><img src="/media/logo1.png" alt="House Bloom Logo" class="logo"></a>
+    <a href="/"><img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo"></a>
 </section>
 
 <!-- HAMBURGER CHECKBOX -->
@@ -758,7 +759,7 @@
 {% if banner %}
 <section class="category-banner">
     <div class="container">
-        <div class="banner-image" style="background-image:url('{{ banner.image.url }}')">
+        <div class="banner-image "style="background-image:url('{% static 'images/' %}{{ banner.image }}')">
             <h2>{{ banner.title }}</h2>
         </div>
     </div>
@@ -825,7 +826,7 @@
                         </form>
 
                         <a href="{% url 'product_detail' product.id product.slug %}">
-                        <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
+                        <img src="{% static 'images/' %}{{ product.image1 }}" alt="{{ product.name }}" class="product-image">
                     </a>
 
                     <div class="product-info">

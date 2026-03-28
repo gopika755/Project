@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,7 +115,7 @@ body{
 
 <section class="logo-section">
 <a href="/">
-<img src="/media/logo1.png" class="logo">
+<img src="{% static 'images/logo1.png' %}" class="logo">
 </a>
 </section>
 
@@ -183,7 +184,7 @@ UPI / Card / Netbanking
 {% for item in cart_items %}
 <div class="summary-row" style="align-items:center; gap:12px;">
 
-    <img src="{{ item.product.image1.url }}"
+    <img src="{% static 'images/' %}{{ item.product.image1 }}"
          alt="{{ item.product.name }}"
          style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
 

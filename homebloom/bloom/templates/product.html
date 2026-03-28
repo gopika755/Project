@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -272,24 +273,41 @@
         .review-card a:hover { color: var(--accent); text-decoration: underline; }
 
         /* ===== RELATED ===== */
-        .related { margin-top: 80px; }
-        .related h2 { text-align: center; margin-bottom: 36px; letter-spacing: 2px; color: var(--primary); font-size: 1.5rem; }
-        .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-        .card {
-            background: #fff; border-radius: 10px; overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08); text-align: center; padding-bottom: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.13); }
-        .card img { width: 100%; height: 200px; object-fit: cover; display: block; }
-        .card h3 { font-size: 14px; margin: 14px 10px 6px; }
-        .card p { font-weight: 700; color: var(--accent); font-size: 15px; }
-        .card a {
-            display: inline-block; margin-top: 12px; padding: 8px 20px;
-            background: var(--primary); color: #fff; text-decoration: none;
-            border-radius: 4px; font-size: 13px; transition: background 0.25s;
-        }
-        .card a:hover { background: var(--accent); }
+        /* ===== RELATED ===== */
+.related { margin-top: 80px; }
+.related h2 { text-align: center; margin-bottom: 36px; letter-spacing: 2px; color: var(--primary); font-size: 1.5rem; }
+.related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+.card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(0,0,0,0.13); }
+.card img { width: 100%; height: 280px; object-fit: cover; display: block; }
+.card-info { padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.card h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 0; }
+.card p { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin: 0; }
+.card a.view-btn {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 8px 14px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: background 0.25s;
+    align-self: flex-start;
+}
+.card a.view-btn:hover { background: var(--accent); }
 
         /* ===== FOOTER ===== */
         .footer { background: var(--primary); color: #ddd; padding-top: 50px; margin-top: 80px; }
@@ -354,7 +372,7 @@
 
 <!-- LOGO -->
 <section class="logo-section">
-    <a href="/"><img src="/media/logo1.png" alt="House Bloom Logo" class="logo"></a>
+    <a href="/"><img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo"></a>
 </section>
 
 <!-- HAMBURGER CHECKBOX -->
@@ -601,19 +619,26 @@
             {% if product.image2 %}<input type="radio" name="img" id="img2">{% endif %}
             {% if product.image3 %}<input type="radio" name="img" id="img3">{% endif %}
             {% if product.image4 %}<input type="radio" name="img" id="img4">{% endif %}
+<div class="main-images">
+    <img src="{% static 'images/' %}{{ product.image1 }}" class="main-img img1" alt="{{ product.name }}">
 
-            <div class="main-images">
-                <img src="{{ product.image1.url }}" class="main-img img1" alt="{{ product.name }}">
-                {% if product.image2 %}<img src="{{ product.image2.url }}" class="main-img img2" alt="{{ product.name }}">{% endif %}
-                {% if product.image3 %}<img src="{{ product.image3.url }}" class="main-img img3" alt="{{ product.name }}">{% endif %}
-                {% if product.image4 %}<img src="{{ product.image4.url }}" class="main-img img4" alt="{{ product.name }}">{% endif %}
-            </div>
+    {% if product.image2 %}
+    <img src="{% static 'images/' %}{{ product.image2 }}" class="main-img img2" alt="{{ product.name }}">
+    {% endif %}
 
+    {% if product.image3 %}
+    <img src="{% static 'images/' %}{{ product.image3 }}" class="main-img img3" alt="{{ product.name }}">
+    {% endif %}
+
+    {% if product.image4 %}
+    <img src="{% static 'images/' %}{{ product.image4 }}" class="main-img img4" alt="{{ product.name }}">
+    {% endif %}
+</div>
             <div class="thumbs">
-                <label for="img1"><img src="{{ product.image1.url }}" alt="thumb 1"></label>
-                {% if product.image2 %}<label for="img2"><img src="{{ product.image2.url }}" alt="thumb 2"></label>{% endif %}
-                {% if product.image3 %}<label for="img3"><img src="{{ product.image3.url }}" alt="thumb 3"></label>{% endif %}
-                {% if product.image4 %}<label for="img4"><img src="{{ product.image4.url }}" alt="thumb 4"></label>{% endif %}
+                <label for="img1"><img src="{% static 'images/' %}{{ product.image1 }}" alt="thumb 1"></label>
+                {% if product.image2 %}<label for="img2"><img src="{% static 'images/' %}{{ product.image2 }}" alt="thumb 2"></label>{% endif %}
+                {% if product.image3 %}<label for="img3"><img src="{% static 'images/' %}{{ product.image3 }}" alt="thumb 3"></label>{% endif %}
+                {% if product.image4 %}<label for="img4"><img src="{% static 'images/' %}{{ product.image4 }}" alt="thumb 4"></label>{% endif %}
             </div>
         </div>
 
@@ -700,15 +725,24 @@
     </section>
 
     <!-- RELATED -->
-    <div class="related">
-        <h2>You May Also Like</h2>
-       <div class="related-grid">
+   <div class="related-grid">
     {% for p in related_products %}
     <div class="card">
-        <img src="{{ p.image1.url }}" alt="{{ p.name }}">
-        <h3>{{ p.name }}</h3>
-        <p>₹{{ p.price }}</p>
-        <a href="{% url 'product_detail' p.id p.slug %}">View</a>
+        <a href="{% url 'product_detail' p.id p.slug %}">
+            <img src="{% static 'images/' %}{{ p.image1 }}" alt="{{ p.name }}">
+        </a>
+        <div class="card-info">
+            <h3>{{ p.name }}</h3>
+            <p>
+                {% if p.offer_price %}
+                    ₹{{ p.offer_price }}
+                    <span style="text-decoration:line-through; color:#999; font-size:0.85rem;">₹{{ p.price }}</span>
+                {% else %}
+                    ₹{{ p.price }}
+                {% endif %}
+            </p>
+            <a href="{% url 'product_detail' p.id p.slug %}" class="view-btn">View Product</a>
+        </div>
     </div>
     {% endfor %}
 </div>

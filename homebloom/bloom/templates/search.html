@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -429,7 +430,7 @@
 
     <!-- LOGO -->
     <section class="logo-section">
-        <a href="/"><img src="/media/logo1.png" alt="House Bloom Logo" class="logo"></a>
+        <a href="/"><img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo"></a>
     </section>
 
     <!-- HAMBURGER CHECKBOX — must be BEFORE overlay and drawer -->
@@ -738,7 +739,7 @@
         <h2 class="search-results-heading">
             {% if selected_category_name %}
                 {{ selected_category_name }}
-                <span style="color:#aaa;font-weight:400;">in results for "{{ query }}"</span>
+                <span style="color:#8B6F47;font-weight:400;">in results for "{{ query }}"</span>
             {% else %}
                 Search results for "{{ query }}"
             {% endif %}
@@ -813,9 +814,9 @@
             <!-- Products Grid -->
             <div class="product-grid">
                 {% for product in products %}
-                    <a href="{% url 'product_detail' product.id %}" class="product-card-link">
+                    <a href="{% url 'product_detail' product.id product.slug %}" class="product-card-link">
                         <div class="product-card">
-                            <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
+                            <img src="{% static 'images/' %}{{ product.image1 }}" alt="{{ product.name }}" class="product-image">
                             <div class="product-info">
                                 <h3 class="product-name">{{ product.name }}</h3>
                                 {% if product.offer_price %}

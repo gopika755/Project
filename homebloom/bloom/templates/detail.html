@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -268,7 +269,7 @@
 
         {% for item in order.items.all %}
         <div class="item">
-            <img src="{{ item.product.image1.url }}" alt="{{ item.product.name }}">
+            <img src="{% static 'images/' %}{{ item.product.image1 }}"  alt="{{ item.product.name }}">
             <div class="item-details">
                 <h4 class="item-name">{{ item.product.name }}</h4>
                 <p class="item-meta">Quantity: {{ item.quantity }}</p>

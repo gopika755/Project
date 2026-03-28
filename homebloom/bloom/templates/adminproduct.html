@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -191,7 +192,7 @@
                     <tr>
                         <td>
                             {% if product.image1 %}
-                                <img src="{{ product.image1.url }}" class="product-img">
+                                <img src="{% static 'images/' %}{{ product.image1 }}" class="product-img">
                             {% endif %}
                         </td>
                         <td>{{ product.name }}</td>

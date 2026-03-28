@@ -1,3 +1,4 @@
+{%load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -302,28 +303,28 @@
 
     <div>
         {% if product.image1 %}
-            <img src="{{ product.image1.url }}" class="preview-img">
+            <img src="{% static 'images/' %}{{ product.image1 }}" class="preview-img">
         {% endif %}
         <input type="file" name="image1">
     </div><br>
 
     <div>
         {% if product.image2 %}
-            <img src="{{ product.image2.url }}" class="preview-img">
+            <img src="{% static 'images/' %}{{ product.image2 }}" class="preview-img">
         {% endif %}
         <input type="file" name="image2">
     </div><br>
 
     <div>
         {% if product.image3 %}
-            <img src="{{ product.image3.url }}" class="preview-img">
+            <img src="{% static 'images/' %}{{ product.image3 }}" class="preview-img">
         {% endif %}
         <input type="file" name="image3">
     </div><br>
 
     <div>
         {% if product.image4 %}
-            <img src="{{ product.image4.url }}" class="preview-img">
+            <img src="{% static 'images/' %}{{ product.image4 }}" class="preview-img">
         {% endif %}
         <input type="file" name="image4">
     </div><br>

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -345,7 +346,7 @@
 
 <!-- LOGO -->
 <section class="logo-section">
-    <a href="/"><img src="/media/logo1.png" alt="House Bloom Logo" class="logo"></a>
+    <a href="/"><img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo"></a>
 </section>
 
 <!-- HAMBURGER CHECKBOX -->
@@ -598,7 +599,7 @@
         <div class="wishlist-card">
 
             <div class="card-image-wrapper">
-                <img src="{{ item.product.image1.url }}" alt="{{ item.product.name }}" class="card-image">
+                <img src="{% static 'images/' %}{{ item.product.image1 }}" alt="{{ item.product.name }}" class="card-image">
 
                 <!-- Remove from wishlist -->
                 <form method="POST" action="{% url 'toggle_wishlist' item.product.id %}">

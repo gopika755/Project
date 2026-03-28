@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -452,7 +453,7 @@
 <!-- HEADER -->
 <header class="site-header">
     <a href="/">
-        <img src="/media/logo1.png" alt="House Bloom" class="logo"
+        <img src="{% static 'images/logo1.png' %}" alt="House Bloom" class="logo"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
         <span class="logo-text" style="display:none;">House Bloom</span>
     </a>
@@ -492,7 +493,7 @@
 
             <!-- Product -->
             <div class="product-info">
-                <img src="{{ item.product.image1.url }}" alt="{{ item.product.name }}">
+                <img src="{% static 'images/' %}{{ item.product.image1 }}" alt="{{ item.product.name }}">
                 <span class="product-name">{{ item.product.name }}</span>
             </div>
 
