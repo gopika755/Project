@@ -52,7 +52,7 @@ urlpatterns = [
     #ADMIN
     #--ORDER--#
     path('adminorder',views.adminorder,name='adminorder'),
-    path('create-user/', views.create_user),
+    path('create-admin/',views.create_admin),
     
     
     #--PRODUCT--#

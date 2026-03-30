@@ -1554,15 +1554,19 @@ def apply_coupon(request):
 
 
 
-def create_user(request):
+def create_admin(request):
     User = get_user_model()
 
     if not User.objects.filter(username='admin').exists():
-        User.objects.create_user(
+        user = User.objects.create_user(
             username='admin',
             email='admin@gmail.com',
             password='admin123'
         )
-        return HttpResponse("User created")
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
 
-    return HttpResponse("User already exists")
+        return HttpResponse("Admin created")
+
+    return HttpResponse("Admin already exists")
