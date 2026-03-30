@@ -592,7 +592,7 @@
 
             {% for item in cart_items %}
             <div class="order-item">
-                <img src="{{ item.product.image1.url }}" alt="{{ item.product.name }}">
+                <img src="{% static 'images/' %}{{ item.product.image1 }}" alt="{{ item.product.name }}">
                 <div class="order-item-info">
                     <h4>{{ item.product.name }}</h4>
                     <div class="item-price">₹{{ item.product.offer_price|default:item.product.price }}</div>
