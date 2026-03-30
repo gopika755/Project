@@ -74,6 +74,8 @@ class Banner(models.Model):
     PAGE_CHOICES = [
         ("home", "Home"),
         ("furniture", "Furniture"),
+        ("walldecor", "Wall Decor"),   
+        ("kitchen", "Kitchen"),
         ("lighting", "Lighting"),
         ("bath", "Accessories"),
     ]

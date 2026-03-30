@@ -859,9 +859,8 @@
 
     {% if banner %}
     <section class="category-banner">
-        <div class="banner-image"
-         style="background-image: url('{% static 'images/'|add:banner.image %}')">
-        <h2>FURNITURE COLLECTIONS</h2>
+        <div class="container">
+          <div class="banner-image" style="background-image: url('{{ banner.image.url }}')">
                 <h2>{{ banner.title }}</h2>
             </div>
         </div>
