@@ -138,6 +138,11 @@ SOCIALACCOUNT_PROVIDERS = {
         'FETCH_USERINFO': True,
     }
 }
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
