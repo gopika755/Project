@@ -72,8 +72,6 @@ def home(request):
 @never_cache
 def furniture(request):
     banner = Banner.objects.filter(page="furniture", is_active=True).first()
-    if not banner:
-        banner = {"image": "banners/ca3b377b0f941672fffe7aa530bba4b5_5L7aNJN.jpg"}
     products = Product.objects.filter(category__name__iexact="Furniture",is_active=True)
     sub_id = request.GET.get("sub_id")
 
@@ -138,9 +136,6 @@ def furniture(request):
 @never_cache
 def walldecor(request):
     banner = Banner.objects.filter(page="walldecor", is_active=True).first()
-    if not banner:
-        banner = {"image": "banners/50b0ef3589bf9e9a6dcd0b9097e3d220_JuBoPsg.jpg"}
-        
     products = Product.objects.filter(category__name__iexact="Wall Decor",is_active=True)
 
     sub_id = request.GET.get("sub_id")
@@ -204,9 +199,6 @@ def walldecor(request):
 @never_cache
 def kitchen(request):
     banner = Banner.objects.filter(page="kitchen", is_active=True).first()
-    if not banner:
-        banner = {"image": "banners/bd6fcff8708ba3fac54235543e701081.jpg"}
-        
     products = Product.objects.filter(category__name__iexact="Kitchen & Dining",is_active=True)
 
     sub_id = request.GET.get("sub_id")
@@ -271,8 +263,6 @@ def kitchen(request):
 @never_cache
 def lighting(request):
     banner = Banner.objects.filter(page="lighting", is_active=True).first()
-    if not banner:
-        banner = {"image": "banners/c3975c6d15ce8404a4110e1eee1d371d.jpg"}
     products = Product.objects.filter(category__name__iexact="Lighting",is_active=True)
     sub_id = request.GET.get("sub_id")
     if sub_id:
@@ -341,9 +331,6 @@ def lighting(request):
 @never_cache
 def bath(request):
     banner = Banner.objects.filter(page="bath", is_active=True).first()
-    if not banner:
-        banner = {"image": "banners/20bf313a82fdff7097806ba60f44b1a4.jpg"}
-    
     products = Product.objects.filter(category__name__iexact="Accessories",is_active=True)
     sub_id = request.GET.get("sub_id")
     if sub_id:
