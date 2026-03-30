@@ -1553,20 +1553,3 @@ def apply_coupon(request):
     return redirect("payment_page")
 
 
-
-def create_admin(request):
-    User = get_user_model()
-
-    if not User.objects.filter(username='admin').exists():
-        user = User.objects.create_user(
-            username='admin',
-            email='admin@gmail.com',
-            password='admin123'
-        )
-        user.is_staff = True
-        user.is_superuser = True
-        user.save()
-
-        return HttpResponse("Admin created")
-
-    return HttpResponse("Admin already exists")
