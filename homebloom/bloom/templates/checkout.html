@@ -548,12 +548,19 @@
                 <h2>Order Items</h2>
 
                 {% for item in cart_items %}
-                <div class="order-item">
-                    <img src="{% static 'images/' %}{{ item.product.image1 }}" alt="{{ item.product.name }}">
-                    <div class="order-item-info">
-                        <h4>{{ item.product.name }}</h4>
-                        <div class="item-price">₹{{ item.product.offer_price|default:item.product.price }}</div>
-                        <div class="item-qty">Qty: {{ item.quantity }}</div>
+                            <div class="order-item-info">
+                    <h4>{{ item.product.name }}</h4>
+
+                    <div class="item-price">
+                        ₹{{ item.product.offer_price|default:item.product.price }}
+                    </div>
+
+                    <div class="item-qty">
+                        Qty: {{ item.quantity }}
+                    </div>
+
+                    <div class="item-price">
+                        Subtotal: ₹{{ item.product.offer_price|default:item.product.price|floatformat:2|add:"0"|floatformat:2 }}
                     </div>
                 </div>
                 {% endfor %}

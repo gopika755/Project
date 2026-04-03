@@ -516,6 +516,45 @@
         @media (hover: none) {
             .wishlist-form { opacity: 1; }
         }
+.custom-msg {
+    position: fixed;       
+    top: 190px;            
+    right: 20px;
+    z-index: 9999;
+}
+
+.msg-box {
+    background: #744428;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+
+    /* 🔥 animation (slide + vanish in 3s) */
+    animation: slideFade 3s ease forwards;
+}
+
+/* 🔥 Combined animation */
+@keyframes slideFade {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    10% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    80% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+        visibility: hidden;
+    }
+}
     </style>
 </head>
 <body>
@@ -849,7 +888,13 @@
             </div>
         </div>
     </div>
-
+{% if messages %}
+<div class="custom-msg">
+    {% for message in messages %}
+        <div class="msg-box">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
     <!-- PAGE TITLE -->
     <section class="page-title-section">
         <div class="container">

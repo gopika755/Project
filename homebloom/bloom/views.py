@@ -587,11 +587,12 @@ def toggle_wishlist(request, product_id):
 
     if wishlist_item:
         wishlist_item.delete()
+        messages.success(request, f"{product.name} removed from wishlist 💔")
     else:
         Wishlist.objects.create(user=request.user, product=product)
+        messages.success(request, f"{product.name} added to wishlist ❤️")
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
-
 
 @login_required
 def move_to_cart(request, wishlist_id):
@@ -618,7 +619,6 @@ def move_to_cart(request, wishlist_id):
 @login_required
 @never_cache
 def payment_page(request):
-    buy_now_product_id = request.session.get("buy_now_product_id")
     discount = Decimal(str(request.session.get("discount", 0)))
 
     today = date.today()
@@ -628,13 +628,24 @@ def payment_page(request):
         end_date__gte=today
     ).order_by("-id")
 
+    # 🔥 STEP 1 — CHECK BUY NOW
+    buy_now_product_id = request.session.pop("buy_now_product_id", None)
+
     if buy_now_product_id:
         product = get_object_or_404(Product, id=buy_now_product_id)
+
         price = product.offer_price or product.price
-        subtotal = price
+        quantity = 1
+        subtotal = price * quantity
         total = max(subtotal - discount, 0)
 
-        cart_items = [{"product": product, "quantity": 1, "subtotal": price}]
+        cart_items = [{
+            "product": product,
+            "quantity": quantity,
+            "price": product.price,
+            "offer_price": product.offer_price,
+            "subtotal": subtotal,
+        }]
 
         return render(request, "payment.html", {
             "cart_items": cart_items,
@@ -645,28 +656,40 @@ def payment_page(request):
             "buy_now": True,
         })
 
+    # 🔥 STEP 2 — NORMAL CART FLOW
     cart_items = Cart.objects.filter(user=request.user).select_related("product")
 
     if not cart_items.exists():
         messages.error(request, "Your cart is empty")
         return redirect("cart")
 
-    subtotal = sum(
-        (item.product.offer_price or item.product.price) * item.quantity
-        for item in cart_items
-    )
+    processed_items = []
+    subtotal = Decimal("0")
+
+    for item in cart_items:
+        price = item.product.offer_price or item.product.price
+        item_total = price * item.quantity
+
+        processed_items.append({
+            "product": item.product,
+            "quantity": item.quantity,
+            "price": item.product.price,
+            "offer_price": item.product.offer_price,
+            "subtotal": item_total,
+        })
+
+        subtotal += item_total
+
     total = max(subtotal - discount, 0)
 
     return render(request, "payment.html", {
-        "cart_items": cart_items,
+        "cart_items": processed_items,
         "subtotal": subtotal,
         "total": total,
         "discount": discount,
         "coupons": coupons,
         "buy_now": False,
     })
-
-
 @never_cache
 @login_required
 def payment_success(request):
@@ -717,13 +740,20 @@ def cart(request):
     if request.method == "POST":
         product_id = request.POST.get("product_id")
         product = get_object_or_404(Product, id=product_id)
+
         cart_item, created = Cart.objects.get_or_create(
             user=request.user, product=product
         )
+
         if not created:
             cart_item.quantity += 1
             cart_item.save()
-        return redirect(request.META.get("HTTP_REFERER", "cart"))
+            messages.success(request, f"{product.name} quantity updated 🛒")
+        else:
+            messages.success(request, f"{product.name} added to cart 🛒")
+
+        
+        return redirect(request.META.get("HTTP_REFERER", request.path))
 
     cart_items = Cart.objects.filter(user=request.user).select_related("product")
     subtotal = sum(item.subtotal for item in cart_items)
@@ -734,7 +764,6 @@ def cart(request):
         "subtotal": subtotal,
         "total_items": total_items,
     })
-
 
 @login_required
 def update_cart_quantity(request, item_id):
@@ -781,33 +810,6 @@ def checkout(request):
             messages.success(request, "Address added successfully")
             request.session["address_id"] = address.id
             return redirect("checkout")
-
-    if request.method == "POST" and request.POST.get("buy_now_product_id"):
-        request.session["buy_now_product_id"] = request.POST.get("buy_now_product_id")
-        return redirect("checkout")
-
-    buy_now_product_id = request.session.get("buy_now_product_id")
-
-    if buy_now_product_id:
-        product = get_object_or_404(Product, id=buy_now_product_id)
-        cart_items = [{
-            "product": product,
-            "quantity": 1,
-            "subtotal": product.offer_price or product.price,
-        }]
-        total = product.offer_price or product.price
-
-        if request.method == "POST" and request.POST.get("address"):
-            request.session["address_id"] = request.POST.get("address")
-            return redirect("payment_page")
-
-        return render(request, "checkout.html", {
-            "addresses": addresses,
-            "cart_items": cart_items,
-            "total": total,
-            "buy_now": True,
-            "form": form,
-        })
 
     cart_items = Cart.objects.filter(user=request.user).select_related("product")
 
@@ -974,45 +976,41 @@ def aboutus(request):
 @never_cache
 def product(request, pk):
     product = get_object_or_404(Product, pk=pk, is_active=True)
-
+    
+    # Use your helper to get wishlist_products and cart_product_ids automatically
+    user_ctx = get_user_context(request.user)
+    
     related_products = Product.objects.filter(
-        category=product.category, is_active=True
-    ).exclude(id=product.id).select_related("category")[:4]
-
-    cart_product_ids = []
-    wishlist_products = []
-
-    if request.user.is_authenticated:
-        cart_product_ids = list(
-            Cart.objects.filter(user=request.user).values_list("product_id", flat=True)
-        )
-        wishlist_products = list(
-            Wishlist.objects.filter(user=request.user).values_list("product_id", flat=True)
-        )
-
-    reviews = Review.objects.filter(product=product).select_related("user")
+        category=product.category, 
+        is_active=True
+    ).exclude(id=product.id)[:4]
+    
+    reviews = Review.objects.filter(product=product)
     avg_rating = reviews.aggregate(Avg("rating"))["rating__avg"]
-
+    
     user_review = None
     if request.user.is_authenticated:
-        user_review = Review.objects.filter(
-            product=product, user=request.user
-        ).first()
-
-    return render(request, "product.html", {
+        user_review = Review.objects.filter(product=product, user=request.user).first()
+        
+    # Merge the user context with your product data
+    context = {
         "product": product,
         "related_products": related_products,
-        "cart_product_ids": cart_product_ids,
-        "wishlist_products": wishlist_products,
         "reviews": reviews,
         "avg_rating": avg_rating,
         "user_review": user_review,
-    })
+        **user_ctx,  # This adds wishlist_products to the dictionary
+    }
+    
+    return render(request, "product.html", context)
 
 
 @never_cache
 def product_detail(request, id, slug):
     product = get_object_or_404(Product, id=id, slug=slug, is_active=True)
+    
+    # Add this line to get the wishlist data
+    user_ctx = get_user_context(request.user)
 
     related_products = Product.objects.filter(
         category=product.category, is_active=True
@@ -1026,6 +1024,7 @@ def product_detail(request, id, slug):
         "related_products": related_products,
         "reviews": reviews,
         "avg_rating": round(avg_rating, 1) if avg_rating else None,
+        **user_ctx, # Now this view also knows about the wishlist
     })
 
 
