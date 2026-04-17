@@ -340,6 +340,43 @@
             .wishlist-grid { grid-template-columns: 1fr; }
             .card-image-wrapper { height: 240px; }
         }
+    .custom-msg {
+    position: fixed;
+    top: 190px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.msg-box {
+    background: #744428;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+
+    animation: slideFade 3s ease forwards;
+}
+
+@keyframes slideFade {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    10% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    80% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+        visibility: hidden;
+    }
+}
     </style>
 </head>
 <body>
@@ -583,7 +620,13 @@
         {% endif %}
     </div>
 </div>
-
+{% if messages %}
+<div class="custom-msg">
+    {% for message in messages %}
+        <div class="msg-box">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
 <!-- ===== PAGE CONTENT ===== -->
 <div class="wishlist-container">
 

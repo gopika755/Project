@@ -608,7 +608,11 @@ def move_to_cart(request, wishlist_id):
         cart_item.quantity += 1
         cart_item.save()
 
+    # ✅ ADD MESSAGE HERE
+    messages.success(request, f"{wishlist_item.product.name} moved to cart 🛒")
+
     wishlist_item.delete()
+
     return redirect('wishlist')
 
 
