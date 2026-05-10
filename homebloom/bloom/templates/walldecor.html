@@ -801,15 +801,16 @@
     </div>
 </section>
 
-{% if banner %}
+
+
 <section class="category-banner">
     <div class="container">
-        <div class="banner-image" style="background-image: url('{% static 'images/' %}{{ banner.image }}')">
-            <h2>{{ banner.title }}</h2>
+        <div class="banner-image"
+             style="background-image:url('{% static 'images/banners/wall.jpg' %}')">
+            <h2>Wall Decor Collection</h2>
         </div>
     </div>
 </section>
-{% endif %}
 
 <!-- MAIN SHOP -->
 <section class="shop-section">

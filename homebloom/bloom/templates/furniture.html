@@ -902,15 +902,16 @@
         </div>
     </section>
 
-    {% if banner %}
-    <section class="category-banner">
-        <div class="container">
-          <div class="banner-image" style="background-image:url('{% static 'images/' %}{{ banner.image }}')">
-                <h2>{{ banner.title }}</h2>
-            </div>
+   {% load static %}
+
+<section class="category-banner">
+    <div class="container">
+        <div class="banner-image"
+             style="background-image:url('{% static 'images/banners/furniture.jpg' %}')">
+            <h2>Furniture Collections</h2>
         </div>
-    </section>
-    {% endif %}
+    </div>
+</section>
 
     <!-- MAIN SHOP LAYOUT -->
     <section class="shop-section">
