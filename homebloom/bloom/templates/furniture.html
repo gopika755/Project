@@ -976,6 +976,8 @@
                 <!-- Products -->
                 <div class="products-section">
                     <div class="product-grid">
+<h1 style="color:red;">{{ products|length }}</h1>
+
                         {% for product in products %}
                         <div class="product-card">
                             <form method="POST" action="{% url 'toggle_wishlist' product.id %}" class="wishlist-form">
