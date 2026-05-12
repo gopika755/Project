@@ -139,9 +139,7 @@ def home(request):
 def furniture(request):
     banner = get_banner("furniture")
 
-    products = Product.objects.filter(
-        category__name__iexact="Furniture", is_active=True
-    ).select_related("category", "subcategory")
+    products = Product.objects.all()
 
     sub_id = request.GET.get("sub_id")
     if sub_id:
