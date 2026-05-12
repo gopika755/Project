@@ -139,7 +139,10 @@ def home(request):
 def furniture(request):
     banner = get_banner("furniture")
 
-    products = Product.objects.all()
+    products = Product.objects.filter(
+        category__name__iexact="Furniture",
+        is_active=True
+    ).select_related("category", "subcategory")
 
     sub_id = request.GET.get("sub_id")
     if sub_id:
@@ -147,7 +150,6 @@ def furniture(request):
 
     min_price, max_price = parse_price_range(request)
 
-    # swap if inverted
     if min_price and max_price and min_price > max_price:
         min_price, max_price = max_price, min_price
 
