@@ -984,7 +984,9 @@
                             </form>
 
                             <a href="{% url 'product_detail' product.id product.slug %}">
-                        <img src="{% static 'images/' %}{{ product.image1 }}" alt="{{ product.name }}" class="product-image">
+
+                            <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
+
                     </a>
 
                     <div class="product-info">
