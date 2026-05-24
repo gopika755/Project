@@ -1,5 +1,345 @@
 [
 {
+  "model": "bloom.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$OSW0Vu0mZzW7jFsmmCqbEE$EpXPoJzDJjMTQpWI3OK8t70EnHJTBEhHEwz0D105HM4=",
+    "last_login": "2026-05-10T15:32:36.058Z",
+    "is_superuser": true,
+    "username": "homebloom",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-01-05T05:28:16.650Z",
+    "email": "homebloom07@gmail.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "bloom.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$uqg9NjMmU6RIXYKXLsf0mn$7j7bzkAhtEfEh724bep7IWUz30qPMu08nqjd5tX/1zo=",
+    "last_login": "2026-01-17T05:12:29.599Z",
+    "is_superuser": false,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-01-05T05:37:43.262Z",
+    "email": "admin@homebloom.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "bloom.user",
+  "pk": 32,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$pDKIRbMt7Ero4HvoR02Mm9$GHY2EA+iROjKCNPE8SAY4WVcagocQlnZosiUcDmw9OM=",
+    "last_login": "2026-02-28T07:03:55.529Z",
+    "is_superuser": false,
+    "username": "",
+    "first_name": "gopika.k",
+    "last_name": "koodiveettil",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-13T05:25:38.241Z",
+    "email": "gopikakoodiveettil@gmail.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "bloom.user",
+  "pk": 33,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$MplIhXDejx7biiP1WzYJ0d$aqZgV3EMOAm0gm5SLeQo3W50fub7YP7MfDTLZpJLFAw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "tomi",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-13T05:33:46.788Z",
+    "email": "tomi@gmail.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "bloom.passwordresetotp",
+  "pk": 26,
+  "fields": {
+    "user": 32,
+    "otp": "914115",
+    "created_at": "2026-02-27T09:14:11.565Z"
+  }
+},
+{
+  "model": "bloom.category",
+  "pk": 12,
+  "fields": {
+    "name": "Furniture"
+  }
+},
+{
+  "model": "bloom.category",
+  "pk": 13,
+  "fields": {
+    "name": "Wall Decor"
+  }
+},
+{
+  "model": "bloom.category",
+  "pk": 14,
+  "fields": {
+    "name": "Kitchen & Dining"
+  }
+},
+{
+  "model": "bloom.category",
+  "pk": 15,
+  "fields": {
+    "name": "Lighting"
+  }
+},
+{
+  "model": "bloom.category",
+  "pk": 16,
+  "fields": {
+    "name": "Accessories"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 3,
+  "fields": {
+    "category": 12,
+    "name": "Stools"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 6,
+  "fields": {
+    "category": 12,
+    "name": "Coffee Table"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 7,
+  "fields": {
+    "category": 12,
+    "name": "Side & Nesting Table"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 8,
+  "fields": {
+    "category": 12,
+    "name": "Console Table"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 10,
+  "fields": {
+    "category": 12,
+    "name": "Wall Mounted"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 11,
+  "fields": {
+    "category": 12,
+    "name": "Floating Shelves"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 12,
+  "fields": {
+    "category": 12,
+    "name": "Corner Shelves"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 13,
+  "fields": {
+    "category": 12,
+    "name": "Ladder Shelves"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 14,
+  "fields": {
+    "category": 13,
+    "name": "Wall Vase"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 15,
+  "fields": {
+    "category": 13,
+    "name": "Mirrors"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 16,
+  "fields": {
+    "category": 13,
+    "name": "Paintings"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 17,
+  "fields": {
+    "category": 13,
+    "name": "Wall Plates & Accents"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 18,
+  "fields": {
+    "category": 14,
+    "name": "Tableware"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 19,
+  "fields": {
+    "category": 14,
+    "name": "Tea & Coffee"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 20,
+  "fields": {
+    "category": 14,
+    "name": "Table Accessories"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 21,
+  "fields": {
+    "category": 14,
+    "name": "Serving Bowls"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 22,
+  "fields": {
+    "category": 14,
+    "name": "Serving Trays"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 23,
+  "fields": {
+    "category": 14,
+    "name": "Platters & Stands"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 24,
+  "fields": {
+    "category": 15,
+    "name": "Table Lamps"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 25,
+  "fields": {
+    "category": 15,
+    "name": "Floor Lamps"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 26,
+  "fields": {
+    "category": 15,
+    "name": "Chandelier & Pendants"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 28,
+  "fields": {
+    "category": 15,
+    "name": "Wall Lamps"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 30,
+  "fields": {
+    "category": 16,
+    "name": "Vases"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 31,
+  "fields": {
+    "category": 16,
+    "name": "Candle holders"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 32,
+  "fields": {
+    "category": 16,
+    "name": "Planters & pots"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 33,
+  "fields": {
+    "category": 16,
+    "name": "Decor objects & Sculptures"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 35,
+  "fields": {
+    "category": 12,
+    "name": "Chair"
+  }
+},
+{
+  "model": "bloom.subcategory",
+  "pk": 36,
+  "fields": {
+    "category": 12,
+    "name": "Sofav"
+  }
+},
+{
   "model": "bloom.product",
   "pk": 15,
   "fields": {
@@ -2550,6 +2890,1457 @@
     "is_best_seller": false,
     "created_at": "2026-02-13T06:44:19.521Z",
     "is_active": false
+  }
+},
+{
+  "model": "bloom.banner",
+  "pk": 21,
+  "fields": {
+    "title": "Furniture Collections",
+    "subtitle": null,
+    "page": "furniture",
+    "image": "banners/ca3b377b0f941672fffe7aa530bba4b5_vR1Et64.jpg",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.banner",
+  "pk": 23,
+  "fields": {
+    "title": "Wall Decor Collection",
+    "subtitle": null,
+    "page": "walldecor",
+    "image": "banners/50b0ef3589bf9e9a6dcd0b9097e3d220_tQXPKFA.jpg",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.banner",
+  "pk": 25,
+  "fields": {
+    "title": "Style Your Kitchen",
+    "subtitle": null,
+    "page": "kitchen",
+    "image": "banners/bd6fcff8708ba3fac54235543e701081_9vJw4bA.jpg",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.banner",
+  "pk": 26,
+  "fields": {
+    "title": "Illuminate Your Home",
+    "subtitle": null,
+    "page": "lighting",
+    "image": "banners/c3975c6d15ce8404a4110e1eee1d371d.jpg",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.banner",
+  "pk": 27,
+  "fields": {
+    "title": "Accessories",
+    "subtitle": null,
+    "page": "bath",
+    "image": "banners/20bf313a82fdff7097806ba60f44b1a4.jpg",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.banner",
+  "pk": 35,
+  "fields": {
+    "title": "",
+    "subtitle": null,
+    "page": "home",
+    "image": "banners/_Home_Decor_Presentation.jpg",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.banner",
+  "pk": 36,
+  "fields": {
+    "title": "",
+    "subtitle": null,
+    "page": "home",
+    "image": "banners/White_and_Brown_Minimalist_Organic_Home_Decor_Presentation_Je5wUcL_wp10ocP.jpg",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.banner",
+  "pk": 37,
+  "fields": {
+    "title": "",
+    "subtitle": null,
+    "page": "home",
+    "image": "banners/2_1ckk1my.jpg",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.banner",
+  "pk": 38,
+  "fields": {
+    "title": "",
+    "subtitle": null,
+    "page": "home",
+    "image": "banners/4_e2lFpV4.jpg",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.wishlist",
+  "pk": 52,
+  "fields": {
+    "user": 9,
+    "product": 19
+  }
+},
+{
+  "model": "bloom.wishlist",
+  "pk": 56,
+  "fields": {
+    "user": 9,
+    "product": 24
+  }
+},
+{
+  "model": "bloom.wishlist",
+  "pk": 62,
+  "fields": {
+    "user": 32,
+    "product": 27
+  }
+},
+{
+  "model": "bloom.wishlist",
+  "pk": 68,
+  "fields": {
+    "user": 32,
+    "product": 23
+  }
+},
+{
+  "model": "bloom.wishlist",
+  "pk": 69,
+  "fields": {
+    "user": 32,
+    "product": 25
+  }
+},
+{
+  "model": "bloom.wishlist",
+  "pk": 71,
+  "fields": {
+    "user": 32,
+    "product": 19
+  }
+},
+{
+  "model": "bloom.cart",
+  "pk": 196,
+  "fields": {
+    "user": 9,
+    "product": 30,
+    "quantity": 1
+  }
+},
+{
+  "model": "bloom.profile",
+  "pk": 3,
+  "fields": {
+    "user": 9,
+    "phone": null,
+    "image": "profiles/default.jpg"
+  }
+},
+{
+  "model": "bloom.profile",
+  "pk": 4,
+  "fields": {
+    "user": 32,
+    "phone": null,
+    "image": "profiles/WhatsApp_Image_2025-10-22_at_3_byMEnBy.02.25_PM.jpeg"
+  }
+},
+{
+  "model": "bloom.address",
+  "pk": 9,
+  "fields": {
+    "user": 32,
+    "full_name": "Gopika.k",
+    "email": "gopika@gmail.com",
+    "phone": "7559922317",
+    "street": "payyavoor,kannur",
+    "city": "kannur",
+    "state": "kerala",
+    "pincode": "670633"
+  }
+},
+{
+  "model": "bloom.address",
+  "pk": 10,
+  "fields": {
+    "user": 9,
+    "full_name": "gopika",
+    "email": "gopikak75317@gmail.com",
+    "phone": "7559922317",
+    "street": "kankjjhg",
+    "city": "london",
+    "state": "kerala",
+    "pincode": "670633"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 29,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "16579.00",
+    "payment_method": "COD",
+    "status": "Shipped",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-13T05:32:20.222Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 30,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "6751.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-13T05:36:00.464Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 31,
+  "fields": {
+    "payment_status": "FAILED",
+    "user": 32,
+    "address": 9,
+    "total": "20979.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1mPrqFxKynBSvtxrrqJvIwRVIMBX4Pe4O3QremVPhqajiDaCDU0AvfAVa",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-13T05:55:53.314Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 32,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "499.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-13T06:36:37.317Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 33,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 9,
+    "address": 10,
+    "total": "1729.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "20.00",
+    "created_at": "2026-02-13T06:46:36.908Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 34,
+  "fields": {
+    "payment_status": "PAID",
+    "user": 9,
+    "address": 10,
+    "total": "10000.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1vtnuxX9PB3qIYw9IN59XKcXr8g8kXLuBuxfAKmFvA3t5kZ1vWXZcEG21",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-13T06:46:53.866Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 35,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "3900.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-16T05:51:37.824Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 36,
+  "fields": {
+    "payment_status": "FAILED",
+    "user": 32,
+    "address": 9,
+    "total": "321.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1m2o5CAmoGaYSQMgzbllFATCR41HV0RtEkKyyQqAwTdxuPv9zOimz38u8",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-24T04:31:38.388Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 37,
+  "fields": {
+    "payment_status": "FAILED",
+    "user": 32,
+    "address": 9,
+    "total": "1961.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1x2bKYFCLC8Eda1XIg7piSasrKx2OnekxIZ8wZWD0j1zspL9wWeEwlL7g",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-25T05:38:16.277Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 38,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "579.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1b9JjrNGTxFvgc9Q9XetMnxgYDcWlwt0kVi8uJpxk2oE0N1D2QJXGE1Fm",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-25T06:04:36.061Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 39,
+  "fields": {
+    "payment_status": "FAILED",
+    "user": 32,
+    "address": 9,
+    "total": "579.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1LkcnK5r7iSXr9rLov8BnBNnElIsrtiruon09fx7BYtdsW04UM1mI9VWy",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-25T06:04:37.322Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 44,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "2079.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-25T06:20:56.814Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 45,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "1490.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-26T05:13:35.517Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 47,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "94999.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1GnbVJvQmdmXkzqMku3G7q1tS6WHeon83is5321OfIM5lSN7n7tjbcMl1",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-26T05:27:14.054Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 48,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "94999.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1qtmS8iB4Hbgf9jUukunysu1S3UEV6u26vZbgQ45tLmq4ZPagDoipuFoT",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-26T05:27:59.946Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 51,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "94999.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-26T05:30:12.123Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 53,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 32,
+    "address": 9,
+    "total": "1218.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-26T18:05:18.916Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 54,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 9,
+    "address": 10,
+    "total": "8999.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-27T06:34:42.564Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 55,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 9,
+    "address": 10,
+    "total": "8999.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1zQBPHRuQv9kHjuPNchnhVnZ3xhyG05t7lqQ9nXLOmBf5ZbDrJfkbHdOv",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-27T06:35:10.035Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 56,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 9,
+    "address": 10,
+    "total": "8999.00",
+    "payment_method": "STRIPE",
+    "status": "pending",
+    "stripe_session_id": "cs_test_a1scSScfRBEzBr3c2XPimqPWxjKSM8dF86yvsbLuJldXJiL3OuU1lq6IhV",
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-27T06:35:34.981Z"
+  }
+},
+{
+  "model": "bloom.order",
+  "pk": 57,
+  "fields": {
+    "payment_status": "PENDING",
+    "user": 9,
+    "address": 10,
+    "total": "1000.00",
+    "payment_method": "COD",
+    "status": "pending",
+    "stripe_session_id": null,
+    "coupon_code": null,
+    "discount_amount": "0.00",
+    "created_at": "2026-02-27T09:38:51.746Z"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 35,
+  "fields": {
+    "order": 29,
+    "product": 17,
+    "quantity": 1,
+    "price": "16599.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 36,
+  "fields": {
+    "order": 30,
+    "product": 97,
+    "quantity": 1,
+    "price": "5835.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 37,
+  "fields": {
+    "order": 30,
+    "product": 47,
+    "quantity": 1,
+    "price": "936.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 38,
+  "fields": {
+    "order": 31,
+    "product": 56,
+    "quantity": 1,
+    "price": "20999.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 39,
+  "fields": {
+    "order": 32,
+    "product": 59,
+    "quantity": 1,
+    "price": "599.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 40,
+  "fields": {
+    "order": 33,
+    "product": 58,
+    "quantity": 1,
+    "price": "1749.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 41,
+  "fields": {
+    "order": 34,
+    "product": 126,
+    "quantity": 1,
+    "price": "10000.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 42,
+  "fields": {
+    "order": 35,
+    "product": 60,
+    "quantity": 4,
+    "price": "1000.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 43,
+  "fields": {
+    "order": 36,
+    "product": 24,
+    "quantity": 1,
+    "price": "421.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 44,
+  "fields": {
+    "order": 37,
+    "product": 55,
+    "quantity": 1,
+    "price": "2061.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 45,
+  "fields": {
+    "order": 38,
+    "product": 59,
+    "quantity": 1,
+    "price": "599.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 46,
+  "fields": {
+    "order": 39,
+    "product": 59,
+    "quantity": 1,
+    "price": "599.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 53,
+  "fields": {
+    "order": 44,
+    "product": 37,
+    "quantity": 1,
+    "price": "1200.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 54,
+  "fields": {
+    "order": 44,
+    "product": 118,
+    "quantity": 1,
+    "price": "899.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 55,
+  "fields": {
+    "order": 45,
+    "product": 45,
+    "quantity": 1,
+    "price": "1590.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 57,
+  "fields": {
+    "order": 47,
+    "product": 15,
+    "quantity": 1,
+    "price": "32000.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 58,
+  "fields": {
+    "order": 47,
+    "product": 16,
+    "quantity": 1,
+    "price": "52000.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 59,
+  "fields": {
+    "order": 47,
+    "product": 22,
+    "quantity": 1,
+    "price": "10999.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 60,
+  "fields": {
+    "order": 48,
+    "product": 15,
+    "quantity": 1,
+    "price": "32000.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 61,
+  "fields": {
+    "order": 48,
+    "product": 16,
+    "quantity": 1,
+    "price": "52000.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 62,
+  "fields": {
+    "order": 48,
+    "product": 22,
+    "quantity": 1,
+    "price": "10999.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 69,
+  "fields": {
+    "order": 51,
+    "product": 15,
+    "quantity": 1,
+    "price": "32000.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 70,
+  "fields": {
+    "order": 51,
+    "product": 16,
+    "quantity": 1,
+    "price": "52000.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 71,
+  "fields": {
+    "order": 51,
+    "product": 22,
+    "quantity": 1,
+    "price": "10999.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 73,
+  "fields": {
+    "order": 53,
+    "product": 19,
+    "quantity": 1,
+    "price": "1218.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 74,
+  "fields": {
+    "order": 54,
+    "product": 72,
+    "quantity": 1,
+    "price": "8999.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 75,
+  "fields": {
+    "order": 55,
+    "product": 72,
+    "quantity": 1,
+    "price": "8999.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 76,
+  "fields": {
+    "order": 56,
+    "product": 72,
+    "quantity": 1,
+    "price": "8999.00"
+  }
+},
+{
+  "model": "bloom.orderitem",
+  "pk": 77,
+  "fields": {
+    "order": 57,
+    "product": 60,
+    "quantity": 1,
+    "price": "1000.00"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 26,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #29 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-13T05:32:20.230Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 27,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #29 status updated to Shipped",
+    "is_read": true,
+    "created_at": "2026-02-13T05:32:46.678Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 28,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #30 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-13T05:36:00.472Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 29,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #31 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-13T05:55:53.324Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 30,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #31 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-13T05:55:54.475Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 31,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #31 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-13T05:56:03.591Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 32,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #32 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-13T06:36:37.341Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 33,
+  "fields": {
+    "user": 9,
+    "title": "Order Placed",
+    "message": "Order #33 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-13T06:46:36.938Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 35,
+  "fields": {
+    "user": 9,
+    "title": "Order Update",
+    "message": "Order #34 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-13T06:46:56.316Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 36,
+  "fields": {
+    "user": 9,
+    "title": "Order Update",
+    "message": "Order #34 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-13T06:47:21.911Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 37,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #35 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-16T05:51:37.834Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 38,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #36 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-24T04:31:38.398Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 39,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #36 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-24T04:31:39.531Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 40,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #36 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-24T04:31:44.610Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 41,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #37 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-25T05:38:16.288Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 42,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #37 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T05:38:17.424Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 43,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #37 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T05:52:59.403Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 44,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #37 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T06:03:51.600Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 45,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #38 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-25T06:04:36.085Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 46,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #39 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-25T06:04:37.333Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 47,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #38 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T06:04:37.815Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 48,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #39 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T06:04:38.532Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 49,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #39 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T06:04:45.345Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 50,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #40 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-25T06:10:59.562Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 51,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #40 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T06:11:01.090Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 52,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #41 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-25T06:11:39.404Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 53,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #41 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T06:11:40.018Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 54,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #42 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-25T06:13:01.863Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 55,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #42 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T06:13:02.958Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 56,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #43 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-25T06:19:41.399Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 57,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #43 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-25T06:19:42.744Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 58,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #44 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-25T06:20:56.842Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 59,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #45 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-26T05:13:35.527Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 60,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #46 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-26T05:14:10.127Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 61,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #46 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-26T05:14:11.293Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 62,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #47 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-26T05:27:14.063Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 63,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #47 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-26T05:27:15.274Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 64,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #48 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-26T05:27:59.964Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 65,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #48 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-26T05:28:00.629Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 66,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #49 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-26T05:29:22.036Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 67,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #49 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-26T05:29:23.145Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 68,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #50 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-26T05:29:52.935Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 69,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #50 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-26T05:29:53.564Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 70,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #51 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-26T05:30:12.133Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 71,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #52 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-26T18:02:02.526Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 72,
+  "fields": {
+    "user": 32,
+    "title": "Order Update",
+    "message": "Order #52 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-26T18:02:04.048Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 73,
+  "fields": {
+    "user": 32,
+    "title": "Order Placed",
+    "message": "Order #53 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-26T18:05:18.935Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 74,
+  "fields": {
+    "user": 9,
+    "title": "Order Placed",
+    "message": "Order #54 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-27T06:34:42.579Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 75,
+  "fields": {
+    "user": 9,
+    "title": "Order Placed",
+    "message": "Order #55 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-27T06:35:10.047Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 76,
+  "fields": {
+    "user": 9,
+    "title": "Order Update",
+    "message": "Order #55 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-27T06:35:11.185Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 77,
+  "fields": {
+    "user": 9,
+    "title": "Order Placed",
+    "message": "Order #56 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-27T06:35:34.989Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 78,
+  "fields": {
+    "user": 9,
+    "title": "Order Update",
+    "message": "Order #56 status updated to pending",
+    "is_read": false,
+    "created_at": "2026-02-27T06:35:35.523Z"
+  }
+},
+{
+  "model": "bloom.notification",
+  "pk": 79,
+  "fields": {
+    "user": 9,
+    "title": "Order Placed",
+    "message": "Order #57 placed successfully.",
+    "is_read": false,
+    "created_at": "2026-02-27T09:38:51.767Z"
+  }
+},
+{
+  "model": "bloom.review",
+  "pk": 3,
+  "fields": {
+    "user": 32,
+    "product": 58,
+    "rating": 3,
+    "comment": "\r\nakjgkaj",
+    "created_at": "2026-02-13T06:36:49.253Z",
+    "updated_at": "2026-02-13T06:36:49.253Z"
+  }
+},
+{
+  "model": "bloom.coupon",
+  "pk": 3,
+  "fields": {
+    "code": "WELCOM123",
+    "discount_type": "flat",
+    "discount_value": "100.00",
+    "min_order": "500.00",
+    "max_discount": "100.00",
+    "start_date": "2026-02-12",
+    "end_date": "2026-08-12",
+    "is_active": true
+  }
+},
+{
+  "model": "bloom.coupon",
+  "pk": 4,
+  "fields": {
+    "code": "SAVE20",
+    "discount_type": "percentage",
+    "discount_value": "20.00",
+    "min_order": "1000.00",
+    "max_discount": "300.00",
+    "start_date": "2026-02-12",
+    "end_date": "2026-05-12",
+    "is_active": true
   }
 }
 ]

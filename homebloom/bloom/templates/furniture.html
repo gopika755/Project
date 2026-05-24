@@ -976,8 +976,6 @@
                 <!-- Products -->
                 <div class="products-section">
                     <div class="product-grid">
-<h1 style="color:red;">{{ products|length }}</h1>
-
                         {% for product in products %}
                         <div class="product-card">
                             <form method="POST" action="{% url 'toggle_wishlist' product.id %}" class="wishlist-form">
@@ -987,8 +985,11 @@
 
                             <a href="{% url 'product_detail' product.id product.slug %}">
 
-                            <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="product-image">
-
+{% if product.image1 %}
+<img src="/static/images/products/{{ product.image1.name|cut:'images/products/'|cut:'products/' }}"
+     alt="{{ product.name }}"
+     class="product-image">
+{% endif %}
                     </a>
 
                     <div class="product-info">
