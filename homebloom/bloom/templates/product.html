@@ -694,27 +694,43 @@
             {% if product.image3 %}<input type="radio" name="img" id="img3">{% endif %}
             {% if product.image4 %}<input type="radio" name="img" id="img4">{% endif %}
 <div class="main-images">
-    <img src="{% static 'images/' %}{{ product.image1 }}" class="main-img img1" alt="{{ product.name }}">
+    <img src="{% static '' %}{{ product.image1 }}" class="main-img img1">
 
     {% if product.image2 %}
-    <img src="{% static 'images/' %}{{ product.image2 }}" class="main-img img2" alt="{{ product.name }}">
+    <img src="{% static '' %}{{ product.image2 }}" class="main-img img2">
     {% endif %}
 
     {% if product.image3 %}
-    <img src="{% static 'images/' %}{{ product.image3 }}" class="main-img img3" alt="{{ product.name }}">
+    <img src="{% static '' %}{{ product.image3 }}" class="main-img img3">
     {% endif %}
 
     {% if product.image4 %}
-    <img src="{% static 'images/' %}{{ product.image4 }}" class="main-img img4" alt="{{ product.name }}">
+    <img src="{% static '' %}{{ product.image4 }}" class="main-img img4">
     {% endif %}
 </div>
             <div class="thumbs">
-                <label for="img1"><img src="{% static 'images/' %}{{ product.image1 }}" alt="thumb 1"></label>
-                {% if product.image2 %}<label for="img2"><img src="{% static 'images/' %}{{ product.image2 }}" alt="thumb 2"></label>{% endif %}
-                {% if product.image3 %}<label for="img3"><img src="{% static 'images/' %}{{ product.image3 }}" alt="thumb 3"></label>{% endif %}
-                {% if product.image4 %}<label for="img4"><img src="{% static 'images/' %}{{ product.image4 }}" alt="thumb 4"></label>{% endif %}
-            </div>
-        </div>
+<label for="img1">
+<img src="{% static '' %}{{ product.image1 }}">
+</label>
+
+{% if product.image2 %}
+<label for="img2">
+<img src="{% static '' %}{{ product.image2 }}">
+</label>
+{% endif %}
+
+{% if product.image3 %}
+<label for="img3">
+<img src="{% static '' %}{{ product.image3 }}">
+</label>
+{% endif %}
+
+{% if product.image4 %}
+<label for="img4">
+<img src="{% static '' %}{{ product.image4 }}">
+</label>
+{% endif %}
+</div>
 
         <!-- INFO -->
         <div class="product-info">
@@ -809,7 +825,7 @@
     {% for p in related_products %}
     <div class="card">
         <a href="{% url 'product_detail' p.id p.slug %}">
-            <img src="{% static 'images/' %}{{ p.image1 }}" alt="{{ p.name }}">
+           <img src="{% static '' %}{{ p.image1 }}" alt="{{ p.name }}">
         </a>
         <div class="card-info">
             <h3>{{ p.name }}</h3>
