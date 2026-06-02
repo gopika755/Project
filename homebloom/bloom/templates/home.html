@@ -646,7 +646,9 @@
 <a href="{% url 'product_detail' product.id product.slug %}" class="card-link">
     <div class="product-card">
         <div class="product-image-wrapper">
-            <img src="{% static 'images/' %}{{ product.image1 }}" alt="{{ product.name }}" class="product-image">
+           <img src="{% static 'images/' %}{{ product.image1 }}"
+     alt="{{ product.name }}"
+     class="product-image">
         </div>
         <div class="product-info">
             <h3 class="product-name">{{ product.name }}</h3>

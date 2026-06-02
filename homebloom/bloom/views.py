@@ -981,7 +981,6 @@ def aboutus(request):
 def product(request, pk):
     product = get_object_or_404(Product, pk=pk, is_active=True)
     
-    # Use your helper to get wishlist_products and cart_product_ids automatically
     user_ctx = get_user_context(request.user)
     
     related_products = Product.objects.filter(

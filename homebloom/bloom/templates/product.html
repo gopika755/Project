@@ -130,41 +130,20 @@
         /* ===== PRODUCT SECTION ===== */
         .product-wrapper { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
         .product-main {
-    background: #fff;
-    padding: 40px;
-    border-radius: 10px;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-
-    gap: 50px;
-    align-items: start;
-
-    max-width: 1100px;
-    margin: auto;
-}
+            background: #fff; padding: 40px; border-radius: 10px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 50px;
+        }
 
         /* ===== IMAGE GALLERY (CSS-only) ===== */
         .image-box input[type="radio"] { display: none; }
-        .main-images{
-    position: relative;
-    width:100%;
-    height:500px;
-
-    background:#f5f5f5;
-    border-radius:10px;
-    overflow:hidden;
-}
-       .main-img{
-    position:absolute;
-    inset:0;
-
-    width:100%;
-    height:100%;
-
-    object-fit:contain;
-    padding:20px;
-}
+        .main-images {
+            position: relative; width: 100%; height: 460px;
+            background: #f5f5f5; border-radius: 10px; overflow: hidden;
+        }
+        .main-img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: contain; opacity: 0; transition: opacity 0.4s ease;
+        }
         #img1:checked ~ .main-images .img1 { opacity: 1; }
         #img2:checked ~ .main-images .img2 { opacity: 1; }
         #img3:checked ~ .main-images .img3 { opacity: 1; }
@@ -318,10 +297,7 @@
         .meta { margin-top: 28px; font-size: 14px; color: #666; line-height: 1.9; }
 
         /* ===== REVIEWS ===== */
-        .reviews-section{
-    margin-top:70px;
-    width:100%;
-}
+        .reviews-section { margin-top: 70px; }
         .review-title { text-align: center; color: var(--primary); margin-bottom: 20px; letter-spacing: 2px; font-size: 1.5rem; }
         .avg-rating { text-align: center; font-size: 17px; margin-bottom: 28px; }
         .review-form { background: #fff; padding: 24px; border-radius: 10px; margin-bottom: 36px; }
@@ -404,11 +380,6 @@
             .main-images { height: 360px; }
             .related-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
             .product-info h1 { font-size: 1.5rem; }
-            .product-info{
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-}
         }
 
         @media (max-width: 768px) {
@@ -723,43 +694,27 @@
             {% if product.image3 %}<input type="radio" name="img" id="img3">{% endif %}
             {% if product.image4 %}<input type="radio" name="img" id="img4">{% endif %}
 <div class="main-images">
-    <img src="{% static '' %}{{ product.image1 }}" class="main-img img1">
+    <img src="{% static 'images/' %}{{ product.image1 }}" class="main-img img1" alt="{{ product.name }}">
 
     {% if product.image2 %}
-    <img src="{% static '' %}{{ product.image2 }}" class="main-img img2">
+    <img src="{% static 'images/' %}{{ product.image2 }}" class="main-img img2" alt="{{ product.name }}">
     {% endif %}
 
     {% if product.image3 %}
-    <img src="{% static '' %}{{ product.image3 }}" class="main-img img3">
+    <img src="{% static 'images/' %}{{ product.image3 }}" class="main-img img3" alt="{{ product.name }}">
     {% endif %}
 
     {% if product.image4 %}
-    <img src="{% static '' %}{{ product.image4 }}" class="main-img img4">
+    <img src="{% static 'images/' %}{{ product.image4 }}" class="main-img img4" alt="{{ product.name }}">
     {% endif %}
 </div>
             <div class="thumbs">
-<label for="img1">
-<img src="{% static '' %}{{ product.image1 }}">
-</label>
-
-{% if product.image2 %}
-<label for="img2">
-<img src="{% static '' %}{{ product.image2 }}">
-</label>
-{% endif %}
-
-{% if product.image3 %}
-<label for="img3">
-<img src="{% static '' %}{{ product.image3 }}">
-</label>
-{% endif %}
-
-{% if product.image4 %}
-<label for="img4">
-<img src="{% static '' %}{{ product.image4 }}">
-</label>
-{% endif %}
-</div>
+                <label for="img1"><img src="{% static 'images/' %}{{ product.image1 }}" alt="thumb 1"></label>
+                {% if product.image2 %}<label for="img2"><img src="{% static 'images/' %}{{ product.image2 }}" alt="thumb 2"></label>{% endif %}
+                {% if product.image3 %}<label for="img3"><img src="{% static 'images/' %}{{ product.image3 }}" alt="thumb 3"></label>{% endif %}
+                {% if product.image4 %}<label for="img4"><img src="{% static 'images/' %}{{ product.image4 }}" alt="thumb 4"></label>{% endif %}
+            </div>
+        </div>
 
         <!-- INFO -->
         <div class="product-info">
@@ -854,7 +809,7 @@
     {% for p in related_products %}
     <div class="card">
         <a href="{% url 'product_detail' p.id p.slug %}">
-           <img src="{% static '' %}{{ p.image1 }}" alt="{{ p.name }}">
+            <img src="{% static 'images/' %}{{ p.image1 }}" alt="{{ p.name }}">
         </a>
         <div class="card-info">
             <h3>{{ p.name }}</h3>
