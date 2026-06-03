@@ -258,16 +258,20 @@
  <tbody>
 {% for order in orders %}
 <tr>
-  <td>
-    {{ order.items.first.product.name }}
-  </td>
-
+<td>
+    <div class="product">
+        <img src="{% static 'images/' %}{{ order.items.first.product.image1 }}"
+             alt="{{ order.items.first.product.name }}">
+        <span>{{ order.items.first.product.name }}</span>
+    </div>
+</td>
   <td>#HB{{ order.id }}</td>
 
   <td>{{ order.user.email }}</td>
 
-  <td>₹{{ order.total_price }}</td>
-
+ <td>
+    ₹{{ order.total }}
+</td>
   <td>{{ order.payment_method }}</td>
 
 <td>
