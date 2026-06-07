@@ -754,11 +754,12 @@
     {% endif %}
 
     <form method="post" action="{% url 'checkout' %}">
-        {% csrf_token %}
-        <input type="hidden" name="buy_now_product_id" value="{{ product.id }}">
-        <button type="submit" class="buy-btn">Buy Now</button>
-    </form>
-
+    {% csrf_token %}
+    <input type="hidden" name="buy_now_product_id" value="{{ product.id }}">
+    <button type="submit" class="buy-btn">
+        Buy Now
+    </button>
+</form>
     <div class="wishlist-container">
     <input type="checkbox" id="wishlist-toggle" class="wish-checkbox" hidden>
     

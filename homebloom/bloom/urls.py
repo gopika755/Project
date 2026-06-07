@@ -96,5 +96,31 @@ urlpatterns = [
     path("adminnotifications/",views.adminnotifications,name="adminnotifications"),
     path("notification/delete/<int:id>/",views.delete_notification,name="delete_notification"),
     path("apply-coupon/", views.apply_coupon, name="apply_coupon"),
+    path(
+    "cart/increase/<int:item_id>/",
+    views.increase_cart_quantity,
+    name="increase_cart_quantity"
+),
 
-]
+path(
+    "cart/decrease/<int:item_id>/",
+    views.decrease_cart_quantity,
+    name="decrease_cart_quantity"
+),
+path(
+    "buy-now/increase/",
+    views.increase_buy_now_quantity,
+    name="increase_buy_now_quantity"
+),
+
+path(
+    "buy-now/decrease/",
+    views.decrease_buy_now_quantity,
+    name="decrease_buy_now_quantity"
+),
+path(
+    "cart-checkout/",
+    views.cart_checkout,
+    name="cart_checkout"
+),
+] 

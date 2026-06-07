@@ -507,12 +507,7 @@
 
                 <div class="item-cell">
                     <span class="mob-label">Qty</span>
-                    <form method="POST" action="{% url 'update_cart_quantity' item.id %}" class="qty-form">
-                        {% csrf_token %}
-                        <button class="qty-btn" name="action" value="decrease" type="submit">−</button>
-                        <span class="qty-value">{{ item.quantity }}</span>
-                        <button class="qty-btn" name="action" value="increase" type="submit">+</button>
-                    </form>
+                   <span class="qty-value">{{ item.quantity }}</span>
                 </div>
 
                 <div class="item-cell">
@@ -557,9 +552,9 @@
             <span>₹{{ subtotal }}</span>
         </div>
 
-        <a href="{% url 'checkout' %}" class="checkout-btn">
-            Proceed to Checkout
-        </a>
+        <a href="{% url 'cart_checkout' %}" class="checkout-btn">
+    Proceed to Checkout
+</a>
 
         <a href="/" class="continue-link">← Continue Shopping</a>
     </div>

@@ -76,13 +76,9 @@
 
     /* ── LAYOUT ── */
     .checkout-container {
-        max-width: 1200px;
+        max-width: 860px;
         margin: 30px auto 60px;
         padding: 0 20px;
-        display: grid;
-        grid-template-columns: 1fr 360px;
-        gap: 28px;
-        align-items: start;
     }
 
     /* ── BOX ── */
@@ -268,29 +264,7 @@
         margin-bottom: 6px;
     }
 
-    /* ── ORDER SUMMARY (right column) ── */
-    .summary-box {
-        background: var(--white);
-        border-radius: 12px;
-        box-shadow: 0 4px 24px rgba(0,0,0,.07);
-        padding: 28px 24px;
-        position: sticky;
-        top: 24px;
-    }
-
-    .summary-box h2 {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 18px;
-        font-weight: 700;
-        color: var(--primary);
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin-bottom: 22px;
-        padding-bottom: 12px;
-        border-bottom: 2px solid var(--border);
-    }
-
-    /* Order items */
+    /* ── ORDER ITEMS ── */
     .order-item {
         display: flex;
         gap: 14px;
@@ -388,26 +362,15 @@
     }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-        .checkout-container {
-            grid-template-columns: 1fr;
-        }
-
-        .summary-box {
-            position: static;
-        }
-    }
-
     @media (max-width: 576px) {
         .page-heading { padding: 24px 16px 8px; }
 
         .checkout-container {
             padding: 0 12px;
             margin: 20px auto 50px;
-            gap: 20px;
         }
 
-        .box, .summary-box {
+        .box {
             padding: 20px 16px;
         }
 
@@ -424,6 +387,26 @@
         .order-item-info h4 { font-size: 13px; }
 
         .site-header .logo { max-width: 160px; }
+    }
+
+    .qty-btn {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #8B6F47;
+        background: #fff;
+        color: #8B6F47;
+        border-radius: 8px;
+        font-size: 20px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .qty-value {
+        min-width: 30px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c2c2c;
     }
 </style>
 </head>
@@ -448,162 +431,154 @@
     </p>
 </div>
 
-<!-- MAIN GRID -->
+{% if messages %}
+    {% for message in messages %}
+        <div style="
+            max-width:860px;
+            margin:15px auto;
+            padding:12px 16px;
+            border:2px solid #8B6F47;
+            border-radius:8px;
+            color:#8B6F47;
+            background:white;
+        ">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- MAIN CONTENT -->
 <div class="checkout-container">
 
-    <!-- LEFT COLUMN -->
-    <div class="left-col">
+    <!-- ADD ADDRESS -->
+    <div class="box">
+        <input type="checkbox" id="toggle-address" class="toggle-checkbox">
+        <label for="toggle-address" class="add-address-btn">
+            <i class="bi bi-plus-circle"></i> Add New Address
+        </label>
 
-        <!-- ADD ADDRESS -->
+        <div class="address-dropdown">
+            <form method="post" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="add_address" value="1">
+
+                <div class="profile-field">
+                    <label>Full Name</label>
+                    {{ form.full_name }}
+                </div>
+
+                <div class="field-row">
+                    <div class="profile-field">
+                        <label>Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="profile-field">
+                        <label>Phone</label>
+                        {{ form.phone }}
+                    </div>
+                </div>
+
+                <div class="profile-field">
+                    <label>Street Address</label>
+                    {{ form.street }}
+                </div>
+
+                <div class="field-row">
+                    <div class="profile-field">
+                        <label>City</label>
+                        {{ form.city }}
+                    </div>
+                    <div class="profile-field">
+                        <label>State</label>
+                        {{ form.state }}
+                    </div>
+                </div>
+
+                <div class="profile-field" style="max-width:180px;">
+                    <label>Pincode</label>
+                    {{ form.pincode }}
+                </div>
+
+                <button type="submit" class="save-btn">
+                    <i class="bi bi-check2-circle"></i> Save Address
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SELECT ADDRESS + ORDER ITEMS -->
+    <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+
         <div class="box">
-            <input type="checkbox" id="toggle-address" class="toggle-checkbox">
-            <label for="toggle-address" class="add-address-btn">
-                <i class="bi bi-plus-circle"></i> Add New Address
+            <h2>Delivery Address</h2>
+
+            {% for address in addresses %}
+            <label class="address-item">
+                <input type="radio" name="address" value="{{ address.id }}">
+                <div>
+                    <div class="addr-name">{{ address.full_name }}</div>
+                    <div class="addr-text">
+                        {{ address.street }}, {{ address.city }},
+                        {{ address.state }} – {{ address.pincode }}<br>
+                        <i class="bi bi-telephone" style="font-size:11px;"></i> {{ address.phone }}
+                    </div>
+                </div>
             </label>
-
-            <div class="address-dropdown">
-                <form method="post" action="{% url 'checkout' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="add_address" value="1">
-
-                    <div class="profile-field">
-                        <label>Full Name</label>
-                        {{ form.full_name }}
-                    </div>
-
-                    <div class="field-row">
-                        <div class="profile-field">
-                            <label>Email</label>
-                            {{ form.email }}
-                        </div>
-                        <div class="profile-field">
-                            <label>Phone</label>
-                            {{ form.phone }}
-                        </div>
-                    </div>
-
-                    <div class="profile-field">
-                        <label>Street Address</label>
-                        {{ form.street }}
-                    </div>
-
-                    <div class="field-row">
-                        <div class="profile-field">
-                            <label>City</label>
-                            {{ form.city }}
-                        </div>
-                        <div class="profile-field">
-                            <label>State</label>
-                            {{ form.state }}
-                        </div>
-                    </div>
-
-                    <div class="profile-field" style="max-width:180px;">
-                        <label>Pincode</label>
-                        {{ form.pincode }}
-                    </div>
-
-                    <button type="submit" class="save-btn">
-                        <i class="bi bi-check2-circle"></i> Save Address
-                    </button>
-                </form>
-            </div>
+            {% empty %}
+            <p style="font-size:14px;color:var(--muted);text-align:center;padding:20px 0;">
+                No saved addresses. Please add one above.
+            </p>
+            {% endfor %}
         </div>
 
-        <!-- SELECT ADDRESS -->
-        <form method="post" action="{% url 'checkout' %}">
-            {% csrf_token %}
+        <div class="box" style="margin-bottom:0;">
+            <h2>Order Items</h2>
 
-            <div class="box">
-                <h2>Delivery Address</h2>
+            {% for item in cart_items %}
+            <div class="order-item">
+                <img src="{% static 'images/' %}{{ item.product.image1 }}"
+                     alt="{{ item.product.name }}"
+                     style="width:80px;height:80px;object-fit:cover;border-radius:8px;">
 
-                {% for address in addresses %}
-                <label class="address-item">
-                    <input type="radio" name="address" value="{{ address.id }}" required>
-                    <div>
-                        <div class="addr-name">{{ address.full_name }}</div>
-                        <div class="addr-text">
-                            {{ address.street }}, {{ address.city }},
-                            {{ address.state }} – {{ address.pincode }}<br>
-                            <i class="bi bi-telephone" style="font-size:11px;"></i> {{ address.phone }}
-                        </div>
-                    </div>
-                </label>
-                {% empty %}
-                <p style="font-size:14px;color:var(--muted);text-align:center;padding:20px 0;">
-                    No saved addresses. Please add one above.
-                </p>
-                {% endfor %}
-            </div>
-
-            <!-- ORDER SUMMARY — inside form for submit -->
-            <div class="summary-box" style="display:none;" id="inline-summary">
-            </div>
-
-            <!-- Mobile: order summary inline before button -->
-            <div class="box" id="mobile-order-box" style="display:none;">
-            </div>
-
-            <div class="box" style="margin-bottom:0;">
-                <h2>Order Items</h2>
-
-                {% for item in cart_items %}
-                            <div class="order-item-info">
+                <div class="order-item-info">
                     <h4>{{ item.product.name }}</h4>
 
                     <div class="item-price">
                         ₹{{ item.product.offer_price|default:item.product.price }}
                     </div>
 
-                    <div class="item-qty">
-                        Qty: {{ item.quantity }}
+                    {% if buy_now %}
+                    <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+                        <a href="{% url 'decrease_buy_now_quantity' %}" class="qty-btn"
+                           style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
+                            −
+                        </a>
+                        <span class="qty-value">{{ item.quantity }}</span>
+                        <a href="{% url 'increase_buy_now_quantity' %}" class="qty-btn"
+                           style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
+                            +
+                        </a>
                     </div>
+                    {% else %}
+                   <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
 
-                    <div class="item-price">
-                        Subtotal: ₹{{ item.product.offer_price|default:item.product.price|floatformat:2|add:"0"|floatformat:2 }}
-                    </div>
-                </div>
-                {% endfor %}
+    <a href="{% url 'decrease_cart_quantity' item.id %}"
+       class="qty-btn"
+       style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
+        −
+    </a>
 
-                <div class="summary-totals">
-                    <div class="summary-row">
-                        <span>Subtotal</span>
-                        <span>₹{{ total }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Shipping</span>
-                        <span>Free</span>
-                    </div>
-                    <div class="summary-row total">
-                        <span>Total</span>
-                        <span>₹{{ total }}</span>
-                    </div>
-                </div>
+    <span class="qty-value">{{ item.quantity }}</span>
 
-                <button type="submit" class="place-order-btn">
-                    <i class="bi bi-bag-check"></i>&nbsp; Proceed to Payment
-                </button>
+    <a href="{% url 'increase_cart_quantity' item.id %}"
+       class="qty-btn"
+       style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
+        +
+    </a>
 
-                <p class="secure-note">
-                    <i class="bi bi-shield-lock"></i> Secure & encrypted checkout
-                </p>
-            </div>
-
-        </form>
-    </div>
-
-    <!-- RIGHT COLUMN — Order Summary (desktop sticky) -->
-    <div class="right-col">
-        <div class="summary-box">
-            <h2>Order Summary</h2>
-
-            {% for item in cart_items %}
-            <div class="order-item">
-                <img src="{% static 'images/' %}{{ item.product.image1 }}" alt="{{ item.product.name }}">
-                <div class="order-item-info">
-                    <h4>{{ item.product.name }}</h4>
-                    <div class="item-price">₹{{ item.product.offer_price|default:item.product.price }}</div>
-                    <div class="item-qty">Qty: {{ item.quantity }}</div>
+</div>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
@@ -623,11 +598,17 @@
                 </div>
             </div>
 
-            <p class="secure-note" style="margin-top:20px;">
-                <i class="bi bi-shield-lock"></i> Secure & encrypted checkout
+            <button type="submit" class="place-order-btn">
+                <i class="bi bi-bag-check"></i>&nbsp; Proceed to Payment
+            </button>
+
+            <p class="secure-note">
+                <i class="bi bi-shield-lock"></i>
+                Secure & encrypted checkout
             </p>
         </div>
-    </div>
+
+    </form>
 
 </div>
 
