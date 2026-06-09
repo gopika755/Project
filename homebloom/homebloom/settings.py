@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path,os
 from decouple import config
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,10 +91,8 @@ WSGI_APPLICATION = 'homebloom.wsgi.application'
 
 import dj_database_url
 DATABASES = {
-    'default': dj_database_url.parse(
-        config('DATABASE_URL'),
-        conn_max_age=0,
-        ssl_require=True
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL')
     )
 }
 

@@ -1278,13 +1278,18 @@ def admindashboard(request):
     total_customers = User.objects.filter(is_staff=False).count()
     revenue = Order.objects.aggregate(total=Sum("total"))["total"] or 0
 
-    monthly_sales = (
-        Order.objects
-        .annotate(month=ExtractMonth("created_at"))
-        .values("month")
-        .annotate(total=Sum("total"))
-        .order_by("month")
-    )
+    monthly_sales = list(
+    Order.objects
+    .annotate(month=ExtractMonth("created_at"))
+    .values("month")
+    .annotate(total=Sum("total"))
+    .order_by("month")
+)
+
+    max_sale = max([m["total"] for m in monthly_sales], default=1)
+
+    for m in monthly_sales:
+        m["percent"] = (m["total"] / max_sale) * 100
 
     return render(request, "admindashboard.html", {
         "total_orders": total_orders,

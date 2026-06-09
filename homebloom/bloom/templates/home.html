@@ -155,17 +155,43 @@
         .mobile-nav-list > li { border-bottom: 1px solid #f0e8df; }
 
         .mobile-sub-toggle { display: none; }
-        .mobile-nav-link {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 14px 20px; color: var(--text-dark); font-size: 0.95rem;
-            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-            text-decoration: none; cursor: pointer; background: none; border: none;
-            width: 100%; text-align: left;
+
+        /* ===== MOBILE NAV ITEM WITH CATEGORY LINK + EXPAND TOGGLE ===== */
+        .mobile-nav-item-row {
+            display: flex;
+            align-items: center;
+            border-bottom: none;
         }
+        .mobile-nav-category-link {
+            flex: 1;
+            padding: 14px 20px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: block;
+        }
+        .mobile-nav-category-link:hover { color: var(--primary-color); }
+        .mobile-expand-btn {
+            padding: 14px 16px;
+            background: none;
+            border: none;
+            border-left: 1px solid #f0e8df;
+            color: #888;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+        }
+        .mobile-expand-btn .bi-chevron-down { transition: transform 0.3s; }
+        .mobile-sub-toggle:checked ~ .mobile-nav-item-row .mobile-expand-btn .bi-chevron-down { transform: rotate(180deg); }
+
         .mobile-sub-nav { max-height: 0; overflow: hidden; background: #faf7f3; transition: max-height 0.3s ease; }
         .mobile-sub-toggle:checked ~ .mobile-sub-nav { max-height: 600px; }
-        .mobile-sub-toggle:checked ~ .mobile-nav-link .bi-chevron-down { transform: rotate(180deg); }
-        .mobile-nav-link .bi-chevron-down { transition: transform 0.3s; }
         .mobile-sub-nav a {
             display: block; padding: 10px 36px; color: #555;
             font-size: 0.875rem; text-decoration: none; transition: color 0.2s, background 0.2s;
@@ -272,27 +298,134 @@
             .banner-carousel .carousel-item img { min-height: 45vw; }
         }
 
-        @media (max-width: 768px) {
-            .whats-new-carousel .col-md-4 { width: 50%; }
-        }
+/* =========================
+   WHAT'S NEW RESPONSIVE
+========================= */
 
-        @media (max-width: 576px) {
-            .logo { max-width: 160px; }
-            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .product-info { padding: 10px 12px 12px; }
-            .product-name { font-size: 0.85rem; }
-            .product-price { font-size: 1rem; }
-            .icon-nav-items { gap: 14px; }
-            .icon-nav-items a { font-size: 1.2rem; }
-            .footer-section { flex: 1 1 100%; margin: 10px 0; }
-            .footer-container { padding: 0 16px 30px; }
-            .search-form input { width: 120px; }
-            #search-toggle:checked ~ .search-form { width: 120px; }
-        }
+/* ===== WHAT'S NEW EQUAL HEIGHT FIX ===== */
+#whatsNewDesktop .carousel-item .row {
+    align-items: stretch;        /* stretch all cols to tallest */
+}
 
-        @media (max-width: 380px) {
-            .product-grid { grid-template-columns: 1fr; }
-        }
+#whatsNewDesktop .carousel-item .col-md-4,
+#whatsNewDesktop .carousel-item .col-4 {
+    display: flex;
+    flex-direction: column;
+}
+
+#whatsNewDesktop .carousel-item .card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;               /* fill the column */
+}
+#whatsNewDesktop .product-image-wrapper {
+    aspect-ratio: 1 / 1 !important;
+    width: 100%;
+    overflow: hidden;
+}
+
+#whatsNewDesktop .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#whatsNewDesktop .carousel-item .product-card {
+    flex: 1;                    /* grow to match siblings */
+}
+
+    /* Best Sellers */
+    .product-grid{
+        grid-template-columns:repeat(3,1fr) !important;
+        gap:8px !important;
+    }
+
+    .product-info{
+        padding:8px 10px 10px !important;
+        gap:4px !important;
+    }
+
+    .product-name{
+        font-size:0.72rem !important;
+        -webkit-line-clamp:2;
+    }
+
+    .product-price{
+        font-size:0.8rem !important;
+    }
+
+    .old-price{
+        font-size:0.68rem !important;
+        margin-left:3px !important;
+    }
+
+    /* Footer */
+    .footer{
+        padding-top:30px;
+    }
+
+    .footer-container{
+        flex-direction:column !important;
+        padding:0 16px 20px !important;
+        gap:0;
+    }
+
+    .footer-section{
+        margin:0 !important;
+        padding:16px 0 !important;
+        border-bottom:1px solid rgba(255,255,255,0.12);
+    }
+
+    .footer-section:last-child{
+        border-bottom:none;
+    }
+
+    .footer-section h3,
+    .footer-section h4{
+        font-size:0.9rem;
+        margin-bottom:8px;
+    }
+
+    .footer-section p,
+    .footer-section a{
+        font-size:0.82rem;
+    }
+
+    .logo{
+        max-width:160px;
+    }
+
+    .icon-nav-items{
+        gap:14px;
+    }
+
+    .icon-nav-items a{
+        font-size:1.2rem;
+    }
+
+    .search-form input{
+        width:120px;
+    }
+
+    #search-toggle:checked ~ .search-form{
+        width:120px;
+    }
+}
+
+@media (max-width:480px){
+
+    .product-grid{
+        grid-template-columns:repeat(3,1fr) !important;
+        gap:6px !important;
+    }
+
+    .product-name{
+        font-size:0.65rem !important;
+    }
+
+    .product-price{
+        font-size:0.72rem !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -468,11 +601,15 @@
 
         <ul class="mobile-nav-list">
 
+            <!-- FURNITURE -->
             <li>
                 <input type="checkbox" id="sub-furniture-toggle" class="mobile-sub-toggle">
-                <label for="sub-furniture-toggle" class="mobile-nav-link">
-                    Furniture <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'furniture' %}" class="mobile-nav-category-link">Furniture</a>
+                    <label for="sub-furniture-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <div class="mobile-sub-heading">Seating</div>
                     <a href="{% url 'furniture' %}?sub_id=35">Chairs</a>
@@ -490,11 +627,15 @@
                 </div>
             </li>
 
+            <!-- WALL DECOR -->
             <li>
                 <input type="checkbox" id="sub-walldecor-toggle" class="mobile-sub-toggle">
-                <label for="sub-walldecor-toggle" class="mobile-nav-link">
-                    Wall Decor <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'walldecor' %}" class="mobile-nav-category-link">Wall Decor</a>
+                    <label for="sub-walldecor-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a>
                     <a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a>
@@ -503,11 +644,15 @@
                 </div>
             </li>
 
+            <!-- KITCHEN & DINING -->
             <li>
                 <input type="checkbox" id="sub-kitchen-toggle" class="mobile-sub-toggle">
-                <label for="sub-kitchen-toggle" class="mobile-nav-link">
-                    Kitchen & Dining <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'kitchen' %}" class="mobile-nav-category-link">Kitchen & Dining</a>
+                    <label for="sub-kitchen-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <div class="mobile-sub-heading">Dinnerware</div>
                     <a href="{% url 'kitchen' %}?sub_id=18">Tableware</a>
@@ -520,11 +665,15 @@
                 </div>
             </li>
 
+            <!-- LIGHTING -->
             <li>
                 <input type="checkbox" id="sub-lighting-toggle" class="mobile-sub-toggle">
-                <label for="sub-lighting-toggle" class="mobile-nav-link">
-                    Lighting <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'lighting' %}" class="mobile-nav-category-link">Lighting</a>
+                    <label for="sub-lighting-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a>
                     <a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a>
@@ -533,11 +682,15 @@
                 </div>
             </li>
 
+            <!-- ACCESSORIES -->
             <li>
                 <input type="checkbox" id="sub-accessories-toggle" class="mobile-sub-toggle">
-                <label for="sub-accessories-toggle" class="mobile-nav-link">
-                    Accessories <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'bath' %}" class="mobile-nav-category-link">Accessories</a>
+                    <label for="sub-accessories-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <a href="{% url 'bath' %}?sub_id=30">Vase</a>
                     <a href="{% url 'bath' %}?sub_id=31">Candle Holders</a>
@@ -592,30 +745,39 @@
     </section>
 
     <!-- ===== WHAT'S NEW ===== -->
-    <section class="whats-new-section">
-        <div class="container">
-            <h2 class="section-title">What's New</h2>
-            <div id="whatsNewCarousel" class="carousel slide" data-bs-ride="carousel">
+   <section class="whats-new-section">
+    <div class="container">
+        <h2 class="section-title">What's New</h2>
+
+        <!-- DESKTOP -->
+        <div class="desktop-whats-new">
+            <div id="whatsNewDesktop" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
+
                     {% for product in whats_new_products %}
                         {% if forloop.counter0|divisibleby:3 %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                 <div class="row g-3">
                         {% endif %}
 
-                        <div class="col-md-4 col-6 d-flex mb-3 mb-md-0">
+                        <div class="col-md-4 col-4">
                             <a href="{% url 'product_detail' product.id product.slug %}" class="card-link">
-                                <div class="product-card w-100">
+                                <div class="product-card">
                                     <div class="product-image-wrapper">
-                                        <img src="{% static 'images/' %}{{ product.image1 }}" alt="{{ product.name }}" class="product-image">
+                                        <img src="{% static 'images/' %}{{ product.image1 }}" class="product-image">
                                     </div>
                                     <div class="product-info">
                                         <h3 class="product-name">{{ product.name }}</h3>
-                                        {% if product.offer_price %}
-                                            <p class="product-price">₹{{ product.offer_price }}<span class="old-price">₹{{ product.price }}</span></p>
-                                        {% else %}
-                                            <p class="product-price">₹{{ product.price }}</p>
-                                        {% endif %}
+
+                                <p class="product-price">
+                                    {% if product.offer_price %}
+                                        ₹{{ product.offer_price }}
+                                        <span class="old-price">₹{{ product.price }}</span>
+                                    {% else %}
+                                        ₹{{ product.price }}
+                                        <span class="old-price" style="visibility:hidden;">₹0</span>
+                                    {% endif %}
+                                </p>
                                     </div>
                                 </div>
                             </a>
@@ -626,16 +788,19 @@
                             </div>
                         {% endif %}
                     {% endfor %}
+
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#whatsNewCarousel" data-bs-slide="prev">
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#whatsNewDesktop" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#whatsNewCarousel" data-bs-slide="next">
+
+                <button class="carousel-control-next" type="button" data-bs-target="#whatsNewDesktop" data-bs-slide="next">
                     <span class="carousel-control-next-icon"></span>
                 </button>
             </div>
         </div>
-    </section>
+</section>
 
     <!-- ===== BEST SELLERS ===== -->
     <section class="best-sellers-section">
