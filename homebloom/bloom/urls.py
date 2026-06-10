@@ -123,4 +123,5 @@ path(
     views.cart_checkout,
     name="cart_checkout"
 ),
+path("test-socialapp/", views.test_socialapp),
 ] 

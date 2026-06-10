@@ -1794,4 +1794,9 @@ def apply_coupon(request):
 
     return redirect("payment_page")
 
+from django.http import HttpResponse
+from allauth.socialaccount.models import SocialApp
+
+def test_socialapp(request):
+    return HttpResponse(str(SocialApp.objects.count()))
 

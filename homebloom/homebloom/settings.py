@@ -122,20 +122,13 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'APP': {
-            'client_id': config('GOOGLE_CLIENT_ID'),
-            'secret': config('GOOGLE_CLIENT_SECRET'),
-            'key': ''
-        },
         'SCOPE': [
             'profile',
             'email',
         ],
-
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
-
         'FETCH_USERINFO': True,
     }
 }
