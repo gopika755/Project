@@ -124,7 +124,7 @@ def home(request):
 
     best_sellers = Product.objects.filter(
         is_best_seller=True, is_active=True
-    ).select_related("category", "subcategory").order_by("-created_at")[:8]
+    ).select_related("category", "subcategory").order_by("-created_at")[:9]
 
     ctx = get_user_context(request.user)
 
