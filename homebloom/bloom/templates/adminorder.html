@@ -1,4 +1,4 @@
-{%load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,11 +13,12 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:'Jost', sans-serif;
+            font-family:'Poppins',sans-serif;
         }
 
         body{
             background:#f4f1ec;
+            overflow-x:hidden;
         }
 
         .dashboard-wrapper{
@@ -31,6 +32,7 @@
             background:#3f3007;
             color:#fff;
             padding:30px 20px;
+            flex-shrink:0;
         }
 
         .brand{
@@ -46,6 +48,7 @@
             padding:12px 15px;
             border-radius:8px;
             margin-bottom:10px;
+            transition:.3s;
         }
 
         .sidebar nav a.active,
@@ -54,22 +57,38 @@
             color:#fff;
         }
 
-        .logout{
-            margin-top:30px;
+        .logout-form{
+            margin-top:25px;
+        }
+
+        .logout-pill{
+            width:100%;
+            padding:14px 18px;
             background:#2b2205;
+            color:#fff;
+            border:none;
+            border-radius:14px;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .logout-pill:hover{
+            background:#8B6F47;
         }
 
         /* MAIN */
         .main-content{
             flex:1;
-            padding:30px 40px;
+            padding:30px;
+            min-width:0;
         }
 
         .top-bar{
             display:flex;
             justify-content:space-between;
             align-items:center;
-            margin-bottom:30px;
+            gap:15px;
+            margin-bottom:35px;
         }
 
         .top-bar h1{
@@ -81,7 +100,7 @@
             background:#fff;
             padding:10px 18px;
             border-radius:10px;
-            box-shadow:0 4px 12px rgba(0,0,0,.1);
+            box-shadow:0 4px 12px rgba(0,0,0,.08);
         }
 
         /* TABLE */
@@ -96,7 +115,7 @@
         table{
             width:100%;
             border-collapse:collapse;
-            min-width:100px;
+            min-width:600px;
         }
 
         th,td{
@@ -149,67 +168,145 @@
             background:#8B6F47;
         }
 
-        @media(max-width:576px){
+        .order-view summary {
+            list-style: none;
+            cursor: pointer;
+            background: #3f3007;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+
+        .order-view summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .order-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f4f1ec;
+            border-radius: 12px;
+            width: 360px;
+        }
+
+        .product-preview {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .product-preview img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        .product-preview h4 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #3f3007;
+        }
+
+        .product-preview p {
+            margin: 2px 0;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .order-details hr {
+            margin: 12px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        /* TABLET */
+        @media (max-width:992px){
             .sidebar{
-                display:none;
+                width:200px;
+            }
+
+            .main-content{
+                padding:20px;
             }
         }
-        .order-view summary {
-    list-style: none;
-    cursor: pointer;
-    background: #3f3007;
-    color: #fff;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    display: inline-block;
-}
 
-.order-view summary::-webkit-details-marker {
-    display: none;
-}
+        /* MOBILE */
+        @media (max-width:768px){
+            .dashboard-wrapper{
+                flex-direction:column;
+            }
 
-.order-details {
-    margin-top: 15px;
-    padding: 15px;
-    background: #f4f1ec;
-    border-radius: 12px;
-    width: 360px;
-}
+            .sidebar{
+                width:100%;
+                padding:20px;
+            }
 
-/* PRODUCT IMAGE SECTION */
-.product-preview {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
+            .brand{
+                margin-bottom:20px;
+                text-align:center;
+            }
 
-.product-preview img {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    object-fit: cover;
-    border: 1px solid #ddd;
-}
+            .sidebar nav{
+                display:grid;
+                grid-template-columns:repeat(2,1fr);
+                gap:10px;
+            }
 
-.product-preview h4 {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #3f3007;
-}
+            .sidebar nav a{
+                margin-bottom:0;
+                text-align:center;
+            }
 
-.product-preview p {
-    margin: 2px 0;
-    font-size: 0.8rem;
-    color: #555;
-}
+            .logout-form{
+                grid-column:1/-1;
+            }
 
-.order-details hr {
-    margin: 12px 0;
-    border: none;
-    border-top: 1px solid #ddd;
-}
+            .top-bar{
+                flex-direction:column;
+                align-items:flex-start;
+            }
 
+            table{
+                min-width:500px;
+            }
+        }
+
+        /* SMALL PHONES */
+        @media (max-width:480px){
+            .main-content{
+                padding:15px;
+            }
+
+            .sidebar nav{
+                grid-template-columns:1fr;
+            }
+
+            .top-bar h1{
+                font-size:1.5rem;
+            }
+
+            .table-wrapper{
+                padding:15px;
+            }
+
+            th,td{
+                padding:10px;
+                font-size:0.8rem;
+            }
+
+            .product img{
+                width:40px;
+                height:40px;
+            }
+
+            .order-details{
+                width:100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -222,14 +319,20 @@
         <nav>
             <a href="{% url 'admindashboard' %}">Dashboard</a>
             <a href="{%url 'adminproduct'%}">Products</a>
-            <a href="{% url 'adminorder' %}"class="active">Orders</a>
-             <a href="{%url 'admincustomer'%}">Customers</a>
+            <a href="{% url 'adminorder' %}" class="active">Orders</a>
+            <a href="{%url 'admincustomer'%}">Customers</a>
             <a href="{%url 'admincategory'%}">Categories</a>
             <a href="{%url 'admincoupon'%}">Coupons</a>
             <a href="{% url 'banner_add'%}">Banner</a>
             <a href="{%url 'addproduct'%}">Add Product</a>
             <a href="{% url 'adminnotifications' %}">Notifications</a>
-            <a href="/" class="logout">Logout</a>
+
+            <form method="post" action="{% url 'adminlogout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-pill">
+                    Logout
+                </button>
+            </form>
         </nav>
     </aside>
 
@@ -242,92 +345,82 @@
         </div>
 
         <div class="table-wrapper">
-           <table class="orders-table">
-  <thead>
-    <tr>
-      <th>Product</th>
-      <th>Order ID</th>
-      <th>User</th>
-      <th>Total Price</th>
-      <th>Payment</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Total Price</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
- <tbody>
-{% for order in orders %}
-<tr>
-<td>
-    <div class="product">
-        <img src="{% static 'images/' %}{{ order.items.first.product.image1 }}"
-             alt="{{ order.items.first.product.name }}">
-        <span>{{ order.items.first.product.name }}</span>
-    </div>
-</td>
-  <td>#HB{{ order.id }}</td>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>
+                            <div class="product">
+                                <img src="{% static 'images/' %}{{ order.items.first.product.image1 }}"
+                                     alt="{{ order.items.first.product.name }}">
+                                <span>{{ order.items.first.product.name }}</span>
+                            </div>
+                        </td>
+                        <td>#HB{{ order.id }}</td>
+                        <td>{{ order.user.email }}</td>
+                        <td>₹{{ order.total }}</td>
+                        <td>{{ order.payment_method }}</td>
+                        <td>
+                            <form method="post" action="{% url 'update_order_status' order.id %}">
+                                {% csrf_token %}
+                                <select name="status" onchange="this.form.submit()">
+                                    {% for status in status_choices %}
+                                    <option value="{{ status }}"
+                                            {% if order.status == status %}selected{% endif %}>
+                                        {{ status }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </td>
+                        <td>
+                            <details class="order-view">
+                                <summary>View</summary>
 
-  <td>{{ order.user.email }}</td>
+                                <div class="order-details">
+                                    {% for item in order.items.all %}
+                                    <div class="product-preview">
+                                        <img src="{% static 'images/' %}{{ item.product.image1 }}" alt="">
+                                        <div>
+                                            <h4>{{ item.product.name }}</h4>
+                                            <p>Qty: {{ item.quantity }}</p>
+                                            <p>Price: ₹{{ item.price }}</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    {% endfor %}
 
- <td>
-    ₹{{ order.total }}
-</td>
-  <td>{{ order.payment_method }}</td>
+                                    <h4>Customer Details</h4>
+                                    <p><strong>Email:</strong> {{ order.user.email }}</p>
 
-<td>
-  <form method="post" action="{% url 'update_order_status' order.id %}">
-    {% csrf_token %}
-    <select name="status" onchange="this.form.submit()">
-      {% for status in status_choices %}
-        <option value="{{ status }}"
-          {% if order.status == status %}selected{% endif %}>
-          {{ status }}
-        </option>
-      {% endfor %}
-    </select>
-  </form>
-</td>
+                                    <hr>
 
-
-
-  <td>
-    <details class="order-view">
-      <summary>View</summary>
-
-      <div class="order-details">
-        {% for item in order.items.all %}
-        <div class="product-preview">
-          <img src="{% static 'images/' %}{{ item.product.image1 }}" alt="">
-          <div>
-            <h4>{{ item.product.name }}</h4>
-            <p>Qty: {{ item.quantity }}</p>
-            <p>Price: ₹{{ item.price }}</p>
-          </div>
-        </div>
-        <hr>
-        {% endfor %}
-
-        <h4>Customer Details</h4>
-        <p><strong>Email:</strong> {{ order.user.email }}</p>
-
-        <hr>
-
-        <h4>Payment Info</h4>
-        <p><strong>Method:</strong> {{ order.payment_method }}</p>
-        <p><strong>Status:</strong> {{ order.status }}</p>
-      </div>
-    </details>
-  </td>
-</tr>
-{% empty %}
-<tr>
-  <td colspan="7">No orders yet.</td>
-</tr>
-{% endfor %}
-</tbody>
-
-</table>
-
+                                    <h4>Payment Info</h4>
+                                    <p><strong>Method:</strong> {{ order.payment_method }}</p>
+                                    <p><strong>Status:</strong> {{ order.status }}</p>
+                                </div>
+                            </details>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">No orders yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
     </main>

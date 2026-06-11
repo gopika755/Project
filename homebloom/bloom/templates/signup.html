@@ -9,199 +9,296 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-/* YOUR STYLES – UNTOUCHED */
 :root{
---primary:#8B6F47;
---accent:#3f3007;
---bg:#e4d1bb;
---light:#dbc7ad;
---text:#333;
+    --primary:#8B6F47;
+    --accent:#3f3007;
+    --bg:#e4d1bb;
+    --light:#dbc7ad;
+    --text:#333;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
-font-family:'Jost', sans-serif;
-background:var(--bg);
-color:var(--text);
+    font-family:'Jost',sans-serif;
+    background:var(--bg);
+    color:var(--text);
 }
 
+/* Logo */
+.logo-section{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px 0;
+    background:#fff;
+}
+
+.logo{
+    width:100%;
+    max-width:250px;
+    height:auto;
+}
+
+/* Main Wrapper */
 .auth-wrapper{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:40px 15px;
+    min-height:calc(100vh - 100px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px 15px;
 }
 
+/* Card */
 .auth-card{
-background:#fff;
-width:100%;
-max-width:1100px;
-display:grid;
-grid-template-columns:1fr 1fr;
-border-radius:6px;
-overflow:hidden;
-box-shadow:0 10px 40px rgba(0,0,0,.15);
+    width:100%;
+    max-width:1100px;
+    background:#fff;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 10px 40px rgba(0,0,0,0.15);
 }
 
-.auth-left{ padding:50px; }
+/* Left Side */
+.auth-left{
+    padding:50px;
+}
 
 .auth-left h2{
-font-size:1.6rem;
-letter-spacing:2px;
-margin-bottom:30px;
-text-transform:uppercase;
+    font-size:1.8rem;
+    letter-spacing:2px;
+    margin-bottom:30px;
+    text-transform:uppercase;
 }
 
-.form-group{ margin-bottom:18px; }
+/* Form */
+.form-group{
+    margin-bottom:18px;
+}
 
 .form-group label{
-font-weight:600;
-margin-bottom:6px;
-display:block;
+    display:block;
+    margin-bottom:6px;
+    font-weight:600;
 }
 
 .form-group input{
-width:100%;
-padding:10px 12px;
-border:1px solid #bbb;
-border-radius:2px;
+    width:100%;
+    padding:12px;
+    border:1px solid #bbb;
+    border-radius:4px;
+    outline:none;
+    transition:.3s;
+}
+
+.form-group input:focus{
+    border-color:var(--primary);
 }
 
 .signup-btn{
-width:100%;
-padding:14px;
-background:#8b7355;
-color:#fff;
-border:none;
-letter-spacing:2px;
-font-weight:600;
+    width:100%;
+    border:none;
+    padding:14px;
+    background:#8b7355;
+    color:#fff;
+    font-weight:600;
+    letter-spacing:2px;
+    transition:.3s;
 }
 
+.signup-btn:hover{
+    background:#705d45;
+}
+
+/* Right Side */
 .auth-right{
-background:#faf7f3;
-padding:50px;
-border-left:1px solid #ddd;
+    background:#faf7f3;
+    border-left:1px solid #ddd;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:50px;
+}
+
+.logtxt{
+    max-width:350px;
+    text-align:center;
+}
+
+.logtxt h3{
+    margin-bottom:15px;
+}
+
+.logtxt p{
+    margin-bottom:25px;
+    color:#666;
 }
 
 .login-btn{
-display:block;
-text-align:center;
-text-decoration:none;
-width:100%;
-padding:14px;
-background:#8b7355;
-color:#fff;
-letter-spacing:2px;
-font-weight:600;
-border:none;
+    display:block;
+    text-decoration:none;
+    background:#8b7355;
+    color:#fff;
+    padding:14px;
+    font-weight:600;
+    letter-spacing:2px;
+    transition:.3s;
 }
 
-.google-btn{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 12px;
-  border: 1px solid #ddd;
-  background: #fff;
-  font-weight: 600;
-  margin: 25px 0;
-  cursor: pointer;
+.login-btn:hover{
+    background:#705d45;
+    color:#fff;
 }
 
-.google-btn img{
-  width: 18px;
-}
-  .logo-section {
-    padding: 15px 0 15px; 
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
+/* Django Errors */
+.errorlist{
+    list-style:none;
+    color:red;
+    font-size:14px;
+    padding-left:0;
+    margin-top:5px;
 }
 
-.logo {
-    max-width: 250px;    
-    width: 100%;
-    height: auto;
+/* Tablet */
+@media(max-width:992px){
+
+    .auth-left,
+    .auth-right{
+        padding:35px;
+    }
+
 }
-.logtxt{
-  margin-top:120px;
-  
+
+/* Mobile */
+@media(max-width:768px){
+
+    .logo{
+        max-width:180px;
+    }
+
+    .auth-wrapper{
+        padding:15px;
+        min-height:auto;
+    }
+
+    .auth-card{
+        grid-template-columns:1fr;
+    }
+
+    .auth-left{
+        padding:30px 20px;
+    }
+
+    .auth-right{
+        border-left:none;
+        border-top:1px solid #ddd;
+        padding:30px 20px;
+    }
+
+    .auth-left h2{
+        text-align:center;
+        font-size:1.5rem;
+    }
+
+    .form-group input{
+        font-size:16px;
+    }
+
+    .signup-btn,
+    .login-btn{
+        padding:12px;
+        font-size:14px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-
-    <!-- PAGE TITLE -->
-    <section class="logo-section">
+<section class="logo-section">
     <a href="/">
-    <img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo">
+        <img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo">
     </a>
 </section>
 
 <div class="auth-wrapper">
-<div class="auth-card">
 
-<!-- LEFT: SIGN UP -->
-<div class="auth-left">
-<h2>Create Account</h2>
+    <div class="auth-card">
 
-<form method="POST">
-  {% csrf_token %}
+        <!-- Signup -->
+        <div class="auth-left">
 
-  {% if form.non_field_errors %}
-  <div class="alert alert-danger">
-    {{ form.non_field_errors }}
-  </div>
-  {% endif %}
+            <h2>Create Account</h2>
 
-  <div class="form-group">
-    <label>Username </label>
-    {{ form.username }}
-    {{ form.username.errors }}
-  </div>
+            <form method="POST">
+                {% csrf_token %}
 
-  <div class="form-group">
-    <label>Email </label>
-    {{ form.email }}
-    {{ form.email.errors }}
-  </div>
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
 
-  <div class="form-group">
-    <label>Password </label>
-    {{ form.password1 }}
-    {{ form.password1.errors }}
-  </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
 
-  <div class="form-group">
-    <label>Confirm Password </label>
-    {{ form.password2 }}
-    {{ form.password2.errors }}
-  </div>
-  <button type="submit" class="signup-btn">SIGN UP</button>
-  
-</form>
+                <div class="form-group">
+                    <label>Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
 
-</div>
+                <div class="form-group">
+                    <label>Password</label>
+                    {{ form.password1 }}
+                    {{ form.password1.errors }}
+                </div>
 
-<!-- RIGHT: LOGIN -->
-<div class="auth-right">
-  <div class="logtxt">
-<h3>Already have an account?</h3>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    {{ form.password2 }}
+                    {{ form.password2.errors }}
+                </div>
 
-<p>
-Log in to manage your orders, wishlist, and personal details.
-</p>
+                <button type="submit" class="signup-btn">
+                    SIGN UP
+                </button>
 
-<a href="{% url 'login' %}" class="login-btn">LOGIN</a>
-</div>
- 
+            </form>
 
-</div>
-</div>
+        </div>
+
+        <!-- Login Side -->
+        <div class="auth-right">
+
+            <div class="logtxt">
+
+                <h3>Already have an account?</h3>
+
+                <p>
+                    Log in to manage your orders, wishlist,
+                    and personal details.
+                </p>
+
+                <a href="{% url 'login' %}" class="login-btn">
+                    LOGIN
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 </body>

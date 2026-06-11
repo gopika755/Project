@@ -1,216 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Coupons | Admin Dashboard | HOME BLOOM</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Coupons | Admin Dashboard | HOUSE BLOOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Jost', sans-serif;
-}
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
 
-body{
-    background:#f4f1ec;
-}
+        body{
+            background:#f4f1ec;
+            overflow-x:hidden;
+        }
 
-.dashboard-wrapper{
-    display:flex;
-    min-height:100vh;
-}
+        .dashboard-wrapper{
+            display:flex;
+            min-height:100vh;
+        }
 
-/* SIDEBAR */
-.sidebar{
-    width:240px;
-    background:#3f3007;
-    color:#fff;
-    padding:30px 20px;
-}
+        /* =========================
+           SIDEBAR
+        ========================= */
 
-.brand{
-    font-size:1.4rem;
-    letter-spacing:2px;
-    margin-bottom:40px;
-}
+        .sidebar{
+            width:240px;
+            background:#3f3007;
+            color:#fff;
+            padding:30px 20px;
+            flex-shrink:0;
+        }
 
-.sidebar nav a{
-    display:block;
-    color:#ddd;
-    text-decoration:none;
-    padding:12px 15px;
-    border-radius:8px;
-    margin-bottom:10px;
-}
+        .brand{
+            font-size:1.4rem;
+            letter-spacing:2px;
+            margin-bottom:40px;
+        }
 
-.sidebar nav a:hover,
-.sidebar nav a.active{
-    background:#8B6F47;
-    color:#fff;
-}
+        .sidebar nav a{
+            display:block;
+            color:#ddd;
+            text-decoration:none;
+            padding:12px 15px;
+            border-radius:8px;
+            margin-bottom:10px;
+            transition:.3s;
+        }
 
-.logout{
-    margin-top:30px;
-    background:#2b2205;
-}
+        .sidebar nav a:hover,
+        .sidebar nav a.active{
+            background:#8B6F47;
+            color:#fff;
+        }
 
-/* MAIN */
-.main-content{
-    flex:1;
-    padding:30px 40px;
-}
+        .logout-form{
+            margin-top:25px;
+        }
 
-.top-bar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
-}
-
-.top-bar h1{
-    font-size:1.8rem;
-    color:#3f3007;
-}
-
-.admin-info{
-    background:#fff;
-    padding:10px 18px;
-    border-radius:10px;
-    box-shadow:0 4px 12px rgba(0,0,0,.1);
-}
-
-/* FORM */
-.form-wrapper{
-    background:#fff;
-    padding:30px;
-    border-radius:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    margin-bottom:30px;
-    max-width:900px;
-}
-
-.form-wrapper h2{
-    margin-bottom:20px;
-    color:#3f3007;
-}
-
-.form-group{
-    margin-bottom:18px;
-    display:flex;
-    flex-direction:column;
-}
-
-.form-group label{
-    font-size:0.9rem;
-    color:#555;
-    margin-bottom:6px;
-}
-
-.form-group input,
-.form-group select{
-    padding:10px 14px;
-    border-radius:10px;
-    border:1px solid #ccc;
-    font-size:0.9rem;
-    width:100%;
-}
-
-.add-btn{
-    padding:10px 20px;
-    background:#8B6F47;
-    color:#fff;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:0.95rem;
-    transition:0.3s;
-}
-
-.add-btn:hover{
-    background:#6b5234;
-}
-
-/* TABLE */
-.table-wrapper{
-    background:#fff;
-    border-radius:16px;
-    padding:25px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    overflow-x:auto;
-}
-
-.table-wrapper h2{
-    margin-bottom:20px;
-    color:#3f3007;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:900px;
-}
-
-th,td{
-    padding:14px;
-    text-align:left;
-    border-bottom:1px solid #e0e0e0;
-    font-size:0.9rem;
-}
-
-th{
-    color:#777;
-    font-weight:500;
-}
-
-/* ACTION BUTTONS */
-.actions a{
-    padding:6px 12px;
-    border-radius:8px;
-    font-size:0.85rem;
-    text-decoration:none;
-    color:#fff;
-    margin-right:6px;
-    display:inline-block;
-}
-
-.edit{
-    background:#8B6F47;
-    text-decoration:none;
-}
-
-.delete{
-    background:#b3261e;
-}
-
-/* Responsive */
-@media(max-width:576px){
-    .sidebar{
-        display:none;
-    }
-}
-.logout-pill{
+      .logout-pill{
     width:100%;
     padding:14px 18px;
-    background:#2b2205;       
+    background:#2b2205;
     color:#fff;
     border:none;
-    border-radius:14px;      
-    font-size:1rem;
-    font-weight:500;
-    text-align:left;
+    border-radius:14px;
     cursor:pointer;
-    transition:0.3s ease;
-    font-family:'Poppins', sans-serif;
+    transition:.3s;
 }
 
 .logout-pill:hover{
-    background:#8B6F47;      
+    background:#8B6F47;
 }
-</style>
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main-content{
+            flex:1;
+            padding:30px;
+            min-width:0;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:15px;
+            margin-bottom:35px;
+        }
+
+        .top-bar h1{
+            color:#3f3007;
+            font-size:1.8rem;
+        }
+
+        .admin-info{
+            background:#fff;
+            padding:10px 18px;
+            border-radius:10px;
+            box-shadow:0 4px 12px rgba(0,0,0,.08);
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-wrapper{
+            background:#fff;
+            padding:30px;
+            border-radius:16px;
+            box-shadow:0 10px 30px rgba(0,0,0,.08);
+            margin-bottom:30px;
+            max-width:900px;
+            width:100%;
+        }
+
+        .form-wrapper h2{
+            margin-bottom:20px;
+            color:#3f3007;
+        }
+
+        .form-group{
+            margin-bottom:18px;
+            display:flex;
+            flex-direction:column;
+        }
+
+        .form-group label{
+            font-size:0.9rem;
+            color:#555;
+            margin-bottom:6px;
+        }
+
+        .form-group input,
+        .form-group select{
+            padding:12px 14px;
+            border-radius:10px;
+            border:1px solid #ccc;
+            font-size:0.9rem;
+            width:100%;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus{
+            outline:none;
+            border-color:#8B6F47;
+        }
+
+        .add-btn{
+            padding:12px 20px;
+            background:#8B6F47;
+            color:#fff;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+            font-size:0.95rem;
+            transition:0.3s;
+            width:100%;
+        }
+
+        .add-btn:hover{
+            background:#6b5234;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper{
+            background:#fff;
+            border-radius:16px;
+            padding:25px;
+            box-shadow:0 10px 30px rgba(0,0,0,.08);
+            overflow-x:auto;
+            width:100%;
+        }
+
+        .table-wrapper h2{
+            margin-bottom:20px;
+            color:#3f3007;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            min-width:900px;
+        }
+
+        th,td{
+            padding:14px;
+            text-align:left;
+            border-bottom:1px solid #e0e0e0;
+            font-size:0.9rem;
+        }
+
+        th{
+            color:#777;
+            font-weight:500;
+        }
+
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
+
+        .actions a{
+            padding:6px 12px;
+            border-radius:8px;
+            font-size:0.85rem;
+            text-decoration:none;
+            color:#fff;
+            margin-right:6px;
+            display:inline-block;
+        }
+
+        .edit{
+            background:#8B6F47;
+        }
+
+        .delete{
+            background:#b3261e;
+        }
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width:992px){
+
+            .sidebar{
+                width:200px;
+            }
+
+            .main-content{
+                padding:20px;
+            }
+
+            .form-wrapper{
+                padding:20px;
+                max-width:450px;
+            }
+
+            .table-wrapper{
+                padding:20px;
+            }
+
+            th,td{
+                padding:12px;
+                font-size:0.85rem;
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width:768px){
+
+            .dashboard-wrapper{
+                flex-direction:column;
+            }
+
+            .sidebar{
+                width:100%;
+                padding:20px;
+            }
+
+            .brand{
+                margin-bottom:20px;
+                text-align:center;
+            }
+
+            .sidebar nav{
+                display:grid;
+                grid-template-columns:repeat(2,1fr);
+                gap:10px;
+            }
+
+            .sidebar nav a{
+                margin-bottom:0;
+                text-align:center;
+            }
+
+            .logout-form{
+                grid-column:1/-1;
+            }
+
+            .top-bar{
+                flex-direction:column;
+                align-items:flex-start;
+            }
+
+            .top-bar h1{
+                font-size:1.5rem;
+            }
+
+            .form-wrapper{
+                padding:20px;
+                max-width:100%;
+            }
+
+            .form-group{
+                margin-bottom:15px;
+            }
+
+            .form-group input,
+            .form-group select{
+                padding:10px;
+            }
+
+            .add-btn{
+                padding:12px;
+            }
+
+            .table-wrapper{
+                padding:15px;
+            }
+
+            table{
+                min-width:100%;
+            }
+
+            th,td{
+                padding:10px;
+                font-size:0.8rem;
+            }
+
+            .actions a{
+                padding:5px 10px;
+                margin-right:4px;
+            }
+        }
+
+        /* =========================
+           SMALL PHONES
+        ========================= */
+
+        @media (max-width:480px){
+
+            .main-content{
+                padding:15px;
+            }
+
+            .sidebar nav{
+                grid-template-columns:1fr;
+            }
+
+            .form-wrapper{
+                padding:15px;
+            }
+
+            .table-wrapper{
+                padding:12px;
+            }
+
+            th,td{
+                padding:8px;
+                font-size:0.75rem;
+            }
+
+            .actions a{
+                padding:5px 8px;
+                font-size:0.8rem;
+                margin-right:3px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
 <div class="dashboard-wrapper">
@@ -218,25 +384,23 @@ th{
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <h2 class="brand">HOUSE BLOOM</h2>
-            <nav>
-            <a href="{% url 'admindashboard' %}"class="active">Dashboard</a>
-           <a href="{% url 'adminproduct' %}" >Products</a>
+        <nav>
+            <a href="{% url 'admindashboard' %}" >Dashboard</a>
+            <a href="{% url 'adminproduct' %}">Products</a>
             <a href="{% url 'adminorder' %}">Orders</a>
-             <a href="{%url 'admincustomer'%}">Customers</a>
-            <a href="{%url 'admincategory'%}">Categories</a>
-            <a href="{%url 'admincoupon'%}">Coupons</a>
-            <a href="{% url 'banner_add'%}">Banner</a>
-            <a href="{%url 'addproduct'%}">Add Product</a>
+            <a href="{% url 'admincustomer' %}">Customers</a>
+            <a href="{% url 'admincategory' %}">Categories</a>
+            <a href="{% url 'admincoupon' %}" class="active">Coupons</a>
+            <a href="{% url 'banner_add' %}">Banner</a>
+            <a href="{% url 'addproduct' %}">Add Product</a>
             <a href="{% url 'adminnotifications' %}">Notifications</a>
 
-        <form method="post" action="{% url 'adminlogout' %}" class="logout-form">
-    {% csrf_token %}
-    <button type="submit" class="logout-pill">
-        Logout
-    </button>
-</form>
-    
-
+            <form method="post" action="{% url 'adminlogout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-pill">
+                    Logout
+                </button>
+            </form>
         </nav>
     </aside>
 
@@ -256,9 +420,9 @@ th{
 
                 <div class="form-group">
                     <label for="code">Coupon Code</label>
-                    <input type="text" id="code" name="code" 
-                     required>
+                    <input type="text" id="code" name="code" required>
                 </div>
+
                 <div class="form-group">
                     <label for="type">Discount Type</label>
                     <select id="type" name="type">
@@ -266,28 +430,33 @@ th{
                         <option value="percentage">Percentage</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="value">Discount Value</label>
-                    <input type="number" id="value" name="value" 
-                    required>
+                    <input type="number" id="value" name="value" required>
                 </div>
+
                 <div class="form-group">
                     <label for="min-order">Minimum Order Value</label>
-                    <input type="number" id="min-order" name="min-order"  required>
+                    <input type="number" id="min-order" name="min-order" required>
                 </div>
+
                 <div class="form-group">
                     <label for="start-date">Start Date</label>
                     <input type="date" id="start-date" name="start-date" required>
                 </div>
+
                 <div class="form-group">
                     <label for="end-date">End Date</label>
                     <input type="date" id="end-date" name="end-date" required>
                 </div>
+
                 <div class="form-group">
                     <label for="max-discount">Maximum Discount</label>
-                    <input type="number" id="max-discount" name="max-discount"  required>
+                    <input type="number" id="max-discount" name="max-discount" required>
                 </div>
-                <button type="submit" class="add-btn" >Add Coupon </button>
+
+                <button type="submit" class="add-btn">Add Coupon</button>
             </form>
         </div>
 
@@ -308,24 +477,28 @@ th{
                     </tr>
                 </thead>
                 <tbody>
-{% for coupon in coupons %}
-<tr>
-    <td>{{ coupon.code }}</td>
-    <td>{{ coupon.discount_type }}</td>
-    <td>{{ coupon.discount_value }}</td>
-    <td>{{ coupon.min_order }}</td>
-    <td>{{ coupon.start_date }}</td>
-    <td>{{ coupon.end_date }}</td>
-    <td>{{ coupon.max_discount }}</td>
-
-    <td class="actions">
-        <a href="{% url 'couponedit' coupon.id %}" class="edit">Edit</a>
-        <a href="{% url 'coupondelete' coupon.id %}" class="delete">Remove</a>
-    </td>
-</tr>
-{% endfor %}
-</tbody>
-
+                    {% for coupon in coupons %}
+                    <tr>
+                        <td>{{ coupon.code }}</td>
+                        <td>{{ coupon.discount_type }}</td>
+                        <td>{{ coupon.discount_value }}</td>
+                        <td>{{ coupon.min_order }}</td>
+                        <td>{{ coupon.start_date }}</td>
+                        <td>{{ coupon.end_date }}</td>
+                        <td>{{ coupon.max_discount }}</td>
+                        <td class="actions">
+                            <a href="{% url 'couponedit' coupon.id %}" class="edit">Edit</a>
+                            <a href="{% url 'coupondelete' coupon.id %}" class="delete">Remove</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" style="text-align:center;color:#777;">
+                            No coupons found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
 

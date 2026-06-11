@@ -47,7 +47,6 @@
             top: 0;
             z-index: 999;
         }
-
         .navbar-inner {
             display: flex;
             justify-content: space-between;
@@ -55,6 +54,21 @@
             padding: 14px 20px;
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        #hamburger-toggle { display: none; }
+
+        .hamburger-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            line-height: 1;
+            align-items: center;
+            justify-content: center;
         }
 
         .category-nav-items {
@@ -90,19 +104,6 @@
         }
         .icon-nav-items a { color: #fff; font-size: 1.3rem; text-decoration: none; transition: color 0.3s, transform 0.3s; }
         .icon-nav-items a:hover { color: var(--accent-color); transform: scale(1.1); }
-
-        /* Hamburger — CSS only */
-        #hamburger-toggle { display: none; }
-        .hamburger-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.6rem;
-            cursor: pointer;
-            padding: 4px 8px;
-            line-height: 1;
-        }
 
         /* ===== MEGA DROPDOWN ===== */
         .category-nav-items li { position: relative; }
@@ -184,22 +185,43 @@
         .mobile-nav-list > li { border-bottom: 1px solid #f0e8df; }
 
         .mobile-sub-toggle { display: none; }
-        .mobile-nav-link {
+
+        /* ===== MOBILE NAV ITEM — category link + expand toggle (matches home page) ===== */
+        .mobile-nav-item-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            border-bottom: none;
+        }
+        .mobile-nav-category-link {
+            flex: 1;
             padding: 14px 20px;
             color: var(--text-dark);
             font-size: 0.95rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+        .mobile-nav-category-link:hover { color: var(--primary-color); }
+        .mobile-expand-btn {
+            padding: 14px 16px;
             background: none;
             border: none;
-            width: 100%;
-            text-align: left;
+            border-left: 1px solid #f0e8df;
+            color: #888;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
         }
+        .mobile-expand-btn .bi-chevron-down { transition: transform 0.3s; }
+        .mobile-sub-toggle:checked ~ .mobile-nav-item-row .mobile-expand-btn .bi-chevron-down {
+            transform: rotate(180deg);
+        }
+
         .mobile-sub-nav {
             max-height: 0;
             overflow: hidden;
@@ -207,9 +229,6 @@
             transition: max-height 0.3s ease;
         }
         .mobile-sub-toggle:checked ~ .mobile-sub-nav { max-height: 600px; }
-        .mobile-sub-toggle:checked ~ .mobile-nav-link .bi-chevron-down { transform: rotate(180deg); }
-        .mobile-nav-link .bi-chevron-down { transition: transform 0.3s; }
-
         .mobile-sub-nav a {
             display: block;
             padding: 10px 36px;
@@ -238,6 +257,28 @@
             font-size: 0.9rem;
         }
         .mobile-bottom-links a i { font-size: 1.1rem; color: var(--primary-color); }
+
+        /* ===== ACCOUNT DROPDOWN ===== */
+        .account-dropdown { position: relative; list-style: none; }
+        .account-menu {
+            position: absolute; top: 120%; right: 0; background: #8B6F47; min-width: 180px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 14px; padding: 5px 0;
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s; z-index: 9999;
+        }
+        .account-dropdown:hover .account-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .account-menu li { list-style: none; }
+        .account-menu a { display: block; padding: 8px 14px; color: white; text-decoration: none; font-size: 14px; }
+        .account-menu a:hover { background: rgba(255,255,255,0.15); }
+        .account-menu .divider { height: 1px; background: rgba(255,255,255,0.2); margin: 6px 0; }
+        .logout-btn { background: none; border: none; padding: 8px 14px; color: white; cursor: pointer; font: inherit; width: 100%; text-align: left; }
+
+        /* ===== SEARCH ===== */
+        .nav-search { position: relative; display: flex; align-items: center; }
+        #search-toggle { display: none; }
+        .search-icon { color: white; cursor: pointer; font-size: 18px; }
+        .search-form { width: 0; overflow: hidden; transition: width 0.3s; margin-left: 8px; }
+        .search-form input { width: 160px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
+        #search-toggle:checked ~ .search-form { width: 160px; }
 
         /* ===== PAGE TITLE ===== */
         .page-title-section { padding: 5px 0; text-align: center; margin: 30px 0; }
@@ -388,27 +429,28 @@
         }
         .add-to-cart-btn:hover { background: var(--accent-color); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.13); }
 
-        /* ===== ACCOUNT DROPDOWN ===== */
-        .account-dropdown { position: relative; list-style: none; }
-        .account-menu {
-            position: absolute; top: 120%; right: 0; background: #8B6F47; min-width: 180px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 14px; padding: 5px 0;
-            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s; z-index: 9999;
+        /* ===== TOAST MESSAGES ===== */
+        .custom-msg {
+            position: fixed;
+            top: 190px;
+            right: 20px;
+            z-index: 9999;
         }
-        .account-dropdown:hover .account-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .account-menu li { list-style: none; }
-        .account-menu a { display: block; padding: 8px 14px; color: white; text-decoration: none; font-size: 14px; }
-        .account-menu a:hover { background: rgba(255,255,255,0.15); }
-        .account-menu .divider { height: 1px; background: rgba(255,255,255,0.2); margin: 6px 0; }
-        .logout-btn { background: none; border: none; padding: 8px 14px; color: white; cursor: pointer; font: inherit; width: 100%; text-align: left; }
-
-        /* ===== SEARCH ===== */
-        .nav-search { position: relative; display: flex; align-items: center; }
-        #search-toggle { display: none; }
-        .search-icon { color: white; cursor: pointer; font-size: 18px; }
-        .search-form { width: 0; overflow: hidden; transition: width 0.3s; margin-left: 8px; }
-        .search-form input { width: 160px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
-        #search-toggle:checked ~ .search-form { width: 160px; }
+        .msg-box {
+            background: #744428;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            animation: slideFade 3s ease forwards;
+        }
+        @keyframes slideFade {
+            0%   { opacity: 0; transform: translateX(100%); }
+            10%  { opacity: 1; transform: translateX(0); }
+            80%  { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(100%); visibility: hidden; }
+        }
 
         /* ===== FOOTER ===== */
         .footer { background: #8B6F47; color: #ddd; padding-top: 50px; font-family: 'Jost', sans-serif; }
@@ -461,476 +503,484 @@
         }
 
         @media (hover: none) { .wishlist-form { opacity: 1; } }
-.custom-msg {
-    position: fixed;       
-    top: 190px;            
-    right: 20px;
-    z-index: 9999;
-}
-
-.msg-box {
-    background: #744428;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: 500;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-
-    /* 🔥 animation (slide + vanish in 3s) */
-    animation: slideFade 3s ease forwards;
-}
-
-/* 🔥 Combined animation */
-@keyframes slideFade {
-    0% {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-    10% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    80% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(100%);
-        visibility: hidden;
-    }
-}
     </style>
 </head>
 <body>
 
-<!-- LOGO -->
-<section class="logo-section">
-    <a href="/"><img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo"></a>
-</section>
+    <!-- ===== LOGO ===== -->
+    <section class="logo-section">
+        <a href="/"><img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo"></a>
+    </section>
 
-<!-- HAMBURGER CHECKBOX -->
-<input type="checkbox" id="hamburger-toggle">
+    <!-- HAMBURGER CHECKBOX — must be BEFORE overlay and drawer in the DOM -->
+    <input type="checkbox" id="hamburger-toggle">
 
-<!-- NAVBAR -->
-<nav class="combined-navbar">
-    <div class="navbar-inner">
+    <!-- ===== NAVBAR ===== -->
+    <nav class="combined-navbar">
+        <div class="navbar-inner">
 
-        <label for="hamburger-toggle" class="hamburger-btn" aria-label="Open menu">
-            <i class="bi bi-list"></i>
-        </label>
+            <label for="hamburger-toggle" class="hamburger-btn" aria-label="Open menu">
+                <i class="bi bi-list"></i>
+            </label>
 
-        <ul class="category-nav-items">
-            <li>
-                <a href="{% url 'furniture' %}">Furniture</a>
-                <div class="dropdown-mega-menu">
-                    <div class="mega-menu-content">
-                        <div class="mega-menu-column">
-                            <h4>Seating</h4>
-                            <ul>
-                                <li><a href="{% url 'furniture' %}?sub_id=35">Chairs</a></li>
-                                <li><a href="{% url 'furniture' %}?sub_id=36">Sofa</a></li>
-                                <li><a href="{% url 'furniture' %}?sub_id=3">Stools</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu-column">
-                            <h4>Tables</h4>
-                            <ul>
-                                <li><a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a></li>
-                                <li><a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a></li>
-                                <li><a href="{% url 'furniture' %}?sub_id=8">Console Table</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu-column">
-                            <h4>Shelves</h4>
-                            <ul>
-                                <li><a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a></li>
-                                <li><a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a></li>
-                                <li><a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a></li>
-                                <li><a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="{% url 'walldecor' %}">Wall Decor</a>
-                <div class="dropdown-mega-menu">
-                    <div class="mega-menu-content">
-                        <div class="mega-menu-column">
-                            <h4>Wall Decor</h4>
-                            <ul>
-                                <li><a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a></li>
-                                <li><a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a></li>
-                                <li><a href="{% url 'walldecor' %}?sub_id=16">Paintings</a></li>
-                                <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
-                            </ul>
+            <!-- Desktop Category Links -->
+            <ul class="category-nav-items">
+                <li>
+                    <a href="{% url 'furniture' %}">Furniture</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Seating</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=35">Chairs</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=36">Sofa</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=3">Stools</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Tables</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=8">Console Table</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Shelves</h4>
+                                <ul>
+                                    <li><a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a></li>
+                                    <li><a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <a href="{% url 'kitchen' %}">Kitchen & Dining</a>
-                <div class="dropdown-mega-menu">
-                    <div class="mega-menu-content">
-                        <div class="mega-menu-column">
-                            <h4>Dinnerware</h4>
-                            <ul>
-                                <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
-                                <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
-                                <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu-column">
-                            <h4>Serveware</h4>
-                            <ul>
-                                <li><a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a></li>
-                                <li><a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a></li>
-                                <li><a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a></li>
-                            </ul>
+                </li>
+                <li>
+                    <a href="{% url 'walldecor' %}">Wall Decor</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Wall Decor</h4>
+                                <ul>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=16">Paintings</a></li>
+                                    <li><a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <a href="{% url 'lighting' %}">Lighting</a>
-                <div class="dropdown-mega-menu">
-                    <div class="mega-menu-content">
-                        <div class="mega-menu-column">
-                            <h4>Lighting</h4>
-                            <ul>
-                                <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
-                                <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
-                                <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
-                                <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
-                            </ul>
+                </li>
+                <li>
+                    <a href="{% url 'kitchen' %}">Kitchen & Dining</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Dinnerware</h4>
+                                <ul>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=18">Tableware</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4>Serveware</h4>
+                                <ul>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a></li>
+                                    <li><a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <a href="{% url 'bath' %}">Accessories</a>
-                <div class="dropdown-mega-menu">
-                    <div class="mega-menu-content">
-                        <div class="mega-menu-column">
-                            <h4>Accessories</h4>
-                            <ul>
-                                <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
-                                <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
-                                <li><a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a></li>
-                                <li><a href="{% url 'bath' %}?sub_id=33">Decor Objects & Sculptures</a></li>
-                            </ul>
+                </li>
+                <li>
+                    <a href="{% url 'lighting' %}">Lighting</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Lighting</h4>
+                                <ul>
+                                    <li><a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a></li>
+                                    <li><a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
+                </li>
+                <li>
+                    <a href="{% url 'bath' %}">Accessories</a>
+                    <div class="dropdown-mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Accessories</h4>
+                                <ul>
+                                    <li><a href="{% url 'bath' %}?sub_id=30">Vase</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=31">Candle Holders</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a></li>
+                                    <li><a href="{% url 'bath' %}?sub_id=33">Decor Objects & Sculptures</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Icon Nav -->
+            <ul class="icon-nav-items">
+                <li class="account-dropdown">
+                    <a href="#" title="Account"><i class="bi bi-person"></i></a>
+                    <ul class="account-menu">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'profile' %}">Profile</a></li>
+                            <li><a href="{% url 'order' %}">My Orders</a></li>
+                            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                            <li><a href="{% url 'notifications' %}">Notifications</a></li>
+                            <li class="divider"></li>
+                            <li>
+                                <form method="post" action="{% url 'userlogout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-btn">Logout</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li class="nav-search">
+                    <input type="checkbox" id="search-toggle">
+                    <label for="search-toggle" class="search-icon" title="Search">
+                        <i class="bi bi-search"></i>
+                    </label>
+                    <form action="{% url 'search' %}" method="get" class="search-form">
+                        <input type="text" name="q" placeholder="Search...">
+                    </form>
+                </li>
+                <li><a href="{% url 'cart' %}" title="Cart"><i class="bi bi-cart3"></i></a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE DRAWER ===== -->
+    <label for="hamburger-toggle" class="mobile-nav-overlay"></label>
+
+    <div class="mobile-drawer">
+        <div class="mobile-drawer-header">
+            <span>HOUSE BLOOM</span>
+            <label for="hamburger-toggle" class="mobile-close-btn"><i class="bi bi-x"></i></label>
+        </div>
+
+        <ul class="mobile-nav-list">
+
+            <!-- FURNITURE -->
+            <li>
+                <input type="checkbox" id="sub-furniture-toggle" class="mobile-sub-toggle">
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'furniture' %}" class="mobile-nav-category-link">Furniture</a>
+                    <label for="sub-furniture-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
+                <div class="mobile-sub-nav">
+                    <div class="mobile-sub-heading">Seating</div>
+                    <a href="{% url 'furniture' %}?sub_id=35">Chairs</a>
+                    <a href="{% url 'furniture' %}?sub_id=36">Sofa</a>
+                    <a href="{% url 'furniture' %}?sub_id=3">Stools</a>
+                    <div class="mobile-sub-heading">Tables</div>
+                    <a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a>
+                    <a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a>
+                    <a href="{% url 'furniture' %}?sub_id=8">Console Table</a>
+                    <div class="mobile-sub-heading">Shelves</div>
+                    <a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a>
+                    <a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a>
+                    <a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a>
+                    <a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a>
                 </div>
             </li>
+
+            <!-- WALL DECOR -->
+            <li>
+                <input type="checkbox" id="sub-walldecor-toggle" class="mobile-sub-toggle">
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'walldecor' %}" class="mobile-nav-category-link">Wall Decor</a>
+                    <label for="sub-walldecor-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
+                <div class="mobile-sub-nav">
+                    <a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a>
+                    <a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a>
+                    <a href="{% url 'walldecor' %}?sub_id=16">Paintings</a>
+                    <a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a>
+                </div>
+            </li>
+
+            <!-- KITCHEN & DINING -->
+            <li>
+                <input type="checkbox" id="sub-kitchen-toggle" class="mobile-sub-toggle">
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'kitchen' %}" class="mobile-nav-category-link">Kitchen & Dining</a>
+                    <label for="sub-kitchen-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
+                <div class="mobile-sub-nav">
+                    <div class="mobile-sub-heading">Dinnerware</div>
+                    <a href="{% url 'kitchen' %}?sub_id=18">Tableware</a>
+                    <a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a>
+                    <a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a>
+                    <div class="mobile-sub-heading">Serveware</div>
+                    <a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a>
+                    <a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a>
+                    <a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a>
+                </div>
+            </li>
+
+            <!-- LIGHTING -->
+            <li>
+                <input type="checkbox" id="sub-lighting-toggle" class="mobile-sub-toggle">
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'lighting' %}" class="mobile-nav-category-link">Lighting</a>
+                    <label for="sub-lighting-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
+                <div class="mobile-sub-nav">
+                    <a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a>
+                    <a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a>
+                    <a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a>
+                    <a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a>
+                </div>
+            </li>
+
+            <!-- ACCESSORIES -->
+            <li>
+                <input type="checkbox" id="sub-accessories-toggle" class="mobile-sub-toggle">
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'bath' %}" class="mobile-nav-category-link">Accessories</a>
+                    <label for="sub-accessories-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
+                <div class="mobile-sub-nav">
+                    <a href="{% url 'bath' %}?sub_id=30">Vase</a>
+                    <a href="{% url 'bath' %}?sub_id=31">Candle Holders</a>
+                    <a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a>
+                    <a href="{% url 'bath' %}?sub_id=33">Decor Objects & Sculptures</a>
+                </div>
+            </li>
+
         </ul>
 
-        <ul class="icon-nav-items">
-            <li class="account-dropdown">
-                <a href="#" title="Account"><i class="bi bi-person"></i></a>
-                <ul class="account-menu">
-                    {% if user.is_authenticated %}
-                        <li><a href="{% url 'profile' %}">Profile</a></li>
-                        <li><a href="{% url 'order' %}">My Orders</a></li>
-                        <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-                        <li><a href="{% url 'notifications' %}">Notifications</a></li>
-                        <li class="divider"></li>
-                        <li>
-                            <form method="post" action="{% url 'userlogout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="logout-btn">Logout</button>
-                            </form>
-                        </li>
-                    {% else %}
-                        <li><a href="{% url 'login' %}">Login</a></li>
-                    {% endif %}
-                </ul>
-            </li>
-            <li class="nav-search">
-                <input type="checkbox" id="search-toggle">
-                <label for="search-toggle" class="search-icon" title="Search">
-                    <i class="bi bi-search"></i>
-                </label>
-                <form action="{% url 'search' %}" method="get" class="search-form">
-                    <input type="text" name="q" placeholder="Search..." />
-                </form>
-            </li>
-            <li><a href="{% url 'cart' %}"><i class="bi bi-cart3"></i></a></li>
-        </ul>
-    </div>
-</nav>
-
-<!-- MOBILE DRAWER -->
-<label for="hamburger-toggle" class="mobile-nav-overlay"></label>
-<div class="mobile-drawer">
-    <div class="mobile-drawer-header">
-        <span>HOUSE BLOOM</span>
-        <label for="hamburger-toggle" class="mobile-close-btn"><i class="bi bi-x"></i></label>
-    </div>
-    <ul class="mobile-nav-list">
-        <li>
-            <input type="checkbox" id="sub-furniture-toggle" class="mobile-sub-toggle">
-            <label for="sub-furniture-toggle" class="mobile-nav-link">Furniture <i class="bi bi-chevron-down"></i></label>
-            <div class="mobile-sub-nav">
-                <div class="mobile-sub-heading">Seating</div>
-                <a href="{% url 'furniture' %}?sub_id=35">Chairs</a>
-                <a href="{% url 'furniture' %}?sub_id=36">Sofa</a>
-                <a href="{% url 'furniture' %}?sub_id=3">Stools</a>
-                <div class="mobile-sub-heading">Tables</div>
-                <a href="{% url 'furniture' %}?sub_id=6">Coffee Table</a>
-                <a href="{% url 'furniture' %}?sub_id=7">Side & Nesting Table</a>
-                <a href="{% url 'furniture' %}?sub_id=8">Console Table</a>
-                <div class="mobile-sub-heading">Shelves</div>
-                <a href="{% url 'furniture' %}?sub_id=10">Wall Mounted</a>
-                <a href="{% url 'furniture' %}?sub_id=11">Floating Shelves</a>
-                <a href="{% url 'furniture' %}?sub_id=12">Corner Shelves</a>
-                <a href="{% url 'furniture' %}?sub_id=13">Ladder Shelves</a>
-            </div>
-        </li>
-        <li>
-            <input type="checkbox" id="sub-walldecor-toggle" class="mobile-sub-toggle">
-            <label for="sub-walldecor-toggle" class="mobile-nav-link">Wall Decor <i class="bi bi-chevron-down"></i></label>
-            <div class="mobile-sub-nav">
-                <a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a>
-                <a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a>
-                <a href="{% url 'walldecor' %}?sub_id=16">Paintings</a>
-                <a href="{% url 'walldecor' %}?sub_id=17">Wall Plates & Accents</a>
-            </div>
-        </li>
-        <li>
-            <input type="checkbox" id="sub-kitchen-toggle" class="mobile-sub-toggle">
-            <label for="sub-kitchen-toggle" class="mobile-nav-link">Kitchen & Dining <i class="bi bi-chevron-down"></i></label>
-            <div class="mobile-sub-nav">
-                <div class="mobile-sub-heading">Dinnerware</div>
-                <a href="{% url 'kitchen' %}?sub_id=18">Tableware</a>
-                <a href="{% url 'kitchen' %}?sub_id=19">Tea & Coffee</a>
-                <a href="{% url 'kitchen' %}?sub_id=20">Table Accessories</a>
-                <div class="mobile-sub-heading">Serveware</div>
-                <a href="{% url 'kitchen' %}?sub_id=21">Serving Bowls</a>
-                <a href="{% url 'kitchen' %}?sub_id=22">Serving Trays</a>
-                <a href="{% url 'kitchen' %}?sub_id=23">Platters & Stands</a>
-            </div>
-        </li>
-        <li>
-            <input type="checkbox" id="sub-lighting-toggle" class="mobile-sub-toggle">
-            <label for="sub-lighting-toggle" class="mobile-nav-link">Lighting <i class="bi bi-chevron-down"></i></label>
-            <div class="mobile-sub-nav">
-                <a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a>
-                <a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a>
-                <a href="{% url 'lighting' %}?sub_id=26">Chandelier & Pendants</a>
-                <a href="{% url 'lighting' %}?sub_id=28">Wall Lamps</a>
-            </div>
-        </li>
-        <li>
-            <input type="checkbox" id="sub-accessories-toggle" class="mobile-sub-toggle">
-            <label for="sub-accessories-toggle" class="mobile-nav-link">Accessories <i class="bi bi-chevron-down"></i></label>
-            <div class="mobile-sub-nav">
-                <a href="{% url 'bath' %}?sub_id=30">Vase</a>
-                <a href="{% url 'bath' %}?sub_id=31">Candle Holders</a>
-                <a href="{% url 'bath' %}?sub_id=32">Planters & Pots</a>
-                <a href="{% url 'bath' %}?sub_id=33">Decor Objects & Sculptures</a>
-            </div>
-        </li>
-    </ul>
-    <div class="mobile-bottom-links">
-        {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}"><i class="bi bi-person"></i> Profile</a>
-            <a href="{% url 'order' %}"><i class="bi bi-box"></i> My Orders</a>
-            <a href="{% url 'wishlist' %}"><i class="bi bi-heart"></i> Wishlist</a>
-        {% else %}
-            <a href="{% url 'login' %}"><i class="bi bi-person"></i> Login</a>
-        {% endif %}
-    </div>
-</div>
-
-<!-- FILTER TOGGLE -->
-<input type="checkbox" id="filter-toggle">
-<label for="filter-toggle" class="filter-drawer-overlay"></label>
-
-<!-- MOBILE FILTER DRAWER -->
-<div class="filter-drawer">
-    <div class="filter-drawer-header">
-        <h3>Filter Products</h3>
-        <label for="filter-toggle" class="filter-drawer-close"><i class="bi bi-x"></i></label>
-    </div>
-    <div class="filter-block">
-        <input type="checkbox" id="cat-toggle-mobile" hidden>
-        <label for="cat-toggle-mobile" class="filter-title">CATEGORY <i class="bi bi-chevron-down"></i></label>
-        <div class="filter-content">
-            <a href="{% url 'kitchen' %}?sub_id=18" class="filter-link">Tableware</a>
-            <a href="{% url 'kitchen' %}?sub_id=19" class="filter-link">Tea & Coffee</a>
-            <a href="{% url 'kitchen' %}?sub_id=20" class="filter-link">Table Accessories</a>
-            <a href="{% url 'kitchen' %}?sub_id=21" class="filter-link">Serving Bowls</a>
-            <a href="{% url 'kitchen' %}?sub_id=22" class="filter-link">Serving Trays</a>
-            <a href="{% url 'kitchen' %}?sub_id=23" class="filter-link">Platters & Stands</a>
+        <div class="mobile-bottom-links">
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}"><i class="bi bi-person"></i> Profile</a>
+                <a href="{% url 'order' %}"><i class="bi bi-box"></i> My Orders</a>
+                <a href="{% url 'wishlist' %}"><i class="bi bi-heart"></i> Wishlist</a>
+            {% else %}
+                <a href="{% url 'login' %}"><i class="bi bi-person"></i> Login</a>
+            {% endif %}
         </div>
     </div>
-    <div class="filter-block">
-        <input type="checkbox" id="price-toggle-mobile" hidden>
-        <label for="price-toggle-mobile" class="filter-title">PRICE <i class="bi bi-chevron-down"></i></label>
-        <div class="filter-content">
-            <form method="get" action="">
-                {% if selected_sub_id %}<input type="hidden" name="sub_id" value="{{ selected_sub_id }}">{% endif %}
-                <div style="margin-bottom:10px;">
-                    <label style="font-size:11px;color:#666;">Min Price</label>
-                    <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
-                </div>
-                <div style="margin-bottom:15px;">
-                    <label style="font-size:11px;color:#666;">Max Price</label>
-                    <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
-                </div>
-                <button type="submit" class="price-apply-btn">APPLY FILTER</button>
-                <a href="{% url 'kitchen' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}"
-                   style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#8B6F47;text-decoration:none;">
-                   Clear Filter
-                </a>
-            </form>
+
+    <!-- FILTER TOGGLE CHECKBOX — must be BEFORE overlay and drawer -->
+    <input type="checkbox" id="filter-toggle">
+    <label for="filter-toggle" class="filter-drawer-overlay"></label>
+
+    <!-- ===== MOBILE FILTER DRAWER ===== -->
+    <div class="filter-drawer">
+        <div class="filter-drawer-header">
+            <h3>Filter Products</h3>
+            <label for="filter-toggle" class="filter-drawer-close"><i class="bi bi-x"></i></label>
         </div>
-    </div>
-</div>
-{% if messages %}
-<div class="custom-msg">
-    {% for message in messages %}
-        <div class="msg-box">{{ message }}</div>
-    {% endfor %}
-</div>
-{% endif %}
-<!-- PAGE TITLE -->
-<section class="page-title-section">
-    <div class="container">
-        <h1 class="page-title">Kitchen & Dining</h1>
-    </div>
-</section>
-
-
-<section class="category-banner">
-    <div class="container">
-        <div class="banner-image"
-             style="background-image:url('{% static 'images/banners/kitchen.jpg' %}')">
-            <h2>Style Your Kitchen</h2>
+        <div class="filter-block">
+            <input type="checkbox" id="cat-toggle-mobile" hidden>
+            <label for="cat-toggle-mobile" class="filter-title">CATEGORY <i class="bi bi-chevron-down"></i></label>
+            <div class="filter-content">
+                <a href="{% url 'kitchen' %}?sub_id=18" class="filter-link">Tableware</a>
+                <a href="{% url 'kitchen' %}?sub_id=19" class="filter-link">Tea & Coffee</a>
+                <a href="{% url 'kitchen' %}?sub_id=20" class="filter-link">Table Accessories</a>
+                <a href="{% url 'kitchen' %}?sub_id=21" class="filter-link">Serving Bowls</a>
+                <a href="{% url 'kitchen' %}?sub_id=22" class="filter-link">Serving Trays</a>
+                <a href="{% url 'kitchen' %}?sub_id=23" class="filter-link">Platters & Stands</a>
+            </div>
         </div>
-    </div>
-</section>
-
-<!-- MAIN SHOP -->
-<section class="shop-section">
-    <div class="container">
-
-        <label for="filter-toggle" class="mobile-filter-btn">
-            <i class="bi bi-sliders"></i> Filter & Sort
-        </label>
-
-        <div class="shop-layout">
-
-            <!-- Desktop Sidebar -->
-            <aside class="filter-sidebar">
-                <div class="filter-header">Filter</div>
-
-                <div class="filter-block">
-                    <input type="checkbox" id="cat-toggle" hidden>
-                    <label for="cat-toggle" class="filter-title">CATEGORY <i class="bi bi-chevron-down"></i></label>
-                    <div class="filter-content">
-                        <a href="{% url 'kitchen' %}?sub_id=18" class="filter-link">Tableware</a>
-                        <a href="{% url 'kitchen' %}?sub_id=19" class="filter-link">Tea & Coffee</a>
-                        <a href="{% url 'kitchen' %}?sub_id=20" class="filter-link">Table Accessories</a>
-                        <a href="{% url 'kitchen' %}?sub_id=21" class="filter-link">Serving Bowls</a>
-                        <a href="{% url 'kitchen' %}?sub_id=22" class="filter-link">Serving Trays</a>
-                        <a href="{% url 'kitchen' %}?sub_id=23" class="filter-link">Platters & Stands</a>
+        <div class="filter-block">
+            <input type="checkbox" id="price-toggle-mobile" hidden>
+            <label for="price-toggle-mobile" class="filter-title">PRICE <i class="bi bi-chevron-down"></i></label>
+            <div class="filter-content">
+                <form method="get" action="">
+                    {% if selected_sub_id %}<input type="hidden" name="sub_id" value="{{ selected_sub_id }}">{% endif %}
+                    <div style="margin-bottom:10px;">
+                        <label style="font-size:11px;color:#666;">Min Price</label>
+                        <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
                     </div>
-                </div>
-
-                <div class="filter-block">
-                    <input type="checkbox" id="price-toggle" hidden>
-                    <label for="price-toggle" class="filter-title">PRICE <i class="bi bi-chevron-down"></i></label>
-                    <div class="filter-content">
-                        <form method="get" action="">
-                            {% if selected_sub_id %}<input type="hidden" name="sub_id" value="{{ selected_sub_id }}">{% endif %}
-                            <div style="margin-bottom:10px;">
-                                <label style="font-size:11px;color:#666;">Min Price</label>
-                                <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
-                            </div>
-                            <div style="margin-bottom:15px;">
-                                <label style="font-size:11px;color:#666;">Max Price</label>
-                                <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
-                            </div>
-                            <button type="submit" class="price-apply-btn">APPLY FILTER</button>
-                            <a href="{% url 'kitchen' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}"
-                               style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#8B6F47;text-decoration:none;">
-                               Clear Filter
-                            </a>
-                        </form>
+                    <div style="margin-bottom:15px;">
+                        <label style="font-size:11px;color:#666;">Max Price</label>
+                        <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
                     </div>
-                </div>
-            </aside>
-
-            <!-- Products -->
-            <div class="products-section">
-                <div class="product-grid">
-                    {% for product in products %}
-                    <div class="product-card">
-                        <form method="POST" action="{% url 'toggle_wishlist' product.id %}" class="wishlist-form">
-                            {% csrf_token %}
-                            <button type="submit" class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">♥</button>
-                        </form>
-
-                        <a href="{% url 'product_detail' product.id product.slug %}">
-                        <img src="{% static 'images/' %}{{ product.image1 }}" alt="{{ product.name }}" class="product-image">
+                    <button type="submit" class="price-apply-btn">APPLY FILTER</button>
+                    <a href="{% url 'kitchen' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}"
+                       style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#8B6F47;text-decoration:none;">
+                       Clear Filter
                     </a>
+                </form>
+            </div>
+        </div>
+    </div>
 
-                    <div class="product-info">
-                        <a href="{% url 'product_detail' product.id product.slug %}" class="product-name-link">
-                            <h3 class="product-name">{{ product.name }}</h3>
-                        </a>
-                            <p class="product-price">
-                                {% if product.offer_price %}
-                                    ₹{{ product.offer_price }}
-                                    <span style="text-decoration:line-through;color:#999;font-size:0.85rem;">₹{{ product.price }}</span>
-                                {% else %}
-                                    ₹{{ product.price }}
-                                {% endif %}
-                            </p>
-                            <form method="post" action="{% url 'cart' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="product_id" value="{{ product.id }}">
-                                <button type="submit" class="add-to-cart-btn">Add to cart</button>
+    <!-- ===== TOAST MESSAGES ===== -->
+    {% if messages %}
+    <div class="custom-msg">
+        {% for message in messages %}
+            <div class="msg-box">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ===== PAGE TITLE ===== -->
+    <section class="page-title-section">
+        <div class="container">
+            <h1 class="page-title">Kitchen & Dining</h1>
+        </div>
+    </section>
+
+    <!-- ===== CATEGORY BANNER ===== -->
+    <section class="category-banner">
+        <div class="container">
+            <div class="banner-image"
+                 style="background-image:url('{% static 'images/banners/kitchen.jpg' %}')">
+                <h2>Style Your Kitchen</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MAIN SHOP LAYOUT ===== -->
+    <section class="shop-section">
+        <div class="container">
+
+            <label for="filter-toggle" class="mobile-filter-btn">
+                <i class="bi bi-sliders"></i> Filter & Sort
+            </label>
+
+            <div class="shop-layout">
+
+                <!-- Desktop Sidebar -->
+                <aside class="filter-sidebar">
+                    <div class="filter-header">Filter</div>
+
+                    <div class="filter-block">
+                        <input type="checkbox" id="cat-toggle" hidden>
+                        <label for="cat-toggle" class="filter-title">CATEGORY <i class="bi bi-chevron-down"></i></label>
+                        <div class="filter-content">
+                            <a href="{% url 'kitchen' %}?sub_id=18" class="filter-link">Tableware</a>
+                            <a href="{% url 'kitchen' %}?sub_id=19" class="filter-link">Tea & Coffee</a>
+                            <a href="{% url 'kitchen' %}?sub_id=20" class="filter-link">Table Accessories</a>
+                            <a href="{% url 'kitchen' %}?sub_id=21" class="filter-link">Serving Bowls</a>
+                            <a href="{% url 'kitchen' %}?sub_id=22" class="filter-link">Serving Trays</a>
+                            <a href="{% url 'kitchen' %}?sub_id=23" class="filter-link">Platters & Stands</a>
+                        </div>
+                    </div>
+
+                    <div class="filter-block">
+                        <input type="checkbox" id="price-toggle" hidden>
+                        <label for="price-toggle" class="filter-title">PRICE <i class="bi bi-chevron-down"></i></label>
+                        <div class="filter-content">
+                            <form method="get" action="">
+                                {% if selected_sub_id %}<input type="hidden" name="sub_id" value="{{ selected_sub_id }}">{% endif %}
+                                <div style="margin-bottom:10px;">
+                                    <label style="font-size:11px;color:#666;">Min Price</label>
+                                    <input type="number" name="min_price" placeholder="0" value="{{ min_price|default:'' }}" class="price-input-box">
+                                </div>
+                                <div style="margin-bottom:15px;">
+                                    <label style="font-size:11px;color:#666;">Max Price</label>
+                                    <input type="number" name="max_price" placeholder="50000" value="{{ max_price|default:'' }}" class="price-input-box">
+                                </div>
+                                <button type="submit" class="price-apply-btn">APPLY FILTER</button>
+                                <a href="{% url 'kitchen' %}{% if selected_sub_id %}?sub_id={{ selected_sub_id }}{% endif %}"
+                                   style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#8B6F47;text-decoration:none;">
+                                   Clear Filter
+                                </a>
                             </form>
                         </div>
                     </div>
-                    {% empty %}
-                    <p style="grid-column:1/-1;text-align:center;padding:40px 0;color:#888;">No products available.</p>
-                    {% endfor %}
+                </aside>
+
+                <!-- Products Grid -->
+                <div class="products-section">
+                    <div class="product-grid">
+                        {% for product in products %}
+                        <div class="product-card">
+                            <form method="POST" action="{% url 'toggle_wishlist' product.id %}" class="wishlist-form">
+                                {% csrf_token %}
+                                <button type="submit" class="wishlist-btn {% if product.id in wishlist_products %}active{% endif %}">♥</button>
+                            </form>
+
+                            <a href="{% url 'product_detail' product.id product.slug %}">
+                                <img src="{% static 'images/' %}{{ product.image1 }}" alt="{{ product.name }}" class="product-image">
+                            </a>
+
+                            <div class="product-info">
+                                <a href="{% url 'product_detail' product.id product.slug %}" class="product-name-link">
+                                    <h3 class="product-name">{{ product.name }}</h3>
+                                </a>
+                                <p class="product-price">
+                                    {% if product.offer_price %}
+                                        ₹{{ product.offer_price }}
+                                        <span style="text-decoration:line-through;color:#999;font-size:0.85rem;">₹{{ product.price }}</span>
+                                    {% else %}
+                                        ₹{{ product.price }}
+                                    {% endif %}
+                                </p>
+                                <form method="post" action="{% url 'cart' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <button type="submit" class="add-to-cart-btn">Add to cart</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p style="grid-column:1/-1;text-align:center;padding:40px 0;color:#888;">No products available.</p>
+                        {% endfor %}
+                    </div>
                 </div>
+
             </div>
+        </div>
+    </section>
 
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>HOUSE BLOOM</h3>
+                <p>Premium home decor crafted to elevate your space. Quality design, timeless style.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>123 Decor Street, Design City</p>
+                <p>+1 (555) 123-4567</p>
+                <p>info@housebloom.com</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="{% url 'aboutus' %}">About Us</a>
+                <a href="{% url 'faq' %}">FAQ</a>
+                <a href="{% url 'privacy' %}">Privacy Policy</a>
+            </div>
         </div>
-    </div>
-</section>
+        <div class="footer-bottom">
+            <p>© 2025 HOUSE BLOOM • All Rights Reserved</p>
+        </div>
+    </footer>
 
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="footer-container">
-        <div class="footer-section">
-            <h3>HOUSE BLOOM</h3>
-            <p>Premium home decor crafted to elevate your space. Quality design, timeless style.</p>
-        </div>
-        <div class="footer-section">
-            <h4>Contact</h4>
-            <p>123 Decor Street, Design City</p>
-            <p>+1 (555) 123-4567</p>
-            <p>info@homebloom.com</p>
-        </div>
-        <div class="footer-section">
-            <h4>Quick Links</h4>
-            <a href="{% url 'aboutus' %}">About Us</a>
-            <a href="{% url 'faq' %}">FAQ</a>
-            <a href="{% url 'privacy' %}">Privacy Policy</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>© 2025 HOUSE BLOOM • All Rights Reserved</p>
-    </div>
-</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

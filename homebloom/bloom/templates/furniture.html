@@ -47,7 +47,6 @@
             top: 0;
             z-index: 999;
         }
-
         .navbar-inner {
             display: flex;
             justify-content: space-between;
@@ -55,6 +54,21 @@
             padding: 14px 20px;
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        #hamburger-toggle { display: none; }
+
+        .hamburger-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            line-height: 1;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Desktop category nav */
@@ -92,21 +106,6 @@
         }
         .icon-nav-items a { color: #fff; font-size: 1.3rem; text-decoration: none; transition: color 0.3s, transform 0.3s; }
         .icon-nav-items a:hover { color: var(--accent-color); transform: scale(1.1); }
-
-        /* ===== HAMBURGER (CSS only) ===== */
-        #hamburger-toggle { display: none; }
-
-        .hamburger-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.6rem;
-            cursor: pointer;
-            padding: 4px 8px;
-            line-height: 1;
-            /* make label behave like a button */
-        }
 
         /* ===== MEGA DROPDOWN ===== */
         .category-nav-items li { position: relative; }
@@ -149,9 +148,7 @@
         }
         .mega-menu-column ul li a:hover { color: var(--accent-color); padding-left: 5px; }
 
-        /* ===== MOBILE DRAWER NAV (CSS only) ===== */
-
-        /* Overlay: sibling after the checkbox */
+        /* ===== MOBILE DRAWER (CSS only) ===== */
         .mobile-nav-overlay {
             display: none;
             position: fixed;
@@ -159,7 +156,6 @@
             background: rgba(0,0,0,0.4);
             z-index: 1200;
         }
-
         .mobile-drawer {
             position: fixed;
             top: 0;
@@ -174,13 +170,8 @@
             display: flex;
             flex-direction: column;
         }
-
-        /* When hamburger checkbox is checked → show drawer & overlay */
         #hamburger-toggle:checked ~ .mobile-nav-overlay { display: block; }
         #hamburger-toggle:checked ~ .mobile-drawer { left: 0; }
-
-        /* Prevent body scroll when drawer open — achieved via overflow on a wrapper if needed;
-           pure CSS body scroll lock isn't fully possible, but the overlay blocks interaction */
 
         .mobile-drawer-header {
             background: var(--primary-color);
@@ -190,8 +181,6 @@
             align-items: center;
         }
         .mobile-drawer-header span { color: #fff; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; }
-
-        /* Close button inside drawer = label for hamburger-toggle */
         .mobile-close-btn {
             background: none;
             border: none;
@@ -205,13 +194,16 @@
         .mobile-nav-list { list-style: none; padding: 0; margin: 0; flex: 1; }
         .mobile-nav-list > li { border-bottom: 1px solid #f0e8df; }
 
-        /* ===== MOBILE SUBNAV ACCORDION (CSS only) ===== */
         .mobile-sub-toggle { display: none; }
 
-        .mobile-nav-link {
+        /* ===== MOBILE NAV ITEM — category link + expand toggle (matches home page) ===== */
+        .mobile-nav-item-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            border-bottom: none;
+        }
+        .mobile-nav-category-link {
+            flex: 1;
             padding: 14px 20px;
             color: var(--text-dark);
             font-size: 0.95rem;
@@ -219,11 +211,25 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             text-decoration: none;
-            cursor: pointer;
+            display: block;
+        }
+        .mobile-nav-category-link:hover { color: var(--primary-color); }
+        .mobile-expand-btn {
+            padding: 14px 16px;
             background: none;
             border: none;
-            width: 100%;
-            text-align: left;
+            border-left: 1px solid #f0e8df;
+            color: #888;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+        }
+        .mobile-expand-btn .bi-chevron-down { transition: transform 0.3s; }
+        .mobile-sub-toggle:checked ~ .mobile-nav-item-row .mobile-expand-btn .bi-chevron-down {
+            transform: rotate(180deg);
         }
 
         .mobile-sub-nav {
@@ -232,16 +238,7 @@
             background: #faf7f3;
             transition: max-height 0.3s ease;
         }
-
-        /* When the sub-toggle checkbox is checked, expand the sub-nav */
         .mobile-sub-toggle:checked ~ .mobile-sub-nav { max-height: 600px; }
-
-        /* Rotate chevron when open */
-        .mobile-sub-toggle:checked ~ .mobile-nav-link .bi-chevron-down {
-            transform: rotate(180deg);
-        }
-        .mobile-nav-link .bi-chevron-down { transition: transform 0.3s; }
-
         .mobile-sub-nav a {
             display: block;
             padding: 10px 36px;
@@ -259,7 +256,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .mobile-bottom-links { padding: 16px 20px; border-top: 1px solid #f0e8df; }
         .mobile-bottom-links a {
             display: flex;
@@ -271,6 +267,28 @@
             font-size: 0.9rem;
         }
         .mobile-bottom-links a i { font-size: 1.1rem; color: var(--primary-color); }
+
+        /* ===== ACCOUNT DROPDOWN ===== */
+        .account-dropdown { position: relative; list-style: none; }
+        .account-menu {
+            position: absolute; top: 120%; right: 0; background: #8B6F47; min-width: 180px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 14px; padding: 5px 0;
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s; z-index: 9999;
+        }
+        .account-dropdown:hover .account-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .account-menu li { list-style: none; }
+        .account-menu a { display: block; padding: 8px 14px; color: white; text-decoration: none; font-size: 14px; }
+        .account-menu a:hover { background: rgba(255,255,255,0.15); }
+        .account-menu .divider { height: 1px; background: rgba(255,255,255,0.2); margin: 6px 0; }
+        .logout-btn { background: none; border: none; padding: 8px 14px; color: white; cursor: pointer; font: inherit; width: 100%; text-align: left; }
+
+        /* ===== SEARCH ===== */
+        .nav-search { position: relative; display: flex; align-items: center; }
+        #search-toggle { display: none; }
+        .search-icon { color: white; cursor: pointer; font-size: 18px; }
+        .search-form { width: 0; overflow: hidden; transition: width 0.3s; margin-left: 8px; }
+        .search-form input { width: 160px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
+        #search-toggle:checked ~ .search-form { width: 160px; }
 
         /* ===== PAGE TITLE ===== */
         .page-title-section { padding: 5px 0; text-align: center; margin: 30px 0; }
@@ -354,7 +372,6 @@
             cursor: pointer;
             margin-bottom: 20px;
         }
-
         .filter-drawer-overlay {
             display: none;
             position: fixed;
@@ -375,8 +392,6 @@
             overflow-y: auto;
             transition: bottom 0.35s ease;
         }
-
-        /* When filter-toggle is checked → show overlay and slide drawer up */
         #filter-toggle:checked ~ .filter-drawer-overlay { display: block; }
         #filter-toggle:checked ~ .filter-drawer { bottom: 0; }
 
@@ -435,27 +450,28 @@
         }
         .add-to-cart-btn:hover { background: var(--accent-color); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.13); }
 
-        /* ===== ACCOUNT DROPDOWN ===== */
-        .account-dropdown { position: relative; list-style: none; }
-        .account-menu {
-            position: absolute; top: 120%; right: 0; background: #8B6F47; min-width: 180px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 14px; padding: 5px 0;
-            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s; z-index: 9999;
+        /* ===== TOAST MESSAGES ===== */
+        .custom-msg {
+            position: fixed;
+            top: 190px;
+            right: 20px;
+            z-index: 9999;
         }
-        .account-dropdown:hover .account-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .account-menu li { list-style: none; }
-        .account-menu a { display: block; padding: 8px 14px; color: white; text-decoration: none; font-size: 14px; }
-        .account-menu a:hover { background: rgba(255,255,255,0.15); }
-        .account-menu .divider { height: 1px; background: rgba(255,255,255,0.2); margin: 6px 0; }
-        .logout-btn { background: none; border: none; padding: 8px 14px; color: white; cursor: pointer; font: inherit; width: 100%; text-align: left; }
-
-        /* ===== SEARCH ===== */
-        .nav-search { position: relative; display: flex; align-items: center; }
-        #search-toggle { display: none; }
-        .search-icon { color: white; cursor: pointer; font-size: 18px; }
-        .search-form { width: 0; overflow: hidden; transition: width 0.3s; margin-left: 8px; }
-        .search-form input { width: 160px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
-        #search-toggle:checked ~ .search-form { width: 160px; }
+        .msg-box {
+            background: #744428;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            animation: slideFade 3s ease forwards;
+        }
+        @keyframes slideFade {
+            0%   { opacity: 0; transform: translateX(100%); }
+            10%  { opacity: 1; transform: translateX(0); }
+            80%  { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(100%); visibility: hidden; }
+        }
 
         /* ===== FOOTER ===== */
         .footer { background: #8B6F47; color: #ddd; padding-top: 50px; font-family: 'Jost', sans-serif; }
@@ -467,10 +483,7 @@
         .footer-section a:hover { color: #fff; }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); text-align: center; padding: 15px; font-size: 13px; color: #aaa; }
 
-        /* ================================================================
-           RESPONSIVE BREAKPOINTS
-        ================================================================ */
-
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 1200px) {
             .product-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
             .category-nav-items { gap: 20px; }
@@ -486,7 +499,6 @@
             .mobile-filter-btn { display: flex; }
 
             .product-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
-
             .banner-image { height: 200px; }
             .banner-image h2 { font-size: 1.6rem; }
         }
@@ -516,64 +528,24 @@
         @media (hover: none) {
             .wishlist-form { opacity: 1; }
         }
-.custom-msg {
-    position: fixed;       
-    top: 190px;            
-    right: 20px;
-    z-index: 9999;
-}
-
-.msg-box {
-    background: #744428;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: 500;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-
-    /* 🔥 animation (slide + vanish in 3s) */
-    animation: slideFade 3s ease forwards;
-}
-
-/* 🔥 Combined animation */
-@keyframes slideFade {
-    0% {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-    10% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    80% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(100%);
-        visibility: hidden;
-    }
-}
     </style>
 </head>
 <body>
 
-    <!-- LOGO -->
+    <!-- ===== LOGO ===== -->
     <section class="logo-section">
         <a href="/">
             <img src="{% static 'images/logo1.png' %}" alt="House Bloom Logo" class="logo">
         </a>
     </section>
 
-    <!-- ===== HAMBURGER CHECKBOX — must be BEFORE overlay and drawer ===== -->
+    <!-- HAMBURGER CHECKBOX — must be BEFORE the overlay and drawer in the DOM -->
     <input type="checkbox" id="hamburger-toggle">
 
-    <!-- NAVBAR -->
+    <!-- ===== NAVBAR ===== -->
     <nav class="combined-navbar">
         <div class="navbar-inner">
 
-            <!-- Hamburger label (mobile) -->
             <label for="hamburger-toggle" class="hamburger-btn" aria-label="Open menu">
                 <i class="bi bi-list"></i>
             </label>
@@ -685,7 +657,7 @@
                 </li>
             </ul>
 
-            <!-- Icon Nav (always visible) -->
+            <!-- Icon Nav -->
             <ul class="icon-nav-items">
                 <li class="account-dropdown">
                     <a href="#" title="Account"><i class="bi bi-person"></i></a>
@@ -713,32 +685,36 @@
                         <i class="bi bi-search"></i>
                     </label>
                     <form action="{% url 'search' %}" method="get" class="search-form">
-                        <input type="text" name="q" placeholder="Search..." />
+                        <input type="text" name="q" placeholder="Search...">
                     </form>
                 </li>
-                <li><a href="{% url 'cart' %}"><i class="bi bi-cart3"></i></a></li>
+                <li><a href="{% url 'cart' %}" title="Cart"><i class="bi bi-cart3"></i></a></li>
             </ul>
+
         </div>
     </nav>
 
-    <!-- ===== MOBILE DRAWER NAVIGATION ===== -->
-    <!-- Overlay: clicking it unchecks hamburger-toggle (closes drawer) -->
+    <!-- ===== MOBILE DRAWER ===== -->
+    <!-- Overlay: clicking it closes the drawer -->
     <label for="hamburger-toggle" class="mobile-nav-overlay"></label>
 
     <div class="mobile-drawer">
         <div class="mobile-drawer-header">
             <span>HOUSE BLOOM</span>
-            <!-- Close button = label for hamburger-toggle -->
             <label for="hamburger-toggle" class="mobile-close-btn"><i class="bi bi-x"></i></label>
         </div>
+
         <ul class="mobile-nav-list">
 
-            <!-- Furniture -->
+            <!-- FURNITURE -->
             <li>
                 <input type="checkbox" id="sub-furniture-toggle" class="mobile-sub-toggle">
-                <label for="sub-furniture-toggle" class="mobile-nav-link">
-                    Furniture <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'furniture' %}" class="mobile-nav-category-link">Furniture</a>
+                    <label for="sub-furniture-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <div class="mobile-sub-heading">Seating</div>
                     <a href="{% url 'furniture' %}?sub_id=35">Chairs</a>
@@ -756,12 +732,15 @@
                 </div>
             </li>
 
-            <!-- Wall Decor -->
+            <!-- WALL DECOR -->
             <li>
                 <input type="checkbox" id="sub-walldecor-toggle" class="mobile-sub-toggle">
-                <label for="sub-walldecor-toggle" class="mobile-nav-link">
-                    Wall Decor <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'walldecor' %}" class="mobile-nav-category-link">Wall Decor</a>
+                    <label for="sub-walldecor-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <a href="{% url 'walldecor' %}?sub_id=14">Wall Vase</a>
                     <a href="{% url 'walldecor' %}?sub_id=15">Mirrors</a>
@@ -770,12 +749,15 @@
                 </div>
             </li>
 
-            <!-- Kitchen -->
+            <!-- KITCHEN & DINING -->
             <li>
                 <input type="checkbox" id="sub-kitchen-toggle" class="mobile-sub-toggle">
-                <label for="sub-kitchen-toggle" class="mobile-nav-link">
-                    Kitchen & Dining <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'kitchen' %}" class="mobile-nav-category-link">Kitchen & Dining</a>
+                    <label for="sub-kitchen-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <div class="mobile-sub-heading">Dinnerware</div>
                     <a href="{% url 'kitchen' %}?sub_id=18">Tableware</a>
@@ -788,12 +770,15 @@
                 </div>
             </li>
 
-            <!-- Lighting -->
+            <!-- LIGHTING -->
             <li>
                 <input type="checkbox" id="sub-lighting-toggle" class="mobile-sub-toggle">
-                <label for="sub-lighting-toggle" class="mobile-nav-link">
-                    Lighting <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'lighting' %}" class="mobile-nav-category-link">Lighting</a>
+                    <label for="sub-lighting-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <a href="{% url 'lighting' %}?sub_id=24">Table Lamps</a>
                     <a href="{% url 'lighting' %}?sub_id=25">Floor Lamps</a>
@@ -802,12 +787,15 @@
                 </div>
             </li>
 
-            <!-- Accessories -->
+            <!-- ACCESSORIES -->
             <li>
                 <input type="checkbox" id="sub-accessories-toggle" class="mobile-sub-toggle">
-                <label for="sub-accessories-toggle" class="mobile-nav-link">
-                    Accessories <i class="bi bi-chevron-down"></i>
-                </label>
+                <div class="mobile-nav-item-row">
+                    <a href="{% url 'bath' %}" class="mobile-nav-category-link">Accessories</a>
+                    <label for="sub-accessories-toggle" class="mobile-expand-btn">
+                        <i class="bi bi-chevron-down"></i>
+                    </label>
+                </div>
                 <div class="mobile-sub-nav">
                     <a href="{% url 'bath' %}?sub_id=30">Vase</a>
                     <a href="{% url 'bath' %}?sub_id=31">Candle Holders</a>
@@ -817,6 +805,7 @@
             </li>
 
         </ul>
+
         <div class="mobile-bottom-links">
             {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}"><i class="bi bi-person"></i> Profile</a>
@@ -831,14 +820,13 @@
     <!-- ===== FILTER TOGGLE CHECKBOX — must be BEFORE overlay and drawer ===== -->
     <input type="checkbox" id="filter-toggle">
 
-    <!-- Filter overlay: clicking it unchecks filter-toggle -->
+    <!-- Filter overlay -->
     <label for="filter-toggle" class="filter-drawer-overlay"></label>
 
     <!-- ===== MOBILE FILTER DRAWER ===== -->
     <div class="filter-drawer">
         <div class="filter-drawer-header">
             <h3>Filter Products</h3>
-            <!-- Close = label for filter-toggle -->
             <label for="filter-toggle" class="filter-drawer-close"><i class="bi bi-x"></i></label>
         </div>
 
@@ -888,36 +876,38 @@
             </div>
         </div>
     </div>
-{% if messages %}
-<div class="custom-msg">
-    {% for message in messages %}
-        <div class="msg-box">{{ message }}</div>
-    {% endfor %}
-</div>
-{% endif %}
-    <!-- PAGE TITLE -->
+
+    <!-- ===== TOAST MESSAGES ===== -->
+    {% if messages %}
+    <div class="custom-msg">
+        {% for message in messages %}
+            <div class="msg-box">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ===== PAGE TITLE ===== -->
     <section class="page-title-section">
         <div class="container">
             <h1 class="page-title">Furniture</h1>
         </div>
     </section>
 
-   {% load static %}
-
-<section class="category-banner">
-    <div class="container">
-        <div class="banner-image"
-             style="background-image:url('{% static 'images/banners/furniture.jpg' %}')">
-            <h2>Furniture Collections</h2>
+    <!-- ===== CATEGORY BANNER ===== -->
+    <section class="category-banner">
+        <div class="container">
+            <div class="banner-image"
+                 style="background-image:url('{% static 'images/banners/furniture.jpg' %}')">
+                <h2>Furniture Collections</h2>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-    <!-- MAIN SHOP LAYOUT -->
+    <!-- ===== MAIN SHOP LAYOUT ===== -->
     <section class="shop-section">
         <div class="container">
 
-            <!-- Mobile Filter Button — label for filter-toggle -->
+            <!-- Mobile Filter Button -->
             <label for="filter-toggle" class="mobile-filter-btn">
                 <i class="bi bi-sliders"></i> Filter & Sort
             </label>
@@ -973,7 +963,7 @@
                     </div>
                 </aside>
 
-                <!-- Products -->
+                <!-- Products Grid -->
                 <div class="products-section">
                     <div class="product-grid">
                         {% for product in products %}
@@ -984,18 +974,17 @@
                             </form>
 
                             <a href="{% url 'product_detail' product.id product.slug %}">
+                                {% if product.image1 %}
+                                <img src="/static/images/products/{{ product.image1.name|cut:'images/products/'|cut:'products/' }}"
+                                     alt="{{ product.name }}"
+                                     class="product-image">
+                                {% endif %}
+                            </a>
 
-{% if product.image1 %}
-<img src="/static/images/products/{{ product.image1.name|cut:'images/products/'|cut:'products/' }}"
-     alt="{{ product.name }}"
-     class="product-image">
-{% endif %}
-                    </a>
-
-                    <div class="product-info">
-                        <a href="{% url 'product_detail' product.id product.slug %}" class="product-name-link">
-                            <h3 class="product-name">{{ product.name }}</h3>
-                        </a>
+                            <div class="product-info">
+                                <a href="{% url 'product_detail' product.id product.slug %}" class="product-name-link">
+                                    <h3 class="product-name">{{ product.name }}</h3>
+                                </a>
                                 <p class="product-price">
                                     {% if product.offer_price %}
                                         ₹{{ product.offer_price }}
@@ -1023,7 +1012,7 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-section">
@@ -1034,7 +1023,7 @@
                 <h4>Contact</h4>
                 <p>123 Decor Street, Design City</p>
                 <p>+1 (555) 123-4567</p>
-                <p>info@homebloom.com</p>
+                <p>info@housebloom.com</p>
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
@@ -1047,6 +1036,8 @@
             <p>© 2025 HOUSE BLOOM • All Rights Reserved</p>
         </div>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
