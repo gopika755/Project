@@ -338,7 +338,10 @@ def forgot(request):
 
             PasswordResetOTP.objects.filter(user=user).delete()
             PasswordResetOTP.objects.create(user=user, otp=otp)
-
+            
+            print("DEFAULT_FROM_EMAIL =", settings.DEFAULT_FROM_EMAIL)
+            print("EMAIL_HOST_USER =", settings.EMAIL_HOST_USER)
+            
             try:
                 send_mail(
                     subject="Password Reset OTP",
