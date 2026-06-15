@@ -341,17 +341,21 @@ def forgot(request):
 
             try:
                 send_mail(
-                    "Password Reset OTP",
-                    f"Your OTP is {otp}. It expires in 5 minutes.",
-                    None,
-                    [email],
+                    subject="Password Reset OTP",
+                    message=f"Your OTP is {otp}. It expires in 5 minutes.",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=False,
                 )
-            except Exception:
-                messages.error(request, "Failed to send OTP email")
+
+            except Exception as e:
+                print("EMAIL ERROR:", e)
+                messages.error(request, f"Failed to send OTP email: {e}")
                 return render(request, "forgot.html", {"form": form})
 
             request.session["reset_user"] = user.id
             return redirect("verify_otp")
+
         else:
             print(form.errors)
 
