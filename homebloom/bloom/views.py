@@ -326,41 +326,65 @@ def forgot(request):
     form = ForgotPasswordForm(request.POST or None)
 
     if request.method == "POST":
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            user = User.objects.filter(email=email).first()
 
-            if not user:
-                messages.error(request, "No account found with this email")
-                return render(request, "forgot.html", {"form": form})
+        if not form.is_valid():
+            print(form.errors)
+            return render(request, "forgot.html", {"form": form})
 
-            otp = str(random.randint(100000, 999999))
+        email = form.cleaned_data["email"]
 
-            PasswordResetOTP.objects.filter(user=user).delete()
-            PasswordResetOTP.objects.create(user=user, otp=otp)
-            
-            print("DEFAULT_FROM_EMAIL =", settings.DEFAULT_FROM_EMAIL)
-            print("EMAIL_HOST_USER =", settings.EMAIL_HOST_USER)
-            
-            try:
-                send_mail(
-                    subject="Password Reset OTP",
-                    message=f"Your OTP is {otp}. It expires in 5 minutes.",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[email],
-                    fail_silently=False,
-                )
+        user = User.objects.filter(email=email).first()
 
-            except Exception as e:
-                print("EMAIL ERROR:", e)
-                messages.error(request, f"Failed to send OTP email: {e}")
-                return render(request, "forgot.html", {"form": form})
+        if not user:
+            messages.error(request, "No account found with this email")
+            return render(request, "forgot.html", {"form": form})
+
+        otp = str(random.randint(100000, 999999))
+
+        PasswordResetOTP.objects.filter(user=user).delete()
+
+        PasswordResetOTP.objects.create(
+            user=user,
+            otp=otp
+        )
+
+        print("DEFAULT_FROM_EMAIL =", settings.DEFAULT_FROM_EMAIL)
+        print("EMAIL_HOST =", settings.EMAIL_HOST)
+        print("EMAIL_PORT =", settings.EMAIL_PORT)
+        print("EMAIL_HOST_USER =", settings.EMAIL_HOST_USER)
+        print("PASSWORD EXISTS =", bool(settings.EMAIL_HOST_PASSWORD))
+
+        try:
+            send_mail(
+                subject="Password Reset OTP",
+                message=f"Your OTP is {otp}. It expires in 5 minutes.",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+                fail_silently=False,
+            )
 
             request.session["reset_user"] = user.id
+
             return redirect("verify_otp")
 
-        else:
-            print(form.errors)
+        except Exception as e:
+
+            print("=" * 50)
+            print("EMAIL ERROR")
+            print(type(e))
+            print(str(e))
+            print("=" * 50)
+
+            messages.error(
+                request,
+                f"Failed to send OTP email: {e}"
+            )
+
+            return render(
+                request,
+                "forgot.html",
+                {"form": form}
+            )
 
     return render(request, "forgot.html", {"form": form})
 
