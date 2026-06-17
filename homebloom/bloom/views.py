@@ -1869,3 +1869,12 @@ from allauth.socialaccount.models import SocialApp
 def test_socialapp(request):
     return HttpResponse(str(SocialApp.objects.count()))
 
+def test_email(request):
+    send_mail(
+        "SMTP Test",
+        "This is a test email.",
+        settings.EMAIL_HOST_USER,
+        ["gopikak75317@gmail.com"],
+        fail_silently=False,
+    )
+    return HttpResponse("Email sent")   
