@@ -388,42 +388,80 @@ def forgot(request):
 
     return render(request, "forgot.html", {"form": form})
 
-
 def verify_otp(request):
     form = OTPVerifyForm(request.POST or None)
+
     user_id = request.session.get("reset_user")
 
     if not user_id:
         return redirect("forgot")
 
     user = User.objects.filter(id=user_id).first()
+
     if not user:
         return redirect("forgot")
 
     otp_obj = PasswordResetOTP.objects.filter(user=user).last()
 
     if request.method == "POST":
+
+        # RESEND OTP
         if "resend" in request.POST:
+
             if otp_obj:
                 otp_obj.delete()
 
             new_otp = str(random.randint(100000, 999999))
-            PasswordResetOTP.objects.create(user=user, otp=new_otp)
 
-            send_mail(
-                "New OTP",
-                f"Your new OTP is {new_otp}",
-                None,
-                [user.email],
+            PasswordResetOTP.objects.create(
+                user=user,
+                otp=new_otp
             )
+
+            try:
+                send_mail(
+                    subject="New OTP",
+                    message=f"Your new OTP is {new_otp}",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[user.email],
+                    fail_silently=True,
+                )
+
+            except Exception as e:
+                print("RESEND OTP ERROR:", e)
+
+            messages.success(
+                request,
+                "A new OTP has been generated."
+            )
+
             return redirect("verify_otp")
 
+        # VERIFY OTP
         if form.is_valid():
-            if otp_obj and not otp_obj.is_expired() and form.cleaned_data["otp"] == otp_obj.otp:
+
+            entered_otp = form.cleaned_data["otp"]
+
+            if (
+                otp_obj
+                and not otp_obj.is_expired()
+                and entered_otp == otp_obj.otp
+            ):
                 request.session["reset_user_id"] = user.id
                 return redirect("reset_password")
 
-    return render(request, "verify_otp.html", {"form": form})
+            messages.error(
+                request,
+                "Invalid or expired OTP."
+            )
+
+    return render(
+        request,
+        "verify_otp.html",
+        {
+            "form": form
+        }
+    )
 
 
 def reset_password(request):
