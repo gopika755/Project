@@ -21,6 +21,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.cache import add_never_cache_headers
 from django.core.cache import cache
 from types import SimpleNamespace
+from django.core.mail import get_connection
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
@@ -1877,11 +1878,13 @@ def test_socialapp(request):
     return HttpResponse(str(SocialApp.objects.count()))
 
 def test_email(request):
-    send_mail(
-        "SMTP Test",
-        "This is a test email.",
-        settings.EMAIL_HOST_USER,
-        ["gopikak75317@gmail.com"],
-        fail_silently=False,
-    )
-    return HttpResponse("Email sent")   
+    try:
+        connection = get_connection()
+        connection.open()
+
+        return HttpResponse("SMTP CONNECTED")
+
+    except Exception as e:
+        return HttpResponse(
+            f"{type(e).__name__}: {e}"
+        )
