@@ -352,6 +352,9 @@ def forgot(request):
         print("EMAIL_HOST =", settings.EMAIL_HOST)
         print("EMAIL_PORT =", settings.EMAIL_PORT)
         print("EMAIL_HOST_USER =", settings.EMAIL_HOST_USER)
+        print("EMAIL_USE_SSL =", settings.EMAIL_USE_SSL)
+        print("EMAIL_USE_TLS =", settings.EMAIL_USE_TLS)
+        
         print("PASSWORD EXISTS =", bool(settings.EMAIL_HOST_PASSWORD))
 
         try:
