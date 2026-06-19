@@ -417,6 +417,10 @@ def verify_otp(request):
                 user=user,
                 otp=new_otp
             )
+            print("EMAIL_HOST =", repr(settings.EMAIL_HOST))
+            print("EMAIL_PORT =", settings.EMAIL_PORT)
+            print("EMAIL_USE_SSL =", settings.EMAIL_USE_SSL)
+            print("EMAIL_USE_TLS =", settings.EMAIL_USE_TLS)
 
             try:
                 send_mail(
