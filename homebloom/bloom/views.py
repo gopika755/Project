@@ -432,7 +432,7 @@ def verify_otp(request):
                     message=f"Your new OTP is {new_otp}",
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[user.email],
-                    fail_silently=True,
+                    fail_silently=False,
                 )
 
             except Exception as e:
