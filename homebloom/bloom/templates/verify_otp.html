@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        *{
+            box-sizing: border-box;
+        }
+
         body { margin: 0; }
 
         .auth-wrapper{
@@ -14,11 +18,13 @@
             align-items:center;
             justify-content:center;
             background:#e4d1bb;
+            padding: 40px 15px;
         }
 
         .auth-box{
             display:flex;
             width:800px;
+            max-width: 100%;
             background:#fff;
             box-shadow:0 20px 50px rgba(0,0,0,0.1);
         }
@@ -44,6 +50,7 @@
             border:none;
             letter-spacing:2px;
             cursor:pointer;
+            font-size: .95rem;
         }
 
         .auth-link{
@@ -52,6 +59,9 @@
             color:#555;
             text-decoration:none;
             font-size:14px;
+            background: none;
+            text-align: left;
+            padding: 0;
         }
 
         .form-group{
@@ -69,6 +79,53 @@
             padding:10px 12px;
             border:1px solid #bbb;
             border-radius:2px;
+            font-size: 1rem;
+        }
+
+        /* RESPONSIVE: tablets and below */
+        @media(max-width:768px){
+            .auth-box{
+                flex-direction: column;
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .auth-left, .auth-right{
+                width: 100%;
+                padding: 40px;
+            }
+
+            .auth-right{
+                order: -1;
+            }
+        }
+
+        /* RESPONSIVE: phones */
+        @media(max-width:480px){
+            .auth-wrapper{
+                padding: 15px 8px;
+            }
+
+            .auth-left, .auth-right{
+                padding: 30px 22px;
+            }
+
+            .auth-left h2{
+                font-size: 1.3rem;
+            }
+
+            .auth-right h3{
+                font-size: 1.1rem;
+            }
+
+            .auth-left p,
+            .auth-right p{
+                font-size: .9rem;
+            }
+
+            .login-btn{
+                padding: 12px;
+            }
         }
     </style>
 </head>
