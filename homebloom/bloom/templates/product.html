@@ -754,7 +754,7 @@
         </form>
     {% endif %}
 
-    <form method="post" action="{% url 'checkout' %}">
+<form method="post" action="{% url 'buy_now' %}">
     {% csrf_token %}
     <input type="hidden" name="buy_now_product_id" value="{{ product.id }}">
     <button type="submit" class="buy-btn">

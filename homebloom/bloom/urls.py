@@ -127,4 +127,5 @@ path("test-socialapp/", views.test_socialapp),
 
 
 path("test-email/", views.test_email),
+path("buy-now/", views.buy_now, name="buy_now"),
 ] 

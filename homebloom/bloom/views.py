@@ -915,9 +915,6 @@ def checkout(request):
     addresses = Address.objects.filter(user=request.user)
     form = AddressForm()
 
-    # ==========================
-    # BUY NOW FROM PRODUCT PAGE
-    # ==========================
     if request.method == "POST" and request.POST.get("buy_now_product_id"):
         request.session["buy_now_product_id"] = request.POST.get(
             "buy_now_product_id"
@@ -927,9 +924,7 @@ def checkout(request):
 
         return redirect("checkout")
 
-    # ==========================
-    # ADD NEW ADDRESS
-    # ==========================
+
     if request.method == "POST" and request.POST.get("add_address"):
         form = AddressForm(request.POST)
 
@@ -944,10 +939,6 @@ def checkout(request):
             )
 
             return redirect("checkout")
-
-    # ==========================
-    # BUY NOW MODE
-    # ==========================
     buy_now_product_id = request.session.get("buy_now_product_id")
     buy_now_quantity = request.session.get("buy_now_quantity", 1)
 
@@ -998,9 +989,7 @@ def checkout(request):
             }
         )
 
-    # ==========================
-    # NORMAL CART MODE
-    # ==========================
+
     cart_items = (
         Cart.objects
         .filter(user=request.user)
@@ -1046,6 +1035,19 @@ def checkout(request):
             "form": form,
         }
     )
+    
+def buy_now(request):
+    if request.method == "POST":
+        request.session["buy_now_product_id"] = request.POST.get("buy_now_product_id")
+        request.session["buy_now_quantity"] = 1
+
+        if request.user.is_authenticated:
+            return redirect("checkout")
+
+        return redirect(f"/accounts/login/?next=/checkout/")
+
+    return redirect("home")
+    
 @login_required
 def cart_checkout(request):
     request.session.pop("buy_now_product_id", None)
