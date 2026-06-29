@@ -22,7 +22,7 @@ from django.utils.cache import add_never_cache_headers
 from django.core.cache import cache
 from types import SimpleNamespace
 from django.core.mail import get_connection
-
+from django.urls import reverse
 stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
 
@@ -911,6 +911,8 @@ def remove_cart_item(request, item_id):
 
 @login_required
 def checkout(request):
+    print("SESSION BUY NOW:", request.session.get("buy_now_product_id"))
+    print("USER:", request.user)
 
     addresses = Address.objects.filter(user=request.user)
     form = AddressForm()
@@ -1035,7 +1037,7 @@ def checkout(request):
             "form": form,
         }
     )
-    
+
 def buy_now(request):
     if request.method == "POST":
         request.session["buy_now_product_id"] = request.POST.get("buy_now_product_id")
@@ -1044,7 +1046,7 @@ def buy_now(request):
         if request.user.is_authenticated:
             return redirect("checkout")
 
-        return redirect(f"/accounts/login/?next=/checkout/")
+        return redirect(f"{reverse('login')}?next={reverse('checkout')}")
 
     return redirect("home")
     

@@ -61,7 +61,7 @@ urlpatterns = [
     
     
     
-    path('checkout',views.checkout,name='checkout'),
+    path('checkout/',views.checkout,name='checkout'),
     path('faq',views.faq,name='faq'),
     path('parivacy',views.privacy,name='privacy'),
     path('aboutus',views.aboutus,name='aboutus'),
